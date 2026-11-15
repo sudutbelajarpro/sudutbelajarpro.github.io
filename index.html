@@ -34,6 +34,13 @@ a{color:inherit}
 .b2{width:360px;height:360px;background:#ffd0e0;bottom:-120px;left:-100px}
 .b3{width:280px;height:280px;background:#bff3e6;top:40%;left:55%}
 
+.nota h3{margin:18px 0 8px;font-size:17px}.nota h3:first-child{margin-top:0}
+.nota table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px}
+.nota td,.nota th{border:1.5px solid var(--line);padding:7px 10px;text-align:left}
+.nota th{background:#f6f4ff}
+.nota .tip{background:#fff8e1;border:1.5px solid #ffd54f;border-radius:12px;padding:10px 14px;margin:12px 0;font-size:14.5px}
+.nota .svgbox{text-align:center;margin:14px 0}
+.nota ul{padding-left:22px}
 /* top bar */
 .top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);background:rgba(246,244,255,.75);border-bottom:1px solid rgba(91,75,219,.08)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
@@ -4813,6 +4820,510 @@ if (typeof module !== 'undefined') module.exports = BM;
 
 </script>
 <script>
+// ===== NOTA ULANG KAJI (percuma) =====
+const NOTA = { mt: {}, bi: {}, bm: {}, sn: {} };
+NOTA.mt[2] = {}; NOTA.bi[2] = {}; NOTA.bm[2] = {}; NOTA.sn[2] = {};
+NOTA.mt[2].nombor = `
+<h3>🔢 Nombor hingga 1,000</h3>
+<p>Setiap nombor ada <b>nilai tempat</b>: ratus, puluh dan sa.</p>
+<div class="svgbox"><svg viewBox="0 0 360 110" width="320"><rect x="10" y="10" width="100" height="60" rx="10" fill="#e8e0ff" stroke="#5b4bdb" stroke-width="2.5"/><rect x="130" y="10" width="100" height="60" rx="10" fill="#ffe6ef" stroke="#e91e63" stroke-width="2.5"/><rect x="250" y="10" width="100" height="60" rx="10" fill="#e0f7ef" stroke="#16a34a" stroke-width="2.5"/><text x="60" y="48" text-anchor="middle" font-size="30" font-weight="bold">4</text><text x="180" y="48" text-anchor="middle" font-size="30" font-weight="bold">7</text><text x="300" y="48" text-anchor="middle" font-size="30" font-weight="bold">2</text><text x="60" y="95" text-anchor="middle" font-size="14">RATUS = 400</text><text x="180" y="95" text-anchor="middle" font-size="14">PULUH = 70</text><text x="300" y="95" text-anchor="middle" font-size="14">SA = 2</text></svg></div>
+<p>Nombor <b>472</b> dibaca: <i>"empat ratus tujuh puluh dua"</i>.</p>
+<h3>Membanding &amp; menyusun</h3>
+<ul><li>Banding digit <b>ratus dahulu</b>, kemudian puluh, kemudian sa.</li>
+<li>Contoh: 472 &gt; 468 kerana 7 puluh lebih besar daripada 6 puluh.</li>
+<li><b>Tertib menaik</b> = kecil → besar. <b>Tertib menurun</b> = besar → kecil.</li></ul>
+<h3>Pola nombor</h3>
+<p>Kira secara <b>dua-dua</b> (2, 4, 6, 8…), <b>lima-lima</b> (5, 10, 15…), <b>sepuluh-sepuluh</b> (10, 20, 30…).</p>
+<div class="tip">💡 <b>Tip:</b> Nombor genap berakhir dengan 0, 2, 4, 6, 8. Nombor ganjil berakhir dengan 1, 3, 5, 7, 9.</div>`;
+
+NOTA.mt[2].tambah = `
+<h3>➕ Tambah dalam lingkungan 1,000</h3>
+<p>Tambah bermaksud <b>mencantumkan</b> dua kumpulan. Susun ikut nilai tempat: sa bawah sa, puluh bawah puluh.</p>
+<table><tr><th></th><th>Ra</th><th>Pu</th><th>Sa</th></tr>
+<tr><td></td><td>2</td><td>4</td><td>7</td></tr>
+<tr><td>+</td><td>1</td><td>3</td><td>5</td></tr>
+<tr><td>=</td><td><b>3</b></td><td><b>8</b></td><td><b>2</b></td></tr></table>
+<p>Langkah: 7 + 5 = 12 → tulis <b>2</b>, <b>kumpul semula 1 puluh</b> ke rumah puluh. Kemudian 4 + 3 + 1 = 8. Akhir sekali 2 + 1 = 3. Jawapan: <b>382</b>.</p>
+<h3>Ayat matematik</h3>
+<ul><li>"jumlah", "semuanya", "kesemuanya" → biasanya <b>tambah</b>.</li>
+<li>Contoh: Ali ada 24 guli. Abu beri 13 lagi. Jumlah = 24 + 13 = <b>37</b>.</li></ul>
+<div class="tip">💡 <b>Tip:</b> Semak jawapan dengan menambah dari bawah ke atas — jumlahnya mesti sama!</div>`;
+
+NOTA.mt[2].tolak = `
+<h3>➖ Tolak dalam lingkungan 1,000</h3>
+<p>Tolak bermaksud <b>mengeluarkan</b> atau mencari <b>beza</b>. Nombor besar sentiasa di atas.</p>
+<table><tr><th></th><th>Ra</th><th>Pu</th><th>Sa</th></tr>
+<tr><td></td><td>5</td><td>3</td><td>2</td></tr>
+<tr><td>−</td><td>1</td><td>1</td><td>7</td></tr>
+<tr><td>=</td><td><b>4</b></td><td><b>1</b></td><td><b>5</b></td></tr></table>
+<p>2 tidak cukup untuk tolak 7 → <b>pinjam 1 puluh</b>: 12 − 7 = <b>5</b>. Puluh tinggal 2: 2 − 1 = <b>1</b>. Ratus: 5 − 1 = <b>4</b>. Jawapan: <b>415</b>.</p>
+<h3>Ayat matematik</h3>
+<ul><li>"baki", "tinggal", "beza", "lebihnya" → biasanya <b>tolak</b>.</li>
+<li>Contoh: 50 biji rambutan, dimakan 18. Baki = 50 − 18 = <b>32</b>.</li></ul>
+<div class="tip">💡 <b>Tip semak:</b> Jawapan + nombor yang ditolak = nombor asal. (415 + 117 = 532 ✓)</div>`;
+
+NOTA.mt[2].darab = `
+<h3>✖️ Darab (sifir 2, 3, 4, 5, 10)</h3>
+<p>Darab ialah <b>tambah berulang</b> kumpulan yang sama banyak.</p>
+<div class="svgbox"><svg viewBox="0 0 300 90" width="280"><g font-size="26">${'<text x="20" y="35">🍎🍎🍎</text><text x="20" y="75">🍎🍎🍎</text>'}</g><text x="150" y="40" font-size="16">2 kumpulan × 3 biji</text><text x="150" y="68" font-size="18" font-weight="bold">2 × 3 = 6</text></svg></div>
+<p><b>3 + 3 = 6</b> sama dengan <b>2 × 3 = 6</b>.</p>
+<h3>Sifir mesti ingat</h3>
+<table><tr><th>Sifir 2</th><th>Sifir 5</th><th>Sifir 10</th></tr>
+<tr><td>2,4,6,8,10,12,14,16,18,20</td><td>5,10,15,20,25,30,35,40,45,50</td><td>10,20,30,…,100</td></tr></table>
+<ul><li>Darab dengan <b>1</b>: nombor tetap sama (7 × 1 = 7).</li>
+<li>Darab dengan <b>0</b>: jawapan sentiasa <b>0</b>.</li>
+<li>Boleh terbalik: 3 × 4 = 4 × 3 = 12.</li></ul>
+<div class="tip">💡 <b>Tip:</b> "setiap", "sama banyak dalam setiap kumpulan" dalam ayat matematik → darab.</div>`;
+
+NOTA.mt[2].bahagi = `
+<h3>➗ Bahagi (dengan 2, 3, 4, 5, 10)</h3>
+<p>Bahagi bermaksud <b>mengagihkan sama banyak</b> atau membuat kumpulan sama saiz.</p>
+<p>Contoh: 12 biji gula-gula diagihkan kepada 3 orang sama banyak → setiap orang dapat <b>12 ÷ 3 = 4</b> biji.</p>
+<h3>Darab dan bahagi berkawan!</h3>
+<table><tr><th>Darab</th><th>Bahagi</th></tr>
+<tr><td>3 × 4 = 12</td><td>12 ÷ 3 = 4</td></tr>
+<tr><td>5 × 2 = 10</td><td>10 ÷ 5 = 2</td></tr></table>
+<p>Untuk jawab 20 ÷ 5, fikir: "5 darab <b>apa</b> jadi 20?" → 5 × <b>4</b> = 20, jadi jawapannya <b>4</b>.</p>
+<ul><li>Nombor ÷ 1 = nombor itu sendiri.</li><li>Nombor ÷ nombor sama = 1 (8 ÷ 8 = 1).</li><li>0 ÷ nombor = 0.</li></ul>
+<div class="tip">💡 <b>Tip:</b> "diagihkan", "sama banyak", "setiap orang dapat" → bahagi.</div>`;
+NOTA.mt[2].pecahan = `
+<h3>🍕 Pecahan wajar</h3>
+<p>Pecahan ialah <b>bahagian daripada satu keseluruhan</b> yang dibahagi sama besar.</p>
+<div class="svgbox"><svg viewBox="0 0 320 120" width="300"><circle cx="60" cy="60" r="45" fill="#fff" stroke="#1d1a39" stroke-width="3"/><path d="M60,60 L60,15 A45,45 0 0,1 105,60 Z" fill="#9a7bff" stroke="#1d1a39" stroke-width="3"/><line x1="60" y1="15" x2="60" y2="105" stroke="#1d1a39" stroke-width="3"/><line x1="15" y1="60" x2="105" y2="60" stroke="#1d1a39" stroke-width="3"/><text x="150" y="50" font-size="15">1 daripada 4 bahagian</text><text x="150" y="80" font-size="20" font-weight="bold">= 1/4 (satu perempat)</text></svg></div>
+<table><tr><th>Pecahan</th><th>Sebutan</th><th>Maksud</th></tr>
+<tr><td>1/2</td><td>satu perdua / separuh</td><td>1 daripada 2 bahagian sama</td></tr>
+<tr><td>1/4</td><td>satu perempat / suku</td><td>1 daripada 4 bahagian sama</td></tr>
+<tr><td>3/4</td><td>tiga perempat</td><td>3 daripada 4 bahagian sama</td></tr></table>
+<ul><li>Nombor <b>atas</b> (pengangka) = berapa bahagian diambil.</li>
+<li>Nombor <b>bawah</b> (penyebut) = berapa bahagian semuanya.</li>
+<li>2/4 adalah sama nilai dengan 1/2.</li></ul>
+<div class="tip">💡 <b>Ingat:</b> Bahagian mesti SAMA BESAR barulah jadi pecahan!</div>`;
+
+NOTA.mt[2].wang = `
+<h3>💰 Wang hingga RM100</h3>
+<p>Wang Malaysia: <b>sen</b> (syiling) dan <b>ringgit</b> (not kertas, RM).</p>
+<table><tr><th>Syiling</th><th>Not</th></tr>
+<tr><td>5 sen, 10 sen, 20 sen, 50 sen</td><td>RM1, RM5, RM10, RM20, RM50, RM100</td></tr></table>
+<p><b>RM1 = 100 sen.</b> Jadi 50 sen + 50 sen = RM1.</p>
+<h3>Menulis nilai wang</h3>
+<ul><li>RM5.60 dibaca "lima ringgit enam puluh sen".</li>
+<li>Tambah dan tolak wang sama macam nombor biasa — jaga titik perpuluhan lurus!</li></ul>
+<p>Contoh: Harga buku RM7.50. Bayar RM10.00. Baki = RM10.00 − RM7.50 = <b>RM2.50</b>.</p>
+<div class="tip">💡 <b>Tip:</b> Untuk kira baki, boleh "kira naik": RM7.50 → RM8 (50 sen) → RM10 (RM2). Jumlah baki RM2.50.</div>`;
+
+NOTA.mt[2].masa = `
+<h3>🕐 Masa dan waktu</h3>
+<div class="svgbox"><svg viewBox="0 0 160 160" width="170"><circle cx="80" cy="80" r="70" fill="#fff" stroke="#1d1a39" stroke-width="4"/><g font-size="15" font-weight="bold" text-anchor="middle"><text x="80" y="28">12</text><text x="138" y="86">3</text><text x="80" y="142">6</text><text x="22" y="86">9</text></g><line x1="80" y1="80" x2="80" y2="40" stroke="#1d1a39" stroke-width="6" stroke-linecap="round"/><line x1="80" y1="80" x2="118" y2="80" stroke="#e91e63" stroke-width="4" stroke-linecap="round"/><circle cx="80" cy="80" r="5" fill="#1d1a39"/></svg><div style="font-weight:bold">Pukul 12:15</div></div>
+<ul><li>Jarum <b>pendek</b> = jam. Jarum <b>panjang</b> = minit.</li>
+<li>Jarum panjang di 12 = "tepat". Di 6 = "setengah" (30 minit).</li>
+<li>Setiap nombor pada muka jam = <b>5 minit</b> (nombor 3 = 15 minit).</li></ul>
+<h3>Fakta masa penting</h3>
+<table><tr><td>1 jam</td><td>= 60 minit</td></tr><tr><td>1 hari</td><td>= 24 jam</td></tr><tr><td>1 minggu</td><td>= 7 hari</td></tr><tr><td>1 tahun</td><td>= 12 bulan</td></tr></table>
+<div class="tip">💡 <b>Pagi</b> (a.m.) sebelum pukul 12 tengah hari; <b>petang/malam</b> (p.m.) selepasnya.</div>`;
+
+NOTA.mt[2].ukuran = `
+<h3>📏 Ukuran dan sukatan</h3>
+<table><tr><th>Apa yang diukur</th><th>Unit</th><th>Alat</th></tr>
+<tr><td>Panjang</td><td>meter (m), sentimeter (cm)</td><td>pembaris, pita ukur</td></tr>
+<tr><td>Jisim (berat)</td><td>kilogram (kg), gram (g)</td><td>penimbang</td></tr>
+<tr><td>Isi padu cecair</td><td>liter (ℓ), mililiter (mℓ)</td><td>bikar, silinder penyukat</td></tr></table>
+<h3>Hubungan unit</h3>
+<ul><li><b>1 m = 100 cm</b></li><li><b>1 kg = 1,000 g</b></li><li><b>1 ℓ = 1,000 mℓ</b></li></ul>
+<p>Pilih unit yang sesuai: panjang pensel dalam <b>cm</b>, panjang kelas dalam <b>m</b>; berat sebiji guli dalam <b>g</b>, berat badan dalam <b>kg</b>.</p>
+<div class="tip">💡 <b>Tip ukur dengan pembaris:</b> mula dari angka <b>0</b>, bukan dari hujung pembaris!</div>`;
+
+NOTA.mt[2].bentuk = `
+<h3>🔷 Ruang dan bentuk</h3>
+<h3>Bentuk 2 dimensi (2D) — leper</h3>
+<table><tr><th>Bentuk</th><th>Sisi</th><th>Bucu</th></tr>
+<tr><td>Segi empat sama</td><td>4 sisi sama panjang</td><td>4</td></tr>
+<tr><td>Segi empat tepat</td><td>4 (2 panjang, 2 pendek)</td><td>4</td></tr>
+<tr><td>Segi tiga</td><td>3</td><td>3</td></tr>
+<tr><td>Bulatan</td><td>0 sisi lurus</td><td>0</td></tr></table>
+<h3>Bentuk 3 dimensi (3D) — ada isi padu</h3>
+<table><tr><th>Bentuk</th><th>Contoh benda</th></tr>
+<tr><td>Kubus</td><td>kotak dadu</td></tr>
+<tr><td>Kuboid</td><td>kotak kasut, buku tebal</td></tr>
+<tr><td>Sfera</td><td>bola</td></tr>
+<tr><td>Silinder</td><td>tin minuman</td></tr>
+<tr><td>Kon</td><td>kon ais krim, kon lalu lintas</td></tr></table>
+<div class="tip">💡 <b>Beza mudah:</b> 2D boleh dilukis atas kertas sahaja; 3D boleh dipegang dan ada ketebalan.</div>`;
+NOTA.sn[2].kps = `
+<h3>🔬 Kemahiran saintifik</h3>
+<p>Saintis kecil menggunakan <b>deria</b> dan alat untuk menyiasat dunia!</p>
+<table><tr><th>Kemahiran</th><th>Maksud</th></tr>
+<tr><td>Memerhati</td><td>guna deria (lihat, dengar, sentuh, hidu, rasa) untuk mengumpul maklumat</td></tr>
+<tr><td>Mengelas</td><td>asingkan objek ikut ciri sama (warna, saiz, bentuk)</td></tr>
+<tr><td>Mengukur</td><td>guna alat &amp; nombor (pembaris, penimbang)</td></tr>
+<tr><td>Meramal</td><td>agak apa akan berlaku sebelum ia berlaku</td></tr>
+<tr><td>Berkomunikasi</td><td>kongsi hasil melalui lisan, jadual atau lukisan</td></tr></table>
+<h3>Peraturan bilik sains</h3>
+<ul><li>Jangan makan atau minum dalam bilik sains.</li>
+<li>Jangan rasa atau hidu bahan tanpa arahan guru.</li>
+<li>Basuh tangan selepas aktiviti, kemaskan alat ke tempat asal.</li></ul>
+<div class="tip">💡 <b>Ingat:</b> Memerhati guna deria; mengukur guna alat dan nombor!</div>`;
+
+NOTA.sn[2].manusia = `
+<h3>🧍 Manusia</h3>
+<h3>Deria dan organ</h3>
+<table><tr><th>Deria</th><th>Organ</th></tr>
+<tr><td>Penglihatan</td><td>mata 👁️</td></tr>
+<tr><td>Pendengaran</td><td>telinga 👂</td></tr>
+<tr><td>Bau</td><td>hidung 👃</td></tr>
+<tr><td>Rasa</td><td>lidah 👅</td></tr>
+<tr><td>Sentuhan</td><td>kulit ✋</td></tr></table>
+<h3>Keperluan asas manusia</h3>
+<ul><li><b>Makanan &amp; air</b> — untuk tenaga dan membesar</li>
+<li><b>Udara</b> — untuk bernafas</li>
+<li><b>Tempat perlindungan</b> — berlindung daripada panas, hujan dan bahaya</li></ul>
+<h3>Manusia membesar</h3>
+<p>Urutan: <b>bayi → kanak-kanak → remaja → dewasa → warga tua</b>. Semasa membesar, tinggi dan berat bertambah.</p>
+<div class="tip">💡 <b>Jaga deria:</b> jangan tonton TV terlalu dekat, jangan dengar bunyi terlalu kuat, jangan masukkan objek ke dalam telinga/hidung.</div>`;
+
+NOTA.sn[2].haiwan = `
+<h3>🐾 Haiwan</h3>
+<h3>Keperluan asas haiwan</h3>
+<p>Sama seperti kita: <b>makanan, air, udara, tempat perlindungan</b>.</p>
+<h3>Tempat perlindungan haiwan</h3>
+<table><tr><th>Haiwan</th><th>Tempat</th></tr>
+<tr><td>Ayam</td><td>reban</td></tr>
+<tr><td>Kucing/arnab</td><td>sangkar / rumah</td></tr>
+<tr><td>Burung</td><td>sarang di pokok</td></tr>
+<tr><td>Ikan</td><td>air (sungai, laut, akuarium)</td></tr>
+<tr><td>Lembu/kambing</td><td>kandang</td></tr></table>
+<h3>Haiwan membesar</h3>
+<ul><li>Kucing: anak kucing → kucing dewasa (bentuk sama, saiz membesar)</li>
+<li>Ayam: telur → anak ayam → ayam dewasa</li>
+<li>Katak: telur → berudu → katak (bentuk BERUBAH!)</li>
+<li>Rama-rama: telur → beluncas → kepompong → rama-rama</li></ul>
+<div class="tip">💡 <b>Ingat:</b> Berudu hidup dalam air, katak dewasa boleh hidup di darat!</div>`;
+
+NOTA.sn[2].tumbuhan = `
+<h3>🌱 Tumbuhan</h3>
+<h3>Bahagian tumbuhan &amp; fungsinya</h3>
+<table><tr><th>Bahagian</th><th>Fungsi</th></tr>
+<tr><td>Akar</td><td>menyerap air, memegang tumbuhan dalam tanah</td></tr>
+<tr><td>Batang</td><td>menyokong tumbuhan, mengangkut air ke daun</td></tr>
+<tr><td>Daun</td><td>membuat makanan (dengan bantuan cahaya matahari)</td></tr>
+<tr><td>Bunga</td><td>menjadi buah dan biji benih</td></tr></table>
+<h3>Keperluan asas tumbuhan</h3>
+<ul><li><b>Air</b> + <b>udara</b> + <b>cahaya matahari</b></li>
+<li>Tanpa air → tumbuhan layu. Tanpa cahaya → daun pucat/kekuningan dan mati.</li></ul>
+<h3>Tumbuhan membesar</h3>
+<p><b>Biji benih → bercambah (anak pokok) → pokok dewasa → berbunga → berbuah</b>.</p>
+<div class="tip">💡 <b>Eksperimen mudah:</b> letak sebiji kacang hijau atas kapas basah — dalam beberapa hari ia bercambah!</div>`;
+
+NOTA.sn[2].cahaya = `
+<h3>💡 Terang dan gelap</h3>
+<h3>Sumber cahaya</h3>
+<ul><li><b>Semula jadi:</b> matahari ☀️, bintang, kilat, kelip-kelip</li>
+<li><b>Buatan manusia:</b> lampu, lilin, lampu suluh, api</li></ul>
+<p>⚠️ <b>Bulan BUKAN sumber cahaya</b> — ia hanya memantulkan cahaya matahari!</p>
+<h3>Gelap</h3>
+<p>Gelap berlaku apabila <b>tiada cahaya</b>. Bilik jadi gelap bila lampu ditutup dan tingkap dilindungi.</p>
+<h3>Bayang-bayang</h3>
+<div class="svgbox"><svg viewBox="0 0 340 100" width="310"><circle cx="35" cy="45" r="18" fill="#ffd54f" stroke="#e08a00" stroke-width="3"/><g stroke="#e08a00" stroke-width="2"><line x1="58" y1="35" x2="95" y2="30"/><line x1="58" y1="45" x2="95" y2="45"/><line x1="58" y1="55" x2="95" y2="60"/></g><rect x="150" y="20" width="26" height="55" rx="6" fill="#5b4bdb"/><ellipse cx="225" cy="80" rx="45" ry="9" fill="#777"/><text x="120" y="97" font-size="12">cahaya</text><text x="148" y="14" font-size="12">objek legap</text><text x="205" y="99" font-size="12">bayang-bayang</text></svg></div>
+<p>Bayang-bayang terbentuk apabila cahaya <b>dihalang oleh objek legap</b> (objek yang tidak boleh ditembusi cahaya, seperti buku atau badan kita).</p>
+<div class="tip">💡 Bayang-bayang sentiasa berada di <b>belakang</b> objek, bertentangan dengan arah cahaya.</div>`;
+NOTA.sn[2].elektrik = `
+<h3>⚡ Elektrik</h3>
+<h3>Sumber tenaga elektrik</h3>
+<ul><li><b>Bateri / sel kering</b> — untuk lampu suluh, jam, alat kawalan jauh</li>
+<li><b>Soket di dinding</b> — untuk TV, peti sejuk, kipas</li></ul>
+<h3>Litar elektrik mudah</h3>
+<div class="svgbox"><svg viewBox="0 0 300 150" width="280"><rect x="30" y="55" width="55" height="35" rx="5" fill="#ffe082" stroke="#1d1a39" stroke-width="3"/><text x="57" y="78" text-anchor="middle" font-size="13" font-weight="bold">BATERI</text><circle cx="230" cy="72" r="24" fill="#fff9c4" stroke="#1d1a39" stroke-width="3"/><text x="230" y="79" text-anchor="middle" font-size="18">💡</text><g stroke="#1d1a39" stroke-width="3" fill="none"><line x1="85" y1="60" x2="230" y2="60" transform="translate(0,-12)"/><line x1="85" y1="48" x2="206" y2="48"/><path d="M206,48 L230,48"/><line x1="30" y1="100" x2="230" y2="100"/><line x1="30" y1="72" x2="30" y2="100"/><line x1="230" y1="96" x2="230" y2="100"/></g><rect x="130" y="92" width="36" height="16" rx="4" fill="#c5e1a5" stroke="#1d1a39" stroke-width="2.5"/><text x="148" y="125" text-anchor="middle" font-size="12">suis</text></svg></div>
+<p>Litar <b>lengkap</b> (tertutup) → arus mengalir → mentol <b>menyala</b>.<br>Litar <b>terputus</b> (suis dibuka / wayar tercabut) → mentol <b>padam</b>.</p>
+<h3>Keselamatan elektrik ⚠️</h3>
+<ul><li>Jangan masukkan jari atau objek ke dalam soket.</li>
+<li>Jangan sentuh suis atau plag dengan <b>tangan basah</b>.</li>
+<li>Jangan bermain dengan wayar yang terdedah/koyak.</li></ul>
+<div class="tip">💡 <b>Jimat elektrik:</b> tutup lampu dan kipas bila keluar bilik!</div>`;
+
+NOTA.sn[2].campuran = `
+<h3>🥤 Campuran</h3>
+<p>Campuran terbentuk apabila <b>dua atau lebih bahan dicampurkan</b>.</p>
+<h3>Larut atau tidak larut?</h3>
+<table><tr><th>Larut dalam air ✅</th><th>Tidak larut ❌</th></tr>
+<tr><td>gula, garam, serbuk minuman (Milo)</td><td>pasir, batu kecil, serbuk kopi (hampas), minyak</td></tr></table>
+<p>Bila gula larut, ia <b>tidak hilang</b> — kita boleh rasa manisnya! Air itu dipanggil <b>larutan</b>.</p>
+<h3>Cara mengasingkan campuran</h3>
+<table><tr><th>Campuran</th><th>Cara asing</th></tr>
+<tr><td>Pasir + air</td><td>menuras (guna kertas turas/kain)</td></tr>
+<tr><td>Kacang + beras</td><td>mengutip dengan tangan / mengayak</td></tr>
+<tr><td>Klip besi + pasir</td><td>guna magnet 🧲</td></tr></table>
+<h3>Larut lebih cepat bila…</h3>
+<ul><li>air <b>panas</b> digunakan</li><li>campuran <b>dikacau</b></li><li>bahan dalam bentuk <b>serbuk halus</b> (bukan ketulan)</li></ul>
+<div class="tip">💡 <b>Uji sendiri:</b> masukkan 1 sudu gula dalam air sejuk dan air suam — yang mana larut dulu?</div>`;
+
+NOTA.sn[2].air = `
+<h3>💧 Air dan udara</h3>
+<h3>Kegunaan air</h3>
+<ul><li>Minum, memasak, mandi, membasuh</li><li>Menyiram tumbuhan, tempat tinggal haiwan akuatik</li></ul>
+<h3>Sumber air</h3>
+<p>Hujan 🌧️, sungai, tasik, laut, perigi, paip (air dirawat dari loji).</p>
+<h3>Kegunaan udara</h3>
+<ul><li>Manusia dan haiwan <b>bernafas</b></li>
+<li>Mengembangkan belon dan tayar</li>
+<li>Menggerakkan layang-layang dan kincir angin</li></ul>
+<h3>Bukti udara wujud (walaupun tak nampak!)</h3>
+<ul><li>Belon mengembang bila ditiup</li><li>Daun bergoyang ditiup angin</li><li>Buih keluar bila botol "kosong" ditekan dalam air</li></ul>
+<div class="tip">💡 <b>Jimat air:</b> tutup paip ketika menggosok gigi, laporkan paip bocor. Air bersih sangat berharga!</div>`;
+
+NOTA.sn[2].binaan = `
+<h3>🧱 Teknologi: Set binaan</h3>
+<p>Set binaan (seperti blok LEGO) mengajar kita membina <b>objek daripada bahagian kecil</b>.</p>
+<h3>Langkah membina mengikut manual</h3>
+<ul><li><b>1. Kenal pasti</b> objek yang hendak dibina</li>
+<li><b>2. Pilih</b> alat dan bahan yang betul</li>
+<li><b>3. Bina</b> mengikut urutan manual (langkah 1, 2, 3…)</li>
+<li><b>4. Uji</b> — adakah ia berfungsi/stabil?</li>
+<li><b>5. Baiki</b> jika perlu, kemudian <b>kemas</b> semula alat</li></ul>
+<h3>Kenapa ikut manual?</h3>
+<p>Manual memastikan binaan kita <b>betul, stabil dan selamat</b>. Jika langkau langkah, binaan mungkin senget atau roboh!</p>
+<h3>Objek yang stabil</h3>
+<ul><li><b>Tapak lebar</b> lebih stabil daripada tapak kecil</li>
+<li>Bahagian <b>berat di bawah</b>, ringan di atas</li></ul>
+<div class="tip">💡 Siap membina? Ceritakan kepada kawan bagaimana kamu membinanya — itu pun kemahiran saintis!</div>`;
+NOTA.bm[2].nama = `
+<h3>📛 Kata nama am &amp; kata nama khas</h3>
+<table><tr><th></th><th>Kata Nama AM</th><th>Kata Nama KHAS</th></tr>
+<tr><td>Maksud</td><td>nama umum untuk orang, haiwan, benda, tempat</td><td>nama KHUSUS (ada nama sendiri)</td></tr>
+<tr><td>Huruf</td><td>huruf kecil</td><td>huruf BESAR di awal kata</td></tr>
+<tr><td>Contoh</td><td>budak, kucing, sekolah, negeri, sungai</td><td>Ali, Si Tompok, SK Seri Mewah, Johor, Sungai Pahang</td></tr></table>
+<p>Contoh ayat: <i>Murid itu bernama <b>Aminah</b>. Dia belajar di <b>sekolah</b> berhampiran <b>Kuala Lumpur</b>.</i></p>
+<ul><li>"sekolah" = am (umum)</li><li>"Aminah", "Kuala Lumpur" = khas (nama khusus, huruf besar)</li></ul>
+<div class="tip">💡 <b>Cara mudah:</b> Kalau perkataan itu nama khusus seseorang/sesuatu tempat dan mesti huruf besar — itu kata nama KHAS!</div>`;
+
+NOTA.bm[2].ganti = `
+<h3>🙋 Kata ganti nama diri</h3>
+<p>Kata ganti nama diri <b>menggantikan nama orang</b> supaya ayat tidak berulang-ulang.</p>
+<table><tr><th>Diri</th><th>Kata ganti</th><th>Untuk siapa</th></tr>
+<tr><td>Pertama (diri sendiri)</td><td><b>saya, aku, kami, kita</b></td><td>orang yang bercakap</td></tr>
+<tr><td>Kedua</td><td><b>awak, kamu, anda, engkau</b></td><td>orang yang diajak bercakap</td></tr>
+<tr><td>Ketiga</td><td><b>dia, ia, beliau, mereka</b></td><td>orang yang diceritakan</td></tr></table>
+<h3>Perhatikan!</h3>
+<ul><li><b>Kami</b> = saya + orang lain (TIDAK termasuk orang yang diajak bercakap).</li>
+<li><b>Kita</b> = saya + awak (TERMASUK orang yang diajak bercakap).</li>
+<li><b>Beliau</b> = untuk orang yang dihormati (guru, pemimpin). Jangan guna untuk kanak-kanak atau haiwan!</li>
+<li><b>Mereka</b> = ramai orang (lebih daripada seorang).</li></ul>
+<div class="tip">💡 <i>"Mari <b>kita</b> makan bersama-sama!"</i> (awak pun ikut) vs <i>"<b>Kami</b> sudah makan tadi."</i> (awak tak termasuk)</div>`;
+
+NOTA.bm[2].penjodoh = `
+<h3>🔢 Penjodoh bilangan</h3>
+<p>Penjodoh bilangan digunakan <b>selepas nombor, sebelum kata nama</b>: <i>dua <b>ekor</b> kucing</i>.</p>
+<table><tr><th>Penjodoh</th><th>Untuk</th><th>Contoh</th></tr>
+<tr><td><b>orang</b></td><td>manusia</td><td>tiga orang murid</td></tr>
+<tr><td><b>ekor</b></td><td>haiwan</td><td>seekor lembu</td></tr>
+<tr><td><b>buah</b></td><td>benda besar (rumah, kereta, buku, negeri)</td><td>sebuah kereta</td></tr>
+<tr><td><b>biji</b></td><td>benda kecil bulat (telur, guli, buah-buahan)</td><td>lima biji epal</td></tr>
+<tr><td><b>batang</b></td><td>benda panjang (pensel, sungai, pokok... <i>pokok guna</i> <b>pokok</b>)</td><td>dua batang pensel</td></tr>
+<tr><td><b>helai</b></td><td>benda nipis (kertas, baju, daun)</td><td>sehelai baju</td></tr>
+<tr><td><b>keping</b></td><td>benda leper (roti, gambar, papan)</td><td>sekeping roti</td></tr>
+<tr><td><b>kuntum</b></td><td>bunga</td><td>sekuntum bunga ros</td></tr></table>
+<div class="tip">💡 <b>Awas perangkap:</b> buku = seBUAH buku (bukan sekeping!), kerana buku benda bertebal.</div>`;
+
+NOTA.bm[2].kerja = `
+<h3>🏃 Kata kerja</h3>
+<p>Kata kerja menunjukkan <b>perbuatan</b> atau perlakuan.</p>
+<ul><li>Contoh: makan, minum, berlari, menulis, membaca, menyapu, mandi, tidur</li></ul>
+<p>Contoh ayat: <i>Adik <b>menulis</b> surat. Ayah <b>membaca</b> surat khabar.</i></p>
+<h3>Pilih kata kerja yang TEPAT</h3>
+<table><tr><th>Situasi</th><th>Kata kerja tepat</th></tr>
+<tr><td>nasi</td><td>makan / menanak</td></tr>
+<tr><td>air</td><td>minum</td></tr>
+<tr><td>bola</td><td>menendang / menyepak / membaling</td></tr>
+<tr><td>lantai</td><td>menyapu / mengemop</td></tr>
+<tr><td>baju</td><td>memakai / membasuh / melipat / menjemur</td></tr>
+<tr><td>gigi</td><td>memberus / menggosok</td></tr></table>
+<div class="tip">💡 <b>Ujian mudah:</b> boleh tanya "buat apa?" — jawapannya ialah kata kerja. "Adik buat apa?" → "berlari" ✓</div>`;
+
+NOTA.bm[2].adjektif = `
+<h3>🌈 Kata adjektif</h3>
+<p>Kata adjektif menerangkan <b>sifat atau keadaan</b> sesuatu.</p>
+<table><tr><th>Jenis sifat</th><th>Contoh</th></tr>
+<tr><td>Saiz</td><td>besar, kecil, panjang, pendek, tinggi, rendah</td></tr>
+<tr><td>Warna</td><td>merah, biru, hijau, kuning</td></tr>
+<tr><td>Rasa</td><td>manis, masam, masin, pahit, pedas</td></tr>
+<tr><td>Perasaan</td><td>gembira, sedih, takut, marah</td></tr>
+<tr><td>Keadaan</td><td>bersih, kotor, cantik, rajin, malas, pandai</td></tr></table>
+<h3>Lawan kata (sifat bertentangan)</h3>
+<p>besar ↔ kecil · tinggi ↔ rendah · rajin ↔ malas · bersih ↔ kotor · berani ↔ penakut · mahal ↔ murah</p>
+<p>Contoh ayat: <i>Baju adik <b>bersih</b> tetapi kasutnya <b>kotor</b>.</i></p>
+<div class="tip">💡 <b>Ujian mudah:</b> kata adjektif boleh diikuti "sangat/sekali" — "sangat <b>cantik</b>", "besar <b>sekali</b>" ✓</div>`;
+NOTA.bm[2].tugas = `
+<h3>🔗 Kata hubung &amp; kata sendi nama</h3>
+<h3>Kata hubung — mencantumkan ayat/perkataan</h3>
+<table><tr><th>Kata hubung</th><th>Guna bila</th><th>Contoh</th></tr>
+<tr><td><b>dan</b></td><td>menambah</td><td>Ali <b>dan</b> Abu bermain bola.</td></tr>
+<tr><td><b>atau</b></td><td>pilihan</td><td>Awak nak teh <b>atau</b> milo?</td></tr>
+<tr><td><b>tetapi</b></td><td>berlawanan</td><td>Dia penat <b>tetapi</b> masih belajar.</td></tr>
+<tr><td><b>kerana</b></td><td>sebab</td><td>Adik menangis <b>kerana</b> lapar.</td></tr>
+<tr><td><b>lalu</b></td><td>perbuatan berturutan</td><td>Dia bangun <b>lalu</b> mencuci muka.</td></tr></table>
+<h3>Kata sendi nama — di hadapan kata nama</h3>
+<table><tr><th>Sendi</th><th>Guna untuk</th><th>Contoh</th></tr>
+<tr><td><b>di</b></td><td>tempat</td><td>Ibu berada <b>di</b> dapur.</td></tr>
+<tr><td><b>ke</b></td><td>arah/tempat dituju</td><td>Kami pergi <b>ke</b> sekolah.</td></tr>
+<tr><td><b>dari</b></td><td>tempat asal/arah</td><td>Ayah balik <b>dari</b> pejabat.</td></tr>
+<tr><td><b>daripada</b></td><td>orang/sumber/bahan</td><td>Hadiah <b>daripada</b> nenek. Meja dibuat <b>daripada</b> kayu.</td></tr>
+<tr><td><b>kepada</b></td><td>orang (sasaran)</td><td>Berikan surat ini <b>kepada</b> guru.</td></tr>
+<tr><td><b>pada</b></td><td>masa / benda abstrak</td><td><b>pada</b> hari Isnin, <b>pada</b> pendapat saya</td></tr></table>
+<div class="tip">💡 <b>Awas:</b> "dari" untuk TEMPAT &amp; MASA, "daripada" untuk ORANG &amp; BAHAN!</div>`;
+
+NOTA.bm[2].arah = `
+<h3>🧭 Kata arah &amp; kata tanya</h3>
+<h3>Kata arah — menunjukkan kedudukan</h3>
+<p><b>atas, bawah, dalam, luar, depan/hadapan, belakang, tepi, sisi, kiri, kanan, antara, tengah</b></p>
+<p>Biasanya selepas "di": <i>Kucing tidur <b>di bawah</b> meja. Buku ada <b>di atas</b> almari.</i></p>
+<h3>Kata tanya — untuk bertanya</h3>
+<table><tr><th>Kata tanya</th><th>Tanya tentang</th><th>Contoh</th></tr>
+<tr><td><b>apa</b></td><td>benda/perkara</td><td><b>Apakah</b> nama haiwan itu?</td></tr>
+<tr><td><b>siapa</b></td><td>orang</td><td><b>Siapakah</b> guru kelas kamu?</td></tr>
+<tr><td><b>di mana</b></td><td>tempat</td><td><b>Di manakah</b> awak tinggal?</td></tr>
+<tr><td><b>bila</b></td><td>masa</td><td><b>Bilakah</b> hari jadi awak?</td></tr>
+<tr><td><b>mengapa</b></td><td>sebab</td><td><b>Mengapakah</b> adik menangis?</td></tr>
+<tr><td><b>bagaimana</b></td><td>cara/keadaan</td><td><b>Bagaimanakah</b> kamu ke sekolah?</td></tr>
+<tr><td><b>berapa</b></td><td>bilangan/harga</td><td><b>Berapakah</b> harga buku ini?</td></tr></table>
+<div class="tip">💡 Jawapan "sebab/kerana…" → soalannya <b>mengapa</b>. Jawapan tempat → soalannya <b>di mana</b>.</div>`;
+
+NOTA.bm[2].ejaan = `
+<h3>✍️ Ejaan &amp; suku kata</h3>
+<h3>Suku kata</h3>
+<p>Perkataan dibina daripada suku kata: <b>bu + ku = buku</b> (2 suku kata), <b>se + ko + lah = sekolah</b> (3 suku kata).</p>
+<table><tr><th>Perkataan</th><th>Pecahan suku kata</th></tr>
+<tr><td>mata</td><td>ma + ta</td></tr>
+<tr><td>kereta</td><td>ke + re + ta</td></tr>
+<tr><td>sekolah</td><td>se + ko + lah</td></tr></table>
+<h3>Ejaan yang kerap keliru</h3>
+<table><tr><th>✅ Betul</th><th>❌ Salah</th></tr>
+<tr><td>sekolah</td><td>skolah / sekola</td></tr>
+<tr><td>kerana</td><td>kerna / krana</td></tr>
+<tr><td>dengan</td><td>dgn / dangan</td></tr>
+<tr><td>sayur</td><td>sayor</td></tr>
+<tr><td>cikgu</td><td>chegu</td></tr></table>
+<h3>Huruf vokal &amp; konsonan</h3>
+<ul><li><b>Vokal (5):</b> a, e, i, o, u</li><li><b>Konsonan:</b> huruf selebihnya (b, c, d, …)</li></ul>
+<div class="tip">💡 Baca perkataan <b>perlahan-lahan</b> ikut suku kata — ejaan jadi senang!</div>`;
+
+NOTA.bm[2].faham = `
+<h3>📖 Pemahaman</h3>
+<p>Soalan pemahaman menguji sama ada kita <b>faham petikan yang dibaca</b>.</p>
+<h3>Langkah menjawab</h3>
+<ul><li><b>1. Baca petikan</b> sekali untuk faham cerita keseluruhan.</li>
+<li><b>2. Baca soalan</b> — cari kata tanya (siapa? di mana? bila? mengapa?).</li>
+<li><b>3. Cari jawapan dalam petikan</b> — jawapan selalunya ADA dalam petikan!</li>
+<li><b>4. Semak</b> — adakah jawapan menjawab soalan dengan tepat?</li></ul>
+<h3>Padankan kata tanya dengan jawapan</h3>
+<table><tr><th>Soalan</th><th>Cari dalam petikan</th></tr>
+<tr><td>Siapakah…?</td><td>nama orang</td></tr>
+<tr><td>Di manakah…?</td><td>nama tempat</td></tr>
+<tr><td>Bilakah…?</td><td>masa / hari / tarikh</td></tr>
+<tr><td>Mengapakah…?</td><td>sebab (ayat ada "kerana")</td></tr>
+<tr><td>Apakah…?</td><td>benda / perkara / aktiviti</td></tr></table>
+<div class="tip">💡 <b>Jangan tambah cerita sendiri!</b> Jawapan mesti berdasarkan petikan, bukan tekaan.</div>`;
+NOTA.bi[2].freetime = `
+<h3>📅 Days of the week</h3>
+<table><tr><th>English</th><th>Bahasa Melayu</th></tr>
+<tr><td>Monday</td><td>Isnin</td></tr><tr><td>Tuesday</td><td>Selasa</td></tr>
+<tr><td>Wednesday</td><td>Rabu</td></tr><tr><td>Thursday</td><td>Khamis</td></tr>
+<tr><td>Friday</td><td>Jumaat</td></tr><tr><td>Saturday</td><td>Sabtu</td></tr>
+<tr><td>Sunday</td><td>Ahad</td></tr></table>
+<p><b>The weekend</b> = Saturday + Sunday. There are <b>seven</b> days in a week.</p>
+<h3>Talking about free time</h3>
+<ul><li>I <b>watch TV</b> on Sundays. (aktiviti + "on" + hari)</li>
+<li>I <b>play football</b> at the weekend.</li></ul>
+<h3>Asking questions</h3>
+<p><b>"Do you</b> play football?" → "Yes, I <b>do</b>." / "No, I <b>don't</b>."</p>
+<div class="tip">💡 <b>Remember:</b> Hari dalam English SENTIASA huruf besar — <b>S</b>unday, <b>M</b>onday! Dan guna "<b>on</b> Sundays", bukan "in Sundays".</div>`;
+
+NOTA.bi[2].house = `
+<h3>🏠 Rooms in the house</h3>
+<table><tr><th>Room</th><th>Maksud</th><th>What we do there</th></tr>
+<tr><td>kitchen</td><td>dapur</td><td>we cook 🍳</td></tr>
+<tr><td>bedroom</td><td>bilik tidur</td><td>we sleep 😴</td></tr>
+<tr><td>bathroom</td><td>bilik air</td><td>we take a bath 🛁</td></tr>
+<tr><td>living room</td><td>ruang tamu</td><td>we watch TV 📺</td></tr>
+<tr><td>dining room</td><td>ruang makan</td><td>we eat 🍽️</td></tr>
+<tr><td>garage</td><td>garaj</td><td>we keep the car 🚗</td></tr></table>
+<h3>There is / There are</h3>
+<ul><li><b>There is</b> (There's) + SATU benda: <i>There <b>is</b> a cat in the kitchen.</i></li>
+<li><b>There are</b> + BANYAK benda: <i>There <b>are</b> four cats in the garden.</i></li></ul>
+<h3>Questions</h3>
+<ul><li><b>Is there</b> a plane? → Yes, there is. / No, there <b>isn't</b>.</li>
+<li><b>Are there any</b> rats? → Yes, there are. / No, there <b>aren't</b>.</li>
+<li><b>How many</b> cars are there? → There are two.</li></ul>
+<div class="tip">💡 <b>Easy check:</b> satu = IS, lebih dari satu = ARE!</div>`;
+
+NOTA.bi[2].clothes = `
+<h3>👕 Clothes (pakaian)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>T-shirt / shirt</td><td>baju-T / kemeja</td></tr>
+<tr><td>dress</td><td>gaun/baju perempuan</td></tr>
+<tr><td>skirt</td><td>skirt</td></tr>
+<tr><td>trousers</td><td>seluar panjang</td></tr>
+<tr><td>shoes / socks</td><td>kasut / stokin</td></tr>
+<tr><td>cap / hat</td><td>topi</td></tr>
+<tr><td>jacket / sweater</td><td>jaket / baju sejuk</td></tr>
+<tr><td>scarf</td><td>skarf</td></tr></table>
+<h3>is wearing — sedang memakai</h3>
+<ul><li>Olivia<b>'s wearing</b> a red sweater. (Olivia sedang pakai baju sejuk merah)</li>
+<li><b>Is he wearing</b> a blue T-shirt? → Yes, he <b>is</b>. / No, he <b>isn't</b>.</li></ul>
+<h3>this / these</h3>
+<ul><li><b>this</b> + SATU: Do you like <b>this</b> hat? 🧢</li>
+<li><b>these</b> + BANYAK: Do you like <b>these</b> shoes? 👟👟</li></ul>
+<div class="tip">💡 <b>Remember:</b> shoes, socks, trousers selalu BANYAK (sepasang!) — guna "these".</div>`;
+
+NOTA.bi[2].robot = `
+<h3>🤖 The body (anggota badan)</h3>
+<table><tr><th>English</th><th>Maksud</th><th>Guna untuk</th></tr>
+<tr><td>eyes</td><td>mata</td><td>I <b>see</b> with my eyes</td></tr>
+<tr><td>ears</td><td>telinga</td><td>I <b>hear</b> with my ears</td></tr>
+<tr><td>nose</td><td>hidung</td><td>I <b>smell</b> with my nose</td></tr>
+<tr><td>mouth</td><td>mulut</td><td>I <b>eat</b> with my mouth</td></tr>
+<tr><td>hands / fingers</td><td>tangan / jari</td><td>I clap with my hands</td></tr>
+<tr><td>legs / feet / toes</td><td>kaki / tapak kaki / jari kaki</td><td>I walk with my legs</td></tr></table>
+<p>We have <b>ten fingers</b> on our hands and <b>ten toes</b> on our feet.</p>
+<h3>can / can't — boleh / tidak boleh</h3>
+<ul><li>A fish <b>can</b> swim. 🐟✅</li>
+<li>A fish <b>can't</b> walk. 🐟❌</li>
+<li><b>Can you</b> swim? → Yes, I <b>can</b>. / No, I <b>can't</b>.</li></ul>
+<div class="tip">💡 <b>can't</b> = can + not. Selepas can/can't, kata kerja TIDAK berubah: "She can <b>swim</b>" (bukan "swims")!</div>`;
+
+NOTA.bi[2].beach = `
+<h3>🏖️ At the beach (di pantai)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>sea</td><td>laut — we swim in the sea</td></tr>
+<tr><td>sand / sandcastle</td><td>pasir / istana pasir</td></tr>
+<tr><td>shell</td><td>cengkerang 🐚</td></tr>
+<tr><td>towel</td><td>tuala — to dry our body</td></tr>
+<tr><td>sunglasses</td><td>cermin mata hitam 🕶️</td></tr>
+<tr><td>beach umbrella</td><td>payung pantai ⛱️</td></tr></table>
+<h3>Let's… — Jom/Mari!</h3>
+<ul><li><b>Let's</b> go to the beach! (Jom pergi pantai!)</li>
+<li><b>Let's</b> build a sandcastle!</li></ul>
+<h3>Where's / Where are — Di mana</h3>
+<ul><li><b>Where's</b> the blue book? (SATU) → <b>It's</b> in the bag.</li>
+<li><b>Where are</b> the orange books? (BANYAK) → <b>They're</b> on the towel.</li></ul>
+<div class="tip">💡 Where's = Where is (satu benda). Where are = banyak benda. Jawab: It's… / They're…</div>`;
+
+NOTA.bi[2].reading = `
+<h3>📖 Reading (pemahaman)</h3>
+<p>Reading questions test if you <b>understand the story</b>.</p>
+<h3>How to answer</h3>
+<ul><li><b>1. Read the story</b> slowly. Jangan risau kalau ada perkataan baru!</li>
+<li><b>2. Read the question</b> — find the question word.</li>
+<li><b>3. Find the answer in the story</b> — the answer is always there!</li></ul>
+<h3>Question words</h3>
+<table><tr><th>Question word</th><th>Maksud</th><th>Answer is a…</th></tr>
+<tr><td><b>Who…?</b></td><td>siapa</td><td>person (orang)</td></tr>
+<tr><td><b>What…?</b></td><td>apa</td><td>thing (benda/perkara)</td></tr>
+<tr><td><b>Where…?</b></td><td>di mana</td><td>place (tempat)</td></tr>
+<tr><td><b>When…?</b></td><td>bila</td><td>time/day (masa/hari)</td></tr>
+<tr><td><b>How many…?</b></td><td>berapa</td><td>number (nombor)</td></tr>
+<tr><td><b>What colour…?</b></td><td>warna apa</td><td>colour</td></tr></table>
+<div class="tip">💡 Garis jawapan dalam cerita sebelum pilih! The answer must come from the story, not your imagination.</div>`;
+
+</script>
+<script>
 (() => {
 const $ = s => document.querySelector(s);
 const app = $('#app');
@@ -5097,12 +5608,24 @@ function ranks(s, y, t) {
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
       <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih rank kamu</div></div>
+    ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
     <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !isPremium() ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
       <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}${r.prem ? (isPremium() ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
 
+function notaPage(s, y, t) {
+  const S = subjBy(s), E = ENG[s]; setTheme(S);
+  const body = NOTA[s][y][t];
+  app.innerHTML = `<div class="wrap">
+    <div class="band"><a class="back" href="#d${y}/${s}/${t}">← Kembali</a>
+      <h1>📖 Nota: ${E.ICON[t]} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
+    <div class="nota card" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;max-width:760px;line-height:1.7">${body}</div>
+    <div style="text-align:center;margin:22px 0 50px"><a class="btn pri" href="#d${y}/${s}/${t}" style="padding:13px 26px;font-size:16px">✅ Dah faham? Jom cuba kuiz!</a></div>
+  </div>`;
+  window.scrollTo(0, 0);
+}
 // ---------------- KUIZ ----------------
 let Q = null;
 function quiz(s, y, t, rank) {
@@ -5201,6 +5724,7 @@ document.addEventListener('keydown', e => {
 function route() {
   const h = location.hash.slice(1); let m;
   const okT = (s, y, t) => ENG[s] && ENG[s].years.includes(+y) && (topicsOf(s, +y).includes(t) || t === 'campuran');
+  if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)\/nota$/.exec(h)) && okT(m[2], m[1], m[3]) && typeof NOTA !== 'undefined' && NOTA[m[2]] && NOTA[m[2]][+m[1]] && NOTA[m[2]][+m[1]][m[3]]) { Q = null; return notaPage(m[2], +m[1], m[3]); }
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)\/(warrior|epik|legend|mythic)$/.exec(h)) && okT(m[2], m[1], m[3])) return quiz(m[2], +m[1], m[3], m[4]);
   Q = null;
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)$/.exec(h)) && okT(m[2], m[1], m[3])) return ranks(m[2], +m[1], m[3]);

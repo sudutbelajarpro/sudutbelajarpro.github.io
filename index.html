@@ -45,7 +45,7 @@ a{color:inherit}
 .top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);background:rgba(246,244,255,.75);border-bottom:1px solid rgba(91,75,219,.08)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--fd);font-weight:700;font-size:22px}
-.logo i{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;color:#fff;font-style:normal;font-size:20px;box-shadow:0 6px 16px -6px var(--brand)}
+.logo img{width:38px;height:38px;border-radius:12px;display:block;box-shadow:0 6px 16px -6px var(--brand)}
 .nav{display:flex;gap:6px}
 .nav a{text-decoration:none;font-weight:600;font-size:14.5px;padding:9px 14px;border-radius:999px;color:var(--muted)}
 .installbtn{font-weight:700;font-size:14px;padding:9px 14px;border-radius:999px;background:var(--brand);color:#fff}
@@ -99,6 +99,16 @@ section.blk{padding:44px 0}
 .sub .tag{position:absolute;top:18px;right:18px;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.95);color:var(--g1);padding:5px 10px;border-radius:999px}
 .sub .prog{margin-top:12px;height:8px;background:rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
 .sub .prog i{display:block;height:100%;background:#fff;border-radius:99px}
+/* ---------- STREAK & REKOD ---------- */
+.skchip{background:#FFF3D6;color:#8a5a00;border-radius:999px;padding:4px 10px;font-weight:800;font-size:12.5px;white-space:nowrap}
+.skbar{background:linear-gradient(135deg,#fff6e0,#fff);border:2px solid #ffc94d;border-radius:14px;padding:12px 16px;margin:12px auto 4px;max-width:420px;display:flex;flex-direction:column;gap:3px;align-items:center;font-size:16px;color:#7a4f00}
+.skbar.sejuk{background:#faf8ff;border-color:var(--line);color:var(--muted);font-size:14px;font-weight:600}
+.skbar .sksm{font-size:13px;font-weight:600;color:#9a6a10}
+.skbar.pop{animation:skpop .55s cubic-bezier(.34,1.5,.5,1)}
+@keyframes skpop{0%{transform:scale(.88)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.rekod{background:#eafaf0;border:1.5px solid #8fd9ae;color:#15703f;border-radius:12px;padding:9px 14px;margin:10px auto 0;max-width:420px;font-weight:800;font-size:14.5px}
+.rekod.sejuk{background:transparent;border:0;color:var(--muted);font-weight:600;font-size:13.5px;padding:4px}
+.skstat b{color:#e08900}
 /* ---------- TRANSISI HALAMAN ---------- */
 .pagein{animation:pagein .36s cubic-bezier(.22,.9,.3,1)}
 @keyframes pagein{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:translateY(0)}}
@@ -115,8 +125,7 @@ section.blk{padding:44px 0}
 @keyframes sparkfly{0%{opacity:1;transform:translate(0,0) scale(.5) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(220deg)}}
 @media (prefers-reduced-motion:reduce){.spark{display:none}}
 /* ---------- MOD KUIZ: beri ruang pada skrin kecil ---------- */
-.inquiz .top .logo{font-size:0}
-.inquiz .top .logo i{font-size:20px;margin:0}
+.inquiz .top .logo span{display:none}
 .inquiz .top .nav a{display:none}
 .inquiz .top .nav .hide-s{display:none}
 .mzone{display:flex;justify-content:center;margin:18px 0 8px;min-height:150px}
@@ -361,7 +370,7 @@ footer p+p{margin-top:6px}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
-  <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38" style="border-radius:12px;box-shadow:0 6px 16px -6px var(--brand)">Sudut Belajar</a>
+  <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38"><span>Sudut Belajar</span></a>
   <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih">Darjah</a><a href="#ranking">🏆 Ranking</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
 </div></header>
 <main id="app"></main>
@@ -7625,7 +7634,59 @@ const OOPS = ['Tak apa, cuba lagi!', 'Hampir!', 'Belajar dari silap!'];
 
 // ---- storage (selamat jika disekat) ----
 const store = { get() { try { return JSON.parse(localStorage.getItem('sb.v2') || '{}'); } catch (e) { return {}; } }, set(o) { try { localStorage.setItem('sb.v2', JSON.stringify(o)); } catch (e) {} } };
-let DB = store.get(); DB.stars = DB.stars || {};
+let DB = store.get(); DB.stars = DB.stars || {}; DB.best = DB.best || {};
+DB.streak = DB.streak || { n: 0, akhir: '', terbaik: 0, perisai: 1, mgg: '' };
+// ---------------- STREAK HARIAN ----------------
+function tarikhStr_(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function hariIni_() { return tarikhStr_(new Date()); }
+function bezaHari_(a, b) {
+  const pa = new Date(a + 'T00:00:00'), pb = new Date(b + 'T00:00:00');
+  if (isNaN(pa) || isNaN(pb)) return 999;
+  return Math.round((pb - pa) / 86400000);
+}
+function isninMgg_(t) {
+  const d = new Date(t + 'T00:00:00'); if (isNaN(d)) return '';
+  const w = (d.getDay() + 6) % 7; d.setDate(d.getDate() - w); return tarikhStr_(d);
+}
+// isi semula perisai sekali seminggu (setiap Isnin)
+function isiPerisai_() {
+  const mgg = isninMgg_(hariIni_());
+  if (!mgg) return;
+  if (DB.streak.mgg !== mgg) { DB.streak.mgg = mgg; DB.streak.perisai = 1; }
+}
+// dipanggil selepas habis satu kuiz; pulangkan { naik, n, perisaiGuna, rekod }
+function catatStreak_() {
+  isiPerisai_();
+  const t = hariIni_(), S = DB.streak;
+  if (S.akhir === t) { store.set(DB); return { naik: 0, n: S.n }; }
+  let perisaiGuna = 0;
+  if (!S.akhir) S.n = 1;
+  else {
+    const gap = bezaHari_(S.akhir, t);
+    if (gap === 1) S.n = (S.n | 0) + 1;
+    else if (gap === 2 && (S.perisai | 0) > 0) { S.perisai = (S.perisai | 0) - 1; S.n = (S.n | 0) + 1; perisaiGuna = 1; }
+    else S.n = 1;
+  }
+  S.akhir = t;
+  const rekod = S.n > (S.terbaik | 0);
+  if (rekod) S.terbaik = S.n;
+  store.set(DB);
+  return { naik: 1, n: S.n, perisaiGuna, rekod };
+}
+// streak dianggap mati jika lebih 1 hari berlalu dan tiada perisai boleh tampung
+function streakSemasa_() {
+  const S = DB.streak || {};
+  if (!S.akhir) return 0;
+  const gap = bezaHari_(S.akhir, hariIni_());
+  if (gap <= 1) return S.n | 0;
+  if (gap === 2 && (S.perisai | 0) > 0) return S.n | 0;
+  return 0;
+}
+function chipStreak_() {
+  const n = streakSemasa_();
+  if (!n) return '';
+  return `<span class="skchip" title="Hari berturut-turut">\U0001f525 ${n}</span>`;
+}
 const sk = (s, y, t, r) => `${s}.${y}.${t}.${r}`;
 const getStars = (s, y, t, r) => DB.stars[sk(s, y, t, r)] || 0;
 const setStars = (s, y, t, r, n) => { if (n > getStars(s, y, t, r)) DB.stars[sk(s, y, t, r)] = n; DB.lastYear = y; store.set(DB); };
@@ -7667,7 +7728,36 @@ async function hantarSkor(y, rank, sc, el) {
   const mata = sc * (MULT[rank] || 1);
   try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
-function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
+function mergeAwan(data) {
+  let o;
+  try { o = JSON.parse(data || '{}'); } catch (e) { return 0; }
+  if (!o || typeof o !== 'object') return 0;
+  const st = (o.stars && typeof o.stars === 'object') ? o.stars : {};
+  for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; }
+  // rekod peribadi: ambil yang lebih tinggi
+  try {
+    const bs = (o.best && typeof o.best === 'object') ? o.best : {};
+    DB.best = DB.best || {};
+    for (const k in bs) { if ((bs[k] | 0) > (DB.best[k] | 0)) DB.best[k] = bs[k] | 0; }
+  } catch (e) {}
+  // streak: ambil rekod yang lebih kini; 'terbaik' ambil tertinggi; perisai ambil terendah
+  try {
+    const sa = o.streak;
+    if (sa && typeof sa === 'object') {
+      const sl = DB.streak || {};
+      const pakai = (!sl.akhir || (sa.akhir && String(sa.akhir) > String(sl.akhir))) ? sa : sl;
+      DB.streak = {
+        n: pakai.n | 0,
+        akhir: String(pakai.akhir || ''),
+        terbaik: Math.max(sa.terbaik | 0, sl.terbaik | 0),
+        perisai: Math.min(sa.perisai | 0, sl.perisai | 0),
+        mgg: String(pakai.mgg || '')
+      };
+    }
+  } catch (e) {}
+  store.set(DB);
+  return Object.keys(st).length;
+}
 const HARGA_TAMAT = new Date(2026, 10, 30, 23, 59);
 function hargaAwal() { return Date.now() <= HARGA_TAMAT.getTime(); }
 function hargaRM() { return hargaAwal() ? 30 : 45; }
@@ -7756,7 +7846,7 @@ function ranking() {
       </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>`;
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
-      $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
       $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
     } else {
       $('#pjoin').onclick = async () => {
@@ -7765,7 +7855,7 @@ function ranking() {
         if (!/^\d{4}$/.test(pin)) return $('#pmsg').textContent = '⚠️ PIN mesti 4 angka.';
         $('#pmsg').textContent = 'Menyemak…';
         try {
-          const r = await apiPost({ a: 'simpan', nick, pin, darjah, sekolah, data: JSON.stringify({ stars: DB.stars }) });
+          const r = await apiPost({ a: 'simpan', nick, pin, darjah, sekolah, data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) });
           if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
           let prem0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
           PLAYER.set({ nick, pin, darjah, premium: prem0, sekolah: sek0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
@@ -7837,7 +7927,7 @@ function home(y, scroll) {
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
         <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik rank dari <b>Epik</b> ke <b>Legend</b> hingga <b>Mythic</b>, dan kumpul bintang!</p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
-        <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div><div><b>∞</b>Soalan rawak</div></div>
+        <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>∞</b>Soalan rawak</div>`}</div>
       </div>
       <div class="art" aria-hidden="true">
         <div class="tile t1">7</div><div class="tile t2">÷</div>
@@ -7963,7 +8053,7 @@ function showQ() {
     ? `<form class="typed" id="tform" autocomplete="off"><input id="tin" class="tin" placeholder="${esc(hintFor(q))}" autocapitalize="off" spellcheck="false" inputmode="${/^[\d{]|^RM/.test(q.ans) && !/[a-z]{3}/i.test(q.ans.replace(/^RM/, '')) ? 'decimal' : 'text'}"><button class="btn pri" type="submit">Semak ✓</button></form>`
     : `<div class="opts">${q.opts.map((o, i) => `<button class="opt ${q.small ? 'small' : ''}" data-i="${i}"><span class="k">${'ABCD'[i]}</span>${rf(o)}</button>`).join('')}</div>`;
   $('#qbox').innerHTML = `
-    <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span><span>✅ ${Q.score}</span></div>
+    <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span><span>✅ ${Q.score}</span>${chipStreak_()}</div>
     <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${body}</div>
     <div class="fb" id="fb"></div>`;
   Q.lock = false;
@@ -7995,24 +8085,34 @@ function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo
 function result() {
   const n = Q.list.length, sc = Q.score, pc = sc / n, st = pc >= .9 ? 3 : pc >= .7 ? 2 : pc >= .5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
   setStars(s, y, t, rank, st);
-  DB.rounds = (DB.rounds || 0) + 1; store.set(DB);
+  DB.rounds = (DB.rounds || 0) + 1;
+  const kunciBest = sk(s, y, t, rank);
+  const bestLama = DB.best[kunciBest] | 0;
+  const rekodBaru = sc > bestLama;
+  if (rekodBaru) DB.best[kunciBest] = sc;
+  store.set(DB);
+  const SK = catatStreak_();
   const mataEl = 'cloudmsg';
   const head = st === 3 ? 'Hebat sekali! 🏆' : st === 2 ? 'Bagus! 👍' : st === 1 ? 'Boleh lagi! 💪' : 'Jom cuba lagi! 🌱';
   const ni = RANKS.findIndex(r => r.id === rank), nextR = RANKS[ni + 1];
   const up = st >= 2 && nextR ? `<a class="btn rkbtn" style="--r1:${nextR.c1};--r2:${nextR.c2}" href="#d${y}/${s}/${t}/${nextR.id}">${nextR.ic} Cuba ${nextR.nama} →</a>` : '';
   $('#bar').style.width = '100%';
+  const mz = document.querySelector('.mzone'); if (mz) mz.remove();
   $('#qbox').innerHTML = `<div class="res" id="res">
     <div class="mres">${maskotHTML()}</div>
     <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</div>
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
-    <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    ${rekodBaru && bestLama ? `<div class="rekod">\U0001f3af Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
+    ${SK.naik ? `<div class="skbar"><b>\U0001f525 ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">\U0001f6e1️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">\U0001f525 ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
+    <div class="row">${up}<button class="btn pri" id="again">\U0001f501 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
     <div id="cloudmsg" style="margin-top:10px;font-size:14px"></div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;
   maskot(st >= 2 ? 'raikan' : 'simpati', st === 3 ? 'Tiga bintang! \u2b50\u2b50\u2b50' : st === 2 ? 'Dua bintang! Teruskan!' : st === 1 ? 'Satu bintang \u2014 jom cuba lagi!' : 'Tak apa, kita cuba sekali lagi!');
   document.querySelectorAll('.bigstars span').forEach((x, i) => setTimeout(() => { if (i < st) { x.classList.add('on'); SND.play('bintang'); } }, 250 + i * 260));
   setTimeout(() => SND.play(st >= 2 ? 'habis' : 'klik'), 250 + st * 260 + 220);
+  if (SK.naik && SK.n > 1) setTimeout(() => { SND.play('naik'); const e2 = document.querySelector('.skbar'); if (e2) e2.classList.add('pop'); }, 250 + st * 260 + 700);
   if (st >= 2) confetti();
   hantarSkor(y, rank, sc, $('#cloudmsg'));
   $('#again').onclick = () => { SND.play('klik'); quiz(s, y, t, rank); };

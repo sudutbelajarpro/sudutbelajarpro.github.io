@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sudut Belajar — Darjah 1 hingga 6</title>
-<meta name="description" content="Latihan interaktif percuma untuk murid sekolah rendah, Darjah 1 hingga 6. Tanpa iklan. Daftar nama samaran percuma - tiada emel diperlukan.">
+<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Rank Warrior percuma, tanpa iklan. Daftar nama samaran sahaja - tiada emel.">
 <meta name="theme-color" content="#5b4bdb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -4831,9 +4831,10 @@ const SUBJ = [
   { id: 'sn', nama: 'Sains', ic: '🔬', g1: '#16a34a', g2: '#7dd56f', d1: { nama: 'Alam dan Manusia', ic: '🌱' } },
 ];
 const RANKS = [
-  { id: 'epik', nama: 'Epik', ic: '⚔️', tp: 'TP1–2', d: 'Asas: soalan terus, 4 pilihan jawapan.', c1: '#6d4cff', c2: '#a68bff' },
-  { id: 'legend', nama: 'Legend', ic: '🏆', tp: 'TP3–4', d: 'Aplikasi: ayat cerita & pilihan yang lebih mengelirukan.', c1: '#e08a00', c2: '#ffc93c' },
-  { id: 'mythic', nama: 'Mythic', ic: '💎', tp: 'TP5–6', d: 'KBAT: tiada pilihan, taip jawapan sendiri (gaya UASA).', c1: '#c2185b', c2: '#7b1fa2' },
+  { id: 'warrior', nama: 'Warrior', ic: '🛡️', tp: 'TP1', d: 'Permulaan: soalan asas, 2 pilihan jawapan. PERCUMA!', c1: '#2e7d32', c2: '#66bb6a' },
+  { id: 'epik', nama: 'Epik', ic: '⚔️', tp: 'TP1–2', d: 'Asas: soalan terus, 4 pilihan jawapan.', c1: '#6d4cff', c2: '#a68bff', prem: 1 },
+  { id: 'legend', nama: 'Legend', ic: '🏆', tp: 'TP3–4', d: 'Aplikasi: ayat cerita & pilihan yang lebih mengelirukan.', c1: '#e08a00', c2: '#ffc93c', prem: 1 },
+  { id: 'mythic', nama: 'Mythic', ic: '💎', tp: 'TP5–6', d: 'KBAT: tiada pilihan, taip jawapan sendiri (gaya UASA).', c1: '#c2185b', c2: '#7b1fa2', prem: 1 },
 ];
 const rankBy = id => RANKS.find(r => r.id === id);
 const PRAISE = ['Betul! Hebat!', 'Tepat sekali!', 'Bagus!', 'Pandai!', 'Syabas!', 'Mantap!'];
@@ -4861,13 +4862,59 @@ const apiOK = () => API.indexOf('https') === 0;
 const PLAYER = { get() { try { return JSON.parse(localStorage.getItem('sb.player') || 'null'); } catch (e) { return null; } }, set(p) { try { localStorage.setItem('sb.player', JSON.stringify(p)); } catch (e) {} } };
 async function apiGet(p) { const r = await fetch(API + '?' + new URLSearchParams(p)); return r.json(); }
 async function apiPost(b) { const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return r.json(); }
-const MULT = { epik: 1, legend: 2, mythic: 3 };
+const MULT = { warrior: 1, epik: 2, legend: 3, mythic: 4 };
+const isPremium = () => { const P = PLAYER.get(); return !!(P && P.premium); };
+function tuntutJumlah() { const pm = DB.pending || {}; let t = 0; for (const k in pm) t += pm[k]; return t; }
+async function tuntutPending(P, el) {
+  const pm = DB.pending || {}; let total = 0;
+  for (const y in pm) {
+    let m = Math.min(pm[y] | 0, 90);
+    while (m > 0) { const amt = Math.min(30, m); m -= amt; try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: +y, mata: amt }); if (r.ok) total += amt; } catch (e) { break; } }
+  }
+  DB.pending = {}; store.set(DB);
+  if (total && el) el.textContent = '🎉 ' + total + ' mata simpanan kamu telah dimasukkan ke Ranking!';
+  return total;
+}
 async function hantarSkor(y, rank, sc, el) {
-  const P = PLAYER.get(); if (!apiOK() || !P || !sc) return;
+  if (!sc) return;
+  const P = PLAYER.get();
+  if (!P) { const mata = sc * (MULT[rank] || 1); const pm = DB.pending || {}; pm[y] = Math.min((pm[y] | 0) + mata, 90); DB.pending = pm; store.set(DB); if (el) el.innerHTML = `⭐ <b>+${mata} mata disimpan!</b> <a href="#ranking" style="font-weight:600">Daftar untuk masukkan ${tuntutJumlah()} mata ke Ranking →</a>`; return; }
+  if (!apiOK()) return;
   const mata = sc * (MULT[rank] || 1);
   try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
 function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
+function premium(s, y, t, rank) {
+  setTheme({ g1: '#b8860b', g2: '#ffd700' });
+  const P = PLAYER.get();
+  app.innerHTML = `<section class="wrap pagein" style="padding:40px 20px 60px;max-width:620px;text-align:center">
+    ${s ? `<a class="crumb" href="#d${y}/${s}/${t}">← Kembali</a>` : '<a class="crumb" href="#pilih">← Utama</a>'}
+    <div style="font-size:56px">👑</div>
+    <h1 style="margin:10px 0 6px">Sudut Belajar <span style="color:#b8860b">Premium</span></h1>
+    <p class="lead" style="margin-bottom:18px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px;margin-bottom:14px">
+      <div style="font-weight:800;font-size:18px;margin-bottom:8px">🛡️ Warrior kekal PERCUMA selamanya</div>
+      <div style="font-size:14px;color:var(--muted)">Premium = pelaburan kecil untuk latihan tahap peperiksaan sebenar.</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px">
+        <button class="btn pri" id="beli" style="font-size:16px;padding:12px 26px">👑 Beli Premium</button>
+        <button class="btn sec" id="semak" style="padding:12px 20px">🔄 Dah bayar? Semak status</button>
+      </div>
+      <div id="premsg" style="font-size:13.5px;margin-top:12px;color:var(--muted)"></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted)">Perlu akaun berdaftar dahulu (percuma). Status premium disimpan pada nama samaran kamu — kekal di semua peranti.</p>
+  </section>`;
+  const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
+  $('#beli').onclick = async () => {
+    if (!P) { location.hash = '#ranking'; toast('Daftar dulu, kemudian ke Premium 😊'); return; }
+    msg('Menyediakan pembayaran…');
+    try { const r = await apiPost({ a: 'bayar', nick: P.nick, pin: P.pin, darjah: P.darjah }); if (r.ok && r.url) { msg('Membuka halaman pembayaran…'); location.href = r.url; } else msg(r.err || 'Pembayaran belum dibuka — akan tiba tidak lama lagi!'); } catch (e) { msg('Tiada sambungan internet'); }
+  };
+  $('#semak').onclick = async () => {
+    if (!P) { location.hash = '#ranking'; return; }
+    msg('Menyemak…');
+    try { const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin }); if (r.ok && r.premium) { P.premium = 1; PLAYER.set(P); msg(''); toast('👑 Premium AKTIF! Selamat belajar!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; } else msg(r.ok ? 'Belum aktif lagi. Jika baru bayar, cuba sebentar lagi.' : (r.err || 'Gagal')); } catch (e) { msg('Tiada sambungan internet'); }
+  };
+}
 function ranking() {
   const P = PLAYER.get();
   setTheme({ g1: '#e0a500', g2: '#ffd34d' });
@@ -4898,7 +4945,7 @@ function ranking() {
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
       $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, data: JSON.stringify({ stars: DB.stars }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
-      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
     } else {
       $('#pjoin').onclick = async () => {
         const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value;
@@ -4908,8 +4955,9 @@ function ranking() {
         try {
           const r = await apiPost({ a: 'simpan', nick, pin, darjah, data: JSON.stringify({ stars: DB.stars }) });
           if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
-          if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) mergeAwan(l.data); }
-          PLAYER.set({ nick, pin, darjah }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
+          let prem0 = 0; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; } }
+          PLAYER.set({ nick, pin, darjah, premium: prem0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
+          tuntutPending({ nick, pin }, $('#pmsg'));
         } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; }
       };
     }
@@ -4973,7 +5021,7 @@ function home(y, scroll) {
   <div class="wrap">
     <section class="hero">
       <div>
-        <span class="pill"><b>●</b> Percuma · Tanpa iklan · Tanpa emel</span>
+        <span class="pill"><b>●</b> Mula percuma · Tanpa iklan · Tanpa emel</span>
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
         <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik rank dari <b>Epik</b> ke <b>Legend</b> hingga <b>Mythic</b>, dan kumpul bintang!</p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
@@ -4991,7 +5039,10 @@ function home(y, scroll) {
       <div class="subjects" id="subjects"></div>
     </section>
     <section class="blk">
-      <div class="sh"><div><h2>Sistem rank</h2><p>Setiap topik ada 3 tahap kesukaran mengikut Tahap Penguasaan (TP).</p></div></div>
+      <div class="sh" id="juara-sec"><div><h2>🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
+      <div id="homelb" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 18px;margin-bottom:12px">Memuatkan juara…</div>
+      <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
+      <div class="sh"><div><h2>Sistem rank</h2><p>Setiap topik ada 4 tahap: mula dengan Warrior (percuma), naik ke Epik, Legend dan Mythic.</p></div></div>
       <div class="features">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${r.ic}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
     </section>
     <section class="blk" id="ibubapa">
@@ -5046,8 +5097,8 @@ function ranks(s, y, t) {
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
       <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih rank kamu</div></div>
-    <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}" href="#d${y}/${s}/${t}/${r.id}">
-      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
+    <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !isPremium() ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
+      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}${r.prem ? (isPremium() ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
@@ -5055,19 +5106,24 @@ function ranks(s, y, t) {
 // ---------------- KUIZ ----------------
 let Q = null;
 function quiz(s, y, t, rank) {
-  if (!PLAYER.get() && (DB.rounds || 0) >= 3) {
+  if (!PLAYER.get() && (DB.rounds || 0) >= 1) {
     const sj = subjBy(s); setTheme(sj);
     app.innerHTML = `<section class="wrap pagein" style="padding:48px 20px 60px;max-width:560px;text-align:center">
       <div style="font-size:56px">🎓</div>
-      <h1 style="margin:12px 0 8px">Hebat! Kamu dah main ${DB.rounds} round percuma</h1>
-      <p class="lead" style="margin-bottom:6px">Daftar <b>percuma</b> untuk terus belajar tanpa had — nama samaran dan PIN sahaja. Tiada emel, tiada bayaran.</p>
+      <h1 style="margin:12px 0 8px">Hebat! Kamu dah kumpul <span style="color:var(--g1)">${tuntutJumlah()} mata</span> ⭐</h1>
+      <p class="lead" style="margin-bottom:6px">Daftar <b>percuma</b> untuk masukkan mata kamu ke Ranking dan terus belajar tanpa had — nama samaran dan PIN sahaja. Tiada emel, tiada bayaran.</p>
       <p style="font-size:13.5px;color:var(--muted);margin-bottom:20px">Bonus: mata ranking dikumpul &amp; bintang kamu boleh disimpan ke awan.</p>
       <a class="btn pri" href="#ranking" style="font-size:17px;padding:14px 28px">📝 Daftar sekarang — 30 saat</a>
     </section>`;
     window.scrollTo({ top: 0 }); return;
   }
-  const S = subjBy(s), E = ENG[s]; setTheme(S); const R = rankBy(rank);
-  Q = { s, y, t, rank, list: E.round ? E.round(y, t, 10, rank) : SB.round(y, t, 10, rank, E.gen), i: 0, score: 0, wrong: [], lock: false };
+  const RK = rankBy(rank);
+  if (RK.prem && !isPremium()) return premium(s, y, t, rank);
+  const S = subjBy(s), E = ENG[s]; setTheme(S); const R = RK;
+  const genRank = rank === 'warrior' ? 'epik' : rank;
+  let list = E.round ? E.round(y, t, 10, genRank) : SB.round(y, t, 10, genRank, E.gen);
+  if (rank === 'warrior') list = list.map(q => { if (!q.opts || q.opts.length < 3) return q; const w = q.opts.filter(o => o !== q.ans); const pair = [q.ans, w[Math.floor(Math.random() * w.length)]]; if (Math.random() < .5) pair.reverse(); return Object.assign({}, q, { opts: pair }); });
+  Q = { s, y, t, rank, list, i: 0, score: 0, wrong: [], lock: false };
   app.innerHTML = `<div class="wrap"><div class="quiz">
     <div class="qtop"><a class="x" href="#d${y}/${s}/${t}" aria-label="Keluar">✕</a><div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div></div>
     <div id="qbox"></div></div></div>`;
@@ -5120,7 +5176,7 @@ function result() {
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
     <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
-    <div id="cloudmsg" style="margin-top:10px;font-size:14px">${apiOK() && !PLAYER.get() ? '<a href="#ranking" style="font-weight:600">🏆 Sertai Ranking — kumpul mata &amp; simpan progress →</a>' : ''}</div>
+    <div id="cloudmsg" style="margin-top:10px;font-size:14px"></div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;
   document.querySelectorAll('.bigstars span').forEach((x, i) => setTimeout(() => { if (i < st) x.classList.add('on'); }, 250 + i * 260));
@@ -5145,15 +5201,27 @@ document.addEventListener('keydown', e => {
 function route() {
   const h = location.hash.slice(1); let m;
   const okT = (s, y, t) => ENG[s] && ENG[s].years.includes(+y) && (topicsOf(s, +y).includes(t) || t === 'campuran');
-  if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)\/(epik|legend|mythic)$/.exec(h)) && okT(m[2], m[1], m[3])) return quiz(m[2], +m[1], m[3], m[4]);
+  if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)\/(warrior|epik|legend|mythic)$/.exec(h)) && okT(m[2], m[1], m[3])) return quiz(m[2], +m[1], m[3], m[4]);
   Q = null;
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)$/.exec(h)) && okT(m[2], m[1], m[3])) return ranks(m[2], +m[1], m[3]);
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)$/.exec(h)) && ENG[m[2]].years.includes(+m[1])) return topics(m[2], +m[1]);
   if ((m = /^d([1-6])$/.exec(h))) return home(+m[1], true);
   if (h === 'ranking') return ranking();
+  if (h === 'premium') return premium();
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();
 }
+async function homeLB() {
+  const el = document.getElementById('homelb'); if (!el || !apiOK()) { if (el) el.innerHTML = '<p style="padding:8px 0">Jadilah juara pertama bulan ini! 🚀</p>'; return; }
+  try {
+    const r = await apiGet({ a: 'top' });
+    const med = ['🥇', '🥈', '🥉', '4.', '5.'];
+    el.innerHTML = (r.ok && r.top.length) ? r.top.slice(0, 5).map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 2px;${i < 4 ? 'border-bottom:1px solid var(--line)' : ''}"><b style="width:34px;text-align:center">${med[i]}</b><span style="flex:1;font-weight:700">${esc(x[0])}</span><span style="color:var(--muted);font-size:13px">Darjah ${x[1]}</span><b style="color:var(--g1)">${x[2]} mata</b></div>`).join('')
+    : '<p style="padding:8px 0">Takhta juara masih kosong — rebut tempat pertama sekarang! 🚀</p>';
+  } catch (e) { el.innerHTML = '<p style="padding:8px 0">Jadilah juara bulan ini! 🚀</p>'; }
+}
+const _route0 = route;
+route = function () { _route0(); homeLB(); };
 window.addEventListener('hashchange', route);
 // ---- PWA ----
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});

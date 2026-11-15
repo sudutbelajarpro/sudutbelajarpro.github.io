@@ -1623,7 +1623,7 @@ elektrik: ['Elektrik', '💡', [
  ['m', 'Bahan yang tidak membenarkan arus elektrik mengalir dipanggil ___.', 'penebat', 'penebat elektrik'],
  ['m', 'Komponen litar yang berfungsi membuka dan menutup litar ialah ___.', 'suis', ''],
 ]],
-campuran: ['Campuran', '🥣', [
+campur2: ['Campuran', '🥣', [
  ['e', 'Bahan manakah yang larut di dalam air?', 'Gula', 'Pasir', 'Minyak', 'Batu kerikil'],
  ['e', 'Bahan manakah yang TIDAK larut di dalam air?', 'Pasir', 'Garam', 'Gula', 'Serbuk kopi segera'],
  ['e', 'Campuran pasir dan klip kertas boleh diasingkan menggunakan …', 'magnet', 'air panas', 'gunting', 'lampu'],
@@ -2262,7 +2262,7 @@ elektrik: [
  ['m', 'Komponen litar yang menukar tenaga elektrik kepada cahaya ialah ___.', 'mentol', ''],
  ['m', 'Menyentuh suis dengan tangan basah boleh menyebabkan renjatan ___.', 'elektrik', ''],
 ],
-campuran: [
+campur2: [
  ['e', 'Garam dicampur ke dalam air. Garam akan …', 'larut', 'terapung', 'tenggelam tanpa larut', 'menjadi pepejal'],
  ['e', 'Bahan manakah tidak larut dalam air?', 'Batu kerikil', 'Gula', 'Garam', 'Serbuk kopi segera'],
  ['e', 'Campuran kacang hijau dan beras boleh diasingkan dengan …', 'mengutip dengan tangan', 'menggunakan magnet', 'menyejat', 'merebus'],
@@ -3235,7 +3235,7 @@ const XF = {
           ['l', 'Bayang-bayang paling pendek pada waktu tengah hari kerana …', 'Matahari berada tegak di atas kepala', 'Matahari terbenam', 'tiada cahaya', 'awan tebal'] ],
  elektrik: [['l', 'Mengapakah wayar elektrik dibalut dengan plastik?', 'Plastik ialah penebat dan mengelakkan renjatan', 'Supaya wayar cantik', 'Supaya arus lebih laju', 'Plastik konduktor'],
             ['l', 'Litar manakah membolehkan mentol menyala?', 'Sel kering, mentol dan wayar disambung membentuk gelung lengkap', 'Wayar tidak bersambung ke sel kering', 'Suis terbuka', 'Mentol tanpa wayar'] ],
- campuran: [['e', 'Air dan sirap yang dicampur menghasilkan …', 'campuran', 'pepejal', 'gas', 'logam'],
+ campur2: [['e', 'Air dan sirap yang dicampur menghasilkan …', 'campuran', 'pepejal', 'gas', 'logam'],
             ['e', 'Campuran guli dan pasir boleh diasingkan menggunakan …', 'penapis berlubang besar', 'magnet', 'api', 'kipas'],
             ['e', 'Kopi segera akan … dalam air panas.', 'larut', 'terapung', 'membeku', 'mengeras'] ],
 },
@@ -3336,7 +3336,7 @@ ADD[2].kps = KPS1; ADD[3].kps = KPS1; ADD[4].kps = KPS2; ADD[5].kps = KPS2; ADD[
 
 for (const y in ADD) for (const t in ADD[y]) { const v = ADD[y][t]; if (typeof v[0] === 'string') D[y][t] = v; else D[y][t][2].push(...v); }
 const ORDER = {
-2: ['kps','manusia','haiwan','tumbuhan','cahaya','elektrik','campuran','air','binaan'],
+2: ['kps','manusia','haiwan','tumbuhan','cahaya','elektrik','campur2','air','binaan'],
 3: ['kps','gigi','makanan','cerna','tabiat','biak','ukur','asid','suria','takal'],
 4: ['kps','nafas','kumuh','haiwan4','tumbuhan4','cahaya4','bunyi','tenaga','bahan','bumi','mesin4'],
 5: ['kps','rangka','kemandirian','tumbuhan5','elektrik5','haba','karat','jirim','bulan','alatan5'],
@@ -4822,7 +4822,189 @@ if (typeof module !== 'undefined') module.exports = BM;
 <script>
 // ===== NOTA ULANG KAJI (percuma) =====
 const NOTA = { mt: {}, bi: {}, bm: {}, sn: {} };
+NOTA.mt[1] = {}; NOTA.bi[1] = {};
 NOTA.mt[2] = {}; NOTA.bi[2] = {}; NOTA.bm[2] = {}; NOTA.sn[2] = {};
+NOTA.mt[1].nombor = `
+<h3>🔢 Nombor hingga 100</h3>
+<p>Kita mengira: <b>1, 2, 3, 4, 5, 6, 7, 8, 9, 10</b> … hingga 100!</p>
+<table><tr><th>Angka</th><th>Perkataan</th></tr>
+<tr><td>1 / 2 / 3</td><td>satu / dua / tiga</td></tr>
+<tr><td>4 / 5 / 6</td><td>empat / lima / enam</td></tr>
+<tr><td>7 / 8 / 9</td><td>tujuh / lapan / sembilan</td></tr>
+<tr><td>10 / 20 / 100</td><td>sepuluh / dua puluh / seratus</td></tr></table>
+<h3>Nilai tempat: puluh dan sa</h3>
+<p>Nombor <b>35</b> = <b>3 puluh</b> + <b>5 sa</b> = 30 + 5. Dibaca "tiga puluh lima".</p>
+<h3>Banding nombor</h3>
+<ul><li>Lihat <b>puluh</b> dulu: 42 lebih besar daripada 38 (4 puluh &gt; 3 puluh).</li>
+<li>"lebih 1 daripada 56" = 57. "kurang 1 daripada 56" = 55.</li></ul>
+<div class="tip">💡 <b>Tip kira:</b> guna jari, biji guli atau pembilang — kira satu-satu dengan teliti, jangan langkau!</div>`;
+
+NOTA.mt[1].tambah = `
+<h3>➕ Tambah dalam lingkungan 100</h3>
+<p>Tambah = <b>cantumkan</b> dua kumpulan, jadi LEBIH banyak.</p>
+<div class="svgbox"><svg viewBox="0 0 320 70" width="300"><text x="10" y="42" font-size="26">🍎🍎🍎</text><text x="118" y="42" font-size="28" font-weight="bold">+</text><text x="145" y="42" font-size="26">🍎🍎</text><text x="225" y="42" font-size="28" font-weight="bold">= 5</text></svg></div>
+<p><b>3 + 2 = 5</b>. Dibaca: "tiga tambah dua sama dengan lima".</p>
+<h3>Cara mudah</h3>
+<ul><li><b>Kira terus:</b> mula dari nombor besar — untuk 7 + 2, sebut "7… 8, 9!"</li>
+<li>Tertib tak penting: 3 + 2 = 2 + 3 (jawapan sama).</li>
+<li>Tambah 0 = tiada perubahan (6 + 0 = 6).</li>
+<li><b>Pasangan 10:</b> 1+9, 2+8, 3+7, 4+6, 5+5 — hafal, sangat berguna!</li></ul>
+<p>Ayat matematik: "Ali ada 4 gula-gula. Emak beri 3 lagi. <b>Jumlah semua</b> = 4 + 3 = <b>7</b>."</p>
+<div class="tip">💡 Perkataan "jumlah", "semuanya", "lagi" → selalunya TAMBAH.</div>`;
+
+NOTA.mt[1].tolak = `
+<h3>➖ Tolak dalam lingkungan 100</h3>
+<p>Tolak = <b>keluarkan/ambil pergi</b>, jadi KURANG.</p>
+<div class="svgbox"><svg viewBox="0 0 330 70" width="300"><text x="10" y="42" font-size="26">🎈🎈🎈🎈🎈</text><text x="165" y="42" font-size="16">(2 pecah ✂️)</text><text x="265" y="42" font-size="24" font-weight="bold">= 3</text></svg></div>
+<p><b>5 − 2 = 3</b>. Dibaca: "lima tolak dua sama dengan tiga".</p>
+<h3>Cara mudah</h3>
+<ul><li><b>Kira turun:</b> untuk 9 − 3, sebut "9… 8, 7, 6!"</li>
+<li>Tolak 0 = tiada perubahan (7 − 0 = 7).</li>
+<li>Nombor tolak dirinya sendiri = 0 (5 − 5 = 0).</li>
+<li>Kawan dengan tambah: 3 + 2 = 5, jadi 5 − 2 = 3 ✓</li></ul>
+<p>Ayat matematik: "Ada 8 biji kuih. Adik makan 3. <b>Baki</b> = 8 − 3 = <b>5</b>."</p>
+<div class="tip">💡 Perkataan "baki", "tinggal", "pecah", "hilang", "dimakan" → selalunya TOLAK.</div>`;
+
+NOTA.mt[1].pecahan = `
+<h3>🍉 Separuh dan suku</h3>
+<p>Bila kita bahagi satu benda kepada bahagian <b>SAMA BESAR</b>:</p>
+<div class="svgbox"><svg viewBox="0 0 330 120" width="300"><circle cx="70" cy="60" r="45" fill="#fff" stroke="#1d1a39" stroke-width="3"/><path d="M70,15 A45,45 0 0,1 70,105 Z" fill="#9a7bff" stroke="#1d1a39" stroke-width="3"/><text x="70" y="118" text-anchor="middle" font-size="13" font-weight="bold">separuh (1/2)</text><circle cx="230" cy="60" r="45" fill="#fff" stroke="#1d1a39" stroke-width="3"/><path d="M230,60 L230,15 A45,45 0 0,1 275,60 Z" fill="#ffad5c" stroke="#1d1a39" stroke-width="3"/><line x1="230" y1="15" x2="230" y2="105" stroke="#1d1a39" stroke-width="3"/><line x1="185" y1="60" x2="275" y2="60" stroke="#1d1a39" stroke-width="3"/><text x="230" y="118" text-anchor="middle" font-size="13" font-weight="bold">suku (1/4)</text></svg></div>
+<ul><li><b>Separuh (1/2)</b> = 1 daripada <b>2</b> bahagian sama. Dua separuh = satu penuh!</li>
+<li><b>Suku (1/4)</b> = 1 daripada <b>4</b> bahagian sama. Empat suku = satu penuh!</li></ul>
+<p>Contoh: sebiji kek dipotong 2 sama besar — setiap orang dapat <b>separuh</b>.</p>
+<div class="tip">💡 <b>Penting:</b> bahagian mesti SAMA BESAR. Kalau tak sama, bukan separuh namanya!</div>`;
+
+NOTA.mt[1].wang = `
+<h3>💰 Wang hingga RM10</h3>
+<h3>Syiling (sen)</h3>
+<p><b>5 sen · 10 sen · 20 sen · 50 sen</b></p>
+<h3>Not kertas (ringgit)</h3>
+<p><b>RM1 · RM5 · RM10</b></p>
+<h3>Mengira wang</h3>
+<ul><li>10 sen + 10 sen = <b>20 sen</b></li>
+<li>50 sen + 20 sen + 10 sen = <b>80 sen</b></li>
+<li>RM1 + RM1 + RM5 = <b>RM7</b></li></ul>
+<p>Beli gula-gula 30 sen, bayar 50 sen → baki = 50 − 30 = <b>20 sen</b>.</p>
+<div class="tip">💡 Kenali duit dengan melihat <b>nombor</b> dan <b>warna</b>nya. Simpan duit dalam tabung — jimat cermat amalan mulia! 🐷</div>`;
+
+NOTA.mt[1].masa = `
+<h3>🕐 Masa dan waktu</h3>
+<h3>Waktu dalam sehari</h3>
+<p><b>pagi</b> 🌅 → <b>tengah hari</b> ☀️ → <b>petang</b> 🌇 → <b>malam</b> 🌙</p>
+<ul><li>Pagi: bangun tidur, gosok gigi, pergi sekolah</li>
+<li>Tengah hari: makan tengah hari</li>
+<li>Petang: bermain, mandi</li>
+<li>Malam: makan malam, tidur</li></ul>
+<h3>Hari dalam seminggu (7 hari)</h3>
+<p>Isnin → Selasa → Rabu → Khamis → Jumaat → Sabtu → Ahad</p>
+<h3>Membaca jam</h3>
+<p>Jarum <b>pendek</b> = jam. Jarum <b>panjang</b> di nombor <b>12</b> = "pukul … tepat".</p>
+<p>Jarum pendek di 8, jarum panjang di 12 → <b>pukul 8 tepat</b> (lapan).</p>
+<div class="tip">💡 Esok selepas Isnin ialah <b>Selasa</b>. Semalam sebelum Isnin ialah <b>Ahad</b>.</div>`;
+
+NOTA.mt[1].bentuk = `
+<h3>🔷 Bentuk dan ruang</h3>
+<h3>Bentuk 2D (leper)</h3>
+<div class="svgbox"><svg viewBox="0 0 360 90" width="320"><rect x="15" y="15" width="55" height="55" fill="#c9bfff" stroke="#1d1a39" stroke-width="3"/><rect x="95" y="25" width="75" height="45" fill="#ffd0e0" stroke="#1d1a39" stroke-width="3"/><polygon points="225,70 255,15 285,70" fill="#bff3e6" stroke="#1d1a39" stroke-width="3"/><circle cx="330" cy="45" r="28" fill="#ffe082" stroke="#1d1a39" stroke-width="3"/></svg>
+<div style="font-size:13px"><b>segi empat sama · segi empat tepat · segi tiga · bulatan</b></div></div>
+<ul><li>Segi empat sama: 4 sisi <b>sama panjang</b></li>
+<li>Segi tiga: <b>3</b> sisi, <b>3</b> bucu</li>
+<li>Bulatan: tiada sisi lurus, tiada bucu</li></ul>
+<h3>Bentuk 3D (boleh dipegang)</h3>
+<table><tr><th>Bentuk</th><th>Macam…</th></tr>
+<tr><td>kubus</td><td>dadu 🎲</td></tr>
+<tr><td>kuboid</td><td>kotak tisu</td></tr>
+<tr><td>sfera</td><td>bola ⚽</td></tr>
+<tr><td>silinder</td><td>tin susu 🥫</td></tr>
+<tr><td>kon</td><td>kon ais krim 🍦</td></tr></table>
+<div class="tip">💡 Cari bentuk di sekeliling kamu — pintu (segi empat tepat), jam dinding (bulatan), bumbung (segi tiga)!</div>`;
+NOTA.bi[1].friends = `
+<h3>👋 Greetings (sapaan)</h3>
+<table><tr><th>English</th><th>Bila guna</th></tr>
+<tr><td>Good morning</td><td>pagi 🌅</td></tr>
+<tr><td>Good afternoon</td><td>tengah hari ☀️</td></tr>
+<tr><td>Good evening</td><td>petang/malam 🌆</td></tr>
+<tr><td>Good night</td><td>sebelum tidur 😴</td></tr>
+<tr><td>Hello! / Hi!</td><td>bila-bila masa</td></tr>
+<tr><td>Goodbye! / Bye!</td><td>semasa berpisah</td></tr></table>
+<h3>Introduce yourself (kenalkan diri)</h3>
+<ul><li>"What's your name?" → "<b>I'm</b> Adam." / "My name is Adam."</li>
+<li>"How old are you?" → "I'm <b>seven</b>." (umur dalam perkataan)</li>
+<li>"Nice to meet <b>you</b>!"</li></ul>
+<h3>Numbers 1-10</h3>
+<p><b>one, two, three, four, five, six, seven, eight, nine, ten</b></p>
+<h3>Colours</h3>
+<p>red 🔴 · blue 🔵 · yellow 🟡 · green 🟢 · orange 🟠 · purple 🟣 · black ⚫ · white ⚪ · pink · brown 🟤</p>
+<div class="tip">💡 Hafal nombor dengan menyanyi: "One, two, three, four, five… once I caught a fish alive!" 🎵</div>`;
+
+NOTA.bi[1].school = `
+<h3>🏫 Classroom objects (barang dalam kelas)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>pencil ✏️</td><td>pensel</td></tr>
+<tr><td>pen 🖊️</td><td>pen</td></tr>
+<tr><td>book 📖</td><td>buku</td></tr>
+<tr><td>bag 🎒</td><td>beg</td></tr>
+<tr><td>ruler 📏</td><td>pembaris</td></tr>
+<tr><td>eraser / rubber</td><td>pemadam</td></tr>
+<tr><td>scissors ✂️</td><td>gunting</td></tr>
+<tr><td>chair / desk</td><td>kerusi / meja</td></tr>
+<tr><td>sharpener</td><td>pengasah pensel</td></tr>
+<tr><td>crayon 🖍️</td><td>krayon</td></tr></table>
+<h3>What's this?</h3>
+<ul><li>"What's this?" → "<b>It's a</b> pencil."</li>
+<li>"Is it a pen?" → "Yes, it <b>is</b>." / "No, it <b>isn't</b>."</li></ul>
+<h3>Classroom instructions (arahan cikgu)</h3>
+<p><b>Open</b> your book. · <b>Close</b> the door. · <b>Stand up</b>. · <b>Sit down</b>. · <b>Listen</b>, please.</p>
+<div class="tip">💡 "It's" = It is. Jawab soalan "What's this?" sentiasa mula dengan "It's a…"</div>`;
+
+NOTA.bi[1].play = `
+<h3>🪁 Toys (mainan)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>kite 🪁</td><td>layang-layang</td></tr>
+<tr><td>ball ⚽</td><td>bola</td></tr>
+<tr><td>doll</td><td>anak patung</td></tr>
+<tr><td>robot 🤖</td><td>robot</td></tr>
+<tr><td>teddy bear 🧸</td><td>beruang teddy</td></tr>
+<tr><td>toy car 🚗 / train 🚂</td><td>kereta / kereta api mainan</td></tr></table>
+<h3>a atau an?</h3>
+<ul><li><b>a</b> + bunyi biasa: <b>a</b> kite, <b>a</b> ball, <b>a</b> robot, <b>a</b> <u>new</u> kite</li>
+<li><b>an</b> + bunyi a,e,i,o,u: <b>an</b> apple, <b>an</b> elephant, <b>an</b> <u>ugly</u> monster</li></ul>
+<h3>his / her</h3>
+<ul><li>Lelaki 👦 → <b>his</b>: "This is Ben. <b>His</b> name's Ben."</li>
+<li>Perempuan 👧 → <b>her</b>: "This is Sue. <b>Her</b> doll is pretty."</li>
+<li>"What's <b>his/her</b> favourite toy?"</li></ul>
+<div class="tip">💡 Lihat HURUF PERTAMA selepas a/an: "an <u>u</u>gly monster" (u = vokal) tapi "a <u>n</u>ew kite" (n = konsonan)!</div>`;
+
+NOTA.bi[1].pets = `
+<h3>🐱 Animals (haiwan)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>cat 🐱 / dog 🐶</td><td>kucing / anjing</td></tr>
+<tr><td>bird 🐦 / fish 🐟</td><td>burung / ikan</td></tr>
+<tr><td>rabbit 🐰 / frog 🐸</td><td>arnab / katak</td></tr>
+<tr><td>duck 🦆 / lizard 🦎</td><td>itik / cicak</td></tr>
+<tr><td>spider 🕷️ / rat 🐀</td><td>labah-labah / tikus</td></tr></table>
+<h3>in / on / under (kedudukan)</h3>
+<div class="svgbox"><svg viewBox="0 0 340 110" width="310"><rect x="20" y="55" width="80" height="12" fill="#b07a4a"/><rect x="28" y="67" width="8" height="35" fill="#b07a4a"/><rect x="104" y="67" width="8" height="35" fill="#b07a4a"/><text x="60" y="48" text-anchor="middle" font-size="22">🐱</text><text x="60" y="108" text-anchor="middle" font-size="12"><tspan font-weight="bold">on</tspan> (atas)</text><rect x="140" y="55" width="80" height="12" fill="#b07a4a"/><rect x="148" y="67" width="8" height="35" fill="#b07a4a"/><rect x="224" y="67" width="8" height="35" fill="#b07a4a"/><text x="184" y="92" text-anchor="middle" font-size="22">🐱</text><text x="184" y="108" text-anchor="middle" font-size="12"><tspan font-weight="bold">under</tspan> (bawah)</text><path d="M260,100 L260,55 Q260,45 270,45 L320,45 Q330,45 330,55 L330,100 Z" fill="#f3d9a4" stroke="#1d1a39" stroke-width="2.5"/><text x="295" y="88" text-anchor="middle" font-size="22">🐱</text><text x="295" y="108" text-anchor="middle" font-size="12"><tspan font-weight="bold">in</tspan> (dalam)</text></svg></div>
+<p>"The lizard is <b>in</b> the bag." · "The ball is <b>on</b> the table." · "The dog is <b>under</b> the chair."</p>
+<h3>I like / I don't like</h3>
+<p>"I <b>like</b> cats. ❤️" · "I <b>don't like</b> spiders. ✖️"</p>
+<div class="tip">💡 in = DALAM, on = ATAS, under = BAWAH. Bayangkan kucing dan kotak!</div>`;
+
+NOTA.bi[1].lunch = `
+<h3>🥪 Food (makanan)</h3>
+<table><tr><th>English</th><th>Maksud</th></tr>
+<tr><td>bread 🍞 / rice 🍚</td><td>roti / nasi</td></tr>
+<tr><td>egg 🥚 / cheese 🧀</td><td>telur / keju</td></tr>
+<tr><td>milk 🥛 / juice 🧃</td><td>susu / jus</td></tr>
+<tr><td>apple 🍎 / banana 🍌</td><td>epal / pisang</td></tr>
+<tr><td>sandwich 🥪 / cake 🍰</td><td>sandwic / kek</td></tr>
+<tr><td>pizza 🍕 / chicken 🍗</td><td>piza / ayam</td></tr></table>
+<h3>I've got / I haven't got</h3>
+<ul><li>"<b>I've got</b> a sandwich." = Saya ADA sandwic ✅</li>
+<li>"<b>I haven't got</b> an apple." = Saya TAK ADA epal ❌</li></ul>
+<h3>Have we got any…?</h3>
+<ul><li>"Have we got any cheese?" → "Yes, we <b>have</b>." / "No, we <b>haven't</b>."</li></ul>
+<div class="tip">💡 I've got = I have got (saya ada). Hungry? 🍽️ "I want to EAT." Thirsty? 🥤 "I want to DRINK."</div>`;
 NOTA.mt[2].nombor = `
 <h3>🔢 Nombor hingga 1,000</h3>
 <p>Setiap nombor ada <b>nilai tempat</b>: ratus, puluh dan sa.</p>
@@ -5039,7 +5221,7 @@ NOTA.sn[2].elektrik = `
 <li>Jangan bermain dengan wayar yang terdedah/koyak.</li></ul>
 <div class="tip">💡 <b>Jimat elektrik:</b> tutup lampu dan kipas bila keluar bilik!</div>`;
 
-NOTA.sn[2].campuran = `
+NOTA.sn[2].campur2 = `
 <h3>🥤 Campuran</h3>
 <p>Campuran terbentuk apabila <b>dua atau lebih bahan dicampurkan</b>.</p>
 <h3>Larut atau tidak larut?</h3>

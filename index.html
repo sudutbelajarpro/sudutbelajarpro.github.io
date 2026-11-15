@@ -7685,7 +7685,7 @@ function streakSemasa_() {
 function chipStreak_() {
   const n = streakSemasa_();
   if (!n) return '';
-  return `<span class="skchip" title="Hari berturut-turut">\U0001f525 ${n}</span>`;
+  return `<span class="skchip" title="Hari berturut-turut">🔥 ${n}</span>`;
 }
 const sk = (s, y, t, r) => `${s}.${y}.${t}.${r}`;
 const getStars = (s, y, t, r) => DB.stars[sk(s, y, t, r)] || 0;
@@ -8103,9 +8103,9 @@ function result() {
     <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</div>
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
-    ${rekodBaru && bestLama ? `<div class="rekod">\U0001f3af Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
-    ${SK.naik ? `<div class="skbar"><b>\U0001f525 ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">\U0001f6e1️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">\U0001f525 ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
-    <div class="row">${up}<button class="btn pri" id="again">\U0001f501 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    ${rekodBaru && bestLama ? `<div class="rekod">🎯 Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
+    ${SK.naik ? `<div class="skbar"><b>🔥 ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">🛡️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">🔥 ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
+    <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
     <div id="cloudmsg" style="margin-top:10px;font-size:14px"></div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;

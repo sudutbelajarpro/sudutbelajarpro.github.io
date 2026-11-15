@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sudut Belajar — Darjah 1 hingga 6</title>
-<meta name="description" content="Latihan interaktif percuma untuk murid sekolah rendah, Darjah 1 hingga 6. Tanpa iklan, tanpa daftar.">
+<meta name="description" content="Latihan interaktif percuma untuk murid sekolah rendah, Darjah 1 hingga 6. Tanpa iklan. Daftar nama samaran percuma - tiada emel diperlukan.">
 <meta name="theme-color" content="#5b4bdb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -4865,7 +4865,7 @@ const MULT = { epik: 1, legend: 2, mythic: 3 };
 async function hantarSkor(y, rank, sc, el) {
   const P = PLAYER.get(); if (!apiOK() || !P || !sc) return;
   const mata = sc * (MULT[rank] || 1);
-  try { const r = await apiPost({ a: 'skor', nick: P.nick, darjah: y, mata }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
+  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
 function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
 function ranking() {
@@ -4973,7 +4973,7 @@ function home(y, scroll) {
   <div class="wrap">
     <section class="hero">
       <div>
-        <span class="pill"><b>●</b> Percuma · Tanpa iklan · Tanpa daftar</span>
+        <span class="pill"><b>●</b> Percuma · Tanpa iklan · Tanpa emel</span>
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
         <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik rank dari <b>Epik</b> ke <b>Legend</b> hingga <b>Mythic</b>, dan kumpul bintang!</p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
@@ -5055,6 +5055,17 @@ function ranks(s, y, t) {
 // ---------------- KUIZ ----------------
 let Q = null;
 function quiz(s, y, t, rank) {
+  if (!PLAYER.get() && (DB.rounds || 0) >= 3) {
+    const sj = subjBy(s); setTheme(sj);
+    app.innerHTML = `<section class="wrap pagein" style="padding:48px 20px 60px;max-width:560px;text-align:center">
+      <div style="font-size:56px">🎓</div>
+      <h1 style="margin:12px 0 8px">Hebat! Kamu dah main ${DB.rounds} round percuma</h1>
+      <p class="lead" style="margin-bottom:6px">Daftar <b>percuma</b> untuk terus belajar tanpa had — nama samaran dan PIN sahaja. Tiada emel, tiada bayaran.</p>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:20px">Bonus: mata ranking dikumpul &amp; bintang kamu boleh disimpan ke awan.</p>
+      <a class="btn pri" href="#ranking" style="font-size:17px;padding:14px 28px">📝 Daftar sekarang — 30 saat</a>
+    </section>`;
+    window.scrollTo({ top: 0 }); return;
+  }
   const S = subjBy(s), E = ENG[s]; setTheme(S); const R = rankBy(rank);
   Q = { s, y, t, rank, list: E.round ? E.round(y, t, 10, rank) : SB.round(y, t, 10, rank, E.gen), i: 0, score: 0, wrong: [], lock: false };
   app.innerHTML = `<div class="wrap"><div class="quiz">
@@ -5098,6 +5109,7 @@ function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo
 function result() {
   const n = Q.list.length, sc = Q.score, pc = sc / n, st = pc >= .9 ? 3 : pc >= .7 ? 2 : pc >= .5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
   setStars(s, y, t, rank, st);
+  DB.rounds = (DB.rounds || 0) + 1; store.set(DB);
   const mataEl = 'cloudmsg';
   const head = st === 3 ? 'Hebat sekali! 🏆' : st === 2 ? 'Bagus! 👍' : st === 1 ? 'Boleh lagi! 💪' : 'Jom cuba lagi! 🌱';
   const ni = RANKS.findIndex(r => r.id === rank), nextR = RANKS[ni + 1];

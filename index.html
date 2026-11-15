@@ -7560,9 +7560,9 @@ const MASKOT_SVG = `<svg viewBox="0 0 120 120" class="msvg" aria-hidden="true">
 const MKATA = {
   idle: ['Jom mula!', 'Saya tengok ni ✨', 'Kamu boleh!'],
   fikir: ['Fikir elok-elok…', 'Baca soalan dulu ya', 'Ambil masa kamu'],
-  gembira: ['Yeay! Betul! \U0001f389', 'Hebat!', 'Tepat sekali!', 'Pandai!'],
-  simpati: ['Tak apa, cuba lagi!', 'Hampir je tu!', 'Silap pun belajar \U0001f31f'],
-  raikan: ['Kamu memang hebat! \U0001f3c6', 'Syabas!', 'Bangga dengan kamu!']
+  gembira: ['Yeay! Betul! 🎉', 'Hebat!', 'Tepat sekali!', 'Pandai!'],
+  simpati: ['Tak apa, cuba lagi!', 'Hampir je tu!', 'Silap pun belajar 🌟'],
+  raikan: ['Kamu memang hebat! 🏆', 'Syabas!', 'Bangga dengan kamu!']
 };
 let _mtimer = null;
 function maskot(riak, kataSendiri) {
@@ -7576,7 +7576,7 @@ function maskot(riak, kataSendiri) {
     bubble.classList.remove('pop'); void bubble.offsetWidth; bubble.classList.add('pop');
   }
   clearTimeout(_mtimer);
-  if (riak === 'gembira' || riak === 'simpati') _mtimer = setTimeout(() => maskot('idle'), 2600);
+  if (!kataSendiri && (riak === 'gembira' || riak === 'simpati')) _mtimer = setTimeout(() => maskot('idle'), 2600);
 }
 function maskotHTML(saiz) {
   return `<div class="maskot m-idle ${saiz || ''}" id="maskot">${MASKOT_SVG}<div class="m-kata pop">Jom mula!</div></div>`;

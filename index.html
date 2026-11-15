@@ -258,7 +258,7 @@ footer p+p{margin-top:6px}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="#"><i>✦</i>Sudut Belajar</a>
-  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><a href="#pilih">Darjah</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
+  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><a href="#pilih">Darjah</a><a href="#ranking">🏆 Ranking</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
 </div></header>
 <main id="app"></main>
 <div class="toast" id="toast"></div>
@@ -4855,6 +4855,84 @@ const topicsOf = (s, y) => ENG[s].CUR[y] || [];
 function progress(s, y) { const T = topicsOf(s, y).concat('campuran'); let got = 0; T.forEach(t => RANKS.forEach(r => got += getStars(s, y, t, r.id))); return { got, max: T.length * 9 }; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
+// ---------------- RANKING AWAN ----------------
+const API = 'https://script.google.com/macros/s/AKfycbx-tpE6ERhgTYG3gIZFZy6WoFXX23gJbqOiilSB9a7dat5_gc9RbpaWP-LQulVuVbuCNA/exec';
+const apiOK = () => API.indexOf('https') === 0;
+const PLAYER = { get() { try { return JSON.parse(localStorage.getItem('sb.player') || 'null'); } catch (e) { return null; } }, set(p) { try { localStorage.setItem('sb.player', JSON.stringify(p)); } catch (e) {} } };
+async function apiGet(p) { const r = await fetch(API + '?' + new URLSearchParams(p)); return r.json(); }
+async function apiPost(b) { const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return r.json(); }
+const MULT = { epik: 1, legend: 2, mythic: 3 };
+async function hantarSkor(y, rank, sc, el) {
+  const P = PLAYER.get(); if (!apiOK() || !P || !sc) return;
+  const mata = sc * (MULT[rank] || 1);
+  try { const r = await apiPost({ a: 'skor', nick: P.nick, darjah: y, mata }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
+}
+function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
+function ranking() {
+  const P = PLAYER.get();
+  setTheme({ g1: '#e0a500', g2: '#ffd34d' });
+  app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:760px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 2px">🏆 Ranking Bulanan</h1>
+    <p class="lead" style="margin:0 0 14px">Kumpul mata: Epik ×1 · Legend ×2 · Mythic ×3 setiap jawapan betul. Papan markah bermula semula setiap bulan.</p>
+    <div class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px" id="profbox"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="lbfilter"></div>
+    <div id="lb" class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 16px">Memuatkan…</div>
+    <p style="font-size:13px;color:var(--muted);margin-top:12px">🔒 Privasi: ranking hanya menghantar <b>nama samaran, darjah dan mata</b>. Tiada nama sebenar, emel atau maklumat peribadi. Penyertaan adalah pilihan.</p>
+  </section>`;
+  const prof = () => {
+    const P2 = PLAYER.get();
+    $('#profbox').innerHTML = P2 ? `
+      <b>👤 ${esc(P2.nick)}</b> · Darjah ${P2.darjah} <button class="btn sec" id="ptukar" style="padding:4px 12px;font-size:13px;margin-left:8px">Tukar</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn pri" id="psimpan" style="padding:8px 14px;font-size:14px">💾 Simpan progress ke awan</button>
+        <button class="btn sec" id="psambung" style="padding:8px 14px;font-size:14px">📥 Sambung dari awan</button>
+      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)"></div>`
+    : `<b>Sertai Ranking</b> — cipta nama samaran & PIN (untuk simpan dan sambung di mana-mana peranti):
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <input id="pnick" placeholder="Nama samaran (3-16 huruf)" maxlength="16" style="flex:2;min-width:150px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
+        <select id="pdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">${[1,2,3,4,5,6].map(i=>`<option value="${i}">Darjah ${i}</option>`).join('')}</select>
+        <input id="ppin" placeholder="PIN 4 angka" maxlength="4" inputmode="numeric" style="flex:1;min-width:100px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
+        <button class="btn pri" id="pjoin" style="padding:8px 16px">Mula ✔</button>
+      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>`;
+    if (P2) {
+      $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
+      $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, data: JSON.stringify({ stars: DB.stars }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+    } else {
+      $('#pjoin').onclick = async () => {
+        const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value;
+        if (nick.length < 3) return $('#pmsg').textContent = '⚠️ Nama samaran terlalu pendek (min 3).';
+        if (!/^\d{4}$/.test(pin)) return $('#pmsg').textContent = '⚠️ PIN mesti 4 angka.';
+        $('#pmsg').textContent = 'Menyemak…';
+        try {
+          const r = await apiPost({ a: 'simpan', nick, pin, darjah, data: JSON.stringify({ stars: DB.stars }) });
+          if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
+          if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) mergeAwan(l.data); }
+          PLAYER.set({ nick, pin, darjah }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
+        } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; }
+      };
+    }
+  };
+  prof();
+  let fD = (P && P.darjah) || '';
+  const draw = async () => {
+    $('#lbfilter').innerHTML = ['', 1, 2, 3, 4, 5, 6].map(d => `<button class="btn ${String(fD) === String(d) ? 'pri' : 'sec'}" data-d="${d}" style="padding:6px 14px;font-size:13.5px">${d === '' ? 'Semua' : 'D' + d}</button>`).join('');
+    document.querySelectorAll('#lbfilter button').forEach(b => b.onclick = () => { fD = b.dataset.d; draw(); });
+    if (!apiOK()) { $('#lb').innerHTML = '<p style="padding:10px 0">Ranking akan dibuka tidak lama lagi. 🚧</p>'; return; }
+    $('#lb').innerHTML = '<p style="padding:10px 0">Memuatkan…</p>';
+    try {
+      const r = await apiGet(fD ? { a: 'top', darjah: fD } : { a: 'top' });
+      if (!r.ok) throw 0;
+      const med = ['🥇', '🥈', '🥉'];
+      $('#lb').innerHTML = r.top.length ? r.top.map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);${P && x[0].toLowerCase() === P.nick.toLowerCase() ? 'background:#fff8e1;border-radius:8px' : ''}">
+        <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;font-weight:600">${esc(x[0])}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
+      : '<p style="padding:10px 0">Belum ada pemain bulan ini — jadilah yang pertama! 🚀</p>';
+    } catch (e) { $('#lb').innerHTML = '<p style="padding:10px 0">⚠️ Tidak dapat memuatkan ranking. Cuba lagi sebentar.</p>'; }
+  };
+  draw();
+}
+
 // ---- semak jawapan taip ----
 const norm = s => String(s).toLowerCase().replace(/[’‘`]/g, "'").replace(/[ \s]+/g, ' ').trim().replace(/[.!?]+$/, '');
 const squash = s => norm(s).replace(/\s/g, '').replace(/^rm/, '').replace(/^jam/, '');
@@ -4920,7 +4998,7 @@ function home(y, scroll) {
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
       <div class="features">
         <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
-        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang setiap topik dan rank disimpan dalam peranti ini sahaja. Tiada akaun, tiada data dihantar ke mana-mana.</p></div>
+        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti ini secara automatik. Ranking &amp; simpan-awan adalah <b>pilihan</b>: hanya nama samaran, darjah dan mata dihantar — tiada nama sebenar, emel atau maklumat peribadi.</p></div>
         <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Darjah 2–6 ikut KSSR (Semakan 2017) yang dijajarkan. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
       </div>
     </section>
@@ -5020,6 +5098,7 @@ function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo
 function result() {
   const n = Q.list.length, sc = Q.score, pc = sc / n, st = pc >= .9 ? 3 : pc >= .7 ? 2 : pc >= .5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
   setStars(s, y, t, rank, st);
+  const mataEl = 'cloudmsg';
   const head = st === 3 ? 'Hebat sekali! 🏆' : st === 2 ? 'Bagus! 👍' : st === 1 ? 'Boleh lagi! 💪' : 'Jom cuba lagi! 🌱';
   const ni = RANKS.findIndex(r => r.id === rank), nextR = RANKS[ni + 1];
   const up = st >= 2 && nextR ? `<a class="btn rkbtn" style="--r1:${nextR.c1};--r2:${nextR.c2}" href="#d${y}/${s}/${t}/${nextR.id}">${nextR.ic} Cuba ${nextR.nama} →</a>` : '';
@@ -5029,10 +5108,12 @@ function result() {
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
     <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    <div id="cloudmsg" style="margin-top:10px;font-size:14px">${apiOK() && !PLAYER.get() ? '<a href="#ranking" style="font-weight:600">🏆 Sertai Ranking — kumpul mata &amp; simpan progress →</a>' : ''}</div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;
   document.querySelectorAll('.bigstars span').forEach((x, i) => setTimeout(() => { if (i < st) x.classList.add('on'); }, 250 + i * 260));
   if (st === 3) confetti();
+  hantarSkor(y, rank, sc, $('#cloudmsg'));
   $('#again').onclick = () => quiz(s, y, t, rank);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -5057,6 +5138,7 @@ function route() {
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)$/.exec(h)) && okT(m[2], m[1], m[3])) return ranks(m[2], +m[1], m[3]);
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)$/.exec(h)) && ENG[m[2]].years.includes(+m[1])) return topics(m[2], +m[1]);
   if ((m = /^d([1-6])$/.exec(h))) return home(+m[1], true);
+  if (h === 'ranking') return ranking();
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();
 }

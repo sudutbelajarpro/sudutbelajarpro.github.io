@@ -7476,6 +7476,10 @@ async function hantarSkor(y, rank, sc, el) {
   try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
 function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
+const HARGA_TAMAT = new Date(2026, 10, 30, 23, 59);
+function hargaAwal() { return Date.now() <= HARGA_TAMAT.getTime(); }
+function hargaRM() { return hargaAwal() ? 30 : 45; }
+function kempenAktif() { const n = Date.now(); return n >= new Date(2026, 10, 23).getTime() && n <= new Date(2026, 11, 7, 23, 59).getTime(); }
 function premium(s, y, t, rank) {
   setTheme({ g1: '#b8860b', g2: '#ffd700' });
   const P = PLAYER.get();
@@ -7484,10 +7488,16 @@ function premium(s, y, t, rank) {
     <div style="font-size:56px">👑</div>
     <h1 style="margin:10px 0 6px">Sudut Belajar <span style="color:#b8860b">Premium</span></h1>
     <p class="lead" style="margin-bottom:14px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    ${kempenAktif() ? `<div style="background:linear-gradient(135deg,#e8f5e9,#fff);border:2px solid #43a047;border-radius:16px;padding:18px 20px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#2e7d32">🎉 KEMPEN PELANCARAN — 100 TEMPAT PERCUMA</div>
+      <div style="margin:6px 0 4px;font-size:26px;font-weight:900;color:#2e7d32">PERCUMA 14 HARI</div>
+      <div style="font-size:13.5px;color:var(--muted)">100 pengguna terawal dapat akses penuh Epik, Legend &amp; Mythic <b>percuma 14 hari</b>. Masukkan kod kempen <b>LANCAR100</b> di langkah 3 di bawah — siapa cepat, dia dapat!</div>
+    </div>` : ''}
     <div style="background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid #ffd700;border-radius:16px;padding:18px 20px;margin-bottom:14px">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#c62828">🔥 PROMO PELANCARAN — DISKAUN 50%</div>
-      <div style="margin:6px 0 2px"><span style="font-size:17px;color:var(--muted);text-decoration:line-through">RM60</span> <span style="font-size:34px;font-weight:900;color:#b8860b">RM30</span> <span style="font-size:14px;color:var(--muted)">/ 2 bulan</span></div>
-      <div style="font-size:13.5px;color:var(--muted)">Kurang dari <b>50 sen sehari</b> untuk latihan tahap UASA tanpa had — semua subjek, semua darjah. Boleh diperbaharui selepas 2 bulan.</div>
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#c62828">🔥 PROMO PELANCARAN — DISKAUN ${hargaAwal() ? '50' : '25'}%</div>
+      <div style="margin:6px 0 2px"><span style="font-size:17px;color:var(--muted);text-decoration:line-through">RM60</span> <span style="font-size:34px;font-weight:900;color:#b8860b">RM${hargaRM()}</span> <span style="font-size:14px;color:var(--muted)">/ 2 bulan</span></div>
+      ${hargaAwal() ? `<div style="background:#ffebee;border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px;font-weight:700;color:#c62828">⏰ Harga RM30 ini tamat <b>30 November</b> — selepas itu RM45</div>` : ''}
+      <div style="font-size:13.5px;color:var(--muted)">Kurang dari <b>${hargaAwal() ? '50 sen' : 'RM0.75'} sehari</b> untuk latihan tahap UASA tanpa had — semua subjek, semua darjah. Boleh diperbaharui selepas 2 bulan.</div>
     </div>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
@@ -7498,7 +7508,7 @@ function premium(s, y, t, rank) {
       </div></div></div>
       <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta:
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <input id="kodin" placeholder="Contoh: SB-AB12-CD34" maxlength="14" style="flex:1;min-width:160px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase">
+          <input id="kodin" placeholder="Kod premium / kempen" maxlength="16" style="flex:1;min-width:160px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase">
           <button class="btn pri" id="tebus" style="padding:10px 20px">✨ Tebus Kod</button>
         </div></div></div>
       <div style="text-align:center;margin-top:14px"><button class="btn sec" id="semak" style="padding:9px 18px;font-size:13.5px">🔄 Dah bayar online? Semak status</button></div>
@@ -7520,7 +7530,7 @@ function premium(s, y, t, rank) {
     msg('Menebus kod…');
     try {
       const r = await apiPost({ a: 'tebus', nick: P.nick, pin: P.pin, darjah: P.darjah, kod });
-      if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast('👑 PREMIUM AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; }
+      if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast(r.kempen ? ('🎉 AKSES PERCUMA AKTIF sehingga ' + r.tamat + '!' + ((r.baki || r.baki === 0) ? ' Tinggal ' + r.baki + ' tempat.' : '') + ' Selamat belajar!') : ('👑 PREMIUM AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!')); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; }
       else msg('⚠️ ' + (r.err || 'Gagal'));
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };

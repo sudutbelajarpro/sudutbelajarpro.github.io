@@ -4826,6 +4826,8 @@ NOTA.mt[1] = {}; NOTA.bi[1] = {};
 NOTA.mt[2] = {};
 NOTA.mt[3] = {}; NOTA.bi[3] = {}; NOTA.bm[3] = {}; NOTA.sn[3] = {};
 NOTA.mt[4] = {}; NOTA.bi[4] = {}; NOTA.bm[4] = {}; NOTA.sn[4] = {}; NOTA.bi[2] = {}; NOTA.bm[2] = {}; NOTA.sn[2] = {};
+NOTA.mt[5] = {}; NOTA.bm[5] = {}; NOTA.sn[5] = {};
+NOTA.mt[6] = {}; NOTA.bm[6] = {}; NOTA.sn[6] = {};
 NOTA.mt[1].nombor = `
 <h3>🔢 Nombor hingga 100</h3>
 <p>Kita mengira: <b>1, 2, 3, 4, 5, 6, 7, 8, 9, 10</b> … hingga 100!</p>
@@ -6600,6 +6602,805 @@ NOTA.bi[4].wasWere = `
 <h3>There was / There were</h3>
 <p>There <b>was</b> a cat here (satu). There <b>were</b> many people at the market (banyak).</p>
 <div class="tip">💡 WAS untuk SEORANG/SATU (+I), WERE untuk RAMAI (+you). "You" SENTIASA were, walaupun seorang!</div>`;
+NOTA.mt[5].nombor = `
+<h3>🔢 Nombor hingga 1 000 000</h3>
+<h3>Nilai tempat (6 digit + juta)</h3>
+<table><tr><th>Ra Ju</th><th>Pu Ribu</th><th>Ribu</th><th>Ratus</th><th>Puluh</th><th>Sa</th></tr>
+<tr><td colspan="6" style="text-align:center">734 285 = 700 000 + 30 000 + 4 000 + 200 + 80 + 5</td></tr></table>
+<ul><li>Digit 7 dalam 734 285 → nilai tempat <b>ratus ribu</b>, nilai digit <b>700 000</b></li>
+<li>1 000 000 = satu juta (7 digit)</li></ul>
+<h3>Bundarkan</h3>
+<p>856 432 → ribu terdekat = <b>856 000</b> · puluh ribu terdekat = <b>860 000</b> · ratus ribu terdekat = <b>900 000</b></p>
+<h3>Anggaran munasabah</h3>
+<p>412 789 + 388 120 ≈ 400 000 + 400 000 = <b>800 000</b></p>
+<h3>Nombor dalam perkataan</h3>
+<p>605 048 = enam ratus lima ribu empat puluh lapan (0 tidak disebut tetapi JAGA tempatnya!)</p>
+<div class="tip">💡 Bundar: lihat digit SEBELAH KANAN tempat yang dibundar — 5 ke atas naik, 4 ke bawah kekal.</div>`;
+
+NOTA.mt[5].tambah = `
+<h3>➕ Tambah hingga 1 000 000</h3>
+<h3>Susun ikut nilai tempat, kumpul semula</h3>
+<table><tr><td style="text-align:right;font-family:monospace">  4 5 6  7 8 9<br>+ 2 3 8  5 4 6<br><b>= 6 9 5  3 3 5</b></td></tr></table>
+<p>Tambah dari KANAN: 9+6=15 tulis 5 bawa 1 → 8+4+1=13 tulis 3 bawa 1 → dan seterusnya.</p>
+<h3>Tambah 3 nombor</h3>
+<p>Cari pasangan senang dulu: 48 500 + 36 250 + 51 500 → (48 500 + 51 500) + 36 250 = 100 000 + 36 250 = <b>136 250</b></p>
+<h3>Ayat matematik tak lengkap</h3>
+<p>345 000 + ___ = 500 000 → ___ = 500 000 − 345 000 = <b>155 000</b></p>
+<div class="tip">💡 Semak jawapan dengan ANGGARAN: jika jawapan jauh beza dari anggaran, kira semula!</div>`;
+
+NOTA.mt[5].tolak = `
+<h3>➖ Tolak hingga 1 000 000</h3>
+<h3>Pinjam melepasi sifar</h3>
+<table><tr><td style="text-align:right;font-family:monospace">  5 0 0  0 0 0<br>− 1 2 3  4 5 6<br><b>= 3 7 6  5 4 4</b></td></tr></table>
+<p>Semua kosong? Pinjam berturut-turut dari kiri: 500 000 jadi 4,9,9,9,9,10.</p>
+<h3>Tolak berturut-turut</h3>
+<p>800 000 − 150 000 − 230 000: buat SATU demi SATU dari kiri → 650 000 − 230 000 = <b>420 000</b></p>
+<h3>Beza / lebihan</h3>
+<p>"Berapakah beza?" / "berapa lebih?" = TOLAK nombor besar dengan nombor kecil.</p>
+<h3>Semak dengan tambah</h3>
+<p>695 335 − 238 546 = 456 789 → semak: 456 789 + 238 546 = 695 335 ✓</p>
+<div class="tip">💡 Soalan cerita: "baki", "berapa lagi", "beza", "kurangkan" semuanya isyarat TOLAK.</div>`;
+
+NOTA.mt[5].darab = `
+<h3>✖️ Darab</h3>
+<h3>Darab dengan nombor 2 digit (bentuk lazim)</h3>
+<table><tr><td style="text-align:right;font-family:monospace">    2 4 3 6<br>  ×     2 4<br>    9 7 4 4  ← 2436×4<br>+ 4 8 7 2 0  ← 2436×20<br><b>= 5 8 4 6 4</b></td></tr></table>
+<h3>Darab dengan 10, 100, 1000</h3>
+<p>×10 tambah satu 0 · ×100 tambah dua 0 · ×1000 tambah tiga 0. Contoh: 457 × 1000 = 457 000</p>
+<h3>Helah darab</h3>
+<ul><li>× 5 = × 10 ÷ 2 → 2 480 × 5 = 24 800 ÷ 2 = 12 400</li>
+<li>× 25 = × 100 ÷ 4 → 320 × 25 = 32 000 ÷ 4 = 8 000</li></ul>
+<h3>Soalan cerita darab</h3>
+<p>"Setiap kotak ada 144 biji. 25 kotak semuanya?" → 144 × 25 = <b>3 600</b></p>
+<div class="tip">💡 Baris kedua darab 2-digit WAJIB anjak satu tempat ke kiri (sebab darab puluh) — silap anjak = jawapan lari jauh!</div>`;
+
+NOTA.mt[5].bahagi = `
+<h3>➗ Bahagi</h3>
+<h3>Bahagi dengan 2 digit (bentuk lazim)</h3>
+<p>8 736 ÷ 24: 87÷24=3 baki 15 → 153÷24=6 baki 9 → 96÷24=4 → jawapan <b>364</b></p>
+<h3>Bahagi dengan 10, 100, 1000</h3>
+<p>45 000 ÷ 100 = 450 (buang dua 0). 6 700 ÷ 10 = 670.</p>
+<h3>Bahagi berbaki</h3>
+<p>1 000 ÷ 30 = 33 baki 10. Soalan cerita: "berapa kotak PENUH?" → 33. "Berapa kotak DIPERLUKAN untuk semua?" → 34 (baki pun perlu kotak!)</p>
+<h3>Purata guna bahagi</h3>
+<p>Jumlah ÷ bilangan = purata (lihat topik Purata).</p>
+<div class="tip">💡 Semak: hasil bahagi × pembahagi + baki = nombor asal. 364 × 24 = 8 736 ✓</div>`;
+
+NOTA.mt[5].pecahan = `
+<h3>🍕 Pecahan</h3>
+<h3>Pecahan tak wajar & nombor bercampur</h3>
+<p>7/4 (tak wajar) = 1 3/4 (bercampur). Tukar: 7÷4 = 1 baki 3 → 1 3/4. Balik semula: 1×4+3 = 7 → 7/4.</p>
+<h3>Tambah & tolak pecahan beza penyebut</h3>
+<p>1/2 + 1/3: samakan penyebut (6) → 3/6 + 2/6 = <b>5/6</b></p>
+<p>3/4 − 1/2 → 3/4 − 2/4 = <b>1/4</b></p>
+<h3>Darab pecahan dengan nombor bulat</h3>
+<p>2/5 × 20 = (2 × 20) ÷ 5 = <b>8</b>. Maksudnya: 2/5 DARIPADA 20.</p>
+<h3>Pecahan setara</h3>
+<p>2/3 = 4/6 = 6/9 = 8/12 (darab atas & bawah dengan nombor sama)</p>
+<h3>Permudahkan</h3>
+<p>12/18 → bahagi atas bawah dengan 6 → <b>2/3</b></p>
+<div class="tip">💡 "daripada" = DARAB: 3/4 daripada 60 = 3/4 × 60 = 45. Kata kunci penting soalan UASA!</div>`;
+
+NOTA.mt[5].perpuluhan = `
+<h3>🔸 Perpuluhan</h3>
+<h3>Hingga 3 tempat perpuluhan</h3>
+<table><tr><th>Sa</th><th>.</th><th>persepuluh</th><th>perseratus</th><th>perseribu</th></tr>
+<tr><td>4</td><td>.</td><td>3</td><td>0</td><td>7</td></tr></table>
+<p>4.307 = 4 + 3/10 + 7/1000. Digit 7 → nilai tempat <b>perseribu</b>.</p>
+<h3>Tukar pecahan ↔ perpuluhan</h3>
+<p>1/2 = 0.5 · 1/4 = 0.25 · 3/4 = 0.75 · 1/5 = 0.2 · 1/10 = 0.1 · 1/8 = 0.125 (HAFAL!)</p>
+<h3>Tambah / tolak perpuluhan</h3>
+<p>Susun TITIK sebaris: 12.5 + 3.75 → 12.50 + 3.75 = <b>16.25</b></p>
+<h3>Darab / bahagi dengan 10, 100, 1000</h3>
+<ul><li>× 10/100/1000 → titik gerak KANAN 1/2/3 tempat: 3.456 × 100 = 345.6</li>
+<li>÷ 10/100/1000 → titik gerak KIRI: 45.6 ÷ 10 = 4.56</li></ul>
+<h3>Bundarkan perpuluhan</h3>
+<p>6.748 → 2 t.p. = 6.75 · 1 t.p. = 6.7 · nombor bulat = 7</p>
+<div class="tip">💡 Tambah 0 di belakang tidak mengubah nilai: 2.5 = 2.50 = 2.500 — gunakan untuk samakan panjang sebelum tambah/tolak!</div>`;
+NOTA.mt[5].peratus = `
+<h3>💯 Peratus</h3>
+<h3>Peratus ↔ pecahan ↔ perpuluhan</h3>
+<table><tr><th>Peratus</th><th>Pecahan</th><th>Perpuluhan</th></tr>
+<tr><td>10%</td><td>1/10</td><td>0.1</td></tr>
+<tr><td>20%</td><td>1/5</td><td>0.2</td></tr>
+<tr><td>25%</td><td>1/4</td><td>0.25</td></tr>
+<tr><td>50%</td><td>1/2</td><td>0.5</td></tr>
+<tr><td>75%</td><td>3/4</td><td>0.75</td></tr>
+<tr><td>100%</td><td>1</td><td>1.0</td></tr></table>
+<h3>Cari peratus daripada kuantiti</h3>
+<p>30% daripada 250 = 30/100 × 250 = <b>75</b></p>
+<p>Helah: 10% senang (÷10) → 10% dari 250 = 25, jadi 30% = 25 × 3 = 75 ✓</p>
+<h3>Tukar kepada peratus</h3>
+<p>18 daripada 50 murid = 18/50 × 100% = <b>36%</b></p>
+<h3>Baki peratus</h3>
+<p>45% budak lelaki → budak perempuan = 100% − 45% = <b>55%</b></p>
+<div class="tip">💡 Jumlah SEMUA peratus = 100%. Soalan "berapa % yang tinggal" = 100% tolak semua yang diberi.</div>`;
+
+NOTA.mt[5].wang = `
+<h3>💰 Wang hingga RM100 000</h3>
+<h3>Operasi wang</h3>
+<p>Tambah/tolak: susun TITIK sebaris. RM45 670.50 + RM12 850.75 = <b>RM58 521.25</b></p>
+<h3>Diskaun</h3>
+<p>Harga RM2 400, diskaun 25% → diskaun = 25% × 2 400 = RM600 → bayar = 2 400 − 600 = <b>RM1 800</b></p>
+<h3>Untung & rugi</h3>
+<ul><li>Jual LEBIH dari beli → <b>UNTUNG</b> = harga jual − harga beli</li>
+<li>Jual KURANG dari beli → <b>RUGI</b> = harga beli − harga jual</li></ul>
+<p>Beli RM350, jual RM480 → untung RM130.</p>
+<h3>Bil & resit</h3>
+<p>Jumlah bil = campur semua item; baki/wang pulangan = bayar − jumlah bil.</p>
+<h3>Simpanan & faedah mudah</h3>
+<p>Ansuran: bayar RM250 sebulan × 12 bulan = RM3 000 setahun.</p>
+<div class="tip">💡 Diskaun selalu dikira DARIPADA HARGA ASAL. Lepas dapat nilai diskaun, jangan lupa TOLAK dari harga asal — soalan tanya "harga selepas diskaun"!</div>`;
+
+NOTA.mt[5].masa = `
+<h3>⏰ Masa & Waktu</h3>
+<h3>Abad, dekad, tahun</h3>
+<table><tr><th>Unit</th><th>Nilai</th></tr>
+<tr><td>1 dekad</td><td>10 tahun</td></tr>
+<tr><td>1 abad</td><td>100 tahun = 10 dekad</td></tr>
+<tr><td>1 alaf</td><td>1000 tahun</td></tr></table>
+<p>3 dekad 5 tahun = 35 tahun · 2 abad = 200 tahun</p>
+<h3>Sistem 24 jam ↔ 12 jam</h3>
+<table><tr><th>12 jam</th><th>24 jam</th></tr>
+<tr><td>7:30 pagi</td><td>0730</td></tr>
+<tr><td>12:00 tengah hari</td><td>1200</td></tr>
+<tr><td>3:45 petang</td><td>1545 (3+12)</td></tr>
+<tr><td>11:20 malam</td><td>2320</td></tr>
+<tr><td>12:00 tengah malam</td><td>0000</td></tr></table>
+<h3>Tempoh masa</h3>
+<p>Dari 0845 hingga 1320: 0845→1300 = 4 jam 15 min, +20 min = <b>4 jam 35 minit</b></p>
+<h3>Operasi masa</h3>
+<p>2 jam 45 min + 1 jam 30 min = 3 jam 75 min = <b>4 jam 15 min</b> (75 min = 1 jam 15 min)</p>
+<div class="tip">💡 Petang/malam dalam 24 jam: TAMBAH 12. Nak balik ke 12 jam: TOLAK 12. Minit penuh = 60, bukan 100!</div>`;
+
+NOTA.mt[5].ukuran = `
+<h3>📏 Panjang, Jisim & Isi Padu</h3>
+<h3>Penukaran unit (HAFAL!)</h3>
+<table><tr><th>Panjang</th><th>Jisim</th><th>Isi padu</th></tr>
+<tr><td>1 km = 1000 m</td><td>1 kg = 1000 g</td><td>1 ℓ = 1000 mℓ</td></tr>
+<tr><td>1 m = 100 cm</td><td>1 tan = 1000 kg</td><td></td></tr>
+<tr><td>1 cm = 10 mm</td><td></td><td></td></tr></table>
+<h3>Perpuluhan dalam unit</h3>
+<p>3.45 km = 3 450 m · 2.08 kg = 2 080 g · 0.75 ℓ = 750 mℓ</p>
+<h3>Operasi dengan unit campuran</h3>
+<p>2 km 450 m + 1 km 800 m = 3 km 1250 m = <b>4 km 250 m</b></p>
+<h3>Darab & bahagi ukuran</h3>
+<p>1.2 kg × 5 = 6 kg · 7 m 20 cm ÷ 4 = 720 cm ÷ 4 = 180 cm = <b>1 m 80 cm</b></p>
+<div class="tip">💡 Tukar ke unit KECIL dulu sebelum bahagi — elak pecahan pelik. Siap kira, tukar balik ke unit yang soalan minta!</div>`;
+
+NOTA.mt[5].perimeter = `
+<h3>📐 Perimeter, Luas & Isi Padu</h3>
+<h3>Perimeter = ukur keliling</h3>
+<p>Segi empat tepat: P = 2 × (panjang + lebar). P.8cm, L.5cm → 2×13 = <b>26 cm</b></p>
+<h3>Luas = ruang permukaan (unit²)</h3>
+<ul><li>Segi empat tepat: Luas = panjang × lebar = 8 × 5 = <b>40 cm²</b></li>
+<li>Segi empat sama: Luas = sisi × sisi</li>
+<li>Segi tiga: Luas = 1/2 × tapak × tinggi</li></ul>
+<h3>Isi padu kubus & kuboid (unit³)</h3>
+<ul><li>Kuboid: V = panjang × lebar × tinggi = 6×4×3 = <b>72 cm³</b></li>
+<li>Kubus: V = sisi × sisi × sisi = 5³ = <b>125 cm³</b></li></ul>
+<h3>Bentuk gabungan</h3>
+<p>Pecahkan kepada 2 segi empat → kira luas setiap satu → TAMBAH.</p>
+<div class="tip">💡 Perimeter unit biasa (cm), Luas unit KUASA DUA (cm²), Isi padu unit KUASA TIGA (cm³) — tulis unit salah pun dipotong markah!</div>`;
+
+NOTA.mt[5].purata = `
+<h3>⚖️ Purata</h3>
+<h3>Formula utama</h3>
+<p style="text-align:center;font-size:17px"><b>Purata = Jumlah ÷ Bilangan</b></p>
+<p>Markah 70, 85, 90, 75 → purata = 320 ÷ 4 = <b>80</b></p>
+<h3>Cari JUMLAH bila tahu purata</h3>
+<p style="text-align:center"><b>Jumlah = Purata × Bilangan</b></p>
+<p>Purata 5 nombor ialah 24 → jumlah = 24 × 5 = <b>120</b></p>
+<h3>Cari nilai yang hilang</h3>
+<p>Purata 4 nombor = 50 → jumlah = 200. Tiga nombor: 45, 62, 38 (jumlah 145). Nombor ke-4 = 200 − 145 = <b>55</b></p>
+<h3>Purata unit lain</h3>
+<p>Boleh untuk wang, jisim, masa: purata RM12.50, RM8.20, RM15.30 = RM36 ÷ 3 = <b>RM12</b></p>
+<div class="tip">💡 Soalan "cari nombor hilang" SENTIASA guna: Jumlah semua (purata × bilangan) TOLAK jumlah yang diketahui!</div>`;
+NOTA.sn[5].kps = `
+<h3>🔬 Kemahiran Proses Sains</h3>
+<p>Tahun 5: anda perlu kuasai pemboleh ubah & hipotesis — SELALU keluar UASA!</p>
+<h3>3 pemboleh ubah (WAJIB faham)</h3>
+<table><tr><th>Pemboleh ubah</th><th>Maksud</th><th>Cara kenal</th></tr>
+<tr><td><b>Dimanipulasi</b></td><td>yang DIUBAH-UBAH</td><td>"yang berbeza-beza dalam jadual"</td></tr>
+<tr><td><b>Bergerak balas</b></td><td>HASIL yang diukur/diperhati</td><td>"apa yang dicatat/diukur"</td></tr>
+<tr><td><b>Dimalarkan</b></td><td>yang SAMA sepanjang ujikaji</td><td>"yang tidak berubah"</td></tr></table>
+<p>Contoh: kaji saiz bekas vs masa lilin menyala. Dimanipulasi = saiz bekas; bergerak balas = masa lilin menyala; dimalarkan = saiz lilin.</p>
+<h3>Hipotesis</h3>
+<p>Ayat hubungan 2 pemboleh ubah: "Semakin <b>besar</b> bekas, semakin <b>lama</b> lilin menyala."</p>
+<h3>Inferens vs pemerhatian</h3>
+<ul><li>Pemerhatian: apa yang DILIHAT (daun layu)</li>
+<li>Inferens: SEBAB munasabah (kerana tidak disiram air)</li></ul>
+<div class="tip">💡 Formula hipotesis: "Semakin ___ (dimanipulasi), semakin ___ (bergerak balas)". Hafal rangka ini!</div>`;
+
+NOTA.sn[5].rangka = `
+<h3>🦴 Rangka & Peredaran Darah</h3>
+<h3>Fungsi rangka manusia</h3>
+<ul><li>Memberi <b>bentuk & sokongan</b> badan</li>
+<li><b>Melindungi</b> organ dalaman: tengkorak→otak, tulang rusuk→jantung & peparu, tulang belakang→saraf tunjang</li>
+<li>Membolehkan <b>pergerakan</b> (bersama otot & sendi)</li></ul>
+<h3>Sistem peredaran darah</h3>
+<table><tr><th>Bahagian</th><th>Fungsi</th></tr>
+<tr><td><b>Jantung</b></td><td>mengepam darah ke seluruh badan</td></tr>
+<tr><td><b>Salur darah</b></td><td>laluan darah (arteri, vena, kapilari)</td></tr>
+<tr><td><b>Darah</b></td><td>mengangkut oksigen, nutrien & bahan kumuh</td></tr></table>
+<h3>Aliran ringkas</h3>
+<p>Peparu (ambil O₂) → jantung → seluruh badan (hantar O₂) → jantung → peparu (buang CO₂)...</p>
+<h3>Jaga kesihatan jantung</h3>
+<p>Senaman berkala · makan seimbang · kurangkan makanan berlemak · tidak merokok · rehat cukup</p>
+<div class="tip">💡 Soalan kerap: organ yang DILINDUNGI tulang rusuk = jantung & peparu (bukan perut!). Jantung mengepam, darah mengangkut.</div>`;
+
+NOTA.sn[5].kemandirian = `
+<h3>🐢 Kemandirian Haiwan & Rantai Makanan</h3>
+<h3>Kemandirian spesies haiwan</h3>
+<table><tr><th>Cara</th><th>Contoh</th></tr>
+<tr><td>Menjaga anak</td><td>kucing menyusukan anak, burung menyuap anak</td></tr>
+<tr><td>Bertelur banyak</td><td>penyu, katak, ikan — supaya ada yang terselamat</td></tr>
+<tr><td>Menyembunyikan telur/anak</td><td>penyu tanam telur dalam pasir</td></tr>
+<tr><td>Membawa anak bersama</td><td>kanggaru (kantung), kala jengking (atas belakang)</td></tr></table>
+<h3>Rantai makanan</h3>
+<p style="text-align:center">padi → tikus → ular → helang</p>
+<ul><li><b>Pengeluar</b>: tumbuhan hijau (buat makanan sendiri — fotosintesis)</li>
+<li><b>Pengguna</b>: haiwan (primer makan tumbuhan, sekunder makan haiwan...)</li>
+<li>Anak panah = "dimakan oleh" (arah TENAGA mengalir)</li></ul>
+<h3>Siratan makanan</h3>
+<p>Gabungan beberapa rantai makanan yang bersilang. Jika tikus pupus → ular kurang makanan → bilangan ular menurun; padi pula bertambah.</p>
+<div class="tip">💡 Anak panah SENTIASA menuju ke pemakan: padi → tikus bermaksud padi DIMAKAN tikus. Rantai bermula dengan PENGELUAR!</div>`;
+
+NOTA.sn[5].tumbuhan5 = `
+<h3>🌵 Kemandirian Tumbuhan</h3>
+<h3>Cara tumbuhan menyebar biji benih / buah</h3>
+<table><tr><th>Agen</th><th>Ciri buah/biji</th><th>Contoh</th></tr>
+<tr><td><b>Angin</b></td><td>ringan, bersayap/berbulu halus</td><td>lalang, kekabu, meranti</td></tr>
+<tr><td><b>Air</b></td><td>terapung, kulit berongga/bergabus</td><td>kelapa, nipah, pokok api-api</td></tr>
+<tr><td><b>Haiwan</b></td><td>berduri melekat / buah sedap dimakan</td><td>kemuncup (melekat), rambutan, tembikai</td></tr>
+<tr><td><b>Mekanisme letupan</b></td><td>buah kering meletup bila masak</td><td>getah, keembung, flamboyan</td></tr></table>
+<h3>Mengapa perlu sebar jauh?</h3>
+<p>Elak <b>persaingan</b> dengan pokok induk (cahaya, air, nutrien, ruang) → anak pokok membesar sihat.</p>
+<h3>Ciri kemandirian lain</h3>
+<p>Duri (bunga ros, kaktus) elak dimakan · getah/gam melindungi · daun berbau (serai) menghalau haiwan</p>
+<div class="tip">💡 Padankan CIRI dengan AGEN: bersayap=angin, terapung=air, berduri melekat=haiwan, meletup=mekanisme sendiri. 4 sahaja — hafal!</div>`;
+
+NOTA.sn[5].elektrik5 = `
+<h3>🔌 Elektrik: Litar Siri & Selari</h3>
+<h3>Komponen litar & simbol</h3>
+<p>sel kering (bateri) · mentol · suis · wayar penyambung</p>
+<h3>Litar SIRI vs SELARI</h3>
+<table><tr><th></th><th>SIRI (satu laluan)</th><th>SELARI (bercabang)</th></tr>
+<tr><td>Susunan mentol</td><td>sebaris</td><td>cabang berasingan</td></tr>
+<tr><td>Kecerahan (mentol tambah)</td><td>semakin <b>MALAP</b></td><td>kekal <b>SAMA cerah</b></td></tr>
+<tr><td>Satu mentol terbakar</td><td>SEMUA padam</td><td>yang lain MASIH menyala</td></tr>
+<tr><td>Contoh guna</td><td>lampu hiasan lama</td><td>lampu rumah</td></tr></table>
+<h3>Suis</h3>
+<p>Suis pada litar utama → kawal SEMUA. Suis pada satu cabang → kawal mentol cabang itu SAHAJA.</p>
+<h3>Lebih bateri (siri)</h3>
+<p>Tambah sel kering secara siri → mentol semakin CERAH (tenaga lebih).</p>
+<div class="tip">💡 Rumah guna litar SELARI — sebab itu lampu dapur padam, lampu bilik masih menyala! Soalan ramalan kecerahan: kira mentol per laluan.</div>`;
+NOTA.sn[5].haba = `
+<h3>🌡️ Haba</h3>
+<h3>Haba vs suhu (BEZA!)</h3>
+<ul><li><b>Haba</b> = sejenis TENAGA (tidak boleh diukur terus)</li>
+<li><b>Suhu</b> = darjah kepanasan, diukur dengan <b>termometer</b>, unit <b>°C</b></li></ul>
+<h3>Kesan haba pada jirim</h3>
+<table><tr><th>Proses</th><th>Perubahan</th></tr>
+<tr><td>Dipanaskan</td><td>bahan <b>mengembang</b></td></tr>
+<tr><td>Disejukkan</td><td>bahan <b>mengecut</b></td></tr></table>
+<h3>Aplikasi pengembangan & pengecutan</h3>
+<ul><li>Landasan kereta api ada <b>ruang celah</b> — beri ruang mengembang waktu panas</li>
+<li>Dawai elektrik dipasang <b>kendur</b> — mengecut waktu sejuk, tidak putus</li>
+<li>Penutup botol ketat → rendam air PANAS, penutup logam mengembang → senang buka</li>
+<li>Termometer: cecair (merkuri/alkohol) mengembang naik bila panas</li></ul>
+<h3>Pengaliran haba</h3>
+<p>Haba mengalir dari kawasan <b>PANAS → SEJUK</b>. Air panas dibiar → sejuk (haba keluar ke udara); ais dalam air → ais terima haba, cair.</p>
+<div class="tip">💡 Jawapan UASA: "mengembang" & "mengecut" merujuk BAHAN (pepejal/cecair/gas), bukan haba. Haba MENGALIR, bahan MENGEMBANG!</div>`;
+
+NOTA.sn[5].karat = `
+<h3>🔩 Pengaratan</h3>
+<h3>Apa yang berkarat?</h3>
+<p>Hanya objek <b>BESI</b> (atau keluli yang mengandungi besi). Plastik, kayu, kaca, aluminium, kuprum TIDAK berkarat.</p>
+<h3>2 syarat pengaratan (MESTI kedua-duanya)</h3>
+<p style="text-align:center;font-size:16px"><b>AIR + UDARA (oksigen)</b></p>
+<p>Ujikaji klasik 3 tabung uji: paku + air biasa (BERKARAT ✓) · paku + air didih bertutup minyak (tak berkarat — tiada udara) · paku + kapas kering + kalsium klorida (tak berkarat — tiada air)</p>
+<h3>Cara mencegah pengaratan</h3>
+<table><tr><th>Kaedah</th><th>Contoh</th></tr>
+<tr><td>Menyapu cat</td><td>pagar besi, badan kereta</td></tr>
+<tr><td>Menyapu minyak/gris</td><td>rantai basikal, engsel pintu</td></tr>
+<tr><td>Menyadur dengan logam lain (krom/zink/timah)</td><td>paip air, tin makanan</td></tr>
+<tr><td>Simpan di tempat kering</td><td>alatan pertukangan</td></tr></table>
+<p>Prinsip semua kaedah: <b>HALANG air & udara daripada sentuh permukaan besi</b>.</p>
+<div class="tip">💡 Soalan KBAT: "Mengapa paku dalam air didih + minyak TIDAK berkarat?" → air didih tiada udara terlarut, lapisan minyak halang udara masuk!</div>`;
+
+NOTA.sn[5].jirim = `
+<h3>🧊 Jirim</h3>
+<h3>3 keadaan jirim</h3>
+<table><tr><th></th><th>Pepejal</th><th>Cecair</th><th>Gas</th></tr>
+<tr><td>Bentuk</td><td>TETAP</td><td>ikut bekas</td><td>ikut bekas</td></tr>
+<tr><td>Isi padu</td><td>tetap</td><td>tetap</td><td>TIDAK tetap (memenuhi ruang)</td></tr>
+<tr><td>Contoh</td><td>ais, batu</td><td>air, minyak</td><td>wap air, udara</td></tr></table>
+<h3>Perubahan keadaan (kitaran air!)</h3>
+<table><tr><th>Proses</th><th>Perubahan</th><th>Haba</th></tr>
+<tr><td><b>Peleburan</b></td><td>pepejal → cecair (ais cair)</td><td>serap haba</td></tr>
+<tr><td><b>Pembekuan</b></td><td>cecair → pepejal</td><td>bebas haba</td></tr>
+<tr><td><b>Pendidihan/Penyejatan</b></td><td>cecair → gas</td><td>serap haba</td></tr>
+<tr><td><b>Kondensasi</b></td><td>gas → cecair (titisan luar gelas ais)</td><td>bebas haba</td></tr></table>
+<h3>Kitaran air semula jadi</h3>
+<p>Laut (sejat) → wap naik → kondensasi (awan) → hujan → sungai → laut...</p>
+<div class="tip">💡 Titisan air LUAR gelas ais = wap air UDARA terkondensasi (bukan air dari dalam gelas menembusi!). Soalan klasik UASA.</div>`;
+
+NOTA.sn[5].bulan = `
+<h3>🌙 Fasa Bulan & Buruj</h3>
+<h3>Mengapa bulan kelihatan berubah?</h3>
+<p>Bulan TIDAK bercahaya sendiri — ia <b>memantulkan cahaya matahari</b>. Bulan beredar mengelilingi Bumi (±28-30 hari) — bahagian bercahaya yang kita nampak berubah.</p>
+<h3>Fasa-fasa bulan (ikut urutan)</h3>
+<p style="text-align:center"><b>Anak bulan → Bulan sabit → Bulan separa → Bulan hampir purnama → Bulan PURNAMA</b> → (mengecil semula) → anak bulan</p>
+<ul><li>Anak bulan: tidak kelihatan (1 Ramadan/Syawal ditentukan di sini!)</li>
+<li>Bulan purnama: bulat penuh — pertengahan bulan (hari ke-14/15)</li></ul>
+<h3>Buruj (konstelasi)</h3>
+<table><tr><th>Buruj</th><th>Bentuk/kegunaan</th></tr>
+<tr><td><b>Biduk</b> (Big Dipper)</td><td>seperti senduk — penunjuk arah UTARA</td></tr>
+<tr><td><b>Pari</b> (Southern Cross)</td><td>seperti layang-layang/pari — penunjuk arah SELATAN</td></tr>
+<tr><td><b>Belantik</b> (Orion)</td><td>seperti pemburu — nampak ikut musim</td></tr>
+<tr><td><b>Skorpio</b></td><td>seperti kala jengking</td></tr></table>
+<p>Kegunaan buruj: penunjuk arah pelayar zaman dahulu & penanda musim menanam.</p>
+<div class="tip">💡 Kalendar Islam (Hijrah) berdasarkan FASA BULAN — sebab itu dipanggil takwim qamari. Biduk=utara, Pari=selatan: jangan terbalik!</div>`;
+
+NOTA.sn[5].alatan5 = `
+<h3>🛠️ Mesin: Alatan dalam Kehidupan</h3>
+<h3>Ulang kaji 6 mesin ringkas</h3>
+<p>tuas · takal · roda & gandar · satah condong · baji · skru</p>
+<h3>Tuas: fulkrum, beban, daya</h3>
+<table><tr><th>Kelas</th><th>Susunan</th><th>Contoh</th></tr>
+<tr><td>1</td><td>Fulkrum di TENGAH</td><td>jongkang-jongkit, gunting, playar</td></tr>
+<tr><td>2</td><td>Beban di tengah</td><td>kereta sorong, pembuka botol</td></tr>
+<tr><td>3</td><td>Daya di tengah</td><td>penyepit, pancing, penyapu</td></tr></table>
+<h3>Mesin kompleks = gabungan mesin ringkas</h3>
+<ul><li><b>Basikal</b>: roda & gandar + tuas (brek) + skru</li>
+<li><b>Mesin jahit, kren, pengisar</b> — semua gabungan</li></ul>
+<h3>Kepentingan mesin</h3>
+<p>Memudahkan kerja: guna daya KECIL angkat beban BESAR (takal/tuas), kerja lebih CEPAT & selamat.</p>
+<div class="tip">💡 Kenal kelas tuas: tanya "apa di TENGAH?" Fulkrum tengah=kelas 1, Beban tengah=kelas 2, Daya tengah=kelas 3. (F-B-D ikut kelas 1-2-3!)</div>`;
+NOTA.bm[5].pasif5 = `
+<h3>🎬 Ayat Aktif & Ayat Pasif</h3>
+<h3>Beza asas</h3>
+<ul><li><b>Aktif:</b> pelaku di DEPAN — "Ali menendang bola."</li>
+<li><b>Pasif:</b> objek di DEPAN — "Bola ditendang oleh Ali."</li></ul>
+<h3>Peraturan tukar ikut pelaku (PENTING!)</h3>
+<table><tr><th>Pelaku</th><th>Bentuk pasif</th><th>Contoh</th></tr>
+<tr><td>Diri PERTAMA (saya, kami)</td><td>objek + <b>pelaku + kata kerja dasar</b> (TIADA di-)</td><td>Buku itu <b>saya baca</b>.</td></tr>
+<tr><td>Diri KEDUA (awak, kamu)</td><td>sama — TIADA di-</td><td>Kerja itu <b>awak siapkan</b>.</td></tr>
+<tr><td>Diri KETIGA (dia, Ali, mereka)</td><td><b>di- + oleh</b></td><td>Bola <b>ditendang oleh</b> Ali.</td></tr></table>
+<p>⚠️ SALAH: "Buku itu dibaca oleh saya." ❌ → BETUL: "Buku itu saya baca." ✓</p>
+<h3>Langkah menukar aktif → pasif (diri ketiga)</h3>
+<p>Ali menulis surat. → objek ke depan: Surat + di-tulis + oleh Ali → "Surat <b>ditulis oleh</b> Ali."</p>
+<div class="tip">💡 Hukum emas: di-...oleh HANYA untuk pelaku KETIGA. Saya/kami/awak/kamu TIDAK boleh guna "di-...oleh" — ini soalan perangkap UASA paling popular!</div>`;
+
+NOTA.bm[5].bantu = `
+<h3>💪 Kata Bantu & Kata Penguat</h3>
+<h3>Kata bantu RAGAM (perasaan/keupayaan)</h3>
+<table><tr><th>Kata bantu</th><th>Maksud</th><th>Contoh</th></tr>
+<tr><td><b>hendak / mahu</b></td><td>keinginan</td><td>Dia <b>hendak</b> pergi.</td></tr>
+<tr><td><b>harus / mesti</b></td><td>kewajipan</td><td>Kamu <b>mesti</b> hadir.</td></tr>
+<tr><td><b>boleh / dapat</b></td><td>keupayaan</td><td>Adik <b>boleh</b> berenang.</td></tr>
+<tr><td><b>enggan</b></td><td>tidak mahu</td><td>Dia <b>enggan</b> mengaku.</td></tr></table>
+<h3>Kata bantu ASPEK (masa)</h3>
+<table><tr><th>Kata bantu</th><th>Masa</th><th>Contoh</th></tr>
+<tr><td><b>sudah / telah</b></td><td>selesai</td><td>Mereka <b>telah</b> pulang.</td></tr>
+<tr><td><b>sedang / masih</b></td><td>berlangsung</td><td>Emak <b>sedang</b> memasak.</td></tr>
+<tr><td><b>akan / belum</b></td><td>belum berlaku</td><td>Kami <b>akan</b> bertolak esok.</td></tr><tr><td><b>pernah</b></td><td>pengalaman lalu</td><td>Saya <b>pernah</b> ke Langkawi.</td></tr></table>
+<h3>Kata penguat (kuatkan adjektif)</h3>
+<ul><li>Depan: <b>sangat / amat / paling / terlalu</b> cantik</li>
+<li>Belakang: cantik <b>sekali / sungguh / benar / nian</b></li></ul>
+<p>⚠️ SATU sahaja: "sangat cantik sekali" ❌</p>
+<div class="tip">💡 Kata bantu sebelum KATA KERJA; kata penguat bersama ADJEKTIF. "Telah/sudah" + esok ❌ — padankan masa dengan logik ayat!</div>`;
+
+NOTA.bm[5].apitan5 = `
+<h3>🧩 Imbuhan Apitan & Sisipan</h3>
+<h3>Apitan (ulang kaji & perdalam)</h3>
+<table><tr><th>Apitan</th><th>Contoh</th></tr>
+<tr><td>me-...-kan / me-...-i</td><td>menyampaikan, menghormati</td></tr>
+<tr><td>ke-...-an</td><td>kejayaan, kemalangan, kehujanan (terkena hujan)</td></tr>
+<tr><td>pe-...-an / per-...-an</td><td>pembacaan, persatuan, perkelahan</td></tr>
+<tr><td>di-...-kan / di-...-i</td><td>disampaikan, dihormati</td></tr>
+<tr><td>ber-...-an</td><td>berlarian (ramai), bersalaman (saling)</td></tr>
+<tr><td>ber-...-kan</td><td>berbantalkan lengan, beratapkan zink</td></tr></table>
+<h3>SISIPAN (imbuhan dalam perkataan!)</h3>
+<table><tr><th>Sisipan</th><th>Kata dasar → terbitan</th></tr>
+<tr><td><b>-el-</b></td><td>tunjuk → <b>tel</b>unjuk · tapak → <b>tel</b>apak · gembung → gelembung</td></tr>
+<tr><td><b>-er-</b></td><td>gigi → g<b>er</b>igi · sabut → s<b>er</b>abut · kuping → keruping</td></tr>
+<tr><td><b>-em-</b></td><td>guruh → g<b>em</b>uruh · tali → t<b>em</b>ali · kuning → kemuning</td></tr>
+<tr><td><b>-in-</b></td><td>sambung → s<b>in</b>ambung (kesinambungan)</td></tr></table>
+<div class="tip">💡 Sisipan diselit selepas HURUF PERTAMA kata dasar: t-el-unjuk, g-er-igi, g-em-uruh. Hanya 4: -el-, -er-, -em-, -in-!</div>`;
+
+NOTA.bm[5].ganda5 = `
+<h3>🔁 Kata Ganda Berentak</h3>
+<p>Kata ganda berentak = ulangan dengan PERUBAHAN bunyi (bukan ulangan penuh).</p>
+<h3>3 jenis gandaan berentak</h3>
+<table><tr><th>Jenis</th><th>Contoh</th></tr>
+<tr><td><b>Pengulangan vokal berubah</b></td><td>bolak-balik, mundar-mandir, gopoh-gapah, huyung-hayang</td></tr>
+<tr><td><b>Pengulangan konsonan berubah</b></td><td>lauk-pauk, kuih-muih, saudara-mara, gotong-royong, cerai-berai</td></tr>
+<tr><td><b>Bebas</b></td><td>lintang-pukang, simpang-siur, dolak-dalik</td></tr></table>
+<h3>Banding dengan gandaan lain</h3>
+<table><tr><th>Jenis ganda</th><th>Contoh</th></tr>
+<tr><td>Penuh</td><td>buku-buku, kanak-kanak</td></tr>
+<tr><td>Separa</td><td>lelaki (dari laki), jejari, tetamu, sesiku</td></tr>
+<tr><td>Berentak</td><td>kuih-muih, bolak-balik</td></tr></table>
+<h3>Maksud biasa</h3>
+<p>lauk-pauk = pelbagai lauk · kuih-muih = pelbagai kuih · mundar-mandir = berjalan ke sana ke mari · lintang-pukang = lari bertempiaran</p>
+<div class="tip">💡 Kata ganda berentak TIDAK boleh berdiri separuh: "lauk-pauk" ✓ tapi "pauk" sendiri tiada makna. Kedua-dua bahagian WAJIB ditulis dengan sempang!</div>`;
+
+NOTA.bm[5].majmuk5 = `
+<h3>🧱 Kata Majmuk & Istilah</h3>
+<p>Kata majmuk = 2 kata dasar digabung membawa SATU makna baharu.</p>
+<h3>Majmuk ditulis TERPISAH (kebanyakan)</h3>
+<p>alat tulis · balai raya · gambar rajah · jalan raya · kapal terbang · kerusi roda · meja tulis · terima kasih · tengah hari · guru besar</p>
+<h3>Majmuk MANTAP — WAJIB dicantum (HAFAL 15!)</h3>
+<p style="font-size:14.5px"><b>antarabangsa · beritahu · bumiputera · jawatankuasa · kakitangan · kerjasama · matahari · olahraga · pesuruhjaya · setiausaha · sukarela · suruhanjaya · tandatangan · tanggungjawab · warganegara</b></p>
+<h3>Istilah khusus bidang</h3>
+<p>atur cara (komputer) · reka bentuk · garis pusat · kanta tangan · mata pelajaran · kertas kerja</p>
+<h3>Kata majmuk kiasan</h3>
+<p>buah tangan (ole-ole) · anak emas (kesayangan) · kaki ayam (tak berkasut) · panjang tangan (pencuri)</p>
+<div class="tip">💡 Perangkap ejaan UASA: "kerjasama" CANTUM tapi "kerja keras" PISAH; "matahari" CANTUM tapi "mata pelajaran" PISAH. Hafal senarai 15 mantap — selain itu, tulis terpisah!</div>`;
+
+NOTA.bm[5].hubung5 = `
+<h3>🪢 Kata Hubung Pancangan</h3>
+<h3>3 jenis kata hubung pancangan</h3>
+<table><tr><th>Jenis</th><th>Kata hubung</th><th>Contoh</th></tr>
+<tr><td><b>Relatif</b></td><td>yang</td><td>Budak <b>yang</b> rajin itu anak Pak Ali.</td></tr>
+<tr><td><b>Komplemen</b></td><td>bahawa, untuk</td><td>Dia berkata <b>bahawa</b> dia sakit.</td></tr>
+<tr><td><b>Keterangan</b></td><td>kerana, jika, kalau, sungguhpun, walaupun, agar, supaya, semasa, sementara, setelah, sejak, apabila, hingga</td><td>Kami berteduh <b>apabila</b> hujan turun.</td></tr></table>
+<h3>Fungsi keterangan — padankan maksud</h3>
+<ul><li>Sebab: <b>kerana, oleh sebab</b></li>
+<li>Syarat: <b>jika, kalau, sekiranya</b></li>
+<li>Tujuan: <b>supaya, agar, untuk</b></li>
+<li>Pertentangan: <b>walaupun, sungguhpun, meskipun</b></li>
+<li>Masa: <b>semasa, ketika, apabila, setelah, sejak</b></li></ul>
+<h3>Ayat contoh gabungan</h3>
+<p>"Belajarlah bersungguh-sungguh <b>supaya</b> kamu berjaya." · "<b>Walaupun</b> hujan lebat, dia tetap ke sekolah."</p>
+<div class="tip">💡 "kerana" ≠ "supaya": kerana = SEBAB (dah berlaku), supaya = TUJUAN (harapan). Baca ayat, tanya: ini sebab atau matlamat?</div>`;
+
+NOTA.bm[5].ajuk = `
+<h3>💬 Cakap Ajuk & Cakap Pindah</h3>
+<h3>Beza</h3>
+<ul><li><b>Cakap ajuk:</b> kata-kata SEBENAR + tanda petik " " — <i>"Saya lapar," kata Ali.</i></li>
+<li><b>Cakap pindah:</b> dilaporkan semula TANPA tanda petik — <i>Ali berkata bahawa dia lapar.</i></li></ul>
+<h3>Peraturan tukar ajuk → pindah</h3>
+<table><tr><th>Cakap ajuk</th><th>Cakap pindah</th></tr>
+<tr><td>saya / aku</td><td><b>dia / beliau</b> (ikut pelaku)</td></tr>
+<tr><td>awak / kamu</td><td>dia / mereka / nama orang</td></tr>
+<tr><td>ini</td><td>itu</td></tr>
+<tr><td>sini</td><td>situ / sana</td></tr>
+<tr><td>sekarang</td><td>ketika itu / pada masa itu</td></tr>
+<tr><td>esok</td><td>keesokan harinya / pada hari berikutnya</td></tr>
+<tr><td>semalam</td><td>sehari sebelumnya</td></tr></table>
+<h3>Contoh penuh</h3>
+<p>Ajuk: "Saya akan datang ke sini esok," kata Milah kepada Siti.<br>
+Pindah: Milah memberitahu Siti <b>bahawa dia</b> akan datang ke <b>situ keesokan harinya</b>.</p>
+<p>Soalan → "bertanya": "Di manakah rumah awak?" tanya Ali. → Ali <b>bertanya</b> kepada... <b>di mana rumahnya</b>. (TIADA tanda soal!)</p>
+<div class="tip">💡 Cakap pindah TIDAK guna tanda petik, tanda seru atau tanda soal. Ganti nama & masa WAJIB diubah — itu tempat markah dipotong!</div>`;
+
+NOTA.bm[5].peri5 = `
+<h3>🗣️ Simpulan Bahasa & Perumpamaan</h3>
+<h3>Simpulan bahasa Tahun 5 (lebih mencabar)</h3>
+<table><tr><th>Simpulan bahasa</th><th>Maksud</th></tr>
+<tr><td>ada hati</td><td>ada keinginan/berhajat</td></tr>
+<tr><td>batu api</td><td>suka menghasut</td></tr>
+<tr><td>bermuka dua</td><td>tidak jujur, talam dua muka</td></tr>
+<tr><td>cakar ayam</td><td>tulisan buruk</td></tr>
+<tr><td>darah daging</td><td>anak/keluarga sendiri</td></tr>
+<tr><td>gaji buta</td><td>gaji tanpa bekerja betul</td></tr>
+<tr><td>harga diri</td><td>maruah</td></tr>
+<tr><td>kecil hati</td><td>terasa/tersinggung</td></tr>
+<tr><td>makan angin</td><td>melancong</td></tr>
+<tr><td>naik darah</td><td>marah</td></tr>
+<tr><td>otak cair</td><td>sangat pintar</td></tr>
+<tr><td>tangkai jering</td><td>sangat kedekut</td></tr></table>
+<h3>Perumpamaan (bagai / seperti / ibarat / umpama)</h3>
+<table><tr><th>Perumpamaan</th><th>Maksud</th></tr>
+<tr><td><b>bagai aur dengan tebing</b></td><td>saling membantu</td></tr>
+<tr><td><b>bagai isi dengan kuku</b></td><td>sangat akrab</td></tr>
+<tr><td><b>seperti kacang lupakan kulit</b></td><td>lupa asal-usul/jasa orang</td></tr>
+<tr><td><b>bagai menatang minyak yang penuh</b></td><td>menjaga dengan penuh kasih sayang</td></tr>
+<tr><td><b>seperti katak di bawah tempurung</b></td><td>pengetahuan sempit</td></tr>
+<tr><td><b>bagai mencurah air ke daun keladi</b></td><td>nasihat sia-sia</td></tr>
+<tr><td><b>seperti anjing dengan kucing</b></td><td>selalu bergaduh</td></tr></table>
+<div class="tip">💡 Perumpamaan WAJIB ada kata banding (bagai/seperti/umpama/ibarat); simpulan bahasa TIDAK. "Bagai aur dengan tebing" = saling bantu; "anjing dengan kucing" = bergaduh — jangan tertukar pasangan akrab vs musuh!</div>`;
+
+NOTA.bm[5].faham = `
+<h3>📖 Pemahaman</h3>
+<p>Tahun 5: petikan panjang — cerita, berita, surat kiriman, dialog, jadual & iklan.</p>
+<h3>Strategi 5 langkah</h3>
+<table><tr><th>Langkah</th><th>Tindakan</th></tr>
+<tr><td>1</td><td>Baca SOALAN dahulu — tahu apa nak dicari</td></tr>
+<tr><td>2</td><td>Baca petikan, gariskan kata kunci</td></tr>
+<tr><td>3</td><td>Padankan kata kunci soalan ↔ ayat petikan</td></tr>
+<tr><td>4</td><td>Soalan tersirat: cari BUKTI tingkah laku, buat kesimpulan</td></tr>
+<tr><td>5</td><td>Semak: jawapan mesti LENGKAP ayatnya</td></tr></table>
+<h3>Kata tanya & bentuk jawapan</h3>
+<ul><li><b>Mengapakah...</b> → jawab dengan "...kerana..."</li>
+<li><b>Bagaimanakah...</b> → jawab dengan cara/langkah</li>
+<li><b>Apakah nilai/pengajaran...</b> → "Kita hendaklah..." / "Kita janganlah..."</li></ul>
+<h3>Maksud rangkai kata</h3>
+<p>Baca AYAT SEKELILING perkataan itu — makna ikut konteks. "Berat hati" dalam ayat sedih = tidak sampai hati/enggan.</p>
+<div class="tip">💡 Jawapan "mengapakah" TANPA perkataan "kerana" selalu kehilangan markah. Mula jawapan dengan "...kerana" terus selamat!</div>`;
+NOTA.mt[6].nombor = `
+<h3>🔢 Nombor hingga 10 000 000</h3>
+<h3>Juta!</h3>
+<p>10 000 000 = sepuluh juta (8 digit). 3 456 789 = tiga juta empat ratus lima puluh enam ribu tujuh ratus lapan puluh sembilan.</p>
+<h3>Nilai tempat & nilai digit</h3>
+<p>Digit 7 dalam 7 250 000 → nilai tempat <b>juta</b>, nilai digit <b>7 000 000</b></p>
+<h3>Bundarkan hingga juta terdekat</h3>
+<p>6 489 000 → juta terdekat = <b>6 000 000</b> · 6 500 000 → <b>7 000 000</b></p>
+<h3>Nombor perdana (1–100)</h3>
+<p>Nombor yang hanya boleh dibahagi dengan 1 dan dirinya: <b>2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31...</b></p>
+<p>⚠️ 1 BUKAN nombor perdana! 2 = SATU-SATUNYA perdana genap.</p>
+<h3>Pecahan/perpuluhan juta</h3>
+<p>1/4 juta = 250 000 · 0.5 juta = 500 000 · 2.75 juta = 2 750 000</p>
+<div class="tip">💡 "3.2 juta" dalam angka = 3 200 000 (bukan 3 000 000.2!). Darab 3.2 × 1 000 000.</div>`;
+
+NOTA.mt[6].tambah = `
+<h3>➕ Tambah (hingga 10 juta)</h3>
+<h3>Operasi bergabung</h3>
+<p>Tahun 6 selalu gabung tambah dengan operasi lain — ikut urutan:</p>
+<p style="text-align:center"><b>( ) dulu → × dan ÷ → + dan −</b> (kiri ke kanan)</p>
+<p>Contoh: 1 200 000 + 300 000 × 2 = 1 200 000 + 600 000 = <b>1 800 000</b> (darab DULU!)</p>
+<h3>Tambah nombor besar</h3>
+<p>2 456 789 + 1 875 436 = <b>4 332 225</b> (susun ikut nilai tempat, kumpul semula)</p>
+<h3>Tambah pecahan juta + nombor</h3>
+<p>1/2 juta + 275 000 = 500 000 + 275 000 = <b>775 000</b></p>
+<h3>Soalan cerita 2 langkah</h3>
+<p>Kilang A: 1.2 juta biji. Kilang B 350 000 lebih daripada A. Jumlah kedua-dua? → B = 1 550 000 → Jumlah = <b>2 750 000</b></p>
+<div class="tip">💡 Soalan UASA selalu 2 LANGKAH: cari nilai tersembunyi dulu (lebih/kurang), baru jumlahkan. Jangan terus tambah nombor yang nampak!</div>`;
+
+NOTA.mt[6].tolak = `
+<h3>➖ Tolak (hingga 10 juta)</h3>
+<h3>Tolak bergabung</h3>
+<p>5 000 000 − 1 250 000 − 750 000: kiri ke kanan → 3 750 000 − 750 000 = <b>3 000 000</b></p>
+<h3>Dengan kurungan</h3>
+<p>8 000 000 − (2 400 000 + 1 600 000) = 8 000 000 − 4 000 000 = <b>4 000 000</b> (dalam kurungan DULU)</p>
+<h3>Campuran tambah-tolak-darab</h3>
+<p>4 000 000 − 500 000 × 3 = 4 000 000 − 1 500 000 = <b>2 500 000</b></p>
+<h3>Soalan cerita beza</h3>
+<p>"Berapakah selisih/beza penduduk?" = besar − kecil.</p>
+<div class="tip">💡 TANPA kurungan, tolak ikut kiri→kanan. DENGAN kurungan, selesaikan kurungan dulu — dua jawapan boleh jauh berbeza!</div>`;
+
+NOTA.mt[6].darab = `
+<h3>✖️ Darab</h3>
+<h3>Darab nombor besar</h3>
+<p>125 000 × 8 = <b>1 000 000</b> · 2.5 juta × 4 = <b>10 juta</b></p>
+<h3>Operasi bergabung dengan darab</h3>
+<p>(1 200 + 800) × 500 = 2 000 × 500 = <b>1 000 000</b></p>
+<h3>Darab pecahan & perpuluhan</h3>
+<p>3/4 × 2 000 000 = <b>1 500 000</b> · 0.6 × 1 500 000 = <b>900 000</b></p>
+<h3>Helah congak</h3>
+<ul><li>× 50 = × 100 ÷ 2 → 46 000 × 50 = 4 600 000 ÷ 2 = 2 300 000</li>
+<li>× 999 = × 1000 − ×1 → 456 × 999 = 456 000 − 456 = 455 544</li></ul>
+<div class="tip">💡 Kiraan melibatkan juta: kerja dalam RIBU (buang 000) kemudian pulangkan — 125 × 8 = 1 000, jadi 125 000 × 8 = 1 000 000.</div>`;
+
+NOTA.mt[6].bahagi = `
+<h3>➗ Bahagi</h3>
+<h3>Bahagi nombor besar</h3>
+<p>3 600 000 ÷ 12 = <b>300 000</b> · 10 000 000 ÷ 8 = <b>1 250 000</b></p>
+<h3>Operasi bergabung dengan bahagi</h3>
+<p>2 400 000 ÷ 6 + 150 000 = 400 000 + 150 000 = <b>550 000</b></p>
+<h3>Bahagi dengan perpuluhan hasil</h3>
+<p>5 000 000 ÷ 8 = <b>625 000</b> · 1 000 000 ÷ 16 = 62 500</p>
+<h3>Purata guna bahagi (ulang kaji)</h3>
+<p>Jumlah ÷ bilangan. Purata 4 buah kilang keluarkan 2.8 juta → setiap kilang purata 700 000.</p>
+<div class="tip">💡 Semak kewajaran: hasil bahagi mesti LEBIH KECIL dari nombor asal (bila pembahagi > 1). Jawapan lebih besar = ada silap!</div>`;
+
+NOTA.mt[6].pecahan = `
+<h3>🍕 Pecahan</h3>
+<h3>4 operasi pecahan</h3>
+<table><tr><th>Operasi</th><th>Cara</th><th>Contoh</th></tr>
+<tr><td>Tambah/Tolak</td><td>SAMAKAN penyebut</td><td>2/3 + 1/4 = 8/12 + 3/12 = 11/12</td></tr>
+<tr><td>Darab</td><td>atas×atas, bawah×bawah</td><td>2/3 × 3/5 = 6/15 = 2/5</td></tr>
+<tr><td>Bahagi</td><td>TERBALIKKAN pecahan kedua, darab</td><td>1/2 ÷ 1/4 = 1/2 × 4/1 = 2</td></tr></table>
+<h3>Nombor bercampur</h3>
+<p>2 1/3 + 1 1/2 = 7/3 + 3/2 = 14/6 + 9/6 = 23/6 = <b>3 5/6</b></p>
+<h3>Pecahan daripada kuantiti</h3>
+<p>3/8 daripada 4 000 000 = <b>1 500 000</b></p>
+<h3>Soalan baki (popular UASA!)</h3>
+<p>Ali belanja 2/5 wangnya, baki RM240. Baki = 3/5 = 240 → 1/5 = 80 → wang asal = <b>RM400</b></p>
+<div class="tip">💡 Soalan baki: cari nilai SATU bahagian dulu (baki ÷ pengangka baki), kemudian darab penyebut. Lukis gambar rajah bar membantu!</div>`;
+
+NOTA.mt[6].perpuluhan = `
+<h3>🔸 Perpuluhan</h3>
+<h3>4 operasi perpuluhan</h3>
+<ul><li>Tambah/tolak: TITIK sebaris — 4.25 + 12.8 = 17.05</li>
+<li>Darab: kira tanpa titik, letak balik (jumlah t.p.) — 1.2 × 0.3 = 0.36</li>
+<li>Bahagi dengan nombor bulat: 7.2 ÷ 6 = 1.2</li></ul>
+<h3>Perpuluhan ↔ pecahan ↔ peratus</h3>
+<p>0.375 = 375/1000 = 3/8 = 37.5% · 0.08 = 8/100 = 2/25 = 8%</p>
+<h3>Darab/bahagi 10, 100, 1000 (titik bergerak)</h3>
+<p>0.456 × 1000 = 456 · 78.9 ÷ 100 = 0.789</p>
+<h3>Perpuluhan juta</h3>
+<p>3.45 juta = 3 450 000 · 0.75 juta = 750 000</p>
+<div class="tip">💡 Darab perpuluhan: JUMLAH tempat perpuluhan kedua-dua nombor = tempat perpuluhan jawapan. 1.2 (1 t.p.) × 0.3 (1 t.p.) = 0.36 (2 t.p.)!</div>`;
+NOTA.mt[6].peratus = `
+<h3>💯 Peratus</h3>
+<h3>3 bentuk soalan peratus</h3>
+<table><tr><th>Bentuk</th><th>Contoh</th><th>Cara</th></tr>
+<tr><td>Cari nilai</td><td>35% daripada 800?</td><td>35/100 × 800 = <b>280</b></td></tr>
+<tr><td>Cari peratus</td><td>120 daripada 480?</td><td>120/480 × 100 = <b>25%</b></td></tr>
+<tr><td>Cari nilai asal</td><td>20% = 90, nilai penuh?</td><td>90 ÷ 20 × 100 = <b>450</b></td></tr></table>
+<h3>Peratus lebih 100%</h3>
+<p>Harga naik 150% daripada RM40 → kenaikan = RM60 → harga baru = <b>RM100</b></p>
+<h3>Untung/rugi sebagai peratus</h3>
+<p>Beli RM200, jual RM250 → untung 50 → % untung = 50/200 × 100 = <b>25%</b> (SENTIASA bahagi dengan harga BELI!)</p>
+<h3>Kenaikan & penurunan</h3>
+<p>Penduduk 50 000 naik 12% → 50 000 × 112/100 = <b>56 000</b> (cara pantas: darab 1.12)</p>
+<div class="tip">💡 % untung/rugi = (untung atau rugi) ÷ harga BELI × 100. Bahagi dengan harga jual = SALAH — perangkap klasik!</div>`;
+
+NOTA.mt[6].wang = `
+<h3>💰 Wang hingga RM1 juta</h3>
+<h3>Konsep kewangan Tahun 6</h3>
+<table><tr><th>Istilah</th><th>Maksud</th></tr>
+<tr><td><b>Pendapatan</b></td><td>wang masuk (gaji, untung jualan)</td></tr>
+<tr><td><b>Perbelanjaan</b></td><td>wang keluar</td></tr>
+<tr><td><b>Simpanan</b></td><td>pendapatan − perbelanjaan</td></tr>
+<tr><td><b>Pelaburan</b></td><td>simpanan yang mengembang (dividen/faedah)</td></tr>
+<tr><td><b>Pinjaman/ansuran</b></td><td>hutang dibayar beransur</td></tr><tr><td><b>Insurans/takaful</b></td><td>bayaran perlindungan risiko</td></tr><tr><td><b>Cukai/zakat</b></td><td>bayaran wajib kepada kerajaan/asnaf</td></tr></table>
+<h3>Soalan bajet</h3>
+<p>Gaji RM3 500: belanja RM2 100, ansuran RM650 → simpanan = 3 500 − 2 750 = <b>RM750</b></p>
+<h3>Diskaun, untung, rugi, rebat (ulang kaji + lanjutan)</h3>
+<p>Harga RM80 000, diskaun 5% + rebat RM2 000 → 80 000 × 0.95 − 2 000 = <b>RM74 000</b></p>
+<h3>Dividen mudah</h3>
+<p>Pelaburan RM10 000, dividen 6% setahun → <b>RM600</b></p>
+<div class="tip">💡 Bajet seimbang: pendapatan ≥ perbelanjaan. Soalan "cukupkah wang?": kira jumlah belanja dahulu, banding dengan pendapatan!</div>`;
+
+NOTA.mt[6].masa = `
+<h3>⏰ Masa</h3>
+<h3>Hubungan unit (lengkap)</h3>
+<p>1 minit=60 saat · 1 jam=60 minit · 1 hari=24 jam · 1 minggu=7 hari · 1 tahun=12 bulan=365/366 hari · 1 dekad=10 tahun · 1 abad=100 tahun · 1 alaf=1000 tahun</p>
+<h3>Tempoh melepasi tengah malam</h3>
+<p>2130 (Isnin) hingga 0415 (Selasa): 2130→2400 = 2j 30m, 0000→0415 = 4j 15m → jumlah <b>6 jam 45 minit</b></p>
+<h3>Zon masa mudah</h3>
+<p>KL 1400, London 6 jam KE BELAKANG → London <b>0800</b>. (Soalan nyatakan bezanya; tambah/tolak sahaja.)</p>
+<h3>Operasi masa</h3>
+<p>4 jam 20 min × 3 = 12 jam 60 min = <b>13 jam</b> · 7 jam 30 min ÷ 3 = 450 min ÷ 3 = 150 min = <b>2 jam 30 min</b></p>
+<h3>Tahun lompat</h3>
+<p>Boleh bahagi 4 (2024, 2028...) → Februari 29 hari, setahun 366 hari.</p>
+<div class="tip">💡 Tempoh lepasi tengah malam: PECAH kepada dua bahagian di 2400/0000 — jangan tolak terus 0415−2130, jawapan jadi negatif!</div>`;
+
+NOTA.mt[6].ukuran = `
+<h3>📏 Ukuran & Timbangan</h3>
+<h3>Penukaran lengkap</h3>
+<table><tr><th>Panjang</th><th>Jisim</th><th>Isi padu</th></tr>
+<tr><td>1 km = 1000 m<br>1 m = 100 cm<br>1 cm = 10 mm</td><td>1 tan (t) = 1000 kg<br>1 kg = 1000 g</td><td>1 ℓ = 1000 mℓ</td></tr></table>
+<h3>Perpuluhan & pecahan unit</h3>
+<p>4.25 km = 4 250 m · 3/4 kg = 750 g · 0.055 ℓ = 55 mℓ · 2 500 kg = 2.5 tan</p>
+<h3>4 operasi dengan unit</h3>
+<p>3.6 kg × 5 = 18 kg · 10 km ÷ 8 = 1.25 km = 1 km 250 m</p>
+<h3>Soalan cerita gabungan</h3>
+<p>Botol 1.5 ℓ dituang ke gelas 250 mℓ → 1 500 ÷ 250 = <b>6 gelas</b></p>
+<h3>Skala mudah (peta)</h3>
+<p>1 cm mewakili 5 km. Jarak peta 7 cm → jarak sebenar = <b>35 km</b></p>
+<div class="tip">💡 SEMUA unit mesti SAMA sebelum operasi. Tan↔kg↔g: gerakkan 3 digit setiap tangga, sama macam km↔m & ℓ↔mℓ!</div>`;
+
+NOTA.mt[6].perimeter = `
+<h3>📐 Perimeter, Luas & Isi Padu</h3>
+<h3>Formula WAJIB hafal</h3>
+<table><tr><th>Bentuk</th><th>Formula</th></tr>
+<tr><td>Perimeter segi empat tepat</td><td>2 × (p + l)</td></tr>
+<tr><td>Luas segi empat tepat</td><td>p × l</td></tr>
+<tr><td>Luas segi empat sama</td><td>sisi²</td></tr>
+<tr><td>Luas segi tiga</td><td>½ × tapak × tinggi</td></tr>
+<tr><td>Isi padu kuboid</td><td>p × l × t</td></tr>
+<tr><td>Isi padu kubus</td><td>sisi³</td></tr></table>
+<h3>Bentuk gabungan (kemahiran utama D6!)</h3>
+<p>Rajah L: PECAHKAN kepada 2 segi empat → luas A + luas B. Cari sisi tersembunyi dengan tolak sisi yang diberi.</p>
+<h3>Songsang: cari sisi</h3>
+<p>Luas segi empat sama 144 cm² → sisi = √144 = <b>12 cm</b> · Isi padu kubus 64 cm³ → sisi = <b>4 cm</b></p>
+<h3>Luas berlorek</h3>
+<p>Luas berlorek = luas BESAR − luas kecil (yang tidak berlorek).</p>
+<div class="tip">💡 Rajah gabungan: sisi "hilang" dicari dengan TOLAK — jumlah sisi atas = jumlah sisi bawah. Lukis & label semua sisi dulu sebelum kira!</div>`;
+
+NOTA.mt[6].purata = `
+<h3>⚖️ Purata</h3>
+<h3>3 formula pusingan</h3>
+<p style="text-align:center"><b>Purata = Jumlah ÷ Bilangan · Jumlah = Purata × Bilangan · Bilangan = Jumlah ÷ Purata</b></p>
+<h3>Purata gabungan 2 kumpulan</h3>
+<p>Purata 3 lelaki = 40 kg (jumlah 120). Purata 2 perempuan = 35 kg (jumlah 70). Purata SEMUA = 190 ÷ 5 = <b>38 kg</b></p>
+<p>⚠️ BUKAN (40+35)÷2 = 37.5 — itu SALAH sebab bilangan tak sama!</p>
+<h3>Nilai berubah</h3>
+<p>Purata 4 nombor = 60 (jumlah 240). Satu nombor digantikan, purata jadi 65 (jumlah 260) → nombor baru LEBIH 20 daripada yang diganti.</p>
+<h3>Purata bergerak</h3>
+<p>Markah 3 ujian: 72, 80, 76. Ujian ke-4 perlu berapa untuk purata 80? → jumlah perlu = 320 → ujian 4 = 320 − 228 = <b>92</b></p>
+<div class="tip">💡 Purata 2 kumpulan TIDAK boleh purata-kan purata! Mesti: (jumlah1 + jumlah2) ÷ (bil1 + bil2). Kerja SELALU melalui JUMLAH.</div>`;
+
+NOTA.mt[6].nisbah = `
+<h3>⚗️ Nisbah & Kadaran</h3>
+<h3>Apa itu nisbah?</h3>
+<p>Perbandingan 2 kuantiti, ditulis a : b. Guli Ali 8, guli Abu 12 → nisbah = 8:12 = <b>2:3</b> (permudah macam pecahan!)</p>
+<h3>Cari nilai daripada nisbah</h3>
+<p>Nisbah lelaki:perempuan = 3:5, jumlah 40 orang → jumlah bahagian = 8 → 1 bahagian = 5 → lelaki = <b>15</b>, perempuan = <b>25</b></p>
+<h3>Nisbah dengan beza</h3>
+<p>Nisbah umur kakak:adik = 7:4, beza 9 tahun → beza bahagian = 3 = 9 tahun → 1 bahagian = 3 → kakak = <b>21</b>, adik = <b>12</b></p>
+<h3>Kadaran (proporsi)</h3>
+<p>3 buku = RM15 → 7 buku? 1 buku = RM5 → 7 × 5 = <b>RM35</b> (kaedah unit: cari nilai SATU dulu)</p>
+<div class="tip">💡 Teknik bahagian: Jumlah diberi → bahagi dengan JUMLAH nisbah. Beza diberi → bahagi dengan BEZA nisbah. Kenal pasti yang mana diberi dulu!</div>`;
+NOTA.sn[6].kps = `
+<h3>🔬 Kemahiran Proses Sains (UASA!)</h3>
+<p>Tahun 6 = tahun UASA. Soalan KPS keluar dalam SEMUA topik — kuasai format jawapan!</p>
+<h3>Format jawapan KPS standard</h3>
+<table><tr><th>Soalan</th><th>Rangka jawapan</th></tr>
+<tr><td>Nyatakan pemerhatian</td><td>Apa yang DILIHAT pada data/rajah (sebut nombor!)</td></tr>
+<tr><td>Nyatakan inferens</td><td>"...kerana..." (sebab munasabah)</td></tr>
+<tr><td>Nyatakan hipotesis</td><td>"Semakin ___, semakin ___"</td></tr>
+<tr><td>Pemboleh ubah dimanipulasi</td><td>yang DIUBAH oleh pengkaji</td></tr>
+<tr><td>Pemboleh ubah bergerak balas</td><td>yang DIUKUR/dicatat</td></tr>
+<tr><td>Pemboleh ubah dimalarkan</td><td>yang SAMA sepanjang ujikaji</td></tr>
+<tr><td>Hubungan/corak data</td><td>"Apabila X bertambah, Y..."</td></tr>
+<tr><td>Tujuan ujikaji</td><td>"Untuk mengkaji hubungan antara X dengan Y"</td></tr><tr><td>Ramalan</td><td>ikut corak data (ekstrapolasi)</td></tr></table>
+<h3>Contoh soalan jadual</h3>
+<p>Jadual: bilangan lilin (2,4,6) vs masa nyalaan (10s, 10s, 10s dalam bekas sama)... baca betul-betul — kalau data TAK berubah, jawab "tiada perubahan"!</p>
+<div class="tip">💡 Inferens WAJIB ada "kerana". Hipotesis WAJIB ada 2 pemboleh ubah. Ramalan WAJIB ikut corak data — 3 peraturan emas markah penuh!</div>`;
+
+NOTA.sn[6].biak6 = `
+<h3>👪 Manusia: Pembiakan</h3>
+<h3>Mengapa manusia membiak?</h3>
+<p>Untuk <b>meneruskan zuriat / kemandirian spesies</b> — tanpa pembiakan, manusia pupus.</p>
+<h3>Organ & sel pembiakan</h3>
+<table><tr><th></th><th>Lelaki</th><th>Perempuan</th></tr>
+<tr><td>Sel pembiakan</td><td><b>sperma</b></td><td><b>ovum</b> (telur)</td></tr>
+<tr><td>Organ</td><td>testis</td><td>ovari</td></tr></table>
+<h3>Persenyawaan</h3>
+<p>Sperma + ovum bercantum = <b>persenyawaan</b> (berlaku dalam tiub falopio) → zigot → embrio → fetus membesar dalam <b>rahim</b> ±9 bulan (38-40 minggu) → bayi dilahirkan.</p>
+<h3>Perubahan akil baligh</h3>
+<table><tr><th>Lelaki</th><th>Perempuan</th></tr>
+<tr><td>suara garau, misai/janggut, bahu bidang</td><td>haid bermula, payudara membesar, pinggul melebar</td></tr>
+<tr><td colspan="2" style="text-align:center">Kedua-dua: tumbuh bulu, jerawat, cepat membesar</td></tr></table>
+<div class="tip">💡 Persenyawaan = percantuman SPERMA + OVUM (bukan "perkahwinan"!). Bayi membesar dalam RAHIM, bukan perut. Guna istilah sains yang tepat!</div>`;
+
+NOTA.sn[6].saraf = `
+<h3>🧠 Sistem Saraf</h3>
+<h3>3 bahagian utama</h3>
+<table><tr><th>Bahagian</th><th>Fungsi</th></tr>
+<tr><td><b>Otak</b></td><td>pusat kawalan badan — berfikir, ingatan, kawal organ</td></tr>
+<tr><td><b>Saraf tunjang</b></td><td>laluan maklumat otak ↔ badan (dilindungi tulang belakang)</td></tr>
+<tr><td><b>Saraf</b></td><td>bawa mesej dari deria ke otak & arahan otak ke otot</td></tr></table>
+<h3>Laluan maklumat</h3>
+<p style="text-align:center">Organ deria → saraf → saraf tunjang → <b>OTAK</b> → saraf tunjang → saraf → otot (tindakan)</p>
+<p>Contoh: mata nampak bola → otak proses → arahan ke tangan → sambut bola!</p>
+<h3>Gerakan luar kawal (refleks/pantulan)</h3>
+<p>Berlaku SANGAT pantas tanpa fikir: tersentuh cerek panas → tangan TERUS tersentap · mengelip bila objek hampiri mata · tersedak, bersin</p>
+<h3>Jaga sistem saraf</h3>
+<p>Pakai topi keledar (lindungi otak) · tidur cukup · elak hentakan kuat di kepala · makanan berkhasiat</p>
+<div class="tip">💡 Gerakan refleks TIDAK melalui proses berfikir di otak — itulah sebab ia PANTAS. Soalan "mengapa tangan tersentap serta-merta?" → tindakan refleks melindungi badan!</div>`;
+
+NOTA.sn[6].mikro = `
+<h3>🦠 Mikroorganisma</h3>
+<h3>Apa itu mikroorganisma?</h3>
+<p>Hidupan SENI yang tidak dapat dilihat dengan mata kasar — perlu <b>mikroskop</b>. Ia bernafas, membiak, bergerak, membesar seperti hidupan lain!</p>
+<h3>3 jenis utama</h3>
+<table><tr><th>Jenis</th><th>Contoh kesan</th></tr>
+<tr><td><b>Bakteria</b></td><td>makanan basi, kencing manis luka, juga yang BAIK (yogurt!)</td></tr>
+<tr><td><b>Virus</b></td><td>selesema, COVID-19, demam denggi, campak</td></tr>
+<tr><td><b>Kulat/Fungi</b></td><td>roti berkulapuk, panau, yis (buat roti!)</td></tr></table>
+<h3>Bukti mikroorganisma hidup & membiak</h3>
+<p>Doh roti + yis NAIK (yis bernafas keluarkan gas) · setitik air kolam penuh hidupan seni di bawah mikroskop</p>
+<h3>Berguna vs berbahaya</h3>
+<table><tr><th>Berguna ✓</th><th>Berbahaya ✗</th></tr>
+<tr><td>yis (roti, tapai), bakteria yogurt/tempe, pereputan bahan organik (baja)</td><td>penyakit (denggi, batuk kering), makanan rosak, gigi berlubang</td></tr></table>
+<h3>Cegah jangkitan</h3>
+<p>Basuh tangan dengan sabun · tutup mulut ketika batuk · masak makanan sehingga masak · imunisasi/vaksin</p>
+<div class="tip">💡 Doh naik = BUKTI yis (hidupan) bernafas & bebaskan gas karbon dioksida — soalan ujikaji kegemaran UASA!</div>`;
+
+NOTA.sn[6].interaksi = `
+<h3>🐝 Interaksi Antara Hidupan</h3>
+<h3>3 jenis interaksi haiwan</h3>
+<table><tr><th>Interaksi</th><th>Maksud</th><th>Contoh</th></tr>
+<tr><td><b>Simbiosis/kerjasama</b></td><td>hidup bersama saling untung</td><td>jalak & kerbau, ikan badut & buran</td></tr>
+<tr><td><b>Mangsa-pemangsa</b></td><td>satu memburu satu</td><td>helang & tikus, singa & rusa</td></tr>
+<tr><td><b>Persaingan</b></td><td>rebut sumber sama</td><td>haiwan rebut makanan, air, wilayah, pasangan</td></tr></table>
+<h3>Apa yang dipersaingkan?</h3>
+<ul><li>Haiwan: makanan, air, tempat tinggal, pasangan</li>
+<li>Tumbuhan: <b>cahaya matahari, air, nutrien/mineral, ruang</b></li></ul>
+<h3>Hidup berkumpulan vs bersendirian</h3>
+<table><tr><th>Berkumpulan</th><th>Bersendirian</th></tr>
+<tr><td>lebah, semut, gajah, zirafah — lindung diri, buru bersama</td><td>harimau, beruang, helang — kurang persaingan makanan</td></tr></table>
+<h3>Kesan persaingan tumbuhan</h3>
+<p>Anak pokok terlalu rapat → bersaing cahaya & nutrien → tumbesaran <b>terbantut</b>. Itulah sebab petani jarakkan tanaman!</p>
+<div class="tip">💡 Soalan "mengapa pokok ditanam berjarak?" → kurangkan PERSAINGAN untuk cahaya, air & nutrien → tumbesaran sihat. 4 benda tumbuhan rebut — hafal!</div>`;
 
 </script>
 <script>
@@ -6660,7 +7461,7 @@ async function tuntutPending(P, el) {
   const pm = DB.pending || {}; let total = 0;
   for (const y in pm) {
     let m = Math.min(pm[y] | 0, 90);
-    while (m > 0) { const amt = Math.min(30, m); m -= amt; try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: +y, mata: amt }); if (r.ok) total += amt; } catch (e) { break; } }
+    while (m > 0) { const amt = Math.min(30, m); m -= amt; try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: +y, mata: amt, sekolah: P.sekolah || '' }); if (r.ok) total += amt; } catch (e) { break; } }
   }
   DB.pending = {}; store.set(DB);
   if (total && el) el.textContent = '🎉 ' + total + ' mata simpanan kamu telah dimasukkan ke Ranking!';
@@ -6672,7 +7473,7 @@ async function hantarSkor(y, rank, sc, el) {
   if (!P) { const mata = sc * (MULT[rank] || 1); const pm = DB.pending || {}; pm[y] = Math.min((pm[y] | 0) + mata, 90); DB.pending = pm; store.set(DB); if (el) el.innerHTML = `⭐ <b>+${mata} mata disimpan!</b> <a href="#ranking" style="font-weight:600">Daftar untuk masukkan ${tuntutJumlah()} mata ke Ranking →</a>`; return; }
   if (!apiOK()) return;
   const mata = sc * (MULT[rank] || 1);
-  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
+  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
 function mergeAwan(data) { try { const o = JSON.parse(data || '{}'); const st = (o.stars || {}); for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; } store.set(DB); return Object.keys(st).length; } catch (e) { return 0; } }
 function premium(s, y, t, rank) {
@@ -6682,7 +7483,12 @@ function premium(s, y, t, rank) {
     ${s ? `<a class="crumb" href="#d${y}/${s}/${t}">← Kembali</a>` : '<a class="crumb" href="#pilih">← Utama</a>'}
     <div style="font-size:56px">👑</div>
     <h1 style="margin:10px 0 6px">Sudut Belajar <span style="color:#b8860b">Premium</span></h1>
-    <p class="lead" style="margin-bottom:18px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    <p class="lead" style="margin-bottom:14px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    <div style="background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid #ffd700;border-radius:16px;padding:18px 20px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#c62828">🔥 PROMO PELANCARAN — DISKAUN 50%</div>
+      <div style="margin:6px 0 2px"><span style="font-size:17px;color:var(--muted);text-decoration:line-through">RM60</span> <span style="font-size:34px;font-weight:900;color:#b8860b">RM30</span> <span style="font-size:14px;color:var(--muted)">/ 2 bulan</span></div>
+      <div style="font-size:13.5px;color:var(--muted)">Kurang dari <b>50 sen sehari</b> untuk latihan tahap UASA tanpa had — semua subjek, semua darjah. Boleh diperbaharui selepas 2 bulan.</div>
+    </div>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div><b>Daftar akaun percuma</b> di halaman <a href="#ranking" style="font-weight:600">Ranking</a> (nama samaran + PIN — kalau belum).</div></div>
@@ -6714,14 +7520,14 @@ function premium(s, y, t, rank) {
     msg('Menebus kod…');
     try {
       const r = await apiPost({ a: 'tebus', nick: P.nick, pin: P.pin, darjah: P.darjah, kod });
-      if (r.ok) { P.premium = 1; PLAYER.set(P); msg(''); toast('👑 PREMIUM AKTIF! Selamat belajar!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; }
+      if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast('👑 PREMIUM AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; }
       else msg('⚠️ ' + (r.err || 'Gagal'));
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
   $('#semak').onclick = async () => {
     if (!P) { location.hash = '#ranking'; return; }
     msg('Menyemak…');
-    try { const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin }); if (r.ok && r.premium) { P.premium = 1; PLAYER.set(P); msg(''); toast('👑 Premium AKTIF! Selamat belajar!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; } else msg(r.ok ? 'Belum aktif lagi. Jika baru bayar, cuba sebentar lagi.' : (r.err || 'Gagal')); } catch (e) { msg('Tiada sambungan internet'); }
+    try { const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin }); if (r.ok && r.premium) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast('👑 Premium AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; } else { if (r.ok) { P.premium = 0; P.tamat = ''; PLAYER.set(P); } msg(r.ok ? 'Belum aktif / sudah tamat tempoh. Jika baru bayar, cuba sebentar lagi.' : (r.err || 'Gagal')); } } catch (e) { msg('Tiada sambungan internet'); }
   };
 }
 function ranking() {
@@ -6749,23 +7555,24 @@ function ranking() {
         <input id="pnick" placeholder="Nama samaran (3-16 huruf)" maxlength="16" style="flex:2;min-width:150px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <select id="pdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">${[1,2,3,4,5,6].map(i=>`<option value="${i}">Darjah ${i}</option>`).join('')}</select>
         <input id="ppin" placeholder="PIN 4 angka" maxlength="4" inputmode="numeric" style="flex:1;min-width:100px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
+        <input id="psek" placeholder="Nama sekolah — cth: SK Taman Mewah (pilihan)" maxlength="48" style="flex:1 1 100%;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <button class="btn pri" id="pjoin" style="padding:8px 16px">Mula ✔</button>
       </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>`;
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
-      $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, data: JSON.stringify({ stars: DB.stars }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
       $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
     } else {
       $('#pjoin').onclick = async () => {
-        const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value;
+        const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value, sekolah = $('#psek').value.trim().slice(0, 48);
         if (nick.length < 3) return $('#pmsg').textContent = '⚠️ Nama samaran terlalu pendek (min 3).';
         if (!/^\d{4}$/.test(pin)) return $('#pmsg').textContent = '⚠️ PIN mesti 4 angka.';
         $('#pmsg').textContent = 'Menyemak…';
         try {
-          const r = await apiPost({ a: 'simpan', nick, pin, darjah, data: JSON.stringify({ stars: DB.stars }) });
+          const r = await apiPost({ a: 'simpan', nick, pin, darjah, sekolah, data: JSON.stringify({ stars: DB.stars }) });
           if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
-          let prem0 = 0; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; } }
-          PLAYER.set({ nick, pin, darjah, premium: prem0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
+          let prem0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
+          PLAYER.set({ nick, pin, darjah, premium: prem0, sekolah: sek0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
           tuntutPending({ nick, pin }, $('#pmsg'));
         } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; }
       };
@@ -6783,7 +7590,7 @@ function ranking() {
       if (!r.ok) throw 0;
       const med = ['🥇', '🥈', '🥉'];
       $('#lb').innerHTML = r.top.length ? r.top.map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);${P && x[0].toLowerCase() === P.nick.toLowerCase() ? 'background:#fff8e1;border-radius:8px' : ''}">
-        <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;font-weight:600">${esc(x[0])}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
+        <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;min-width:0"><span style="font-weight:600">${esc(x[0])}</span>${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
       : '<p style="padding:10px 0">Belum ada pemain bulan ini — jadilah yang pertama! 🚀</p>';
     } catch (e) { $('#lb').innerHTML = '<p style="padding:10px 0">⚠️ Tidak dapat memuatkan ranking. Cuba lagi sebentar.</p>'; }
   };
@@ -7038,12 +7845,23 @@ async function homeLB() {
   try {
     const r = await apiGet({ a: 'top' });
     const med = ['🥇', '🥈', '🥉', '4.', '5.'];
-    el.innerHTML = (r.ok && r.top.length) ? r.top.slice(0, 5).map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 2px;${i < 4 ? 'border-bottom:1px solid var(--line)' : ''}"><b style="width:34px;text-align:center">${med[i]}</b><span style="flex:1;font-weight:700">${esc(x[0])}</span><span style="color:var(--muted);font-size:13px">Darjah ${x[1]}</span><b style="color:var(--g1)">${x[2]} mata</b></div>`).join('')
+    el.innerHTML = (r.ok && r.top.length) ? r.top.slice(0, 5).map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 2px;${i < 4 ? 'border-bottom:1px solid var(--line)' : ''}"><b style="width:34px;text-align:center">${med[i]}</b><span style="flex:1;min-width:0"><span style="font-weight:700">${esc(x[0])}</span>${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">Darjah ${x[1]}</span><b style="color:var(--g1)">${x[2]} mata</b></div>`).join('')
     : '<p style="padding:8px 0">Takhta juara masih kosong — rebut tempat pertama sekarang! 🚀</p>';
   } catch (e) { el.innerHTML = '<p style="padding:8px 0">Jadilah juara bulan ini! 🚀</p>'; }
 }
 const _route0 = route;
 route = function () { _route0(); homeLB(); };
+// Semakan senyap status premium (sekali sehari) — tamat tempoh auto-dikunci semula
+(async () => {
+  try {
+    const P = PLAYER.get(); if (!P || !P.premium || !apiOK()) return;
+    const last = +localStorage.getItem('sb.premchk') || 0;
+    if (Date.now() - last < 20 * 3600 * 1000) return;
+    localStorage.setItem('sb.premchk', String(Date.now()));
+    const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin });
+    if (r.ok) { P.premium = r.premium ? 1 : 0; P.tamat = r.tamat || ''; PLAYER.set(P); if (!r.premium) toast('Tempoh Premium kamu telah tamat. Perbaharui di halaman Premium 👑'); }
+  } catch (e) {}
+})();
 window.addEventListener('hashchange', route);
 // ---- PWA ----
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});

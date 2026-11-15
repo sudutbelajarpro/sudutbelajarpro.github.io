@@ -197,6 +197,39 @@ footer p+p{margin-top:6px}
 .toast.show{opacity:1;translate:-50% 0}
 :focus-visible{outline:3px solid var(--brand2);outline-offset:3px}
 
+
+/* ---- rank, BI ---- */
+.emo{font-size:72px;line-height:1.1;margin-top:12px}
+.passage{font-family:var(--fb);font-weight:500;font-size:16px;line-height:1.7;text-align:left;background:#fffbea;border:2px dashed #f1d77a;border-radius:18px;padding:16px 18px;margin-bottom:16px;color:#3b3413}
+.rpills{display:flex;gap:6px;margin-top:6px}
+.rp{display:inline-flex;align-items:center;gap:3px;font-size:12px;padding:3px 8px;border-radius:999px;background:#f1effa;color:var(--muted);font-weight:800;filter:grayscale(1);opacity:.75}
+.rp.got{filter:none;opacity:1;background:color-mix(in srgb,var(--r1) 14%,#fff);color:var(--r1)}
+.tp.mix .rp{background:rgba(255,255,255,.22);color:#fff;filter:none;opacity:.9}
+.ranks{display:grid;gap:14px;padding-bottom:40px}
+.rk{display:flex;align-items:center;gap:18px;padding:22px;border-radius:24px;color:#fff;text-decoration:none;background:linear-gradient(120deg,var(--r1),var(--r2));box-shadow:var(--shadow-lg);position:relative;overflow:hidden;transition:transform .15s}
+.rk::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.12);right:-50px;top:-80px}
+.rk:hover{transform:translateY(-3px) scale(1.01)}
+.rkic{font-size:42px;width:74px;height:74px;flex:none;border-radius:20px;background:rgba(255,255,255,.2);display:grid;place-items:center}
+.rkt{flex:1}
+.rkt h3{font-size:26px;display:inline}
+.tpb{display:inline-block;margin-left:8px;font-size:12px;font-weight:800;background:rgba(255,255,255,.25);padding:3px 9px;border-radius:999px;vertical-align:middle}
+.rkt p{opacity:.95;font-weight:600;font-size:14.5px;margin-top:4px}
+.rk .stars{font-size:22px;color:#fff3b0;z-index:1}
+.rk .stars .off{color:rgba(255,255,255,.35)}
+.rkchip{background:linear-gradient(120deg,var(--r1),var(--r2))!important;color:#fff;font-weight:800}
+.rkchip.big{display:inline-block;padding:7px 16px;border-radius:999px;font-size:15px}
+.rkbtn{background:linear-gradient(120deg,var(--r1),var(--r2));color:#fff;box-shadow:0 12px 24px -12px var(--r1)}
+.rankfeat .e{background:linear-gradient(135deg,var(--r1),var(--r2))}
+.rankfeat h3 small{font-size:12px;font-weight:800;color:var(--r1);margin-left:6px}
+.note{margin-top:10px;font-size:13.5px;font-weight:600;background:rgba(255,255,255,.18);display:inline-block;padding:6px 12px;border-radius:12px}
+.typed{display:flex;gap:10px;margin-top:22px}
+.tin{flex:1;min-width:0;font:600 22px var(--fd);padding:14px 18px;border-radius:18px;border:2.5px solid var(--line);outline:none;background:#fff;color:var(--ink)}
+.tin:focus{border-color:var(--g2);box-shadow:0 0 0 4px color-mix(in srgb,var(--g2) 25%,transparent)}
+.tin.ok{border-color:var(--ok);background:var(--okbg)}
+.tin.no{border-color:var(--no);background:var(--nobg);animation:shake .4s}
+.typed .btn{flex:none}
+@media (max-width:560px){.typed{flex-direction:column}.rk{padding:18px;gap:12px}.rkic{width:58px;height:58px;font-size:32px}.rkt h3{font-size:21px}.emo{font-size:60px}}
+
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:34px}
   .art{display:none}
@@ -751,15 +784,427 @@ const CUR = {
   5: ['nombor', 'tambah', 'tolak', 'darab', 'bahagi', 'pecahan', 'perpuluhan', 'peratus', 'wang', 'masa', 'ukuran', 'perimeter', 'purata'],
   6: ['nombor', 'tambah', 'tolak', 'darab', 'bahagi', 'pecahan', 'perpuluhan', 'peratus', 'wang', 'masa', 'ukuran', 'perimeter', 'purata', 'nisbah'],
 };
-function gen(y, topic) {
-  for (let i = 0; i < 200; i++) { const tp = topic === 'campuran' ? pick(CUR[y]) : topic; const q = T[tp](y); if (q) { q.topic = tp; return q; } }
-  throw new Error('gen gagal ' + y + ' ' + topic);
+// rank: epik = soalan terus (TP1-2), legend = ayat cerita/aplikasi (TP3-4), mythic = taip jawapan sendiri, gaya UASA (TP5-6)
+const NOTYPE = /manakah|ditulis dalam perkataan/;
+function gen(y, topic, rank = 'epik') {
+  let fallback = null;
+  for (let i = 0; i < 300; i++) {
+    const tp = topic === 'campuran' ? pick(CUR[y]) : topic; const q = T[tp](y); if (!q) continue; q.topic = tp;
+    if (rank === 'mythic') { if (q.small || NOTYPE.test(q.q)) continue; q.typed = true; }
+    const want = rank === 'epik' ? !q.story : !!q.story;
+    if (want || (rank === 'legend' && Math.random() < .25)) return q;
+    if (!fallback) fallback = q;
+    if (i > 60 && fallback) return fallback;
+  }
+  if (fallback) return fallback;
+  throw new Error('gen gagal ' + y + ' ' + topic + ' ' + rank);
 }
-function round(y, topic, n = 10) { const out = [], seen = new Set(); let g = 0; while (out.length < n && g++ < 500) { const q = gen(y, topic); const k = q.q.replace(/<svg[\s\S]*?<\/svg>/g, s => s.length + '') + q.ans; if (seen.has(k)) continue; seen.add(k); out.push(q); } while (out.length < n) { const q = gen(y, topic); if (out[out.length - 1].q !== q.q) out.push(q); } return out; }
-return { gen, round, CUR, NAMES, ICON, DESC, val, words };
+function round(y, topic, n = 10, rank = 'epik', G = gen) { const out = [], seen = new Set(); let g = 0; while (out.length < n && g++ < 500) { const q = G(y, topic, rank); const k = q.q.replace(/<svg[\s\S]*?<\/svg>/g, s => s.length + '') + q.ans; if (seen.has(k)) continue; seen.add(k); out.push(q); } while (out.length < n) { const q = G(y, topic, rank); if (out[out.length - 1].q !== q.q) out.push(q); } return out; }
+return { gen, round, CUR, NAMES, ICON, DESC, val, words, U: { R, pick, shuffle, mk, fmt, fr, fraw } };
 })();
 if (typeof module !== 'undefined') module.exports = SB;
 // ===== SB ENGINE END =====
+
+</script>
+<script>
+// ===== EN ENGINE (Bahasa Inggeris Year 2–6, rank: epik / legend / mythic) =====
+const EN = (() => {
+const { R, pick, shuffle, mk } = SB.U;
+const B = s => `<b>${s}</b>`;
+const BL = '<span class="blank">___</span>';
+// typed question (mythic)
+const ty = (q, ans, accept = [], hint = '') => ({ q, ans, typed: true, accept: [ans, ...accept].map(s => s.toLowerCase()), hint });
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const lc = s => /^(He|She|They|We|It|My |The |You)/.test(s) ? s[0].toLowerCase() + s.slice(1) : s;
+const RUDE = /dick|shit|fuck|cunt|cock|piss|slut|crap|butt|sex|ass|tit|fart|poo|bum|dum|kok|pant/;
+
+// ---------------- DATA ----------------
+const VOC = {
+  animals: [['cat', '🐱'], ['dog', '🐶'], ['bird', '🐦'], ['fish', '🐟'], ['cow', '🐄'], ['duck', '🦆'], ['rabbit', '🐰'], ['lion', '🦁'], ['elephant', '🐘'], ['monkey', '🐒'], ['frog', '🐸'], ['horse', '🐴'], ['tiger', '🐯'], ['pig', '🐷']],
+  food: [['apple', '🍎'], ['banana', '🍌'], ['bread', '🍞'], ['egg', '🥚'], ['milk', '🥛'], ['rice', '🍚'], ['cake', '🍰'], ['orange', '🍊'], ['grapes', '🍇'], ['carrot', '🥕'], ['watermelon', '🍉'], ['corn', '🌽']],
+  things: [['ball', '⚽'], ['car', '🚗'], ['kite', '🪁'], ['book', '📖'], ['pencil', '✏️'], ['bag', '🎒'], ['clock', '⏰'], ['chair', '🪑'], ['umbrella', '☂️'], ['scissors', '✂️'], ['bicycle', '🚲'], ['key', '🔑']],
+  body: [['eye', '👁️'], ['ear', '👂'], ['nose', '👃'], ['hand', '✋'], ['foot', '🦶'], ['mouth', '👄']],
+  weather: [['sunny', '☀️'], ['rainy', '🌧️'], ['cloudy', '☁️'], ['windy', '🌬️'], ['snowy', '❄️'], ['stormy', '⛈️']],
+  jobs: [['doctor', '🧑‍⚕️'], ['teacher', '🧑‍🏫'], ['farmer', '🧑‍🌾'], ['cook', '🧑‍🍳'], ['pilot', '🧑‍✈️'], ['firefighter', '🧑‍🚒'], ['police officer', '👮']],
+  clothes: [['shirt', '👕'], ['dress', '👗'], ['hat', '👒'], ['shoes', '👟'], ['socks', '🧦'], ['scarf', '🧣'], ['jacket', '🧥'], ['trousers', '👖']],
+  places: [['school', '🏫'], ['hospital', '🏥'], ['bank', '🏦'], ['house', '🏠'], ['mosque', '🕌'], ['post office', '🏤'], ['hotel', '🏨'], ['factory', '🏭']],
+  actions: [['swimming', '🏊'], ['cycling', '🚴'], ['running', '🏃'], ['singing', '🎤'], ['dancing', '💃'], ['painting', '🎨'], ['reading', '📚'], ['cooking', '🍳']],
+};
+const VOC_YEAR = { 2: ['animals', 'food', 'things', 'body'], 3: ['weather', 'jobs', 'clothes', 'places', 'actions', 'animals'] };
+
+// base, 3rd person, -ing, past, past participle, object phrase
+const V = [
+  ['play', 'plays', 'playing', 'played', 'played', 'football'], ['watch', 'watches', 'watching', 'watched', 'watched', 'cartoons'],
+  ['go', 'goes', 'going', 'went', 'gone', 'to the market'], ['eat', 'eats', 'eating', 'ate', 'eaten', 'fried rice'],
+  ['swim', 'swims', 'swimming', 'swam', 'swum', 'in the pool'], ['run', 'runs', 'running', 'ran', 'run', 'in the park'],
+  ['read', 'reads', 'reading', 'read', 'read', 'a storybook'], ['write', 'writes', 'writing', 'wrote', 'written', 'a letter'],
+  ['sing', 'sings', 'singing', 'sang', 'sung', 'a song'], ['drink', 'drinks', 'drinking', 'drank', 'drunk', 'some milk'],
+  ['cook', 'cooks', 'cooking', 'cooked', 'cooked', 'dinner'], ['ride', 'rides', 'riding', 'rode', 'ridden', 'a bicycle'],
+  ['buy', 'buys', 'buying', 'bought', 'bought', 'some bread'], ['make', 'makes', 'making', 'made', 'made', 'a kite'],
+  ['fly', 'flies', 'flying', 'flew', 'flown', 'a kite'], ['wash', 'washes', 'washing', 'washed', 'washed', 'the dishes'],
+  ['help', 'helps', 'helping', 'helped', 'helped', 'our neighbour'], ['walk', 'walks', 'walking', 'walked', 'walked', 'to school'],
+  ['visit', 'visits', 'visiting', 'visited', 'visited', 'Grandma'], ['clean', 'cleans', 'cleaning', 'cleaned', 'cleaned', 'the room'],
+  ['draw', 'draws', 'drawing', 'drew', 'drawn', 'a picture'], ['catch', 'catches', 'catching', 'caught', 'caught', 'a fish'],
+  ['study', 'studies', 'studying', 'studied', 'studied', 'English'], ['do', 'does', 'doing', 'did', 'done', 'homework'],
+  ['have', 'has', 'having', 'had', 'had', 'breakfast'], ['take', 'takes', 'taking', 'took', 'taken', 'a photo'],
+  ['feed', 'feeds', 'feeding', 'fed', 'fed', 'the cat'], ['plant', 'plants', 'planting', 'planted', 'planted', 'a tree'],
+];
+const VSAFE = V.filter(v => v[0] !== 'read'); // 'read' past = base, avoid in tense MCQ
+const SING = ['He', 'She', 'Ali', 'Mei Ling', 'My brother', 'Kumar', 'Aisyah'];
+const PLUR = ['They', 'We', 'The children', 'My parents', 'Ali and Abu'];
+
+// ---------- PREPOSITION SCENES ----------
+function scene(prep, emo) {
+  const table = '<rect x="40" y="70" width="160" height="12" rx="3" fill="#b07a4a" stroke="var(--ink)" stroke-width="2.5"/><rect x="52" y="82" width="10" height="58" fill="#b07a4a" stroke="var(--ink)" stroke-width="2.5"/><rect x="178" y="82" width="10" height="58" fill="#b07a4a" stroke="var(--ink)" stroke-width="2.5"/>';
+  const box = (x) => `<path d="M${x},70 L${x},140 L${x + 80},140 L${x + 80},70" fill="#f3d9a4" stroke="var(--ink)" stroke-width="3"/>`;
+  const e = (x, y) => `<text x="${x}" y="${y}" font-size="38" text-anchor="middle">${emo}</text>`;
+  let s;
+  if (prep === 'on') s = table + e(120, 66);
+  else if (prep === 'under') s = table + e(120, 132);
+  else if (prep === 'next to') s = table + e(228, 132);
+  else if (prep === 'in') s = box(80) + e(120, 128);
+  else if (prep === 'between') s = box(10).replace('M10', 'M10') + `<path d="M170,70 L170,140 L250,140 L250,70" fill="#f3d9a4" stroke="var(--ink)" stroke-width="3"/>` + e(130, 132);
+  return `<svg viewBox="0 0 260 150" class="vis wide">${s}</svg>`;
+}
+
+// ---------- spelling helpers ----------
+function misspell(w) {
+  const out = new Set(), v = 'aeiou';
+  for (let i = 0; i < w.length - 1; i++) if (w[i] !== w[i + 1] && w[i] !== ' ' && w[i + 1] !== ' ') out.add(w.slice(0, i) + w[i + 1] + w[i] + w.slice(i + 2));
+  for (let i = 1; i < w.length; i++) if (w[i] !== ' ') out.add(w.slice(0, i) + w.slice(i + 1));
+  for (let i = 0; i < w.length; i++) if (v.includes(w[i])) for (const c of v) if (c !== w[i]) out.add(w.slice(0, i) + c + w.slice(i + 1));
+  for (let i = 1; i < w.length - 1; i++) if (!v.includes(w[i]) && w[i] !== ' ' && w[i] !== w[i - 1] && w[i] !== w[i + 1]) out.add(w.slice(0, i + 1) + w[i] + w.slice(i + 1));
+  out.delete(w); return shuffle([...out].filter(x => !RUDE.test(x)));
+}
+
+// =============== TOPICS ===============
+const T = {};
+
+T.vocab = (y, r) => {
+  const cat = pick(VOC_YEAR[y] || VOC_YEAR[3]), list = VOC[cat], [w, e] = pick(list);
+  const em = `<div class="emo">${e}</div>`;
+  if (r === 'mythic') return ty(`Type the word for this picture.${em}`, w, [], 'Taip perkataan dalam Bahasa Inggeris');
+  if (r === 'legend') return mk(`Choose the correct spelling.${em}`, w, misspell(w));
+  return mk(`What is this?${em}`, w, list.filter(x => x[0] !== w).map(x => x[0]));
+};
+
+T.spelling = (y, r) => {
+  const cats = y === 2 ? ['animals', 'food', 'things'] : ['weather', 'jobs', 'clothes', 'animals', 'food', 'places'];
+  const [w, e] = pick(VOC[pick(cats)]); if (w.includes(' ') || w.length < 4) return null;
+  if (r === 'epik') {
+    const i = R(1, w.length - 2), letter = w[i], shown = w.slice(0, i) + '_' + w.slice(i + 1);
+    return mk(`Fill in the missing letter.<div class="emo">${e}</div><div class="seq">${shown}</div>`, letter, shuffle('abcdeghiklmnoprstuw'.split('').filter(c => c !== letter)));
+  }
+  if (r === 'legend') return mk(`Which word is spelled ${B('correctly')}?<div class="emo">${e}</div>`, w, misspell(w));
+  const scr = shuffle(w.split('')).join(''); if (scr === w) return null;
+  return ty(`Unscramble the letters to make a word.<div class="emo">${e}</div><div class="seq">${scr.split('').join(' ')}</div>`, w, [], 'Susun huruf menjadi perkataan');
+};
+
+const AN = ['apple', 'egg', 'orange', 'umbrella', 'ant', 'elephant', 'owl', 'ice cream', 'octopus', 'igloo', 'onion', 'eagle'];
+const A_ = ['banana', 'cat', 'dog', 'ball', 'kite', 'book', 'pencil', 'rabbit', 'car', 'bag', 'mango', 'lion'];
+T.aan = (y, r) => {
+  if (r === 'mythic') {
+    const [w, a] = pick([['hour', 'an'], ['uniform', 'a'], ['honest boy', 'an'], ['university', 'a'], ['umbrella', 'an'], ['unicorn', 'a'], ['egg', 'an'], ['orange', 'an'], ['one-day trip', 'a'], ['ice cream', 'an']]);
+    return ty(`Type ${B('a')} or ${B('an')}:<div class="seq">${BL} ${w}</div>`, a, [], 'Taip a atau an');
+  }
+  const an = Math.random() < .5, w = pick(an ? AN : A_);
+  if (r === 'legend') {
+    const pair = an ? [pick(AN), pick(A_)] : [pick(A_), pick(AN)];
+    const ok = an ? `an ${pair[0]}` : `a ${pair[0]}`;
+    return mk(`Which one is ${B('correct')}?`, ok, [an ? `a ${pair[0]}` : `an ${pair[0]}`, an ? `an ${pair[1]}` : `a ${pair[1]}`].concat(an ? [`a ${pick(AN)}`] : [`an ${pick(A_)}`]).filter(x => x !== ok));
+  }
+  return mk(`Choose ${B('a')} or ${B('an')}:<div class="seq">I have ${BL} ${w}.</div>`, an ? 'an' : 'a', [an ? 'a' : 'an', 'two', 'many']);
+};
+
+const PL = [['cat', 'cats'], ['book', 'books'], ['pen', 'pens'], ['ball', 'balls'], ['apple', 'apples'], ['box', 'boxes'], ['bus', 'buses'], ['watch', 'watches'], ['dish', 'dishes'], ['glass', 'glasses'], ['fox', 'foxes'], ['brush', 'brushes']];
+const PL2 = [['baby', 'babies'], ['lady', 'ladies'], ['city', 'cities'], ['story', 'stories'], ['butterfly', 'butterflies'], ['child', 'children'], ['man', 'men'], ['woman', 'women'], ['mouse', 'mice'], ['foot', 'feet'], ['tooth', 'teeth'], ['sheep', 'sheep'], ['leaf', 'leaves'], ['knife', 'knives']];
+const plWrong = (s, p) => [s + 's', s + 'es', s.replace(/y$/, 'ys'), s.replace(/y$/, 'ies'), p + 's', s + 'ren', s.replace(/f(e)?$/, 'fs')].filter(x => x !== p);
+T.plural = (y, r) => {
+  const pool = y === 2 ? PL : PL.concat(PL2, PL2);
+  const [s, p] = pick(pool), n = R(2, 9), NUM = ['', '', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'][n];
+  if (r === 'mythic') return ty(`Write the plural form:<div class="seq">one ${s} → ${NUM} ${BL}</div>`, p, [], 'Taip bentuk jamak');
+  if (r === 'legend') return mk(`Complete the sentence:<div class="seq">There are ${NUM} ${BL} in the picture.</div>`, p, plWrong(s, p).concat([s]));
+  return mk(`What is the plural of ${B(s)}?`, p, plWrong(s, p).concat([s]));
+};
+
+T.be = (y, r) => {
+  const items = [['I', 'am', 'seven years old'], ['She', 'is', 'my sister'], ['He', 'is', 'a doctor'], ['They', 'are', 'my friends'], ['We', 'are', 'in Year 2'], ['You', 'are', 'very kind'], ['The cat', 'is', 'on the mat'], ['The birds', 'are', 'in the tree'], ['Ali and Abu', 'are', 'brothers'], ['My mother', 'is', 'a teacher'], ['It', 'is', 'a red ball']];
+  const [s, a, rest] = pick(items);
+  if (r === 'mythic') {
+    const neg = Math.random() < .5 && a !== 'am';
+    if (neg) return ty(`Write the short form (contraction):<div class="seq">${s} ${a} not ${rest}. → ${s} ${BL} ${rest}.</div>`, { am: "'m not", is: "isn't", are: "aren't" }[a], a === 'am' ? ["am not"] : [], "cth: isn't");
+    return ty(`Type am, is or are:<div class="seq">${s} ${BL} ${rest}.</div>`, a);
+  }
+  return mk(`Choose the correct word:<div class="seq">${s} ${BL} ${rest}.</div>`, a, ['am', 'is', 'are', 'be'].filter(x => x !== a));
+};
+
+T.prep = (y, r) => {
+  const preps = y === 2 ? ['in', 'on', 'under', 'next to'] : ['in', 'on', 'under', 'next to', 'between'];
+  const p = pick(preps), [obj, emo] = pick([['ball', '⚽'], ['cat', '🐱'], ['book', '📖'], ['apple', '🍎'], ['teddy bear', '🧸']]);
+  const place = p === 'in' ? 'the box' : p === 'between' ? 'the two boxes' : 'the table';
+  if (p === 'between' || p === 'in') { /* place fixed */ }
+  const sc = scene(p, emo);
+  if (r === 'mythic') return ty(`Where is the ${obj}? Type the missing word(s).${sc}<div class="seq">The ${obj} is ${BL} ${place}.</div>`, p, [], 'Taip kata sendi');
+  if (r === 'legend') {
+    const opts = ['in', 'on', 'under', 'next to', 'between'].filter(x => x !== p).map(x => `The ${obj} is ${x} ${x === 'in' ? 'the box' : x === 'between' ? 'the two boxes' : 'the table'}.`);
+    return mk(`Look at the picture. Which sentence is correct?${sc}`, `The ${obj} is ${p} ${place}.`, opts, { small: true });
+  }
+  return mk(`Where is the ${obj}?${sc}<div class="seq">The ${obj} is ${BL} ${place}.</div>`, p, ['in', 'on', 'under', 'next to', 'between', 'behind'].filter(x => x !== p));
+};
+
+T.can = (y, r) => {
+  const ab = [['bird', 'fly', '🐦'], ['monkey', 'climb', '🐒'], ['rabbit', 'hop', '🐰']];
+  const t = r === 'mythic' ? 'have' : pick(['ability', 'ability', 'have']);
+  if (t === 'ability') {
+    const [a, verb, e] = pick(ab), others = ['cow', 'elephant', 'cat', 'tortoise', 'pig'];
+    if (r === 'legend') {
+      const nots = { fly: ['fish', 'cow', 'elephant'], climb: ['fish', 'elephant', 'cow'], hop: ['fish', 'snake', 'cow'] }[verb];
+      return mk(`Which sentence is ${B('true')}?`, `A ${a} can ${verb}.`, nots.map(n => `A ${n} can ${verb}.`).concat([`A ${a} can't ${verb}.`]), { small: true });
+    }
+    return mk(`Which animal can ${B(verb)}?<div class="emo">❓</div>`, `${e} ${a}`, [['cow', '🐄'], ['elephant', '🐘'], ['pig', '🐷'], ['snail', '🐌'], ['fish', '🐟'], ['bird', '🐦']].filter(x => x[0] !== a && !(verb === 'climb' && x[0] === 'snail') && !(verb === 'hop' && x[0] === 'bird')).map(x => `${x[1]} ${x[0]}`));
+  }
+  const [s, h] = pick([['I', 'have'], ['You', 'have'], ['We', 'have'], ['They', 'have'], ['She', 'has'], ['He', 'has'], ['Ali', 'has'], ['My cat', 'has']]);
+  const thing = pick(['a red bag', 'two pencils', 'a new bicycle', 'a big kite', 'long hair']);
+  if (r === 'mythic') return ty(`Type ${B('have')} or ${B('has')}:<div class="seq">${s} ${BL} got ${thing}.</div>`, h);
+  return mk(`Choose the correct word:<div class="seq">${s} ${BL} got ${thing}.</div>`, h, ['have', 'has', 'having', 'is'].filter(x => x !== h));
+};
+
+// ---- tenses ----
+function subj(sg) { return sg ? pick(SING) : pick(PLUR); }
+T.presSimple = (y, r) => {
+  const v = pick(VSAFE), sg = Math.random() < .65, s = subj(sg), ans = sg ? v[1] : v[0];
+  const time = pick(['every day', 'every morning', 'on Sundays', 'after school', 'every evening']);
+  const sent = `${s} ${BL} ${v[5]} ${time}.`;
+  if (r === 'mythic') return ty(`Write the correct form of the verb in brackets:<div class="seq">${sent} (${v[0]})</div>`, ans);
+  if (r === 'legend') return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, [sg ? v[0] : v[1], v[2], v[3], 'is ' + v[2]]);
+  // epik: only he/she → s form vs base, obvious distractors
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, [sg ? v[0] : v[1], v[2]].concat([v[3]]));
+};
+T.presCont = (y, r) => {
+  const v = pick(VSAFE), who = pick([['I', 'am'], ...SING.map(x => [x, 'is']), ...PLUR.map(x => [x, 'are'])]);
+  const ans = `${who[1]} ${v[2]}`, cue = pick(['Look! ', 'Now, ', 'At the moment, ']);
+  const sent = `${cue}${cue === 'Look! ' ? who[0] : lc(who[0])} ${BL} ${v[5]}${cue === 'Look! ' ? ' now' : ''}.`;
+  if (r === 'mythic') return ty(`Write the correct form (present continuous):<div class="seq">${sent} (${v[0]})</div>`, ans, [], 'cth: is playing');
+  const wrongBe = ['am', 'is', 'are'].filter(b => b !== who[1]).map(b => `${b} ${v[2]}`);
+  if (r === 'legend') return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, wrongBe.concat([v[1], v[3], `${who[1]} ${v[0]}`]));
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, [v[0], v[3], `${who[1]} ${v[1]}`]);
+};
+T.pastSimple = (y, r) => {
+  const v = pick(VSAFE), s = subj(Math.random() < .5), time = pick(['Yesterday,', 'Last night,', 'Last Sunday,', 'Two days ago,', 'Last week,']);
+  const sent = `${time} ${lc(s)} ${BL} ${v[5]}.`;
+  if (r === 'mythic') return ty(`Write the past tense of the verb in brackets:<div class="seq">${sent} (${v[0]})</div>`, v[3]);
+  if (r === 'legend') return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, v[3], [v[0], v[1], v[2], v[0] + 'ed', 'will ' + v[0]].filter(x => x !== v[3]));
+  return mk(`What is the past tense of ${B(v[0])}?`, v[3], [v[1], v[2], v[0] + 'ed', v[0] + 's'].filter(x => x !== v[3]));
+};
+T.wasWere = (y, r) => {
+  const sg = Math.random() < .55, s = sg ? pick(['I', ...SING, 'The weather', 'The room']) : pick(PLUR), a = sg ? 'was' : 'were';
+  const rest = pick(['at the zoo yesterday', 'very tired last night', 'at school last Monday', 'happy at the party', 'in the garden this morning']);
+  const sent = `${s} ${BL} ${s === 'The weather' ? 'very hot yesterday' : s === 'The room' ? 'dirty this morning' : rest}.`;
+  if (r === 'mythic') return ty(`Type ${B('was')} or ${B('were')}:<div class="seq">${sent}</div>`, a);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, a, ['was', 'were', 'is', 'are', 'be'].filter(x => x !== a && (r === 'epik' || true)));
+};
+T.pastCont = (y, r) => {
+  const v = pick(VSAFE.filter(x => !['have', 'do'].includes(x[0]))), sg = Math.random() < .55, s = sg ? pick(['I', ...SING]) : pick(PLUR), be = sg ? 'was' : 'were';
+  const ans = `${be} ${v[2]}`, sent = `${s} ${BL} ${v[5]} when the phone rang.`;
+  if (r === 'mythic') return ty(`Write the correct form (past continuous):<div class="seq">${sent} (${v[0]})</div>`, ans, [], 'cth: was playing');
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, [`${sg ? 'were' : 'was'} ${v[2]}`, `${sg ? 'is' : 'are'} ${v[2]}`, v[1], `will ${v[0]}`]);
+};
+T.future = (y, r) => {
+  const v = pick(VSAFE), s = subj(Math.random() < .5), time = pick(['Tomorrow,', 'Next week,', 'Next Saturday,', 'Tonight,']);
+  const sent = `${time} ${lc(s)} ${BL} ${v[5]}.`, ans = `will ${v[0]}`;
+  if (r === 'mythic') {
+    const sg = SING.includes(s), g = sg ? `is going to ${v[0]}` : `are going to ${v[0]}`;
+    return ty(`Rewrite using ${B('going to')}:<div class="seq">${sent} (${v[0]})</div>`, g, [], 'cth: is going to play');
+  }
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ans, [v[3], `${v[1]}`, `will ${v[3]}`, `will ${v[2]}`]);
+};
+T.presPerfect = (y, r) => {
+  const t = pick(r === 'epik' ? ['part', 'hashave'] : ['part', 'forsince', 'hashave', 'forsince']);
+  if (t === 'part') {
+    const v = pick(V.filter(x => x[3] !== x[4] || Math.random() < .3)), sg = Math.random() < .5, s = sg ? pick(SING) : pick(PLUR), h = sg ? 'has' : 'have';
+    const sent = `${s} ${h} already ${BL} ${v[5]}.`;
+    if (r === 'mythic') return ty(`Write the correct form of the verb in brackets:<div class="seq">${sent} (${v[0]})</div>`, v[4]);
+    return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, v[4], [v[0], v[2], v[1], v[0] + 'ed'].filter(x => x !== v[4]));
+  }
+  if (t === 'hashave') {
+    const sg = Math.random() < .5, s = sg ? pick(SING) : pick(PLUR), h = sg ? 'has' : 'have', v = pick(V);
+    const sent = `${s} ${BL} ${v[4]} ${v[5]} many times.`;
+    if (r === 'mythic') return ty(`Type ${B('has')} or ${B('have')}:<div class="seq">${sent}</div>`, h);
+    return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, h, ['has', 'have', 'is', 'had been', 'are'].filter(x => x !== h));
+  }
+  const useFor = Math.random() < .5, x = useFor ? pick(['three years', 'two weeks', 'a long time', 'five months', 'ten minutes']) : pick(['2020', 'last year', 'Monday', 'January', 'this morning']);
+  const sent = `We have lived in this town ${BL} ${x}.`.replace('lived in this town', pick(['lived in this town', 'known each other', 'studied English', 'been friends']));
+  const a = useFor ? 'for' : 'since';
+  if (r === 'mythic') return ty(`Type ${B('for')} or ${B('since')}:<div class="seq">${sent}</div>`, a);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, a, ['for', 'since', 'ago', 'from', 'at'].filter(z => z !== a));
+};
+
+T.qwords = (y, r) => {
+  const items = [['What', 'is your name?', 'My name is Siti.'], ['Where', 'do you live?', 'I live in Ipoh.'], ['Who', 'is your teacher?', 'Puan Aminah is my teacher.'], ['When', 'is your birthday?', 'It is on 5th May.'], ['How many', 'pencils do you have?', 'I have three pencils.'], ['How old', 'are you?', 'I am nine years old.'], ['What colour', 'is your bag?', 'It is blue.'], ['Why', 'are you late?', 'Because I missed the bus.'], ['Which', 'fruit do you like, apples or oranges?', 'I like oranges.'], ['How', 'do you go to school?', 'I go to school by bus.']];
+  const [w, rest, ansr] = pick(y === 3 ? items.slice(0, 7) : items);
+  const all = ['What', 'Where', 'Who', 'When', 'How many', 'How old', 'What colour', 'Why', 'Which', 'How'];
+  if (r === 'mythic') return ty(`Type the correct question word(s):<div class="seq">${BL} ${rest}<br><i>– ${ansr}</i></div>`, w.toLowerCase(), [], 'cth: Where');
+  if (r === 'legend') return mk(`Read the answer, then choose the correct question:<div class="seq"><i>“${ansr}”</i></div>`, `${w} ${rest}`, shuffle(items.filter(i => i[0] !== w)).slice(0, 4).map(i => `${i[0]} ${i[1]}`), { small: true });
+  return mk(`Choose the correct question word:<div class="seq">${BL} ${rest}<br><i>– ${ansr}</i></div>`, w, all.filter(x => x !== w && !(w === 'How' && x.startsWith('How')) && !(x === 'How' && w.startsWith('How')) && !(w === 'What' && x === 'Which') && !(w === 'Which' && x === 'What')));
+};
+
+const OPP = [['big', 'small'], ['tall', 'short'], ['hot', 'cold'], ['fast', 'slow'], ['happy', 'sad'], ['new', 'old'], ['long', 'short'], ['heavy', 'light'], ['clean', 'dirty'], ['full', 'empty'], ['wet', 'dry'], ['early', 'late'], ['strong', 'weak'], ['loud', 'quiet'], ['easy', 'difficult'], ['open', 'closed'], ['thick', 'thin'], ['rich', 'poor']];
+T.opposites = (y, r) => {
+  const [a, b] = pick(OPP), wrong = shuffle(OPP.filter(p => p[0] !== a && p[1] !== b).map(p => pick(p)));
+  if (r === 'mythic') return ty(`Write the opposite of ${B(a)}.<div class="seq">${a} ↔ ${BL}</div>`, b, b === 'closed' ? ['shut'] : b === 'difficult' ? ['hard'] : b === 'quiet' ? ['soft'] : b === 'light' ? [] : [], 'Taip lawan kata');
+  if (r === 'legend') return mk(`Choose the opposite of the underlined word:<div class="seq">The glass is <u>${a}</u>.</div>`, b, wrong);
+  return mk(`What is the opposite of ${B(a)}?`, b, wrong);
+};
+
+const CMP = [['tall', 'taller', 'tallest'], ['big', 'bigger', 'biggest'], ['small', 'smaller', 'smallest'], ['fast', 'faster', 'fastest'], ['long', 'longer', 'longest'], ['heavy', 'heavier', 'heaviest'], ['hot', 'hotter', 'hottest'], ['happy', 'happier', 'happiest'], ['thin', 'thinner', 'thinnest'], ['old', 'older', 'oldest'], ['short', 'shorter', 'shortest'], ['high', 'higher', 'highest']];
+const CMP2 = [['beautiful', 'more beautiful', 'most beautiful'], ['expensive', 'more expensive', 'most expensive'], ['interesting', 'more interesting', 'most interesting'], ['good', 'better', 'best'], ['bad', 'worse', 'worst'], ['delicious', 'more delicious', 'most delicious']];
+const FACTS_C = [['An elephant', 'big', 'a cat'], ['A giraffe', 'tall', 'a horse'], ['A cheetah', 'fast', 'a tortoise'], ['A snake', 'long', 'a worm'], ['A lorry', 'heavy', 'a bicycle'], ['The sun', 'hot', 'the moon'], ['My grandfather', 'old', 'my father'], ['A mouse', 'small', 'a dog']];
+const FACTS_S = [['The blue whale is the', 'big', 'animal in the world.'], ['Mount Kinabalu is the', 'high', 'mountain in Malaysia.'], ['The cheetah is the', 'fast', 'land animal.'], ['July is the', 'hot', 'month this year.'], ['Ali is the', 'tall', 'boy in my class.']];
+const wrongCmp = (c, all) => [c[0], c[1], c[2], 'more ' + c[0], 'most ' + c[0], c[0] + 'er', c[0] + 'est'];
+T.compare = (y, r) => {
+  const sup = Math.random() < .45, pool = y >= 5 ? CMP.concat(CMP2) : CMP;
+  if (sup) {
+    let [pre, adj, post] = pick(FACTS_S); let c = CMP.find(x => x[0] === adj);
+    if (y >= 5 && Math.random() < .4) { c = pick(CMP2); pre = 'This is the'; post = pick(['book I have ever read.', 'place in our town.']); if (c[0] === 'expensive' || c[0] === 'delicious' || c[0] === 'bad') post = c[0] === 'bad' ? 'day of my holiday.' : c[0] === 'delicious' ? 'cake in the shop.' : 'watch in the shop.'; }
+    const sent = `${pre} ${BL} ${post} (${c[0]})`;
+    if (r === 'mythic') return ty(`Write the correct form of the adjective:<div class="seq">${sent}</div>`, c[2]);
+    return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, c[2], wrongCmp(c).filter(x => x !== c[2]));
+  }
+  const [a, adj, b] = pick(FACTS_C), c = CMP.find(x => x[0] === adj);
+  const sent = `${a} is ${BL} than ${b}. (${adj})`;
+  if (r === 'mythic') return ty(`Write the correct form of the adjective:<div class="seq">${sent}</div>`, c[1]);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, c[1], wrongCmp(c).filter(x => x !== c[1]));
+};
+
+T.quantity = (y, r) => {
+  const items = [['How', 'many', 'apples do you have?'], ['How', 'much', 'water is in the bottle?'], ['How', 'many', 'students are in your class?'], ['How', 'much', 'sugar do you need?'], ['How', 'much', 'money do you have?'], ['How', 'many', 'eggs are in the basket?']];
+  const s2 = [['There isn\'t', 'any', 'milk left in the fridge.'], ['Can I have', 'some', 'bread, please?'], ['Are there', 'any', 'books on the table?'], ['I want', 'some', 'rice for lunch.'], ['We don\'t have', 'any', 'eggs.'], ['There are', 'some', 'birds in the tree.']];
+  const useHow = Math.random() < .5, [a, w, b] = pick(useHow ? items : s2);
+  const sent = `${a} ${BL} ${b}`, opts = useHow ? ['much', 'many', 'some', 'any', 'a'] : ['some', 'any', 'many', 'much', 'a'];
+  if (r === 'mythic') return ty(`Type the correct word (${useHow ? 'much / many' : 'some / any'}):<div class="seq">${sent}</div>`, w);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, w, opts.filter(x => x !== w));
+};
+
+T.conj = (y, r) => {
+  const items = [['I was hungry,', 'so', 'I ate some bread.'], ['She likes tea', 'but', 'she does not like coffee.'], ['He was late', 'because', 'he missed the bus.'], ['Do you want tea', 'or', 'coffee?'], ['Ali', 'and', 'Abu are best friends.'], ['It was raining,', 'so', 'we stayed at home.'], ['The bag is old', 'but', 'it is still strong.'], ['We wear raincoats', 'because', 'it is raining.'], ['You can take a pen', 'or', 'a pencil.']];
+  const [a, w, b] = pick(items), sent = `${a} ${BL} ${b}`;
+  if (r === 'mythic') return ty(`Type the correct conjunction (and / but / or / so / because):<div class="seq">${sent}</div>`, w);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, w, ['and', 'but', 'or', 'so', 'because'].filter(x => x !== w));
+};
+
+T.modals = (y, r) => {
+  const items = [['You', 'must', 'be quiet in the library.', ['mustn\'t', 'can\'t', 'didn\'t']], ['You', 'mustn\'t', 'run in the classroom. It is dangerous.', ['must', 'can', 'should']], ['When I was five, I', 'could', 'ride a bicycle.', ['can', 'will', 'must']], ['You look tired. You', 'should', 'go to bed early.', ['mustn\'t', 'can\'t', 'didn\'t']], ['Birds', 'can', 'fly but penguins cannot.', ['can\'t', 'mustn\'t', 'didn\'t']], ['You', 'must', 'wear a seat belt in the car. It is the law.', ['mustn\'t', 'can\'t', 'didn\'t']]];
+  const [s, m, rest, wrong] = pick(items), sent = `${s} ${BL} ${rest}`;
+  if (r === 'mythic') return ty(`Type the correct modal verb (can / could / must / mustn't / should):<div class="seq">${sent}</div>`, m, m === "mustn't" ? ['must not'] : []);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, m, wrong.filter(x => x !== 'could\'t'));
+};
+
+const ADV = [['quick', 'quickly'], ['slow', 'slowly'], ['careful', 'carefully'], ['beautiful', 'beautifully'], ['loud', 'loudly'], ['happy', 'happily'], ['easy', 'easily'], ['quiet', 'quietly'], ['good', 'well'], ['fast', 'fast'], ['hard', 'hard']];
+T.adverbs = (y, r) => {
+  const freq = Math.random() < .35;
+  if (freq) {
+    const [sent, w] = pick([['Ali eats vegetables every day. He ___ eats vegetables.', 'always'], ['Mei Ling does not like durian at all. She ___ eats durian.', 'never'], ['Kumar plays football on most days of the week. He ___ plays football.', 'usually'], ['Siti goes swimming once in a while. She ___ goes swimming.', 'sometimes'], ['My father reads the newspaper every morning. He ___ reads the newspaper.', 'always'], ['Danial is never late. He is ___ late for school.', 'never']]).map((x, i) => i === 0 ? x.replace('___', BL) : x);
+    if (r === 'mythic') return ty(`Type the correct adverb of frequency (always / usually / sometimes / never):<div class="seq">${sent}</div>`, w);
+    return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, w, ['always', 'usually', 'sometimes', 'never'].filter(x => x !== w));
+  }
+  const [a, adv] = pick(ADV), v = pick([['She sings', 'beautiful'], ['He runs', 'fast'], ['The old man walks', 'slow'], ['Please write', 'careful'], ['The baby is sleeping', 'quiet'], ['Ali answered the question', 'easy'], ['The children laughed', 'happy'], ['She plays the piano', 'good']]);
+  const base = v[1], ad = ADV.find(x => x[0] === base)[1], sent = `${v[0]} ${BL}. (${base})`;
+  if (r === 'mythic') return ty(`Write the adverb form of the word in brackets:<div class="seq">${sent}</div>`, ad);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, ad, [base, base + 'ly', base.replace(/y$/, 'ily'), base + 'er', 'more ' + base].filter(x => x !== ad));
+};
+
+T.pronouns = (y, r) => {
+  const items = [['This bag belongs to me. It is', 'mine'], ['This book belongs to Siti. It is', 'hers'], ['That bicycle belongs to Ali. It is', 'his'], ['These toys belong to us. They are', 'ours'], ['Those shoes belong to the twins. They are', 'theirs'], ['Is this pencil', 'yours', '? – Yes, it is mine.']];
+  const it = pick(items), sent = `${it[0]} ${BL}${it[2] || '.'}`;
+  if (r === 'mythic') return ty(`Type the correct possessive pronoun:<div class="seq">${sent}</div>`, it[1]);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, it[1], ['mine', 'yours', 'his', 'hers', 'ours', 'theirs', 'me', 'her', 'them'].filter(x => x !== it[1]));
+};
+
+T.relative = (y, r) => {
+  const items = [['The man', 'who', 'lives next door is a doctor.'], ['This is the book', 'which', 'I bought yesterday.'], ['That is the school', 'where', 'my mother teaches.'], ['The girl', 'who', 'won the race is my sister.'], ['I have a cat', 'which', 'likes to sleep all day.'], ['Langkawi is the island', 'where', 'we spent our holiday.'], ['The boy', 'whose', 'bag is red is Ali.']];
+  const [a, w, b] = pick(y >= 6 ? items : items.slice(0, 6)), sent = `${a} ${BL} ${b}`;
+  if (r === 'mythic') return ty(`Type the correct relative pronoun (who / which / where / whose):<div class="seq">${sent}</div>`, w, w === 'which' ? ['that'] : w === 'who' ? ['that'] : []);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, w, ['who', 'which', 'where', 'whose', 'what'].filter(x => x !== w && !(w === 'which' && x === 'that')));
+};
+
+T.conditional = (y, r) => {
+  const items = [['If it rains, we', 'will stay', 'at home.', 'stay'], ['If you study hard, you', 'will pass', 'the exam.', 'pass'], ['If I see Ali, I', 'will tell', 'him the news.', 'tell'], ['If we hurry, we', 'will catch', 'the bus.', 'catch'], ['If she is hungry, she', 'will eat', 'some bread.', 'eat']];
+  const it = pick(items);
+  if (Math.random() < .5) {
+    const sent = `${it[0]} ${BL} ${it[2]} (${it[3]})`;
+    if (r === 'mythic') return ty(`Write the correct form of the verb in brackets:<div class="seq">${sent}</div>`, it[1], [it[1].replace('will ', "'ll ")]);
+    return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, it[1], [it[3], it[3] + 's', it[1].replace('will ', 'would '), it[3] + 'ed']);
+  }
+  const [cond, v] = pick([['If you', 'study', 'hard, you will pass the exam.'], ['If it', 'rains', 'tomorrow, we will stay at home.'], ['If Ali', 'finishes', 'his homework, he will play outside.']].map(x => [x, x[1]]));
+  const sent = `${cond[0]} ${BL} ${cond[2]}`, base = { study: 'study', rains: 'rain', finishes: 'finish' }[v];
+  if (r === 'mythic') return ty(`Write the correct form of the verb in brackets:<div class="seq">${sent} (${base})</div>`, v);
+  return mk(`Choose the correct answer:<div class="seq">${sent}</div>`, v, [`will ${base}`, `${base}ed`.replace('ee', 'e').replace('studyed', 'studied'), `${base}ing`.replace('rainning', 'raining'), v === base ? base + 's' : base].filter(x => x !== v));
+};
+
+T.tenses = (y, r) => {
+  const k = pick(['presSimple', 'presCont', 'pastSimple', 'pastCont', 'future', 'presPerfect']);
+  return T[k](y, r);
+};
+
+// ---- Reading (original passages) ----
+const READ = {
+  2: [
+    { t: 'My name is Mira. I am seven years old. I have a cat. Its name is Tompok. Tompok is white and fat. It likes to sleep on my bed. Every morning, I give Tompok some milk.',
+      q: [['How old is Mira?', 'seven years old', ['six years old', 'eight years old', 'nine years old'], 'seven'], ['What is the name of the cat?', 'Tompok', ['Mira', 'Comel', 'Oyen'], 'tompok'], ['What colour is the cat?', 'white', ['black', 'brown', 'orange'], 'white'], ['Where does the cat like to sleep?', 'on Mira\'s bed', ['under the table', 'in the garden', 'in a box'], 'bed'], ['What does Mira give Tompok every morning?', 'milk', ['fish', 'rice', 'water'], 'milk']] },
+    { t: 'Today is Saturday. Danial and his father go to the park. They fly a kite. The kite is red and yellow. After that, they eat ice cream. Danial is very happy.',
+      q: [['What day is it today?', 'Saturday', ['Sunday', 'Monday', 'Friday'], 'saturday'], ['Who goes to the park with Danial?', 'his father', ['his mother', 'his sister', 'his teacher'], 'father'], ['What do they fly?', 'a kite', ['a plane', 'a bird', 'a balloon'], 'kite'], ['What do they eat?', 'ice cream', ['cake', 'bread', 'noodles'], 'ice cream'], ['How does Danial feel?', 'happy', ['sad', 'angry', 'tired'], 'happy']] },
+  ],
+  3: [
+    { t: 'Aina wakes up at six o\'clock every morning. She brushes her teeth and takes a bath. Then, she has breakfast with her family. She usually eats bread and drinks milk. At seven o\'clock, she walks to school with her brother, Hakim.',
+      q: [['What time does Aina wake up?', 'six o\'clock', ['seven o\'clock', 'five o\'clock', 'eight o\'clock'], 'six'], ['What does Aina usually drink for breakfast?', 'milk', ['tea', 'juice', 'coffee'], 'milk'], ['How does Aina go to school?', 'She walks.', ['By bus.', 'By car.', 'By bicycle.'], 'walk'], ['Who is Hakim?', 'Aina\'s brother', ['Aina\'s father', 'Aina\'s teacher', 'Aina\'s friend'], 'brother'], ['What does Aina do first in the morning?', 'brushes her teeth', ['has breakfast', 'walks to school', 'reads a book'], 'brushes her teeth']] },
+    { t: 'There is a small zoo near my house. It has many animals. There are two elephants, three monkeys and a big tiger. The monkeys are very funny. They jump from tree to tree. My favourite animal is the elephant because it is big and kind.',
+      q: [['How many elephants are there?', 'two', ['three', 'one', 'four'], 'two'], ['Which animals are funny?', 'the monkeys', ['the elephants', 'the tiger', 'the birds'], 'monkeys'], ['What do the monkeys do?', 'jump from tree to tree', ['sleep all day', 'swim in the pond', 'eat bananas'], 'jump'], ['What is the writer\'s favourite animal?', 'the elephant', ['the tiger', 'the monkey', 'the giraffe'], 'elephant'], ['Why does the writer like the elephant?', 'It is big and kind.', ['It is small and funny.', 'It can fly.', 'It is fast.'], 'big and kind']] },
+  ],
+  4: [
+    { t: 'Last Sunday, Farid and his family went to Cameron Highlands. The weather was cool and windy. They visited a strawberry farm and picked some strawberries. Farid\'s sister, Nora, bought a strawberry jam for their grandmother. In the evening, they ate steamboat at a restaurant. They went home the next day.',
+      q: [['When did Farid go to Cameron Highlands?', 'last Sunday', ['last Saturday', 'last Monday', 'yesterday'], 'last sunday'], ['How was the weather?', 'cool and windy', ['hot and sunny', 'rainy', 'very hot'], 'cool'], ['What did Nora buy?', 'strawberry jam', ['strawberries', 'a hat', 'tea'], 'jam'], ['Who was the jam for?', 'their grandmother', ['their mother', 'Farid', 'their teacher'], 'grandmother'], ['What did they eat in the evening?', 'steamboat', ['fried rice', 'strawberries', 'satay'], 'steamboat']] },
+    { t: 'Kumar wanted a new bicycle. His old bicycle was too small for him. He saved his pocket money for six months. Every day, he put one ringgit into his money box. At last, he had enough money. He bought a blue bicycle and rode it to school proudly.',
+      q: [['Why did Kumar want a new bicycle?', 'His old bicycle was too small.', ['His old bicycle was broken.', 'He lost his bicycle.', 'His friend had one.'], 'too small'], ['How long did Kumar save his money?', 'six months', ['six weeks', 'one year', 'two months'], 'six months'], ['How much did he save every day?', 'one ringgit', ['two ringgit', 'fifty sen', 'ten ringgit'], 'one ringgit'], ['What colour was the new bicycle?', 'blue', ['red', 'green', 'black'], 'blue'], ['Which word best describes Kumar?', 'patient', ['lazy', 'rude', 'careless'], 'patient']] },
+  ],
+  5: [
+    { t: 'Every year, our school holds a Sports Day. This year, it was held on 15th March. The pupils were divided into four houses: Red, Blue, Green and Yellow. Lina, who is in the Blue House, won the 100-metre race. However, the Green House won the overall championship. The headmaster gave the prizes at the end of the event.',
+      q: [['When was Sports Day held this year?', '15th March', ['5th March', '15th May', '25th March'], '15th march'], ['How many houses were there?', 'four', ['three', 'five', 'two'], 'four'], ['Which house was Lina in?', 'Blue House', ['Red House', 'Green House', 'Yellow House'], 'blue'], ['Which house won the overall championship?', 'Green House', ['Blue House', 'Red House', 'Yellow House'], 'green'], ['Who gave the prizes?', 'the headmaster', ['Lina', 'the teachers', 'the parents'], 'headmaster']] },
+    { t: 'Plastic bags can harm our environment. They take hundreds of years to break down. Many animals, such as turtles, mistake plastic bags for food. To protect our Earth, we should bring our own bags when we go shopping. We should also reduce, reuse and recycle.',
+      q: [['How long do plastic bags take to break down?', 'hundreds of years', ['a few days', 'one year', 'ten years'], 'hundreds of years'], ['Which animal is mentioned in the text?', 'turtles', ['fish', 'birds', 'cows'], 'turtle'], ['Why do some animals eat plastic bags?', 'They think the bags are food.', ['They like the colour.', 'They are hungry for plastic.', 'People feed them.'], 'food'], ['What should we bring when we go shopping?', 'our own bags', ['plastic bags', 'more money', 'a basket of food'], 'own bags'], ['What is the main idea of the text?', 'Plastic bags are bad for the environment.', ['Turtles like shopping.', 'Shopping is fun.', 'Plastic bags are cheap.'], 'environment']] },
+  ],
+  6: [
+    { t: 'Dear Hana,\nI hope you are well. I have just moved to Kuching with my family. My father has been working here since January. Our new house is near a river, and I can see boats from my bedroom window. I have made two new friends, Melissa and Aziz. Next month, they will take me to the Sarawak Cultural Village. I miss you a lot. Please write to me soon.\nYour friend,\nSofia',
+      q: [['Who wrote the letter?', 'Sofia', ['Hana', 'Melissa', 'Aziz'], 'sofia'], ['Where has Sofia moved to?', 'Kuching', ['Kota Kinabalu', 'Miri', 'Ipoh'], 'kuching'], ['Since when has her father been working there?', 'since January', ['since March', 'for one year', 'since last week'], 'january'], ['What can Sofia see from her bedroom window?', 'boats', ['mountains', 'aeroplanes', 'the sea'], 'boats'], ['Where will her new friends take her next month?', 'the Sarawak Cultural Village', ['the river', 'Hana\'s house', 'a museum in Ipoh'], 'cultural village']] },
+    { t: 'The orangutan is an animal which lives in the rainforests of Borneo and Sumatra. Its name means "person of the forest". Orangutans spend most of their time in trees. They build new nests every night to sleep in. Sadly, their homes are getting smaller because many trees have been cut down. If we do not protect the forests, orangutans may disappear forever.',
+      q: [['Where do orangutans live?', 'in the rainforests of Borneo and Sumatra', ['in the desert', 'in the ocean', 'in Africa'], 'borneo'], ['What does the name "orangutan" mean?', 'person of the forest', ['king of the jungle', 'red monkey', 'tree climber'], 'person of the forest'], ['How often do orangutans build new nests?', 'every night', ['every week', 'every month', 'once a year'], 'every night'], ['Why are their homes getting smaller?', 'Many trees have been cut down.', ['They eat too much.', 'It is too cold.', 'There is too much rain.'], 'cut down'], ['What may happen if we do not protect the forests?', 'Orangutans may disappear forever.', ['Orangutans will move to cities.', 'Trees will grow faster.', 'Orangutans will learn to swim.'], 'disappear']] },
+  ],
+};
+T.reading = (y, r) => {
+  const P = pick(READ[y]), [qq, a, wr, key] = pick(P.q);
+  const box = `<div class="passage">${P.t.replace(/\n/g, '<br>')}</div>`;
+  if (r === 'mythic') return { q: `${box}${qq}`, ans: a, typed: true, accept: [], keyw: key.toLowerCase(), hint: 'Jawab dengan perkataan daripada petikan', story: true, read: true };
+  if (r === 'epik' && P.q.indexOf(P.q.find(x => x[0] === qq)) > 2) return null; // epik: soalan awal (fakta terus)
+  return mk(`${box}${qq}`, a, wr, { story: true, small: true, read: true });
+};
+
+// ---------- KURIKULUM ----------
+const NAMES = { vocab: 'Vocabulary', spelling: 'Spelling', aan: 'Articles: a / an', plural: 'Plurals', be: 'am / is / are', prep: 'Prepositions', can: 'can / have got', presSimple: 'Simple Present', presCont: 'Present Continuous', qwords: 'Question Words', opposites: 'Opposites', pastSimple: 'Simple Past', wasWere: 'was / were', compare: 'Comparing (-er / -est)', quantity: 'some / any / much / many', conj: 'Conjunctions', pastCont: 'Past Continuous', future: 'Future (will / going to)', modals: 'Modal Verbs', adverbs: 'Adverbs', pronouns: 'Possessive Pronouns', presPerfect: 'Present Perfect', relative: 'Relative Pronouns', conditional: 'If… (Conditional)', tenses: 'Mixed Tenses', reading: 'Reading', campuran: 'Mixed Test' };
+const ICON = { vocab: '🔤', spelling: '✍️', aan: '🅰️', plural: '👯', be: '🙋', prep: '📦', can: '💪', presSimple: '🔁', presCont: '▶️', qwords: '❓', opposites: '↔️', pastSimple: '⏪', wasWere: '🕰️', compare: '📏', quantity: '🧺', conj: '🔗', pastCont: '🎞️', future: '🔮', modals: '🚦', adverbs: '🏃', pronouns: '🫵', presPerfect: '✅', relative: '👉', conditional: '🌧️', tenses: '🌀', reading: '📖', campuran: '🎯' };
+const CUR = {
+  2: ['vocab', 'spelling', 'aan', 'plural', 'be', 'prep', 'can', 'reading'],
+  3: ['vocab', 'spelling', 'plural', 'presSimple', 'presCont', 'qwords', 'opposites', 'prep', 'reading'],
+  4: ['pastSimple', 'wasWere', 'presSimple', 'presCont', 'compare', 'quantity', 'conj', 'qwords', 'reading'],
+  5: ['pastCont', 'future', 'pastSimple', 'modals', 'adverbs', 'compare', 'pronouns', 'conj', 'reading'],
+  6: ['presPerfect', 'relative', 'conditional', 'tenses', 'modals', 'compare', 'adverbs', 'reading'],
+};
+function gen(y, topic, rank = 'epik') {
+  for (let i = 0; i < 300; i++) { const tp = topic === 'campuran' ? pick(CUR[y]) : topic; const q = T[tp](y, rank); if (q) { q.topic = tp; return q; } }
+  throw new Error('EN gen gagal ' + y + ' ' + topic + ' ' + rank);
+}
+return { gen, CUR, NAMES, ICON, T, READ };
+})();
+if (typeof module !== 'undefined') module.exports = EN;
+// ===== EN ENGINE END =====
 
 </script>
 <script>
@@ -767,46 +1212,92 @@ if (typeof module !== 'undefined') module.exports = SB;
 const $ = s => document.querySelector(s);
 const app = $('#app');
 const YC = ['', 'var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)', 'var(--c5)', 'var(--c6)'];
+// ---- enjin subjek ----
+const ENG = {
+  mt: { gen: (y, t, r) => SB.gen(y, t, r), CUR: SB.CUR, NAMES: SB.NAMES, ICON: SB.ICON, DESC: SB.DESC, years: [1, 2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
+  bi: { gen: (y, t, r) => EN.gen(y, t, r), CUR: EN.CUR, NAMES: EN.NAMES, ICON: EN.ICON, DESC: {}, years: [2, 3, 4, 5, 6], mix: 'Mixed Test', mixd: 'Random questions from all topics' },
+};
 const SUBJ = [
   { id: 'mt', nama: 'Matematik', ic: '🔢', g1: '#5b4bdb', g2: '#9a7bff' },
-  { id: 'bm', nama: 'Bahasa Melayu', ic: '📖', g1: '#f0603a', g2: '#ffad5c', ext: { 2: 'bahasa-melayu.html' } },
   { id: 'bi', nama: 'Bahasa Inggeris', ic: '🔤', g1: '#0b9e93', g2: '#3fd6c0' },
-  { id: 'sn', nama: 'Sains', ic: '🔬', g1: '#16a34a', g2: '#7dd56f' },
+  { id: 'bm', nama: 'Bahasa Melayu', ic: '📖', g1: '#f0603a', g2: '#ffad5c', ext: { 2: 'bahasa-melayu.html' } },
+  { id: 'sn', nama: 'Sains', ic: '🔬', g1: '#16a34a', g2: '#7dd56f', d1: { nama: 'Alam dan Manusia', ic: '🌱' } },
 ];
+const RANKS = [
+  { id: 'epik', nama: 'Epik', ic: '⚔️', tp: 'TP1–2', d: 'Asas: soalan terus, 4 pilihan jawapan.', c1: '#6d4cff', c2: '#a68bff' },
+  { id: 'legend', nama: 'Legend', ic: '🏆', tp: 'TP3–4', d: 'Aplikasi: ayat cerita & pilihan yang lebih mengelirukan.', c1: '#e08a00', c2: '#ffc93c' },
+  { id: 'mythic', nama: 'Mythic', ic: '💎', tp: 'TP5–6', d: 'KBAT: tiada pilihan, taip jawapan sendiri (gaya UASA).', c1: '#c2185b', c2: '#7b1fa2' },
+];
+const rankBy = id => RANKS.find(r => r.id === id);
 const PRAISE = ['Betul! Hebat!', 'Tepat sekali!', 'Bagus!', 'Pandai!', 'Syabas!', 'Mantap!'];
 const OOPS = ['Tak apa, cuba lagi!', 'Hampir!', 'Belajar dari silap!'];
 
 // ---- storage (selamat jika disekat) ----
-const store = { get() { try { return JSON.parse(localStorage.getItem('sb.v1') || '{}'); } catch (e) { return {}; } }, set(o) { try { localStorage.setItem('sb.v1', JSON.stringify(o)); } catch (e) {} } };
+const store = { get() { try { return JSON.parse(localStorage.getItem('sb.v2') || '{}'); } catch (e) { return {}; } }, set(o) { try { localStorage.setItem('sb.v2', JSON.stringify(o)); } catch (e) {} } };
 let DB = store.get(); DB.stars = DB.stars || {};
-const getStars = (y, t) => DB.stars[`${y}.${t}`] || 0;
-const setStars = (y, t, s) => { if (s > getStars(y, t)) { DB.stars[`${y}.${t}`] = s; } DB.lastYear = y; store.set(DB); };
+const sk = (s, y, t, r) => `${s}.${y}.${t}.${r}`;
+const getStars = (s, y, t, r) => DB.stars[sk(s, y, t, r)] || 0;
+const setStars = (s, y, t, r, n) => { if (n > getStars(s, y, t, r)) DB.stars[sk(s, y, t, r)] = n; DB.lastYear = y; store.set(DB); };
 
 const rf = s => String(s).replace(/\{(\d+) (\d+)\/(\d+)\}/g, '<span class="mixed">$1<span class="frac"><span>$2</span><span>$3</span></span></span>').replace(/\{(\d+)\/(\d+)\}/g, '<span class="frac"><span>$1</span><span>$2</span></span>');
 const starsHTML = n => '<span class="stars">' + [1, 2, 3].map(i => i <= n ? '★' : '<span class="off">★</span>').join('') + '</span>';
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400); };
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); };
 const subjBy = id => SUBJ.find(s => s.id === id);
 const setTheme = s => { document.documentElement.style.setProperty('--g1', s.g1); document.documentElement.style.setProperty('--g2', s.g2); };
+const topicsOf = (s, y) => ENG[s].CUR[y] || [];
+function progress(s, y) { const T = topicsOf(s, y).concat('campuran'); let got = 0; T.forEach(t => RANKS.forEach(r => got += getStars(s, y, t, r.id))); return { got, max: T.length * 9 }; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
-function mathProgress(y) { const T = SB.CUR[y]; const got = T.reduce((a, t) => a + getStars(y, t), 0); return { got, max: T.length * 3 }; }
+// ---- semak jawapan taip ----
+const norm = s => String(s).toLowerCase().replace(/[’‘`]/g, "'").replace(/[ \s]+/g, ' ').trim().replace(/[.!?]+$/, '');
+const squash = s => norm(s).replace(/\s/g, '').replace(/^rm/, '').replace(/^jam/, '');
+const toFracStr = s => { s = s.replace(/^rm/i, '').trim(); let m; if ((m = /^(\d+)\s+(\d+)\/(\d+)$/.exec(s))) return `{${m[1]} ${m[2]}/${m[3]}}`; if ((m = /^(\d+)\/(\d+)$/.exec(s))) return `{${m[1]}/${m[2]}}`; return s.replace(/\s/g, ''); };
+const UNIT = /^([\d .]+)\s*(cm²|cm³|cm|mm|km|kg|ml|m|g|l|%)$/;
+function check(q, input) {
+  const i = norm(input); if (!i) return false;
+  if (q.keyw) return i.includes(norm(q.keyw)) || i === norm(q.ans);
+  if (q.accept && q.accept.length) return q.accept.some(a => norm(a) === i);
+  const a = q.ans.replace(/[{}]/g, '');
+  if (squash(a) === squash(i)) return true;
+  if (q.ans.includes(':') && squash(a) === squash(i.replace('.', ':'))) return true;
+  const va = SB.val(q.ans), vi = SB.val(toFracStr(i));
+  if (va !== null && vi !== null && Math.abs(va - vi) < 1e-9) return true;
+  const m = UNIT.exec(q.ans); if (m) { const vu = SB.val(toFracStr(i.replace(new RegExp(m[2].replace('%', '\\%') + '$'), '').trim())); if (vu !== null && Math.abs(vu - +m[1].replace(/ /g, '')) < 1e-9) return true; }
+  return false;
+}
+function hintFor(q) {
+  if (q.hint) return q.hint;
+  const a = q.ans;
+  if (/^\{/.test(a)) return 'cth: 3/4 atau 2 1/3';
+  if (/^RM/.test(a)) return 'cth: RM12.50';
+  if (/jam|minit/.test(a)) return 'cth: 1 jam 20 minit';
+  if (/baki/.test(a)) return 'cth: 12 baki 3';
+  if (/abad/.test(a)) return 'cth: 2 abad 5 tahun';
+  if (/ : /.test(a)) return 'cth: 2 : 3';
+  if (/kg |m |l /.test(a)) return 'cth: 2 kg 300 g';
+  if (/:/.test(a)) return 'cth: 3:45';
+  if (UNIT.test(a)) return 'Taip nombor sahaja';
+  return 'Taip jawapan anda';
+}
 
 // ---------------- HOME ----------------
 function home(y, scroll) {
-  y = y || DB.lastYear || 1;
+  y = y || DB.lastYear || 2;
+  const nTopics = Object.values(SB.CUR).reduce((a, t) => a + t.length, 0) + Object.values(EN.CUR).reduce((a, t) => a + t.length, 0);
   app.innerHTML = `
   <div class="wrap">
     <section class="hero">
       <div>
         <span class="pill"><b>●</b> Percuma · Tanpa iklan · Tanpa daftar</span>
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
-        <p class="lead">Latihan interaktif ikut topik sekolah rendah. Soalan baharu setiap kali main, terus dapat jawapan, dan kumpul bintang!</p>
+        <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik rank dari <b>Epik</b> ke <b>Legend</b> hingga <b>Mythic</b>, dan kumpul bintang!</p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
-        <div class="stats"><div><b>6</b>Darjah</div><div><b>${Object.values(SB.CUR).reduce((a, t) => a + t.length, 0)}</b>Topik Matematik</div><div><b>∞</b>Soalan rawak</div></div>
+        <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div><div><b>∞</b>Soalan rawak</div></div>
       </div>
       <div class="art" aria-hidden="true">
         <div class="tile t1">7</div><div class="tile t2">÷</div>
         <div class="tile t3"><span>12 + 8 = <span class="grad">20</span></span></div>
-        <div class="tile t4">★</div><div class="tile t5">½</div>
+        <div class="tile t4">💎</div><div class="tile t5">ABC</div>
       </div>
     </section>
     <section class="blk" id="pilih">
@@ -814,16 +1305,20 @@ function home(y, scroll) {
       <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="l">Darjah ${i}</span></button>`).join('')}</div>
       <div class="subjects" id="subjects"></div>
     </section>
+    <section class="blk">
+      <div class="sh"><div><h2>Sistem rank</h2><p>Setiap topik ada 3 tahap kesukaran mengikut Tahap Penguasaan (TP).</p></div></div>
+      <div class="features">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${r.ic}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
+    </section>
     <section class="blk" id="ibubapa">
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
       <div class="features">
-        <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu, termasuk ayat cerita. Anak tak boleh hafal jawapan.</p></div>
-        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang setiap topik disimpan dalam peranti ini sahaja. Tiada akaun, tiada data dihantar ke mana-mana.</p></div>
-        <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut topik sekolah</h3><p>Topik disusun mengikut tahun persekolahan rendah, dari nombor asas hingga peratus dan nisbah.</p></div>
+        <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
+        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang setiap topik dan rank disimpan dalam peranti ini sahaja. Tiada akaun, tiada data dihantar ke mana-mana.</p></div>
+        <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Darjah 2–6 ikut KSSR (Semakan 2017) yang dijajarkan. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
       </div>
     </section>
   </div>
-  <footer class="wrap"><p>© ${new Date().getFullYear()} Sudut Belajar · Percuma untuk semua murid.</p><p>Topik disusun berdasarkan kurikulum sekolah rendah dan sedang disemak oleh guru.</p></footer>`;
+  <footer class="wrap"><p>© ${new Date().getFullYear()} Sudut Belajar · Percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -834,79 +1329,104 @@ function home(y, scroll) {
 }
 function renderSubjects(y) {
   const box = $('#subjects');
-  box.innerHTML = SUBJ.map(s => {
+  box.innerHTML = SUBJ.map(s0 => {
+    const s = (y === 1 && s0.d1) ? Object.assign({}, s0, s0.d1) : s0;
     const st = `--g1:${s.g1};--g2:${s.g2}`;
-    if (s.id === 'mt') { const p = mathProgress(y); return `<a class="sub" style="${st}" href="#d${y}/mt"><span class="tag">${SB.CUR[y].length} topik</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">⭐ ${p.got} / ${p.max} bintang</div><div class="prog"><i style="width:${p.got / p.max * 100}%"></i></div></a>`; }
+    if (ENG[s.id] && ENG[s.id].years.includes(y)) { const p = progress(s.id, y); return `<a class="sub" style="${st}" href="#d${y}/${s.id}"><span class="tag">${topicsOf(s.id, y).length} topik</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">⭐ ${p.got} / ${p.max} bintang</div><div class="prog"><i style="width:${p.got / p.max * 100}%"></i></div></a>`; }
     if (s.ext && s.ext[y]) return `<a class="sub" style="${st}" href="${s.ext[y]}"><span class="tag">Demo</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">Latihan Darjah ${y} →</div></a>`;
     return `<button class="sub soon" style="${st}" data-soon="${s.nama}"><span class="tag">Akan datang</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">Sedang disediakan</div></button>`;
   }).join('');
-  box.querySelectorAll('[data-soon]').forEach(b => b.onclick = () => toast(`${b.dataset.soon} Darjah ${y} sedang disediakan. Cuba Matematik dulu!`));
+  box.querySelectorAll('[data-soon]').forEach(b => b.onclick = () => toast(`${b.dataset.soon} Darjah ${y} sedang disediakan.`));
 }
 
 // ---------------- TOPIK ----------------
-function topics(y) {
-  const s = subjBy('mt'); setTheme(s); const p = mathProgress(y);
-  const tiles = SB.CUR[y].map(t => `<a class="tp" href="#d${y}/mt/${t}"><div class="ti">${SB.ICON[t]}</div><div><h3>${SB.NAMES[t]}</h3>${(SB.DESC[y] || {})[t] ? `<div class="d">${SB.DESC[y][t]}</div>` : ''}${starsHTML(getStars(y, t))}</div></a>`).join('');
+function rankPills(s, y, t) { return `<div class="rpills">${RANKS.map(r => { const n = getStars(s, y, t, r.id); return `<span class="rp ${n ? 'got' : ''}" style="--r1:${r.c1}" title="${r.nama}">${r.ic}<b>${n}</b></span>`; }).join('')}</div>`; }
+function topics(s, y) {
+  const S = subjBy(s), E = ENG[s]; setTheme(S); const p = progress(s, y);
+  const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${E.ICON[t]}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
-      <h1>${s.ic} Matematik · Darjah ${y}</h1><div class="sm">⭐ ${p.got} / ${p.max} bintang dikumpul · Dapat 3 bintang untuk setiap topik!</div>
-      <div class="yrs-mini">${[1, 2, 3, 4, 5, 6].map(i => `<a href="#d${i}/mt" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
+      <h1>${S.ic} ${S.nama} · Darjah ${y}</h1><div class="sm">⭐ ${p.got} / ${p.max} bintang · Setiap topik ada 3 rank: ⚔️ Epik · 🏆 Legend · 💎 Mythic</div>
+      ${y === 1 ? '<div class="note">ℹ️ Darjah 1 masih ikut KSSR. Akan dikemas kini mengikut Kurikulum Persekolahan 2027.</div>' : ''}
+      <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
-    <div class="topics">${tiles}<a class="tp mix" href="#d${y}/mt/campuran"><div class="ti">${SB.ICON.campuran}</div><div><h3>${SB.NAMES.campuran}</h3><div class="d">Soalan rawak dari semua topik</div>${starsHTML(getStars(y, 'campuran'))}</div></a></div>
+    <div class="topics">${tiles}<a class="tp mix" href="#d${y}/${s}/campuran"><div class="ti">${E.ICON.campuran}</div><div><h3>${E.mix}</h3><div class="d">${E.mixd}</div>${rankPills(s, y, 'campuran')}</div></a></div>
+  </div>`;
+  window.scrollTo(0, 0);
+}
+
+// ---------------- PILIH RANK ----------------
+function ranks(s, y, t) {
+  const S = subjBy(s), E = ENG[s]; setTheme(S);
+  app.innerHTML = `<div class="wrap">
+    <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
+      <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih rank kamu</div></div>
+    <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}" href="#d${y}/${s}/${t}/${r.id}">
+      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
 
 // ---------------- KUIZ ----------------
 let Q = null;
-function quiz(y, t) {
-  const s = subjBy('mt'); setTheme(s);
-  Q = { y, t, list: SB.round(y, t, 10), i: 0, score: 0, wrong: [], lock: false };
+function quiz(s, y, t, rank) {
+  const S = subjBy(s), E = ENG[s]; setTheme(S); const R = rankBy(rank);
+  Q = { s, y, t, rank, list: SB.round(y, t, 10, rank, E.gen), i: 0, score: 0, wrong: [], lock: false };
   app.innerHTML = `<div class="wrap"><div class="quiz">
-    <div class="qtop"><a class="x" href="#d${y}/mt" aria-label="Keluar">✕</a><div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div></div>
+    <div class="qtop"><a class="x" href="#d${y}/${s}/${t}" aria-label="Keluar">✕</a><div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div></div>
     <div id="qbox"></div></div></div>`;
   showQ(); window.scrollTo(0, 0);
 }
 function showQ() {
-  const q = Q.list[Q.i], y = Q.y;
+  const q = Q.list[Q.i], E = ENG[Q.s], R = rankBy(Q.rank);
   $('#bar').style.width = (Q.i / Q.list.length * 100) + '%';
   $('#cnt').textContent = `${Q.i + 1}/${Q.list.length}`;
+  const body = q.typed
+    ? `<form class="typed" id="tform" autocomplete="off"><input id="tin" class="tin" placeholder="${esc(hintFor(q))}" autocapitalize="off" spellcheck="false" inputmode="${/^[\d{]|^RM/.test(q.ans) && !/[a-z]{3}/i.test(q.ans.replace(/^RM/, '')) ? 'decimal' : 'text'}"><button class="btn pri" type="submit">Semak ✓</button></form>`
+    : `<div class="opts">${q.opts.map((o, i) => `<button class="opt ${q.small ? 'small' : ''}" data-i="${i}"><span class="k">${'ABCD'[i]}</span>${rf(o)}</button>`).join('')}</div>`;
   $('#qbox').innerHTML = `
-    <div class="qlabel"><span>Darjah ${y}</span><span>${SB.ICON[q.topic]} ${SB.NAMES[q.topic]}</span><span>✅ ${Q.score}</span></div>
-    <div class="qcard"><div class="qtext ${q.story ? 'story' : ''}">${rf(q.q)}</div>
-      <div class="opts">${q.opts.map((o, i) => `<button class="opt ${q.small ? 'small' : ''}" data-i="${i}"><span class="k">${'ABCD'[i]}</span>${rf(o)}</button>`).join('')}</div>
-    </div>
+    <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span><span>✅ ${Q.score}</span></div>
+    <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${body}</div>
     <div class="fb" id="fb"></div>`;
   Q.lock = false;
-  $('#qbox').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
+  if (q.typed) { const f = $('#tform'); f.onsubmit = e => { e.preventDefault(); const v = $('#tin').value; if (!v.trim()) { toast('Taip jawapan dulu.'); return; } answer(v); }; setTimeout(() => $('#tin') && $('#tin').focus({ preventScroll: true }), 60); }
+  else $('#qbox').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
 }
-function answer(i) {
+function answer(x) {
   if (Q.lock) return; Q.lock = true;
-  const q = Q.list[Q.i], btns = [...document.querySelectorAll('.opt')], ok = q.opts[i] === q.ans;
-  btns.forEach((b, j) => { b.disabled = true; if (q.opts[j] === q.ans) b.classList.add('ok'); });
-  if (ok) Q.score++; else { btns[i].classList.add('no'); Q.wrong.push({ q, pick: q.opts[i] }); }
-  const last = Q.i === Q.list.length - 1;
-  const fb = $('#fb'); fb.className = 'fb show ' + (ok ? 'ok' : 'no');
-  fb.innerHTML = `<div class="em">${ok ? '🎉' : '💡'}</div><div class="t"><b>${ok ? PRAISE[Math.random() * PRAISE.length | 0] : OOPS[Math.random() * OOPS.length | 0]}</b>${ok ? '' : `<span>Jawapan betul: ${rf(q.ans)}</span>`}</div><button class="btn" id="next">${last ? 'Lihat keputusan' : 'Seterusnya →'}</button>`;
+  const q = Q.list[Q.i]; let ok, pickTxt;
+  if (q.typed) {
+    ok = check(q, x); pickTxt = esc(x); const inp = $('#tin'); inp.disabled = true; inp.classList.add(ok ? 'ok' : 'no'); $('#tform button').disabled = true;
+  } else {
+    const btns = [...document.querySelectorAll('.opt')]; ok = q.opts[x] === q.ans; pickTxt = q.opts[x];
+    btns.forEach((b, j) => { b.disabled = true; if (q.opts[j] === q.ans) b.classList.add('ok'); }); if (!ok) btns[x].classList.add('no');
+  }
+  if (ok) Q.score++; else Q.wrong.push({ q, pick: pickTxt });
+  const last = Q.i === Q.list.length - 1, fb = $('#fb');
+  fb.className = 'fb show ' + (ok ? 'ok' : 'no');
+  fb.innerHTML = `<div class="em">${ok ? '🎉' : '💡'}</div><div class="t"><b>${ok ? PRAISE[Math.random() * PRAISE.length | 0] : OOPS[Math.random() * OOPS.length | 0]}</b>${ok && !q.typed ? '' : `<span>Jawapan: ${rf(q.ans)}</span>`}</div><button class="btn" id="next">${last ? 'Lihat keputusan' : 'Seterusnya →'}</button>`;
   $('#bar').style.width = ((Q.i + 1) / Q.list.length * 100) + '%';
-  const nx = $('#next'); nx.onclick = next; nx.focus({ preventScroll: true });
+  const nx = $('#next'); nx.onclick = next; setTimeout(() => nx.focus({ preventScroll: true }), 30);
   fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else result(); }
 function result() {
-  const n = Q.list.length, sc = Q.score, st = sc >= 9 ? 3 : sc >= 7 ? 2 : sc >= 5 ? 1 : 0, y = Q.y, t = Q.t;
-  setStars(y, t, st);
+  const n = Q.list.length, sc = Q.score, st = sc >= 9 ? 3 : sc >= 7 ? 2 : sc >= 5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
+  setStars(s, y, t, rank, st);
   const head = st === 3 ? 'Hebat sekali! 🏆' : st === 2 ? 'Bagus! 👍' : st === 1 ? 'Boleh lagi! 💪' : 'Jom cuba lagi! 🌱';
+  const ni = RANKS.findIndex(r => r.id === rank), nextR = RANKS[ni + 1];
+  const up = st >= 2 && nextR ? `<a class="btn rkbtn" style="--r1:${nextR.c1};--r2:${nextR.c2}" href="#d${y}/${s}/${t}/${nextR.id}">${nextR.ic} Cuba ${nextR.nama} →</a>` : '';
   $('#bar').style.width = '100%';
   $('#qbox').innerHTML = `<div class="res" id="res">
-    <div class="bigstars">${[1, 2, 3].map(i => `<span data-s="${i}">★</span>`).join('')}</div>
-    <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${SB.NAMES[t]}</div>
-    <div class="row"><button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/mt">Pilih topik lain</a></div>
-    ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q.replace(/class="vis/g, 'class="vis'))}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
+    <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</div>
+    <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
+    <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
+    <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;
-  document.querySelectorAll('.bigstars span').forEach((s, i) => setTimeout(() => { if (i < st) s.classList.add('on'); }, 250 + i * 260));
+  document.querySelectorAll('.bigstars span').forEach((x, i) => setTimeout(() => { if (i < st) x.classList.add('on'); }, 250 + i * 260));
   if (st === 3) confetti();
-  $('#again').onclick = () => quiz(y, t);
+  $('#again').onclick = () => quiz(s, y, t, rank);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function confetti() {
@@ -914,18 +1434,21 @@ function confetti() {
   for (let i = 0; i < 60; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length]; c.style.animationDelay = Math.random() * .8 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3600); }
 }
 document.addEventListener('keydown', e => {
-  if (!Q || !document.querySelector('.opt')) return;
+  if (!Q || !$('#qbox')) return;
+  if (document.activeElement && document.activeElement.id === 'tin') return;
   const k = e.key.toUpperCase(), idx = 'ABCD1234'.indexOf(k);
-  if (idx >= 0 && !Q.lock) { answer(idx % 4); e.preventDefault(); }
-  else if ((e.key === 'Enter' || e.key === ' ') && Q.lock && document.activeElement !== $('#next')) { $('#next') && $('#next').click(); e.preventDefault(); }
+  if (idx >= 0 && !Q.lock && document.querySelector('.opt')) { answer(idx % 4); e.preventDefault(); }
+  else if ((e.key === 'Enter' || e.key === ' ') && Q.lock && $('#next') && document.activeElement !== $('#next')) { $('#next').click(); e.preventDefault(); }
 });
 
 // ---------------- ROUTER ----------------
 function route() {
   const h = location.hash.slice(1); let m;
-  if ((m = /^d([1-6])\/mt\/([a-z]+)$/.exec(h)) && (SB.CUR[m[1]].includes(m[2]) || m[2] === 'campuran')) return quiz(+m[1], m[2]);
+  const okT = (s, y, t) => ENG[s] && ENG[s].years.includes(+y) && (topicsOf(s, +y).includes(t) || t === 'campuran');
+  if ((m = /^d([1-6])\/(mt|bi)\/([a-zA-Z]+)\/(epik|legend|mythic)$/.exec(h)) && okT(m[2], m[1], m[3])) return quiz(m[2], +m[1], m[3], m[4]);
   Q = null;
-  if ((m = /^d([1-6])\/mt$/.exec(h))) return topics(+m[1]);
+  if ((m = /^d([1-6])\/(mt|bi)\/([a-zA-Z]+)$/.exec(h)) && okT(m[2], m[1], m[3])) return ranks(m[2], +m[1], m[3]);
+  if ((m = /^d([1-6])\/(mt|bi)$/.exec(h)) && ENG[m[2]].years.includes(+m[1])) return topics(m[2], +m[1]);
   if ((m = /^d([1-6])$/.exec(h))) return home(+m[1], true);
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();

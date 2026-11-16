@@ -195,6 +195,36 @@ section.blk{padding:44px 0}
 .sndbtn:hover{transform:scale(1.1);background:#fff}
 .sndbtn:active{transform:scale(.92)}
 .sndbtn.off{opacity:.45}
+.pelanpilih{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;text-align:left}
+.pelan{position:relative;display:flex;flex-direction:column;gap:4px;background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;font:inherit;color:inherit;cursor:pointer;text-align:left;transition:border-color .15s,box-shadow .15s}
+.pelan.on{border-color:#d4a017;box-shadow:0 10px 24px -14px #b8860b;background:linear-gradient(160deg,#fff8e1,#fff)}
+.pelan .pn{font-weight:800;font-size:15px}
+.pelan .ph{font-family:var(--fd);font-size:32px;font-weight:700;color:#8a6400;line-height:1.1}
+.pelan .pt{font-size:12.5px;color:var(--muted)}
+.pelan .pa{font-size:12.5px;color:#b3261e;background:#fdecea;border-radius:8px;padding:4px 8px;margin-top:4px}
+.pelan .pj{font-size:12.5px;font-weight:700;color:#1e7a46}
+.pelan .pita{position:absolute;top:-10px;right:12px;background:#1e7a46;color:#fff;font-size:11px;font-weight:800;letter-spacing:.5px;padding:3px 8px;border-radius:999px}
+@media (max-width:480px){.pelanpilih{grid-template-columns:1fr}}
+.nav a.akaunbtn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--line);font-size:17px}
+.nav a.akaunbtn.masuk{background:#efeaff;border-color:var(--brand2)}
+.akaunbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+.atab{display:flex;gap:6px;background:#f2f0fb;border-radius:12px;padding:4px;margin-bottom:14px}
+.atab button{flex:1;border:0;background:none;font:inherit;font-weight:700;padding:10px;border-radius:9px;cursor:pointer;color:var(--muted)}
+.atab button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -4px rgba(46,32,140,.4)}
+.afield{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-weight:600;font-size:14px}
+.afield input,.afield select{padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:500}
+.afield input:focus,.afield select:focus{outline:none;border-color:var(--brand2);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand2) 22%,transparent)}
+.afield small{font-weight:500;color:var(--muted);font-size:12.5px}
+.linkbtn{background:none;border:0;padding:6px 0;font:inherit;font-weight:600;color:var(--brand);cursor:pointer;text-decoration:underline}
+.amsg{font-size:14px;margin-top:8px;min-height:1.2em}
+.anak{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;background:#fff}
+.anak.aktif{border-color:var(--ok);background:var(--okbg)}
+.anak .an{flex:1;min-width:160px}
+.anak .an b{font-size:17px}
+.anak .an span{display:block;font-size:13px;color:var(--muted)}
+details.alipat{border:1.5px dashed var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:#fff}
+details.alipat summary{font-weight:700;cursor:pointer}
+@media (max-width:420px){.nav a .lbl{display:none}}
 .art .heroimg{position:relative;z-index:1;display:block;width:100%;height:auto;border-radius:28px;box-shadow:var(--shadow-lg);animation:float 7s ease-in-out infinite}
 .art.adagambar{height:auto;padding:28px 18px}
 .art.adagambar .tile{z-index:2}
@@ -382,7 +412,7 @@ footer p+p{margin-top:6px}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38"><span>Sudut Belajar</span></a>
-  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#ranking">🏆 Ranking</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
+  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#akaun" class="akaunbtn" id="akaunbtn" aria-label="Akaun ibu bapa" title="Akaun ibu bapa">👤</a><a href="#ranking">🏆<span class="lbl"> Ranking</span></a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
 </div></header>
 <main id="app"></main>
 <div class="toast" id="toast"></div>
@@ -8432,6 +8462,9 @@ async function apiGet(p) { const r = await fetch(API + '?' + new URLSearchParams
 async function apiPost(b) { const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return r.json(); }
 const MULT = { warrior: 1, epik: 2, legend: 3, mythic: 4 };
 const isPremium = () => { const P = PLAYER.get(); return !!(P && P.premium); };
+// Pakej ikut darjah (mula 1 Dis 2026): P.pakej = darjah pakej; 0/kosong = pakej lama (semua darjah)
+const pakejOK = y => { const P = PLAYER.get(); return !!(P && P.premium) && (!+P.pakej || +P.pakej === +y); };
+const LABEL_PAKEJ = y => +y === 1 ? 'Asas membaca, nombor & English — persediaan Tahun 1' : 'Semua subjek Darjah ' + y;
 function tuntutJumlah() { const pm = DB.pending || {}; let t = 0; for (const k in pm) t += pm[k]; return t; }
 async function tuntutPending(P, el) {
   const pm = DB.pending || {}; let total = 0;
@@ -8443,13 +8476,33 @@ async function tuntutPending(P, el) {
   if (total && el) el.textContent = '🎉 ' + total + ' mata simpanan kamu telah dimasukkan ke Ranking!';
   return total;
 }
+// Simpan awan automatik: selepas kuiz (paling kerap sekali seminit) + semasa tutup/tukar tab
+const AUTO = { kotor: false, akhir: 0, t: null };
+function dataAwan() { return JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }); }
+function simpanAuto(segera) {
+  const P = PLAYER.get(); if (!P || !apiOK()) return;
+  AUTO.kotor = true; clearTimeout(AUTO.t);
+  const tunggu = segera ? 0 : Math.max(0, 60000 - (Date.now() - AUTO.akhir));
+  AUTO.t = setTimeout(async () => {
+    const P2 = PLAYER.get(); if (!P2 || !AUTO.kotor) return;
+    AUTO.kotor = false; AUTO.akhir = Date.now();
+    try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: dataAwan() }); if (!r.ok) AUTO.kotor = true; } catch (e) { AUTO.kotor = true; }
+  }, tunggu);
+}
+document.addEventListener('visibilitychange', () => {
+  const P = PLAYER.get();
+  if (document.hidden && AUTO.kotor && P && apiOK() && navigator.sendBeacon) {
+    try { if (navigator.sendBeacon(API, JSON.stringify({ a: 'simpan', nick: P.nick, pin: P.pin, darjah: P.darjah, sekolah: P.sekolah || '', data: dataAwan() }))) { AUTO.kotor = false; AUTO.akhir = Date.now(); clearTimeout(AUTO.t); } } catch (e) {}
+  }
+});
 async function hantarSkor(y, rank, sc, el) {
   if (!sc) return;
   const P = PLAYER.get();
   if (!P) { const mata = sc * (MULT[rank] || 1); const pm = DB.pending || {}; pm[y] = Math.min((pm[y] | 0) + mata, 90); DB.pending = pm; store.set(DB); if (el) el.innerHTML = `⭐ <b>+${mata} mata disimpan!</b> <a href="#ranking" style="font-weight:600">Daftar untuk masukkan ${tuntutJumlah()} mata ke Ranking →</a>`; return; }
   if (!apiOK()) return;
+  simpanAuto();
   const mata = sc * (MULT[rank] || 1);
-  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} bulan ini: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
+  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} ${/^M/.test(r.tempoh || '') ? 'musim ini' : 'bulan ini'}: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
 }
 function mergeAwan(data) {
   let o;
@@ -8481,36 +8534,84 @@ function mergeAwan(data) {
   store.set(DB);
   return Object.keys(st).length;
 }
-const HARGA_TAMAT = new Date(2026, 11, 7, 23, 59); // RM30 hingga 7 Dis, RM45 mula 8 Dis
-function hargaAwal() { return Date.now() <= HARGA_TAMAT.getTime(); }
-function hargaRM() { return hargaAwal() ? 30 : 45; }
-function kempenAktif() { const n = Date.now(); return n >= new Date(2026, 11, 1).getTime() && n <= new Date(2026, 11, 14, 23, 59).getTime(); }
+// ---------------- TETAPAN: harga, tarikh & kempen dibaca dari Sheet (?a=tetapan) ----------------
+// Nilai lalai di bawah hanya dipakai jika belum pernah dapat tetapan (luar talian kali pertama).
+// Semua masa dalam ms epoch; "awal_tamat" 23:59 waktu Malaysia.
+const TETAPAN_LALAI = { harga_2bulan_awal: 30, harga_2bulan: 45, harga_2bulan_awal_tamat: Date.UTC(2026, 11, 7, 15, 59), hari_2bulan: 60,
+  harga_setahun_awal: 129, harga_setahun: 149, harga_setahun_awal_tamat: Date.UTC(2026, 11, 31, 15, 59), hari_setahun: 365 };
+const KEMPEN_LALAI = { kod: 'LANCAR100', hari: 14, had: 100, digunakan: 0, mula: Date.UTC(2026, 10, 30, 16, 0), tamat: Date.UTC(2026, 11, 14, 16, 0) };
+let TT = (function () { try { const x = JSON.parse(localStorage.getItem('sb.tetapan') || 'null'); return x && x.t ? x : null; } catch (e) { return null; } })();
+const tt = k => (TT && TT.t && TT.t[k] !== undefined && TT.t[k] !== null && TT.t[k] !== '') ? TT.t[k] : TETAPAN_LALAI[k];
+const kempenT = () => (TT && TT.t ? TT.kempen : KEMPEN_LALAI) || null;
+const NAMA_PELAN = { '2bulan': '2 Bulan', setahun: 'Setahun' };
+function hargaAwal(pl) { return Date.now() <= +tt('harga_' + (pl || '2bulan') + '_awal_tamat'); }
+function hargaRM(pl) { pl = pl || '2bulan'; return +tt(hargaAwal(pl) ? 'harga_' + pl + '_awal' : 'harga_' + pl); }
+function kempenAktif() { const k = kempenT(), n = Date.now(); return !!k && (!k.mula || n >= k.mula) && (!k.tamat || n < k.tamat) && (!k.had || (k.digunakan | 0) < k.had); }
+const BULAN_BM = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+function tarikhBM(ms) { const d = new Date(+ms + 8 * 3600e3); return d.getUTCDate() + ' ' + BULAN_BM[d.getUTCMonth()]; } // waktu Malaysia
+function tarikhPenuh(ms) { const d = new Date(+ms + 8 * 3600e3); return d.getUTCDate() + ' ' + BULAN_BM[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); }
+const MUSIM = { info: null }; // dikemas kini setiap kali ?a=top dipanggil
+const labelTempoh = () => MUSIM.info ? 'musim ini' : 'bulan ini';
+function sehari(rm, hari) { const x = rm / (hari || 1); return x < 1 ? Math.round(x * 100) + ' sen' : 'RM' + x.toFixed(2); }
+async function muatTetapan() {
+  if (!apiOK()) return;
+  try {
+    const r = await apiGet({ a: 'tetapan' });
+    if (!r || !r.ok || !r.t) return;
+    const baru = { t: r.t, kempen: r.kempen || null, masa: Date.now() };
+    const berubah = JSON.stringify([baru.t, baru.kempen]) !== JSON.stringify(TT ? [TT.t, TT.kempen] : null);
+    TT = baru; try { localStorage.setItem('sb.tetapan', JSON.stringify(TT)); } catch (e) {}
+    const ae = document.activeElement;
+    if (berubah && /^#premium/.test(location.hash) && !(ae && /INPUT|SELECT|TEXTAREA/.test(ae.tagName))) route();
+  } catch (e) {}
+}
 function premium(s, y, t, rank) {
   setTheme({ g1: '#b8860b', g2: '#ffd700' });
   const P = PLAYER.get();
+  const pd = +y || +(P && P.pakej) || +(P && P.darjah) || 1;
+  const lain = P && P.premium && +P.pakej && y && +P.pakej !== +y;
+  let pelan = (function () { try { return localStorage.getItem('sb.pelan') === 'setahun' ? 'setahun' : '2bulan'; } catch (e) { return '2bulan'; } })();
+  const waURL = (d, pl) => 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya nak beli Pakej Premium Darjah ' + d + ' Sudut Belajar — ' + NAMA_PELAN[pl] + ' (RM' + hargaRM(pl) + '). Nama samaran anak saya: ' + (P ? P.nick : ''));
+  const K = kempenT();
+  const kadPelan = pl => {
+    const rm = hargaRM(pl), awal = hargaAwal(pl), hari = +tt('hari_' + pl), biasa = +tt('harga_' + pl);
+    const jimat = pl === 'setahun' ? hargaRM('2bulan') * 6 - rm : 0;
+    return `<button type="button" class="pelan${pl === pelan ? ' on' : ''}" data-pelan="${pl}" aria-pressed="${pl === pelan}">
+      ${pl === 'setahun' ? '<span class="pita">PALING JIMAT</span>' : ''}
+      <span class="pn">${NAMA_PELAN[pl]}</span>
+      <span class="ph">RM${rm}</span>
+      <span class="pt">${pl === 'setahun' ? hari + ' hari · ≈ RM' + (rm / 12).toFixed(2) + ' sebulan' : hari + ' hari'} · ${sehari(rm, hari)} sehari</span>
+      ${awal && biasa > rm ? `<span class="pa">⏰ ${pl === 'setahun' ? 'Tempahan awal' : 'Harga awal'} hingga <b>${tarikhBM(tt('harga_' + pl + '_awal_tamat'))}</b>, kemudian RM${biasa}</span>` : ''}
+      ${jimat > 0 ? `<span class="pj">Jimat RM${jimat} berbanding 6 × Pakej 2 Bulan</span>` : ''}
+    </button>`;
+  };
   app.innerHTML = `<section class="wrap pagein" style="padding:40px 20px 60px;max-width:620px;text-align:center">
     ${s ? `<a class="crumb" href="#d${y}/${s}/${t}">← Kembali</a>` : '<a class="crumb" href="#pilih">← Utama</a>'}
     <div style="font-size:56px">👑</div>
     <h1 style="margin:10px 0 6px">Sudut Belajar <span style="color:#b8860b">Premium</span></h1>
-    <p class="lead" style="margin-bottom:14px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    <p class="lead" style="margin-bottom:14px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> untuk <b>semua subjek dalam satu darjah</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    ${lain ? `<div style="background:#fff3e0;border:2px solid #ffb74d;border-radius:16px;padding:14px 18px;margin-bottom:14px;font-size:14.5px;text-align:left">👑 Pakej kamu sekarang: <b>Darjah ${+P.pakej}</b>${P.tamat ? ' (sehingga ' + esc(P.tamat) + ')' : ''}. Rank premium <b>Darjah ${+y}</b> perlukan pakej Darjah ${+y} — boleh dibeli selepas pakej semasa tamat. Untuk adik-beradik, daftar nama samaran sendiri bagi setiap anak.</div>` : ''}
     ${kempenAktif() ? `<div style="background:linear-gradient(135deg,#e8f5e9,#fff);border:2px solid #43a047;border-radius:16px;padding:18px 20px;margin-bottom:14px">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#2e7d32">🎉 KEMPEN PELANCARAN — 100 TEMPAT PERCUMA</div>
-      <div style="margin:6px 0 4px;font-size:26px;font-weight:900;color:#2e7d32">PERCUMA 14 HARI</div>
-      <div style="font-size:13.5px;color:var(--muted)">100 pengguna terawal dapat akses penuh Epik, Legend &amp; Mythic <b>percuma 14 hari</b>. Masukkan kod kempen <b>LANCAR100</b> di langkah 3 di bawah — siapa cepat, dia dapat!</div>
+      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#2e7d32">🎉 KEMPEN PELANCARAN — ${K.had ? K.had + ' TEMPAT PERCUMA' : 'AKSES PERCUMA'}</div>
+      <div style="margin:6px 0 4px;font-size:26px;font-weight:900;color:#2e7d32">PERCUMA ${K.hari} HARI</div>
+      <div style="font-size:13.5px;color:var(--muted)">${K.had ? K.had + ' pengguna terawal' : 'Pengguna awal'} dapat akses penuh Epik, Legend &amp; Mythic <b>percuma ${K.hari} hari</b> untuk satu darjah pilihan. Masukkan kod kempen <b>${esc(K.kod)}</b> di langkah 3 di bawah${K.tamat ? ' sebelum <b>' + tarikhBM(K.tamat - 60000) + '</b>' : ''}.</div>
+      ${K.had ? `<div style="font-size:13px;font-weight:700;color:#2e7d32;margin-top:6px">Tinggal ${Math.max(0, K.had - (K.digunakan | 0))} daripada ${K.had} tempat</div>` : ''}
     </div>` : ''}
-    <div style="background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid #ffd700;border-radius:16px;padding:18px 20px;margin-bottom:14px">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#c62828">🔥 PROMO PELANCARAN — DISKAUN ${hargaAwal() ? '50' : '25'}%</div>
-      <div style="margin:6px 0 2px"><span style="font-size:17px;color:var(--muted);text-decoration:line-through">RM60</span> <span style="font-size:34px;font-weight:900;color:#b8860b">RM${hargaRM()}</span> <span style="font-size:14px;color:var(--muted)">/ 2 bulan</span></div>
-      ${hargaAwal() ? `<div style="background:#ffebee;border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px;font-weight:700;color:#c62828">⏰ Harga RM30 ini tamat <b>7 Disember</b> — selepas itu RM45</div>` : ''}
-      <div style="font-size:13.5px;color:var(--muted)">Kurang dari <b>${hargaAwal() ? '50 sen' : 'RM0.75'} sehari</b> untuk latihan tahap UASA tanpa had — semua subjek, semua darjah. Boleh diperbaharui selepas 2 bulan.</div>
-    </div>
+    <div class="pelanpilih" role="group" aria-label="Pilih pakej">${kadPelan('2bulan')}${kadPelan('setahun')}</div>
+    <p style="font-size:13.5px;color:var(--muted);margin:0 0 14px">Latihan tahap UASA tanpa had — <b>semua subjek bagi satu darjah</b> pilihan kamu. Tiada caj automatik; perbaharui bila tamat.</p>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div><b>Daftar akaun percuma</b> di halaman <a href="#ranking" style="font-weight:600">Ranking</a> (nama samaran + PIN — kalau belum).</div></div>
-      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div><b>Dapatkan Kod Premium:</b><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <a class="btn pri" href="https://wa.me/${WA_NUM}?text=${encodeURIComponent('Hai! Saya nak beli Kod Premium Sudut Belajar (RM' + hargaRM() + ' / 2 bulan). Nama samaran saya: ' + (P ? P.nick : ''))}" target="_blank" rel="noopener" style="flex:1;min-width:180px;padding:12px 18px;font-size:15px">💬 WhatsApp Kami</a>
+      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
+          <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}</option>`).join('')}</select>
+          <span id="pklabel" style="font-size:13px;color:var(--muted);flex:1;min-width:150px">${LABEL_PAKEJ(pd)}</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Cuti sekolah? Pilih darjah tahun depan untuk bersedia, atau darjah semasa untuk ulang kaji.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <a class="btn pri" id="pkwa" href="${waURL(pd, pelan)}" target="_blank" rel="noopener" style="flex:1;min-width:180px;padding:12px 18px;font-size:15px"><span>💬 WhatsApp Kami · <b id="pkwapl">${NAMA_PELAN[pelan]} RM${hargaRM(pelan)}</b></span></a>
       </div></div></div>
-      <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta:
+      <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta untuk darjah yang dipilih:
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
           <input id="kodin" placeholder="Kod premium / kempen" maxlength="16" style="flex:1;min-width:160px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase">
           <button class="btn pri" id="tebus" style="padding:10px 20px">✨ Tebus Kod</button>
@@ -8522,30 +8623,198 @@ function premium(s, y, t, rank) {
     <p style="font-size:12.5px;color:var(--muted)">Perlu akaun berdaftar dahulu (percuma). Status premium disimpan pada nama samaran kamu — kekal di semua peranti.</p>
   </section>`;
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
+  const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkwa').href = waURL(d, pelan); $('#pkwapl').textContent = NAMA_PELAN[pelan] + ' RM' + hargaRM(pelan); };
+  $('#pkdarjah').onchange = segar;
+  app.querySelectorAll('.pelan').forEach(b => b.onclick = () => {
+    pelan = b.dataset.pelan; try { localStorage.setItem('sb.pelan', pelan); } catch (e) {}
+    app.querySelectorAll('.pelan').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    segar();
+  });
   $('#tebus').onclick = async () => {
     if (!P) { location.hash = '#ranking'; toast('Daftar dulu, kemudian tebus kod 😊'); return; }
     const kod = $('#kodin').value.trim();
     if (kod.length < 6) { msg('⚠️ Sila masukkan kod yang lengkap.'); return; }
     msg('Menebus kod…');
     try {
-      const r = await apiPost({ a: 'tebus', nick: P.nick, pin: P.pin, darjah: P.darjah, kod });
-      if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast(r.kempen ? ('🎉 AKSES PERCUMA AKTIF sehingga ' + r.tamat + '!' + ((r.baki || r.baki === 0) ? ' Tinggal ' + r.baki + ' tempat.' : '') + ' Selamat belajar!') : ('👑 PREMIUM AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!')); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; }
+      const pakej = +$('#pkdarjah').value;
+      const r = await apiPost({ a: 'tebus', nick: P.nick, pin: P.pin, darjah: P.darjah, kod, pakej });
+      if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; P.pakej = r.pakej || pakej; PLAYER.set(P); msg(''); toast(r.kempen ? ('🎉 AKSES PERCUMA Darjah ' + P.pakej + ' AKTIF sehingga ' + r.tamat + '!' + ((r.baki || r.baki === 0) ? ' Tinggal ' + r.baki + ' tempat.' : '') + ' Selamat belajar!') : ('👑 PREMIUM Darjah ' + P.pakej + ' AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!')); if (s && +P.pakej === +y) location.hash = `#d${y}/${s}/${t}/${rank}`; else if (s) location.hash = `#d${P.pakej}`; else location.hash = '#pilih'; }
       else msg('⚠️ ' + (r.err || 'Gagal'));
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
   $('#semak').onclick = async () => {
     if (!P) { location.hash = '#ranking'; return; }
     msg('Menyemak…');
-    try { const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin }); if (r.ok && r.premium) { P.premium = 1; P.tamat = r.tamat || ''; PLAYER.set(P); msg(''); toast('👑 Premium AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '!'); if (s) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; } else { if (r.ok) { P.premium = 0; P.tamat = ''; PLAYER.set(P); } msg(r.ok ? 'Belum aktif / sudah tamat tempoh. Jika baru bayar, cuba sebentar lagi.' : (r.err || 'Gagal')); } } catch (e) { msg('Tiada sambungan internet'); }
+    try { const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin }); if (r.ok && r.premium) { P.premium = 1; P.tamat = r.tamat || ''; P.pakej = r.pakej || 0; PLAYER.set(P); msg(''); toast('👑 Premium AKTIF' + (P.pakej ? ' (Darjah ' + P.pakej + ')' : '') + (r.tamat ? ' sehingga ' + r.tamat : '') + '!'); if (s && pakejOK(y)) location.hash = `#d${y}/${s}/${t}/${rank}`; else location.hash = '#pilih'; } else { if (r.ok) { P.premium = 0; P.tamat = ''; PLAYER.set(P); } msg(r.ok ? 'Belum aktif / sudah tamat tempoh. Jika baru bayar, cuba sebentar lagi.' : (r.err || 'Gagal')); } } catch (e) { msg('Tiada sambungan internet'); }
   };
+}
+// ---------------- AKAUN IBU BAPA ----------------
+const AKAUN = {
+  get() { try { return JSON.parse(localStorage.getItem('sb.akaun') || 'null'); } catch (e) { return null; } },
+  set(a) { try { if (a) localStorage.setItem('sb.akaun', JSON.stringify(a)); else localStorage.removeItem('sb.akaun'); } catch (e) {} butangAkaun(); }
+};
+function butangAkaun() { const b = document.getElementById('akaunbtn'); if (b) b.classList.toggle('masuk', !!AKAUN.get()); }
+function profilDari(a) { return { nick: a.nick, pin: String(a.pin), darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
+// Kemajuan disimpan ikut profil: tukar profil = simpan DB profil lama, muat DB profil baharu.
+// Profil pertama di peranti mewarisi kemajuan tanpa nama (sama seperti daftar biasa).
+function tukarProfil(a) {
+  const P = PLAYER.get(), lama = P ? String(P.nick).toLowerCase() : '', baru = String(a.nick).toLowerCase();
+  if (lama === baru) return;
+  try {
+    localStorage.setItem('sb.v2:' + (lama || '_tanpanama'), JSON.stringify(DB));
+    const ada = localStorage.getItem('sb.v2:' + baru);
+    let n = ada ? JSON.parse(ada) : (lama ? { lastYear: +a.darjah || 2 } : DB);
+    if (!n || typeof n !== 'object') n = {};
+    n.stars = n.stars || {}; n.best = n.best || {};
+    DB = n; store.set(DB);
+  } catch (e) {}
+}
+async function pilihAnak(a) {
+  tukarProfil(a);
+  PLAYER.set(profilDari(a));
+  try { const r = await apiGet({ a: 'load', nick: a.nick, pin: a.pin }); if (r.ok) mergeAwan(r.data); } catch (e) {}
+  if (tuntutJumlah()) tuntutPending(PLAYER.get());
+}
+function akaun(mod) {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const A = AKAUN.get();
+  const kepala = `<a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 4px">👤 Akaun Ibu Bapa</h1>`;
+  if (!A) {
+    mod = mod || 'masuk';
+    const lupa = mod === 'lupa' || mod === 'kod';
+    app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:560px">${kepala}
+      <p class="lead" style="margin:0 0 16px">Satu akaun untuk semua anak. Kemajuan disimpan, Premium diurus di satu tempat, dan boleh log masuk di mana-mana peranti.</p>
+      <div class="akaunbox">
+        ${lupa ? `<h2 style="margin:0 0 10px;font-size:19px">Set semula kata laluan</h2>` : `<div class="atab" role="tablist">
+          <button type="button" role="tab" data-mod="masuk" aria-selected="${mod === 'masuk'}">Log masuk</button>
+          <button type="button" role="tab" data-mod="daftar" aria-selected="${mod === 'daftar'}">Daftar akaun baharu</button></div>`}
+        <form id="fakaun" novalidate>
+          <label class="afield">Emel ibu bapa<input type="email" id="aemel" autocomplete="email" inputmode="email" required value="${esc(sessionStorage.getItem('sb.emel') || '')}"></label>
+          ${mod === 'lupa' ? '' : mod === 'kod' ? `
+          <label class="afield">Kod 6 angka dari emel<input id="akod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
+          <label class="afield">Kata laluan baharu<input type="password" id="akata" autocomplete="new-password" minlength="8" required><small>Sekurang-kurangnya 8 aksara.</small></label>` : `
+          <label class="afield">Kata laluan<input type="password" id="akata" autocomplete="${mod === 'daftar' ? 'new-password' : 'current-password'}" minlength="8" required>${mod === 'daftar' ? '<small>Sekurang-kurangnya 8 aksara.</small>' : ''}</label>
+          ${mod === 'daftar' ? '<label class="afield">Ulang kata laluan<input type="password" id="akata2" autocomplete="new-password" minlength="8" required></label>' : ''}`}
+          <button class="btn pri" type="submit" style="width:100%">${{ masuk: 'Log masuk', daftar: 'Daftar akaun', lupa: 'Hantar kod ke emel', kod: 'Tukar kata laluan' }[mod]}</button>
+        </form>
+        <div class="amsg" id="amsg" role="status"></div>
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">
+          ${lupa ? '<button type="button" class="linkbtn" data-mod="masuk">← Kembali ke log masuk</button>' + (mod === 'lupa' ? '<button type="button" class="linkbtn" data-mod="kod">Saya sudah ada kod</button>' : '') : '<button type="button" class="linkbtn" data-mod="lupa">Lupa kata laluan?</button>'}
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted)">🔒 Privasi: emel hanya digunakan untuk log masuk dan set semula kata laluan. Kata laluan disulitkan. Kami tidak simpan nama sebenar anak — ranking hanya papar <b>nama glamour</b> pilihan anak.</p>
+    </section>`;
+    app.querySelectorAll('[data-mod]').forEach(b => b.onclick = () => { const e = $('#aemel'); if (e && e.value) sessionStorage.setItem('sb.emel', e.value.trim()); akaun(b.dataset.mod); });
+    const msg = (t, ok) => { const m = $('#amsg'); m.textContent = t; m.style.color = ok ? 'var(--ok)' : (t ? '#b3261e' : ''); };
+    $('#fakaun').onsubmit = async ev => {
+      ev.preventDefault();
+      const emel = $('#aemel').value.trim().toLowerCase(), kata = $('#akata') ? $('#akata').value : '';
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(emel)) return msg('⚠️ Sila masukkan emel yang sah.');
+      sessionStorage.setItem('sb.emel', emel);
+      if (mod !== 'lupa' && kata.length < 8) return msg('⚠️ Kata laluan mesti sekurang-kurangnya 8 aksara.');
+      if (mod === 'daftar' && kata !== $('#akata2').value) return msg('⚠️ Kata laluan tidak sama.');
+      if (mod === 'kod' && !/^\d{6}$/.test($('#akod').value.trim())) return msg('⚠️ Kod mesti 6 angka.');
+      if (!apiOK()) return msg('⚠️ Akaun belum dibuka.');
+      msg('Sebentar…', true); const btn = ev.submitter || $('#fakaun button'); if (btn) btn.disabled = true;
+      try {
+        const b = mod === 'masuk' ? { a: 'akaun_masuk', emel, kata } : mod === 'daftar' ? { a: 'akaun_daftar', emel, kata }
+          : mod === 'lupa' ? { a: 'akaun_lupa', emel } : { a: 'akaun_setsemula', emel, kod: $('#akod').value.trim(), kata };
+        const r = await apiPost(b);
+        if (btn) btn.disabled = false;
+        if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
+        if (mod === 'lupa') { akaun('kod'); setTimeout(() => msg('📧 ' + (r.msg || 'Kod telah dihantar.'), true), 0); return; }
+        AKAUN.set({ token: r.token, emel: r.emel, anak: r.anak || [] });
+        sessionStorage.removeItem('sb.emel');
+        toast(mod === 'daftar' ? 'Akaun dicipta! Tambah profil anak sekarang 🎉' : mod === 'kod' ? 'Kata laluan ditukar. Selamat kembali! 🔐' : 'Selamat kembali! 👋');
+        const P = PLAYER.get(), anak = r.anak || [];
+        if (!P && anak.length === 1) await pilihAnak(anak[0]);
+        akaun();
+      } catch (e) { if (btn) btn.disabled = false; msg('⚠️ Tiada sambungan internet'); }
+    };
+    return;
+  }
+  // ----- sudah log masuk -----
+  const P = PLAYER.get(), anak = A.anak || [];
+  const milik = P && anak.some(a => a.nick.toLowerCase() === P.nick.toLowerCase());
+  const statusAnak = a => a.premium ? `👑 Premium${+a.pakej ? ' Darjah ' + a.pakej : ''}${a.tamat ? ' hingga ' + esc(a.tamat) : ''}` : 'Percuma (Perajurit)';
+  app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:620px">${kepala}
+    <p style="margin:0 0 16px;color:var(--muted)">Log masuk sebagai <b style="color:var(--ink)">${esc(A.emel)}</b> · <button type="button" class="linkbtn" id="akeluar">Log keluar</button></p>
+    ${P && !milik ? `<div class="akaunbox" style="border-color:#ffb74d;background:#fff8e1"><b>Profil di peranti ini: ${esc(P.nick)}</b> (belum dipautkan ke akaun).<br><button class="btn pri" id="apautsini" style="margin-top:10px;padding:10px 16px">🔗 Pautkan ${esc(P.nick)} ke akaun ini</button></div>` : ''}
+    <h2 style="font-size:19px;margin:0 0 10px">Profil anak (${anak.length}/5)</h2>
+    <div id="alist">${anak.length ? anak.map((a, i) => {
+      const aktif = P && P.nick.toLowerCase() === a.nick.toLowerCase();
+      return `<div class="anak${aktif ? ' aktif' : ''}"><div class="an"><b>${esc(a.nick)}</b><span>Darjah ${+a.darjah}${a.sekolah ? ' · ' + esc(a.sekolah) : ''}</span><span>${statusAnak(a)}</span></div>
+        ${aktif ? '<span style="font-weight:800;color:var(--ok)">✓ Sedang main</span>' : `<button class="btn pri" data-pilih="${i}" style="padding:10px 16px">▶ Main sebagai ${esc(a.nick)}</button>`}</div>`;
+    }).join('') : '<p style="color:var(--muted)">Belum ada profil anak. Tambah di bawah.</p>'}</div>
+    ${anak.length < 5 ? `<details class="alipat"${anak.length ? '' : ' open'}><summary>＋ Tambah profil anak</summary>
+      <form id="ftambah" novalidate style="margin-top:12px">
+        <label class="afield">Nama glamour<input id="tnick" maxlength="16" required autocomplete="off"><small>Nama yang dipapar di ranking. <b>Jangan guna nama sebenar</b> — contoh: HarimauPintar, BintangD3.</small></label>
+        <label class="afield">Darjah<select id="tdarjah">${[1, 2, 3, 4, 5, 6].map(i => `<option value="${i}"${i === (DB.lastYear || 2) ? ' selected' : ''}>Darjah ${i}</option>`).join('')}</select></label>
+        <label class="afield">Nama sekolah (pilihan)<input id="tsek" maxlength="48" autocomplete="off"><small>Dipapar di ranking untuk semangat sekolah. Boleh dibiarkan kosong.</small></label>
+        <button class="btn pri" type="submit">Tambah profil</button>
+      </form></details>
+    <details class="alipat"><summary>🔗 Pautkan profil lama (nama samaran + PIN)</summary>
+      <form id="fpaut" novalidate style="margin-top:12px">
+        <p style="font-size:13.5px;color:var(--muted);margin:0 0 10px">Anak sudah main sebelum ini? Masukkan nama samaran dan PIN lama — bintang, mata dan Premium kekal.</p>
+        <label class="afield">Nama samaran<input id="pnick2" maxlength="16" required autocomplete="off"></label>
+        <label class="afield">PIN<input id="ppin2" inputmode="numeric" maxlength="8" required autocomplete="off"></label>
+        <button class="btn pri" type="submit">Pautkan</button>
+      </form></details>` : ''}
+    <div class="amsg" id="amsg" role="status"></div>
+    <p style="font-size:13px;color:var(--muted);margin-top:14px">Setiap anak ada kemajuan, mata ranking dan pakej Premium sendiri. Kemajuan disimpan ke awan secara automatik selepas setiap kuiz.</p>
+  </section>`;
+  const msg = (t, ok) => { const m = $('#amsg'); if (m) { m.textContent = t; m.style.color = ok ? 'var(--ok)' : (t ? '#b3261e' : ''); } };
+  const tamatSesi = r => { if (r && r.sesi === 0) { AKAUN.set(null); toast('Sesi tamat. Sila log masuk semula.'); akaun(); return true; } return false; };
+  const kemas = r => { const A2 = AKAUN.get(); if (A2) { A2.anak = r.anak || []; AKAUN.set(A2); } };
+  $('#akeluar').onclick = async () => { const t = A.token; AKAUN.set(null); try { await apiPost({ a: 'akaun_keluar', token: t }); } catch (e) {} toast('Log keluar. Jumpa lagi! 👋'); akaun(); };
+  app.querySelectorAll('[data-pilih]').forEach(b => b.onclick = async () => { const a = anak[+b.dataset.pilih]; b.disabled = true; await pilihAnak(a); toast('Selamat belajar, ' + a.nick + '! 🚀'); location.hash = '#d' + a.darjah; });
+  const tambah = $('#ftambah');
+  if (tambah) tambah.onsubmit = async ev => {
+    ev.preventDefault();
+    const nick = $('#tnick').value.trim();
+    if (nick.length < 3) return msg('⚠️ Nama glamour mesti 3–16 huruf.');
+    msg('Sebentar…', true);
+    try {
+      const r = await apiPost({ a: 'anak_tambah', token: A.token, nick, darjah: +$('#tdarjah').value, sekolah: $('#tsek').value.trim() });
+      if (tamatSesi(r)) return;
+      if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
+      kemas(r); const baru = (r.anak || []).find(x => x.nick.toLowerCase() === nick.toLowerCase());
+      if (baru && !PLAYER.get()) await pilihAnak(baru);
+      toast('Profil ' + nick + ' ditambah! 🎉'); akaun();
+    } catch (e) { msg('⚠️ Tiada sambungan internet'); }
+  };
+  const tuntut = async (nick, pin) => {
+    msg('Sebentar…', true);
+    try {
+      const r = await apiPost({ a: 'anak_tuntut', token: A.token, nick, pin });
+      if (tamatSesi(r)) return;
+      if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
+      kemas(r); toast('Profil ' + nick + ' dipautkan! 🔗'); akaun();
+    } catch (e) { msg('⚠️ Tiada sambungan internet'); }
+  };
+  const paut = $('#fpaut');
+  if (paut) paut.onsubmit = ev => { ev.preventDefault(); const n = $('#pnick2').value.trim(), p = $('#ppin2').value.trim(); if (n.length < 3 || !/^\d{4,8}$/.test(p)) return msg('⚠️ Masukkan nama samaran dan PIN yang betul.'); tuntut(n, p); };
+  const sini = $('#apautsini');
+  if (sini) sini.onclick = () => tuntut(P.nick, P.pin);
+  // segar senarai (status Premium terkini)
+  if (!mod && apiOK()) apiPost({ a: 'akaun_anak', token: A.token }).then(r => {
+    if (tamatSesi(r)) return;
+    if (r && r.ok && JSON.stringify(r.anak) !== JSON.stringify(anak)) {
+      kemas(r);
+      const P2 = PLAYER.get(), x = P2 && (r.anak || []).find(a => a.nick.toLowerCase() === P2.nick.toLowerCase());
+      if (x) PLAYER.set(Object.assign(P2, { premium: x.premium, tamat: x.tamat, pakej: x.pakej, darjah: x.darjah }));
+      if (location.hash === '#akaun') akaun('segar');
+    }
+  }).catch(() => {});
 }
 function ranking() {
   const P = PLAYER.get();
   setTheme({ g1: '#e0a500', g2: '#ffd34d' });
   app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:760px">
     <a class="crumb" href="#pilih">← Utama</a>
-    <h1 style="margin:10px 0 2px">🏆 Ranking Bulanan</h1>
-    <p class="lead" style="margin:0 0 14px">Kumpul mata: Epik ×1 · Legend ×2 · Mythic ×3 setiap jawapan betul. Papan markah bermula semula setiap bulan.</p>
+    <h1 style="margin:10px 0 2px" id="lbtajuk">🏆 Ranking</h1>
+    <div id="lbinfo" class="lead" style="margin:0 0 14px;font-size:15.5px">Kumpul mata setiap jawapan betul — rank lebih tinggi, lebih banyak mata.</div>
     <div class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px" id="profbox"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="lbfilter"></div>
     <div id="lb" class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 16px">Memuatkan…</div>
@@ -8566,11 +8835,12 @@ function ranking() {
         <input id="ppin" placeholder="PIN 4 angka" maxlength="4" inputmode="numeric" style="flex:1;min-width:100px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <input id="psek" placeholder="Nama sekolah — cth: SK Taman Mewah (pilihan)" maxlength="48" style="flex:1 1 100%;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <button class="btn pri" id="pjoin" style="padding:8px 16px">Mula ✔</button>
-      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>`;
+      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>
+      <div style="font-size:13.5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">👨‍👩‍👧 <b>Ibu bapa?</b> <a href="#akaun" style="font-weight:700">Buat akaun ibu bapa</a> — urus semua anak dengan satu emel, tanpa perlu ingat PIN.</div>`;
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
       $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
-      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; P2.pakej = r.pakej || 0; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
     } else {
       $('#pjoin').onclick = async () => {
         const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value, sekolah = $('#psek').value.trim().slice(0, 48);
@@ -8580,8 +8850,8 @@ function ranking() {
         try {
           const r = await apiPost({ a: 'simpan', nick, pin, darjah, sekolah, data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) });
           if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
-          let prem0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
-          PLAYER.set({ nick, pin, darjah, premium: prem0, sekolah: sek0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
+          let prem0 = 0, pk0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; pk0 = l.pakej || 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
+          PLAYER.set({ nick, pin, darjah, premium: prem0, pakej: pk0, sekolah: sek0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
           tuntutPending({ nick, pin }, $('#pmsg'));
         } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; }
       };
@@ -8597,10 +8867,17 @@ function ranking() {
     try {
       const r = await apiGet(fD ? { a: 'top', darjah: fD } : { a: 'top' });
       if (!r.ok) throw 0;
+      MUSIM.info = r.musim || null;
+      const M = r.musim, kini = r.kini || Date.now();
+      $('#lbtajuk').textContent = M ? '🏆 Ranking ' + M.nama : '🏆 Ranking Bulanan';
+      $('#lbinfo').innerHTML = M
+        ? `<b>${tarikhPenuh(M.mula)} – ${tarikhPenuh(M.tamat)}</b> · tamat dalam <b>${Math.max(0, Math.ceil((M.tamat - kini) / 864e5))} hari</b><br>🎁 <b>Hadiah misteri</b> untuk pemain <b>👑 Premium</b> dengan mata tertinggi pada akhir musim. Papan bermula semula setiap musim.`
+        : `Ranking bulan ini (pra-musim). <b>Musim 1 bermula 1 Disember</b> — semua bermula dari kosong, dan pemain 👑 Premium tertinggi pada akhir musim menang <b>hadiah misteri</b> 🎁.`;
+      const calon = !fD && M ? r.top.findIndex(x => x[4]) : -1;
       const med = ['🥇', '🥈', '🥉'];
       $('#lb').innerHTML = r.top.length ? r.top.map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);${P && x[0].toLowerCase() === P.nick.toLowerCase() ? 'background:#fff8e1;border-radius:8px' : ''}">
-        <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;min-width:0"><span style="font-weight:600">${esc(x[0])}</span>${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
-      : '<p style="padding:10px 0">Belum ada pemain bulan ini — jadilah yang pertama! 🚀</p>';
+        <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;min-width:0"><span style="font-weight:600">${esc(x[0])}</span>${x[4] ? ' <span title="Premium" aria-label="Premium">👑</span>' : ''}${i === calon ? ' <span style="font-size:11px;font-weight:800;background:#1e7a46;color:#fff;border-radius:999px;padding:2px 8px;white-space:nowrap">CALON JUARA 🎁</span>' : ''}${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
+      : `<p style="padding:10px 0">Belum ada pemain ${M ? 'musim ini' : 'bulan ini'} — jadilah yang pertama! 🚀</p>`;
     } catch (e) { $('#lb').innerHTML = '<p style="padding:10px 0">⚠️ Tidak dapat memuatkan ranking. Cuba lagi sebentar.</p>'; }
   };
   draw();
@@ -8663,7 +8940,7 @@ function home(y, scroll) {
       <div class="subjects" id="subjects"></div>
     </section>
     <section class="blk">
-      <div class="sh" id="juara-sec"><div><h2>🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
+      <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
       <div id="homelb" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 18px;margin-bottom:12px">Memuatkan juara…</div>
       <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
       <div class="sh"><div><h2>Sistem rank</h2><p>Setiap topik ada 4 tahap: mula dengan Warrior (percuma), naik ke Epik, Legend dan Mythic.</p></div></div>
@@ -8722,8 +8999,8 @@ function ranks(s, y, t) {
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
       <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih rank kamu</div></div>
     ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
-    <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !isPremium() ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
-      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}${r.prem ? (isPremium() ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
+    <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !pakejOK(y) ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
+      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
@@ -8754,7 +9031,7 @@ function quiz(s, y, t, rank) {
     window.scrollTo({ top: 0 }); return;
   }
   const RK = rankBy(rank);
-  if (RK.prem && !isPremium()) return premium(s, y, t, rank);
+  if (RK.prem && !pakejOK(y)) return premium(s, y, t, rank);
   const S = subjBy(s), E = ENG[s]; setTheme(S); const R = RK;
   const genRank = rank === 'warrior' ? 'epik' : rank;
   let list = E.round ? E.round(y, t, 10, genRank) : SB.round(y, t, 10, genRank, E.gen);
@@ -8879,6 +9156,7 @@ function route() {
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)$/.exec(h)) && ENG[m[2]].years.includes(+m[1])) return topics(m[2], +m[1]);
   if ((m = /^d([1-6])$/.exec(h))) return home(+m[1], true);
   if (h === 'ranking') return ranking();
+  if (h === 'akaun') return akaun();
   if (h === 'premium') return premium();
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();
@@ -8887,6 +9165,7 @@ async function homeLB() {
   const el = document.getElementById('homelb'); if (!el || !apiOK()) { if (el) el.innerHTML = '<p style="padding:8px 0">Jadilah juara pertama bulan ini! 🚀</p>'; return; }
   try {
     const r = await apiGet({ a: 'top' });
+    if (r && r.ok) { MUSIM.info = r.musim || null; const tj = document.getElementById('juaratajuk'); if (tj && r.musim) tj.textContent = '🏆 Dewan Juara ' + r.musim.nama; }
     const med = ['🥇', '🥈', '🥉', '4.', '5.'];
     el.innerHTML = (r.ok && r.top.length) ? r.top.slice(0, 5).map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 2px;${i < 4 ? 'border-bottom:1px solid var(--line)' : ''}"><b style="width:34px;text-align:center">${med[i]}</b><span style="flex:1;min-width:0"><span style="font-weight:700">${esc(x[0])}</span>${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">Darjah ${x[1]}</span><b style="color:var(--g1)">${x[2]} mata</b></div>`).join('')
     : '<p style="padding:8px 0">Takhta juara masih kosong — rebut tempat pertama sekarang! 🚀</p>';
@@ -8902,10 +9181,12 @@ route = function () { _route0(); homeLB(); MUZIK.main(); };
     if (Date.now() - last < 20 * 3600 * 1000) return;
     localStorage.setItem('sb.premchk', String(Date.now()));
     const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin });
-    if (r.ok) { P.premium = r.premium ? 1 : 0; P.tamat = r.tamat || ''; PLAYER.set(P); if (!r.premium) toast('Tempoh Premium kamu telah tamat. Perbaharui di halaman Premium 👑'); }
+    if (r.ok) { P.premium = r.premium ? 1 : 0; P.tamat = r.tamat || ''; P.pakej = r.pakej || 0; PLAYER.set(P); if (!r.premium) toast('Tempoh Premium kamu telah tamat. Perbaharui di halaman Premium 👑'); }
   } catch (e) {}
 })();
 window.addEventListener('hashchange', route);
+muatTetapan();
+butangAkaun();
 // ---- butang bunyi ----
 (function () {
   const b = document.getElementById('sndbtn');

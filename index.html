@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sudut Belajar — Darjah 1 hingga 6</title>
-<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Tahap Perajurit percuma, tanpa iklan. Daftar nama samaran sahaja - tiada emel.">
+<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Tahap Perajurit percuma, tanpa iklan. Akaun ibu bapa untuk semua anak; ranking papar nama glamour sahaja.">
 <meta name="theme-color" content="#5b4bdb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -208,6 +208,10 @@ section.blk{padding:44px 0}
 .nav a.akaunbtn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--line);font-size:17px}
 .nav a.akaunbtn.masuk{background:#efeaff;border-color:var(--brand2)}
 .akaunbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+.asetuju{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;margin:2px 0 14px;padding:12px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer}.asetuju input{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:#5b4bdb}
+.pilihmula{display:grid;gap:14px}.pilihmula .kad{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;position:relative;text-align:left}.pilihmula .kad.utama{border:2px solid #5b4bdb}.pilihmula .kad h2{margin:0;font-size:19px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}.pilihmula .kad h2 span{font-size:22px}.pilihmula ul{margin:0;padding-left:20px;display:grid;gap:5px;font-size:14.5px}.pilihmula .lencanakad{position:absolute;top:-12px;left:18px;background:#ffc94d;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 16px;margin-bottom:10px}.faq summary{cursor:pointer;font-weight:700;padding:14px 0;font-size:15.5px}.faq details p{margin:0 0 12px;line-height:1.6}.faq h2{font-size:18px;margin:22px 0 10px}
+.notis h2{font-size:17px;margin:20px 0 6px}.notis p,.notis li{line-height:1.6}
 .atab{display:flex;gap:6px;background:#f2f0fb;border-radius:12px;padding:4px;margin-bottom:14px}
 .atab button{flex:1;border:0;background:none;font:inherit;font-weight:700;padding:10px;border-radius:9px;cursor:pointer;color:var(--muted)}
 .atab button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -4px rgba(46,32,140,.4)}
@@ -1698,6 +1702,139 @@ if (typeof module !== 'undefined') module.exports = EN;
 <script>
 // ===== SN ENGINE (Sains Tahun 2–6, KSSR Semakan 2017 dijajarkan) =====
 // Format item: ['e'|'l', soalan, jawapan, salah1, salah2, salah3]  atau  ['m', soalan, jawapan, 'alternatif1|alternatif2']
+// =====================================================================
+// SUDUT BELAJAR — SAINS: SET PENYIASATAN SAINTIFIK (GAYA UASA BAHAGIAN C)
+// Jabatan Kandungan, 17 Nov 2026. DRAF — BELUM DISEMAK CIKGU.
+// Semua situasi, data & nombor eksperimen DIREKA SENDIRI (peraturan soalan setara).
+// Format item sama dengan sains.js:
+//   ['e'|'l', soalan, jawapan, salah1, salah2, salah3]   (MCQ)
+//   ['m', soalan, jawapan, 'alt1|alt2']                 (taip)
+// Kunci topik cadangan: 'siasat' bagi darjah 4, 5, 6.
+// Untuk cantum: D[4].siasat = SIASAT[4].item, dan tambah 'siasat' ke ORDER[4..6]
+// (struktur tepat sains.js perlu disemak — fail itu di komputer boss).
+// =====================================================================
+var SIASAT = {
+4: { nama: 'Penyiasatan Saintifik', item: [
+// ---- EPIK (asas: kenal kemahiran proses & pemboleh ubah) ----
+['e','Ali melihat warna daun dengan teliti menggunakan matanya. Kemahiran proses sains yang digunakan ialah ___.','memerhati','mengelas','meramal','mengeksperimen'],
+['e','Siti mengasingkan haiwan kepada kumpulan "bertelur" dan "beranak". Kemahiran proses sains yang digunakan ialah ___.','mengelas','memerhati','mengukur dan menggunakan nombor','membuat inferens'],
+['e','Amin menggunakan pembaris untuk mengukur panjang pensel. Kemahiran proses sains yang digunakan ialah ___.','mengukur dan menggunakan nombor','mengelas','meramal','berkomunikasi'],
+['e','Langit gelap dan berawan tebal. Mei Ling berkata, "Hujan akan turun sebentar lagi." Kemahiran yang digunakan oleh Mei Ling ialah ___.','meramal','memerhati','mengelas','mengukur dan menggunakan nombor'],
+['e','Rumput di padang basah pada waktu pagi. Raju berkata, "Hujan turun malam tadi." Pernyataan Raju ialah satu ___.','inferens','pemerhatian','ramalan','pengelasan'],
+['e','Farah melukis graf bar untuk menunjukkan bilangan murid yang suka setiap jenis buah. Kemahiran yang digunakan ialah ___.','berkomunikasi','mengelas','meramal','membuat inferens'],
+['e','Alat yang sesuai untuk mengukur suhu air ialah ___.','termometer','pembaris','neraca','silinder penyukat'],
+['e','Alat yang sesuai untuk mengukur isi padu air ialah ___.','silinder penyukat','termometer','pembaris','jam randik'],
+['e','Alat yang sesuai untuk mengukur masa larian 100 meter ialah ___.','jam randik','termometer','neraca','pita pengukur'],
+['e','Dalam eksperimen, perkara yang SENGAJA DIUBAH oleh penyiasat dipanggil pemboleh ubah ___.','dimanipulasi','bergerak balas','dimalarkan','kawalan'],
+['e','Dalam eksperimen, perkara yang BERUBAH sebagai kesan dan diukur dipanggil pemboleh ubah ___.','bergerak balas','dimanipulasi','dimalarkan','kawalan'],
+['e','Dalam eksperimen, perkara yang DIKEKALKAN SAMA supaya ujian adil dipanggil pemboleh ubah ___.','dimalarkan','dimanipulasi','bergerak balas','berubah'],
+// ---- LEGEND (situasi & data eksperimen) ----
+['l','Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah dimanipulasi?','isi padu air yang disiram','tinggi anak pokok','saiz pasu','jenis anak pokok'],
+['l','Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah bergerak balas?','tinggi anak pokok','isi padu air yang disiram','saiz pasu','jenis tanah'],
+['l','Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah dimalarkan?','saiz pasu','isi padu air yang disiram','tinggi anak pokok','bilangan daun'],
+['l','Suhu air yang dipanaskan: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C, minit 15 = 60 °C. Ramalkan suhu air pada minit ke-20.','70 °C','60 °C','65 °C','80 °C'],
+['l','Suhu air yang dipanaskan: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C. Apakah hubungan yang ditunjukkan oleh data ini?','Semakin lama air dipanaskan, semakin tinggi suhunya','Semakin lama air dipanaskan, semakin rendah suhunya','Suhu air tidak berubah','Air menjadi sejuk apabila dipanaskan'],
+['l','Hasan menjatuhkan sebiji bola dari ketinggian 1 m, 2 m dan 3 m, lalu mengukur tinggi lantunannya. Apakah tujuan eksperimen ini?','Mengkaji hubungan antara ketinggian bola dijatuhkan dengan tinggi lantunan','Mengukur berat bola','Mengkaji warna bola','Mengira bilangan bola'],
+['l','Tiga kuntum bunga diletakkan dalam gelas berisi air garam, air gula dan air paip. Bunga dalam air garam layu paling awal. Inferens yang sesuai ialah ___.','Air garam menyebabkan bunga cepat layu','Bunga suka air garam','Air paip menyebabkan bunga layu','Semua bunga layu pada masa yang sama'],
+['l','Antara berikut, yang manakah definisi secara operasi bagi "pertumbuhan anak pokok"?','Pertambahan tinggi anak pokok yang diukur dengan pembaris','Warna daun anak pokok','Bilangan pasu yang digunakan','Bau tanah di dalam pasu'],
+['l','Mengapakah sesuatu eksperimen perlu diulang beberapa kali?','Supaya keputusan lebih tepat dan boleh dipercayai','Supaya eksperimen cepat siap','Supaya alat tidak rosak','Supaya lebih banyak bahan digunakan'],
+['l','Sebuah kereta mainan dilepaskan di atas tiga permukaan. Jarak dilalui: lantai jubin 5 m, simen 4 m, karpet 2 m. Di atas permukaan manakah kereta bergerak paling jauh?','lantai jubin','karpet','simen','semua sama jauh'],
+['l','Sebuah kereta mainan dilepaskan di atas tiga permukaan. Jarak dilalui: lantai jubin 5 m, simen 4 m, karpet 2 m. Hipotesis yang sesuai ialah ___.','Semakin licin permukaan, semakin jauh kereta mainan bergerak','Semakin kasar permukaan, semakin jauh kereta mainan bergerak','Warna permukaan mempengaruhi jarak kereta','Kereta mainan tidak boleh bergerak di atas karpet'],
+['l','Murid mengkaji ais di dalam bekas plastik, logam dan kaca untuk melihat bekas mana ais paling cepat cair. Untuk ujian adil, perkara yang MESTI SAMA ialah ___.','saiz ketulan ais','jenis bahan bekas','masa ais habis cair','tempat setiap bekas diletakkan berbeza-beza'],
+// ---- MYTHIC (taip jawapan) ----
+['m','Kemahiran menggunakan deria untuk mengumpul maklumat dipanggil ___.','memerhati','pemerhatian'],
+['m','Kemahiran mengasingkan objek mengikut ciri yang sama dipanggil ___.','mengelas','pengelasan'],
+['m','Kemahiran membuat jangkaan tentang apa yang akan berlaku berdasarkan pemerhatian atau data dipanggil ___.','meramal','ramalan'],
+['m','Penerangan awal tentang sesuatu pemerhatian berdasarkan pengalaman lalu dipanggil ___.','inferens','membuat inferens'],
+['m','Alat yang digunakan untuk mengukur jisim ialah ___.','neraca','penimbang|neraca tiga alur|neraca tuas|neraca elektronik'],
+['m','Pemboleh ubah yang sengaja diubah oleh penyiasat dipanggil pemboleh ubah ___.','dimanipulasi','manipulasi'],
+['m','Pemboleh ubah yang dikekalkan sama dalam eksperimen dipanggil pemboleh ubah ___.','dimalarkan','malar'],
+['m','Pemboleh ubah yang berubah dan diukur sebagai hasil eksperimen dipanggil pemboleh ubah ___.','bergerak balas','gerak balas'],
+['m','Suhu air: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C. Suhu pada minit ke-15 dijangka ___ °C.','60','60 °C|60°C'],
+['m','Unit bagi suhu ialah darjah ___.','Celsius','celcius|selsius']
+]},
+
+5: { nama: 'Penyiasatan Saintifik', item: [
+// ---- EPIK ----
+['e','Langkah PERTAMA dalam satu penyiasatan saintifik ialah ___.','mengenal pasti masalah','membuat kesimpulan','menjalankan eksperimen','merekod data'],
+['e','Pernyataan yang menghubungkan pemboleh ubah dimanipulasi dengan pemboleh ubah bergerak balas dan boleh diuji dipanggil ___.','hipotesis','inferens','pemerhatian','kesimpulan'],
+['e','Kemahiran memerihal perubahan kedudukan, arah atau bentuk sesuatu objek mengikut masa ialah ___.','menggunakan perhubungan ruang dan masa','mengelas','mengukur dan menggunakan nombor','mendefinisi secara operasi'],
+['e','Memberi maksud sesuatu konsep dengan menyatakan apa yang dilakukan dan apa yang diperhatikan ialah kemahiran ___.','mendefinisi secara operasi','meramal','mengelas','mentafsir data'],
+['e','Memberi penerangan yang rasional tentang corak dalam data ialah kemahiran ___.','mentafsir data','memerhati','mengelas','meramal'],
+['e','Hipotesis biasanya ditulis dalam bentuk ___.','"Semakin ..., semakin ..."','"Pada pendapat saya ..."','"Bahan yang digunakan ialah ..."','"Langkah pertama ialah ..."'],
+['e','Keputusan eksperimen paling sesuai direkod dalam bentuk ___.','jadual','pantun','surat','cerita'],
+['e','Graf yang paling sesuai untuk menunjukkan perubahan suhu air mengikut masa ialah graf ___.','garis','pai','piktograf','gambar rajah Venn'],
+['e','Mengapakah penyiasat perlu mengawal pemboleh ubah?','Supaya ujian adil','Supaya eksperimen cepat siap','Supaya keputusan sama dengan kawan','Supaya kurang alat digunakan'],
+['e','Pernyataan "Bunga itu berwarna merah" ialah satu ___.','pemerhatian','inferens','hipotesis','ramalan'],
+['e','Keputusan eksperimen TIDAK menyokong hipotesis. Apakah tindakan yang betul?','Menolak hipotesis dan melaporkan data sebenar','Mengubah data supaya sepadan dengan hipotesis','Memadam keputusan eksperimen','Berhenti dan tidak melaporkan apa-apa'],
+['e','Kesimpulan eksperimen dibuat berdasarkan ___.','data yang dikumpul','pendapat kawan','tekaan','tajuk eksperimen sahaja'],
+// ---- LEGEND ----
+['l','Aiman meletakkan tiga pinggan sama saiz, setiap satu berisi 50 ml air, di tempat terbuka, di bawah pokok dan di dalam kelas. Apakah pemboleh ubah dimanipulasi?','lokasi pinggan diletakkan','isi padu air yang tinggal','isi padu air awal','saiz pinggan'],
+['l','Tiga pinggan berisi 50 ml air diletakkan di tempat terbuka, di bawah pokok dan di dalam kelas. Selepas 3 jam, air paling sedikit di tempat terbuka. Inferens yang sesuai ialah ___.','Air menyejat paling cepat di tempat terbuka kerana lebih panas dan berangin','Air tidak menyejat di dalam kelas','Pinggan di bawah pokok bocor','Isi padu air bertambah di tempat terbuka'],
+['l','Tiga pinggan berisi 50 ml air diletakkan di tempat terbuka, di bawah pokok dan di dalam kelas. Hipotesis yang sesuai ialah ___.','Semakin panas tempat itu, semakin cepat air menyejat','Semakin besar pinggan, semakin lambat air menyejat','Air menyejat sama cepat di semua tempat','Semakin banyak pokok, semakin cepat air menyejat'],
+['l','Masa untuk 1 sudu gula melarut: air 30 °C = 6 minit, air 50 °C = 4 minit, air 70 °C = 2 minit. Apakah hubungan yang ditunjukkan?','Semakin tinggi suhu air, semakin singkat masa gula melarut','Semakin tinggi suhu air, semakin lama masa gula melarut','Suhu air tidak mempengaruhi masa gula melarut','Gula tidak boleh larut dalam air 30 °C'],
+['l','Masa untuk 1 sudu gula melarut: air 30 °C = 6 minit, air 50 °C = 4 minit, air 70 °C = 2 minit. Ramalkan masa gula melarut dalam air 90 °C.','Kurang daripada 2 minit','6 minit','4 minit','Lebih daripada 6 minit'],
+['l','Murid mengkaji kesan suhu air terhadap masa gula melarut. Apakah pemboleh ubah yang dimalarkan?','jisim gula yang digunakan','suhu air','masa gula melarut','jenis air yang berbeza bagi setiap bikar'],
+['l','Panjang bayang tiang bendera: 8.00 pagi = 6 m, 10.00 pagi = 3 m, 1.00 tengah hari = 0.5 m. Kemahiran untuk memerihal perubahan ini mengikut masa ialah ___.','menggunakan perhubungan ruang dan masa','mengelas','membuat hipotesis','mengawal pemboleh ubah'],
+['l','Panjang bayang tiang bendera: 8.00 pagi = 6 m, 10.00 pagi = 3 m, 1.00 tengah hari = 0.5 m. Ramalkan panjang bayang pada pukul 4.00 petang.','Lebih panjang daripada 0.5 m','Tiada bayang langsung','Kekal 0.5 m sepanjang petang','Lebih pendek daripada 0.5 m'],
+['l','Mira mengkaji kesan jenis tanah terhadap tumbesaran pokok. Dia menyiram pasu A setiap hari tetapi pasu B seminggu sekali. Apakah kesilapan Mira?','Kekerapan menyiram tidak dimalarkan','Jenis tanah diubah','Dia menggunakan pembaris','Dia merekod data dalam jadual'],
+['l','Antara berikut, yang manakah definisi secara operasi bagi "ais cair lebih cepat"?','Masa yang lebih singkat untuk ais bertukar menjadi air sepenuhnya','Ais menjadi lebih sejuk','Ais berwarna putih','Ais disimpan di dalam peti sejuk'],
+['l','Murid mengkaji kesan warna bekas (hitam, putih, perak) terhadap suhu air di bawah matahari. Apakah pemboleh ubah bergerak balas?','suhu air','warna bekas','isi padu air','jenis termometer'],
+['l','Murid mengkaji kesan warna bekas (hitam, putih, perak) terhadap suhu air di bawah matahari. Apakah pemboleh ubah dimalarkan?','isi padu air dalam setiap bekas','warna bekas','suhu akhir air','kenaikan suhu air'],
+// ---- MYTHIC ----
+['m','Pernyataan yang boleh diuji tentang hubungan antara dua pemboleh ubah dipanggil ___.','hipotesis','membuat hipotesis'],
+['m','Pernyataan ringkas yang menjawab tujuan eksperimen berdasarkan data dipanggil ___.','kesimpulan','rumusan'],
+['m','Graf yang paling sesuai untuk menunjukkan perubahan suhu mengikut masa ialah graf ___.','garis','graf garis'],
+['m','Gula melarut: 30 °C = 6 minit, 70 °C = 2 minit. Beza masa antara kedua-duanya ialah ___ minit.','4','4 minit|empat'],
+['m','Kita mengawal pemboleh ubah supaya ujian menjadi ___.','adil','saksama'],
+['m','Dalam kajian "kesan warna bekas terhadap suhu air", warna bekas ialah pemboleh ubah ___.','dimanipulasi','manipulasi'],
+['m','Dalam kajian "kesan warna bekas terhadap suhu air", suhu air ialah pemboleh ubah ___.','bergerak balas','gerak balas'],
+['m','Bayang objek paling pendek pada waktu ___.','tengah hari','tengahari|waktu tengah hari'],
+['m','"Air di tempat terbuka menyejat lebih cepat kerana panas." Pernyataan ini ialah satu ___.','inferens','membuat inferens'],
+['m','Untuk melihat corak dengan mudah, data dalam jadual boleh dipindahkan ke dalam bentuk ___.','graf','carta']
+]},
+
+6: { nama: 'Penyiasatan Saintifik', item: [
+// ---- EPIK ----
+['e','Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah dimanipulasi?','keadaan tempat roti diletakkan','bilangan tompok kulat','saiz roti','jenis roti'],
+['e','Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah bergerak balas?','bilangan tompok kulat yang tumbuh','jenis roti','tempat roti diletakkan','saiz roti'],
+['e','Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah dimalarkan?','jenis dan saiz roti','tempat roti diletakkan','bilangan tompok kulat','kelembapan tempat'],
+['e','Kemahiran yang digunakan untuk mengira laju sebuah basikal ialah ___.','mengukur dan menggunakan nombor','mengelas','meramal','berkomunikasi'],
+['e','Unit laju yang sesuai bagi sebuah kereta di lebuh raya ialah ___.','km/j','kg','°C','ml'],
+['e','Antara berikut, yang manakah satu INFERENS?','Kulat tumbuh lebih banyak di tempat lembap kerana kelembapan membantu pertumbuhan kulat','Roti itu berwarna coklat','Panjang roti itu 10 cm','Terdapat tiga keping roti'],
+['e','Antara berikut, yang manakah satu HIPOTESIS?','Semakin lembap tempat itu, semakin banyak kulat tumbuh pada roti','Roti itu sedap dimakan','Kulat itu berwarna hijau','Kulat tumbuh pada roti'],
+['e','Sebuah kereta mainan bergerak sejauh 20 m dalam masa 4 saat. Berapakah lajunya?','5 m/s','80 m/s','24 m/s','16 m/s'],
+['e','Selepas mengumpul data, langkah seterusnya dalam penyiasatan saintifik ialah ___.','mentafsir data','mengenal pasti masalah','membuat hipotesis','merancang eksperimen'],
+['e','Mengapakah eksperimen memerlukan satu set kawalan?','Sebagai perbandingan dengan set yang lain','Supaya eksperimen cepat siap','Supaya bahan tidak dibazirkan','Supaya keputusan lebih cantik'],
+['e','Penyiasat mencatat, "Semua roti berkulat selepas 5 hari." Pernyataan ini ialah satu ___.','pemerhatian','hipotesis','ramalan','inferens'],
+['e','Murid mengkaji kaedah pengeringan, pengasinan dan penyejukan ke atas ikan yang sama jenis. Apakah pemboleh ubah dimanipulasi?','kaedah pengawetan','masa ikan mula rosak','jenis ikan','saiz ikan'],
+// ---- LEGEND ----
+['l','Roti A (lembap, 30 °C) berkulat banyak pada hari ke-3. Roti C (lembap, 5 °C di dalam peti sejuk) tiada kulat hingga hari ke-6. Dengan membandingkan Roti A dan Roti C, faktor yang dikaji ialah ___.','suhu','kelembapan','jenis roti','cahaya'],
+['l','Roti A (lembap, 30 °C) berkulat banyak pada hari ke-3. Roti B (kering, 30 °C) berkulat sedikit pada hari ke-6. Dengan membandingkan Roti A dan Roti B, faktor yang dikaji ialah ___.','kelembapan','suhu','saiz roti','cahaya'],
+['l','Roti A (lembap, 30 °C) berkulat pada hari ke-3, Roti B (kering, 30 °C) pada hari ke-6, Roti C (lembap, 5 °C) tiada kulat hingga hari ke-6. Kesimpulan yang sesuai ialah ___.','Kulat tumbuh paling cepat dalam keadaan lembap dan suhu yang hangat','Kulat tumbuh paling cepat dalam keadaan sejuk','Kelembapan tidak mempengaruhi pertumbuhan kulat','Semua roti berkulat pada masa yang sama'],
+['l','Tiga basikal mengayuh sejauh 100 m. Basikal P mengambil 20 s, Q 25 s dan R 10 s. Basikal manakah paling laju?','R','P','Q','Semua sama laju'],
+['l','Basikal Q mengayuh sejauh 100 m dalam masa 25 saat. Berapakah laju basikal Q?','4 m/s','5 m/s','25 m/s','125 m/s'],
+['l','Basikal Q bergerak dengan laju 4 m/s. Jika lajunya tetap, berapa lamakah masa untuk Q bergerak sejauh 200 m?','50 s','25 s','100 s','40 s'],
+['l','Blok kayu yang sama ditarik di atas tiga permukaan. Daya yang diperlukan: kaca 2 N, papan kayu 4 N, kertas pasir 7 N. Hubungan yang ditunjukkan ialah ___.','Semakin kasar permukaan, semakin besar daya yang diperlukan','Semakin licin permukaan, semakin besar daya yang diperlukan','Jenis permukaan tidak mempengaruhi daya','Kaca ialah permukaan paling kasar'],
+['l','Blok kayu yang sama ditarik di atas kaca, papan kayu dan kertas pasir. Apakah pemboleh ubah dimanipulasi?','jenis permukaan','daya yang diperlukan','jisim blok kayu','neraca spring'],
+['l','Alat yang digunakan untuk mengukur daya menarik blok kayu dalam eksperimen geseran ialah ___.','neraca spring','termometer','jam randik','pembaris'],
+['l','Ikan yang diasinkan rosak pada hari ke-20, ikan yang dikeringkan pada hari ke-25, dan ikan tanpa pengawetan pada hari ke-2. Mengapakah set ikan tanpa pengawetan disediakan?','Sebagai set kawalan untuk perbandingan','Supaya cepat rosak untuk dibuang','Kerana ikan itu lebih sedap','Untuk menjimatkan garam'],
+['l','Ikan yang dikeringkan tahan lebih lama daripada ikan tanpa pengawetan. Inferens yang sesuai ialah ___.','Pengeringan menyingkirkan air, jadi mikroorganisma sukar hidup','Ikan kering lebih berat','Garam membantu mikroorganisma membiak','Ikan tanpa pengawetan paling tahan lama'],
+['l','Penyiasat menggunakan ikan bilis untuk kaedah pengeringan tetapi ikan kembung untuk kaedah pengasinan. Mengapakah eksperimen ini tidak adil?','Jenis ikan tidak dimalarkan','Kaedah pengawetan diubah','Tempoh pemerhatian sama','Data direkod dalam jadual'],
+// ---- MYTHIC ----
+['m','Laju = jarak ÷ ___.','masa','tempoh|masa diambil'],
+['m','Sebuah kereta mainan bergerak 60 m dalam 12 saat. Lajunya ialah ___ m/s.','5','5 m/s|lima'],
+['m','Roti di dalam peti sejuk lambat berkulat kerana suhunya ___.','rendah','sejuk|rendah dan sejuk'],
+['m','Alat untuk mengukur daya ialah neraca ___.','spring','neraca spring'],
+['m','Set eksperimen yang tidak diberi rawatan, digunakan untuk perbandingan, dipanggil set ___.','kawalan','set kawalan'],
+['m','Roti lembap dan roti kering diletakkan pada suhu yang sama. Faktor yang dikaji ialah ___.','kelembapan','lembap'],
+['m','Basikal bergerak 100 m dalam 25 saat. Lajunya ialah ___ m/s.','4','4 m/s|empat'],
+['m','Semakin kasar permukaan, semakin ___ daya geseran.','besar','tinggi|kuat'],
+['m','Kaedah pengawetan yang menyingkirkan air daripada makanan dipanggil ___.','pengeringan','penjemuran|mengeringkan|dikeringkan'],
+['m','Pernyataan akhir yang menjawab tujuan eksperimen berdasarkan data dipanggil ___.','kesimpulan','rumusan']
+]}
+};
+
 const SN = (() => {
 const { shuffle, pick } = SB.U;
 const D = {
@@ -3795,10 +3932,8 @@ const KPS2 = ['Kemahiran Saintifik', '🔬', [
 ADD[2].kps = KPS1; ADD[3].kps = KPS1; ADD[4].kps = KPS2; ADD[5].kps = KPS2; ADD[6].kps = KPS2;
 
 for (const y in ADD) for (const t in ADD[y]) { const v = ADD[y][t]; if (typeof v[0] === 'string') D[y][t] = v; else D[y][t][2].push(...v); }
-
-// ---- Set Penyiasatan Saintifik (Jabatan Kandungan, 17 Nov 2026) ----
-{ const SIASAT = {"4": [["e", "Ali melihat warna daun dengan teliti menggunakan matanya. Kemahiran proses sains yang digunakan ialah ___.", "memerhati", "mengelas", "meramal", "mengeksperimen"], ["e", "Siti mengasingkan haiwan kepada kumpulan \"bertelur\" dan \"beranak\". Kemahiran proses sains yang digunakan ialah ___.", "mengelas", "memerhati", "mengukur dan menggunakan nombor", "membuat inferens"], ["e", "Amin menggunakan pembaris untuk mengukur panjang pensel. Kemahiran proses sains yang digunakan ialah ___.", "mengukur dan menggunakan nombor", "mengelas", "meramal", "berkomunikasi"], ["e", "Langit gelap dan berawan tebal. Mei Ling berkata, \"Hujan akan turun sebentar lagi.\" Kemahiran yang digunakan oleh Mei Ling ialah ___.", "meramal", "memerhati", "mengelas", "mengukur dan menggunakan nombor"], ["e", "Rumput di padang basah pada waktu pagi. Raju berkata, \"Hujan turun malam tadi.\" Pernyataan Raju ialah satu ___.", "inferens", "pemerhatian", "ramalan", "pengelasan"], ["e", "Farah melukis graf bar untuk menunjukkan bilangan murid yang suka setiap jenis buah. Kemahiran yang digunakan ialah ___.", "berkomunikasi", "mengelas", "meramal", "membuat inferens"], ["e", "Alat yang sesuai untuk mengukur suhu air ialah ___.", "termometer", "pembaris", "neraca", "silinder penyukat"], ["e", "Alat yang sesuai untuk mengukur isi padu air ialah ___.", "silinder penyukat", "termometer", "pembaris", "jam randik"], ["e", "Alat yang sesuai untuk mengukur masa larian 100 meter ialah ___.", "jam randik", "termometer", "neraca", "pita pengukur"], ["e", "Dalam eksperimen, perkara yang SENGAJA DIUBAH oleh penyiasat dipanggil pemboleh ubah ___.", "dimanipulasi", "bergerak balas", "dimalarkan", "kawalan"], ["e", "Dalam eksperimen, perkara yang BERUBAH sebagai kesan dan diukur dipanggil pemboleh ubah ___.", "bergerak balas", "dimanipulasi", "dimalarkan", "kawalan"], ["e", "Dalam eksperimen, perkara yang DIKEKALKAN SAMA supaya ujian adil dipanggil pemboleh ubah ___.", "dimalarkan", "dimanipulasi", "bergerak balas", "berubah"], ["l", "Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah dimanipulasi?", "isi padu air yang disiram", "tinggi anak pokok", "saiz pasu", "jenis anak pokok"], ["l", "Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah bergerak balas?", "tinggi anak pokok", "isi padu air yang disiram", "saiz pasu", "jenis tanah"], ["l", "Zara menanam tiga anak pokok kacang dalam pasu yang sama besar. Setiap hari, pasu A disiram 0 ml air, pasu B 50 ml dan pasu C 100 ml. Apakah pemboleh ubah dimalarkan?", "saiz pasu", "isi padu air yang disiram", "tinggi anak pokok", "bilangan daun"], ["l", "Suhu air yang dipanaskan: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C, minit 15 = 60 °C. Ramalkan suhu air pada minit ke-20.", "70 °C", "60 °C", "65 °C", "80 °C"], ["l", "Suhu air yang dipanaskan: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C. Apakah hubungan yang ditunjukkan oleh data ini?", "Semakin lama air dipanaskan, semakin tinggi suhunya", "Semakin lama air dipanaskan, semakin rendah suhunya", "Suhu air tidak berubah", "Air menjadi sejuk apabila dipanaskan"], ["l", "Hasan menjatuhkan sebiji bola dari ketinggian 1 m, 2 m dan 3 m, lalu mengukur tinggi lantunannya. Apakah tujuan eksperimen ini?", "Mengkaji hubungan antara ketinggian bola dijatuhkan dengan tinggi lantunan", "Mengukur berat bola", "Mengkaji warna bola", "Mengira bilangan bola"], ["l", "Tiga kuntum bunga diletakkan dalam gelas berisi air garam, air gula dan air paip. Bunga dalam air garam layu paling awal. Inferens yang sesuai ialah ___.", "Air garam menyebabkan bunga cepat layu", "Bunga suka air garam", "Air paip menyebabkan bunga layu", "Semua bunga layu pada masa yang sama"], ["l", "Antara berikut, yang manakah definisi secara operasi bagi \"pertumbuhan anak pokok\"?", "Pertambahan tinggi anak pokok yang diukur dengan pembaris", "Warna daun anak pokok", "Bilangan pasu yang digunakan", "Bau tanah di dalam pasu"], ["l", "Mengapakah sesuatu eksperimen perlu diulang beberapa kali?", "Supaya keputusan lebih tepat dan boleh dipercayai", "Supaya eksperimen cepat siap", "Supaya alat tidak rosak", "Supaya lebih banyak bahan digunakan"], ["l", "Sebuah kereta mainan dilepaskan di atas tiga permukaan. Jarak dilalui: lantai jubin 5 m, simen 4 m, karpet 2 m. Di atas permukaan manakah kereta bergerak paling jauh?", "lantai jubin", "karpet", "simen", "semua sama jauh"], ["l", "Sebuah kereta mainan dilepaskan di atas tiga permukaan. Jarak dilalui: lantai jubin 5 m, simen 4 m, karpet 2 m. Hipotesis yang sesuai ialah ___.", "Semakin licin permukaan, semakin jauh kereta mainan bergerak", "Semakin kasar permukaan, semakin jauh kereta mainan bergerak", "Warna permukaan mempengaruhi jarak kereta", "Kereta mainan tidak boleh bergerak di atas karpet"], ["l", "Murid mengkaji ais di dalam bekas plastik, logam dan kaca untuk melihat bekas mana ais paling cepat cair. Untuk ujian adil, perkara yang MESTI SAMA ialah ___.", "saiz ketulan ais", "jenis bahan bekas", "masa ais habis cair", "tempat setiap bekas diletakkan berbeza-beza"], ["m", "Kemahiran menggunakan deria untuk mengumpul maklumat dipanggil ___.", "memerhati", "pemerhatian"], ["m", "Kemahiran mengasingkan objek mengikut ciri yang sama dipanggil ___.", "mengelas", "pengelasan"], ["m", "Kemahiran membuat jangkaan tentang apa yang akan berlaku berdasarkan pemerhatian atau data dipanggil ___.", "meramal", "ramalan"], ["m", "Penerangan awal tentang sesuatu pemerhatian berdasarkan pengalaman lalu dipanggil ___.", "inferens", "membuat inferens"], ["m", "Alat yang digunakan untuk mengukur jisim ialah ___.", "neraca", "penimbang|neraca tiga alur|neraca tuas|neraca elektronik"], ["m", "Pemboleh ubah yang sengaja diubah oleh penyiasat dipanggil pemboleh ubah ___.", "dimanipulasi", "manipulasi"], ["m", "Pemboleh ubah yang dikekalkan sama dalam eksperimen dipanggil pemboleh ubah ___.", "dimalarkan", "malar"], ["m", "Pemboleh ubah yang berubah dan diukur sebagai hasil eksperimen dipanggil pemboleh ubah ___.", "bergerak balas", "gerak balas"], ["m", "Suhu air: minit 0 = 30 °C, minit 5 = 40 °C, minit 10 = 50 °C. Suhu pada minit ke-15 dijangka ___ °C.", "60", "60 °C|60°C"], ["m", "Unit bagi suhu ialah darjah ___.", "Celsius", "celcius|selsius"]], "5": [["e", "Langkah PERTAMA dalam satu penyiasatan saintifik ialah ___.", "mengenal pasti masalah", "membuat kesimpulan", "menjalankan eksperimen", "merekod data"], ["e", "Pernyataan yang menghubungkan pemboleh ubah dimanipulasi dengan pemboleh ubah bergerak balas dan boleh diuji dipanggil ___.", "hipotesis", "inferens", "pemerhatian", "kesimpulan"], ["e", "Kemahiran memerihal perubahan kedudukan, arah atau bentuk sesuatu objek mengikut masa ialah ___.", "menggunakan perhubungan ruang dan masa", "mengelas", "mengukur dan menggunakan nombor", "mendefinisi secara operasi"], ["e", "Memberi maksud sesuatu konsep dengan menyatakan apa yang dilakukan dan apa yang diperhatikan ialah kemahiran ___.", "mendefinisi secara operasi", "meramal", "mengelas", "mentafsir data"], ["e", "Memberi penerangan yang rasional tentang corak dalam data ialah kemahiran ___.", "mentafsir data", "memerhati", "mengelas", "meramal"], ["e", "Hipotesis biasanya ditulis dalam bentuk ___.", "\"Semakin ..., semakin ...\"", "\"Pada pendapat saya ...\"", "\"Bahan yang digunakan ialah ...\"", "\"Langkah pertama ialah ...\""], ["e", "Keputusan eksperimen paling sesuai direkod dalam bentuk ___.", "jadual", "pantun", "surat", "cerita"], ["e", "Graf yang paling sesuai untuk menunjukkan perubahan suhu air mengikut masa ialah graf ___.", "garis", "pai", "piktograf", "gambar rajah Venn"], ["e", "Mengapakah penyiasat perlu mengawal pemboleh ubah?", "Supaya ujian adil", "Supaya eksperimen cepat siap", "Supaya keputusan sama dengan kawan", "Supaya kurang alat digunakan"], ["e", "Pernyataan \"Bunga itu berwarna merah\" ialah satu ___.", "pemerhatian", "inferens", "hipotesis", "ramalan"], ["e", "Keputusan eksperimen TIDAK menyokong hipotesis. Apakah tindakan yang betul?", "Menolak hipotesis dan melaporkan data sebenar", "Mengubah data supaya sepadan dengan hipotesis", "Memadam keputusan eksperimen", "Berhenti dan tidak melaporkan apa-apa"], ["e", "Kesimpulan eksperimen dibuat berdasarkan ___.", "data yang dikumpul", "pendapat kawan", "tekaan", "tajuk eksperimen sahaja"], ["l", "Aiman meletakkan tiga pinggan sama saiz, setiap satu berisi 50 ml air, di tempat terbuka, di bawah pokok dan di dalam kelas. Apakah pemboleh ubah dimanipulasi?", "lokasi pinggan diletakkan", "isi padu air yang tinggal", "isi padu air awal", "saiz pinggan"], ["l", "Tiga pinggan berisi 50 ml air diletakkan di tempat terbuka, di bawah pokok dan di dalam kelas. Selepas 3 jam, air paling sedikit di tempat terbuka. Inferens yang sesuai ialah ___.", "Air menyejat paling cepat di tempat terbuka kerana lebih panas dan berangin", "Air tidak menyejat di dalam kelas", "Pinggan di bawah pokok bocor", "Isi padu air bertambah di tempat terbuka"], ["l", "Tiga pinggan berisi 50 ml air diletakkan di tempat terbuka, di bawah pokok dan di dalam kelas. Hipotesis yang sesuai ialah ___.", "Semakin panas tempat itu, semakin cepat air menyejat", "Semakin besar pinggan, semakin lambat air menyejat", "Air menyejat sama cepat di semua tempat", "Semakin banyak pokok, semakin cepat air menyejat"], ["l", "Masa untuk 1 sudu gula melarut: air 30 °C = 6 minit, air 50 °C = 4 minit, air 70 °C = 2 minit. Apakah hubungan yang ditunjukkan?", "Semakin tinggi suhu air, semakin singkat masa gula melarut", "Semakin tinggi suhu air, semakin lama masa gula melarut", "Suhu air tidak mempengaruhi masa gula melarut", "Gula tidak boleh larut dalam air 30 °C"], ["l", "Masa untuk 1 sudu gula melarut: air 30 °C = 6 minit, air 50 °C = 4 minit, air 70 °C = 2 minit. Ramalkan masa gula melarut dalam air 90 °C.", "Kurang daripada 2 minit", "6 minit", "4 minit", "Lebih daripada 6 minit"], ["l", "Murid mengkaji kesan suhu air terhadap masa gula melarut. Apakah pemboleh ubah yang dimalarkan?", "jisim gula yang digunakan", "suhu air", "masa gula melarut", "jenis air yang berbeza bagi setiap bikar"], ["l", "Panjang bayang tiang bendera: 8.00 pagi = 6 m, 10.00 pagi = 3 m, 1.00 tengah hari = 0.5 m. Kemahiran untuk memerihal perubahan ini mengikut masa ialah ___.", "menggunakan perhubungan ruang dan masa", "mengelas", "membuat hipotesis", "mengawal pemboleh ubah"], ["l", "Panjang bayang tiang bendera: 8.00 pagi = 6 m, 10.00 pagi = 3 m, 1.00 tengah hari = 0.5 m. Ramalkan panjang bayang pada pukul 4.00 petang.", "Lebih panjang daripada 0.5 m", "Tiada bayang langsung", "Kekal 0.5 m sepanjang petang", "Lebih pendek daripada 0.5 m"], ["l", "Mira mengkaji kesan jenis tanah terhadap tumbesaran pokok. Dia menyiram pasu A setiap hari tetapi pasu B seminggu sekali. Apakah kesilapan Mira?", "Kekerapan menyiram tidak dimalarkan", "Jenis tanah diubah", "Dia menggunakan pembaris", "Dia merekod data dalam jadual"], ["l", "Antara berikut, yang manakah definisi secara operasi bagi \"ais cair lebih cepat\"?", "Masa yang lebih singkat untuk ais bertukar menjadi air sepenuhnya", "Ais menjadi lebih sejuk", "Ais berwarna putih", "Ais disimpan di dalam peti sejuk"], ["l", "Murid mengkaji kesan warna bekas (hitam, putih, perak) terhadap suhu air di bawah matahari. Apakah pemboleh ubah bergerak balas?", "suhu air", "warna bekas", "isi padu air", "jenis termometer"], ["l", "Murid mengkaji kesan warna bekas (hitam, putih, perak) terhadap suhu air di bawah matahari. Apakah pemboleh ubah dimalarkan?", "isi padu air dalam setiap bekas", "warna bekas", "suhu akhir air", "kenaikan suhu air"], ["m", "Pernyataan yang boleh diuji tentang hubungan antara dua pemboleh ubah dipanggil ___.", "hipotesis", "membuat hipotesis"], ["m", "Pernyataan ringkas yang menjawab tujuan eksperimen berdasarkan data dipanggil ___.", "kesimpulan", "rumusan"], ["m", "Graf yang paling sesuai untuk menunjukkan perubahan suhu mengikut masa ialah graf ___.", "garis", "graf garis"], ["m", "Gula melarut: 30 °C = 6 minit, 70 °C = 2 minit. Beza masa antara kedua-duanya ialah ___ minit.", "4", "4 minit|empat"], ["m", "Kita mengawal pemboleh ubah supaya ujian menjadi ___.", "adil", "saksama"], ["m", "Dalam kajian \"kesan warna bekas terhadap suhu air\", warna bekas ialah pemboleh ubah ___.", "dimanipulasi", "manipulasi"], ["m", "Dalam kajian \"kesan warna bekas terhadap suhu air\", suhu air ialah pemboleh ubah ___.", "bergerak balas", "gerak balas"], ["m", "Bayang objek paling pendek pada waktu ___.", "tengah hari", "tengahari|waktu tengah hari"], ["m", "\"Air di tempat terbuka menyejat lebih cepat kerana panas.\" Pernyataan ini ialah satu ___.", "inferens", "membuat inferens"], ["m", "Untuk melihat corak dengan mudah, data dalam jadual boleh dipindahkan ke dalam bentuk ___.", "graf", "carta"]], "6": [["e", "Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah dimanipulasi?", "keadaan tempat roti diletakkan", "bilangan tompok kulat", "saiz roti", "jenis roti"], ["e", "Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah bergerak balas?", "bilangan tompok kulat yang tumbuh", "jenis roti", "tempat roti diletakkan", "saiz roti"], ["e", "Tiga keping roti yang sama diletakkan di tempat lembap, tempat kering dan di dalam peti sejuk. Apakah pemboleh ubah dimalarkan?", "jenis dan saiz roti", "tempat roti diletakkan", "bilangan tompok kulat", "kelembapan tempat"], ["e", "Kemahiran yang digunakan untuk mengira laju sebuah basikal ialah ___.", "mengukur dan menggunakan nombor", "mengelas", "meramal", "berkomunikasi"], ["e", "Unit laju yang sesuai bagi sebuah kereta di lebuh raya ialah ___.", "km/j", "kg", "°C", "ml"], ["e", "Antara berikut, yang manakah satu INFERENS?", "Kulat tumbuh lebih banyak di tempat lembap kerana kelembapan membantu pertumbuhan kulat", "Roti itu berwarna coklat", "Panjang roti itu 10 cm", "Terdapat tiga keping roti"], ["e", "Antara berikut, yang manakah satu HIPOTESIS?", "Semakin lembap tempat itu, semakin banyak kulat tumbuh pada roti", "Roti itu sedap dimakan", "Kulat itu berwarna hijau", "Kulat tumbuh pada roti"], ["e", "Sebuah kereta mainan bergerak sejauh 20 m dalam masa 4 saat. Berapakah lajunya?", "5 m/s", "80 m/s", "24 m/s", "16 m/s"], ["e", "Selepas mengumpul data, langkah seterusnya dalam penyiasatan saintifik ialah ___.", "mentafsir data", "mengenal pasti masalah", "membuat hipotesis", "merancang eksperimen"], ["e", "Mengapakah eksperimen memerlukan satu set kawalan?", "Sebagai perbandingan dengan set yang lain", "Supaya eksperimen cepat siap", "Supaya bahan tidak dibazirkan", "Supaya keputusan lebih cantik"], ["e", "Penyiasat mencatat, \"Semua roti berkulat selepas 5 hari.\" Pernyataan ini ialah satu ___.", "pemerhatian", "hipotesis", "ramalan", "inferens"], ["e", "Murid mengkaji kaedah pengeringan, pengasinan dan penyejukan ke atas ikan yang sama jenis. Apakah pemboleh ubah dimanipulasi?", "kaedah pengawetan", "masa ikan mula rosak", "jenis ikan", "saiz ikan"], ["l", "Roti A (lembap, 30 °C) berkulat banyak pada hari ke-3. Roti C (lembap, 5 °C di dalam peti sejuk) tiada kulat hingga hari ke-6. Dengan membandingkan Roti A dan Roti C, faktor yang dikaji ialah ___.", "suhu", "kelembapan", "jenis roti", "cahaya"], ["l", "Roti A (lembap, 30 °C) berkulat banyak pada hari ke-3. Roti B (kering, 30 °C) berkulat sedikit pada hari ke-6. Dengan membandingkan Roti A dan Roti B, faktor yang dikaji ialah ___.", "kelembapan", "suhu", "saiz roti", "cahaya"], ["l", "Roti A (lembap, 30 °C) berkulat pada hari ke-3, Roti B (kering, 30 °C) pada hari ke-6, Roti C (lembap, 5 °C) tiada kulat hingga hari ke-6. Kesimpulan yang sesuai ialah ___.", "Kulat tumbuh paling cepat dalam keadaan lembap dan suhu yang hangat", "Kulat tumbuh paling cepat dalam keadaan sejuk", "Kelembapan tidak mempengaruhi pertumbuhan kulat", "Semua roti berkulat pada masa yang sama"], ["l", "Tiga basikal mengayuh sejauh 100 m. Basikal P mengambil 20 s, Q 25 s dan R 10 s. Basikal manakah paling laju?", "R", "P", "Q", "Semua sama laju"], ["l", "Basikal Q mengayuh sejauh 100 m dalam masa 25 saat. Berapakah laju basikal Q?", "4 m/s", "5 m/s", "25 m/s", "125 m/s"], ["l", "Basikal Q bergerak dengan laju 4 m/s. Jika lajunya tetap, berapa lamakah masa untuk Q bergerak sejauh 200 m?", "50 s", "25 s", "100 s", "40 s"], ["l", "Blok kayu yang sama ditarik di atas tiga permukaan. Daya yang diperlukan: kaca 2 N, papan kayu 4 N, kertas pasir 7 N. Hubungan yang ditunjukkan ialah ___.", "Semakin kasar permukaan, semakin besar daya yang diperlukan", "Semakin licin permukaan, semakin besar daya yang diperlukan", "Jenis permukaan tidak mempengaruhi daya", "Kaca ialah permukaan paling kasar"], ["l", "Blok kayu yang sama ditarik di atas kaca, papan kayu dan kertas pasir. Apakah pemboleh ubah dimanipulasi?", "jenis permukaan", "daya yang diperlukan", "jisim blok kayu", "neraca spring"], ["l", "Alat yang digunakan untuk mengukur daya menarik blok kayu dalam eksperimen geseran ialah ___.", "neraca spring", "termometer", "jam randik", "pembaris"], ["l", "Ikan yang diasinkan rosak pada hari ke-20, ikan yang dikeringkan pada hari ke-25, dan ikan tanpa pengawetan pada hari ke-2. Mengapakah set ikan tanpa pengawetan disediakan?", "Sebagai set kawalan untuk perbandingan", "Supaya cepat rosak untuk dibuang", "Kerana ikan itu lebih sedap", "Untuk menjimatkan garam"], ["l", "Ikan yang dikeringkan tahan lebih lama daripada ikan tanpa pengawetan. Inferens yang sesuai ialah ___.", "Pengeringan menyingkirkan air, jadi mikroorganisma sukar hidup", "Ikan kering lebih berat", "Garam membantu mikroorganisma membiak", "Ikan tanpa pengawetan paling tahan lama"], ["l", "Penyiasat menggunakan ikan bilis untuk kaedah pengeringan tetapi ikan kembung untuk kaedah pengasinan. Mengapakah eksperimen ini tidak adil?", "Jenis ikan tidak dimalarkan", "Kaedah pengawetan diubah", "Tempoh pemerhatian sama", "Data direkod dalam jadual"], ["m", "Laju = jarak ÷ ___.", "masa", "tempoh|masa diambil"], ["m", "Sebuah kereta mainan bergerak 60 m dalam 12 saat. Lajunya ialah ___ m/s.", "5", "5 m/s|lima"], ["m", "Roti di dalam peti sejuk lambat berkulat kerana suhunya ___.", "rendah", "sejuk|rendah dan sejuk"], ["m", "Alat untuk mengukur daya ialah neraca ___.", "spring", "neraca spring"], ["m", "Set eksperimen yang tidak diberi rawatan, digunakan untuk perbandingan, dipanggil set ___.", "kawalan", "set kawalan"], ["m", "Roti lembap dan roti kering diletakkan pada suhu yang sama. Faktor yang dikaji ialah ___.", "kelembapan", "lembap"], ["m", "Basikal bergerak 100 m dalam 25 saat. Lajunya ialah ___ m/s.", "4", "4 m/s|empat"], ["m", "Semakin kasar permukaan, semakin ___ daya geseran.", "besar", "tinggi|kuat"], ["m", "Kaedah pengawetan yang menyingkirkan air daripada makanan dipanggil ___.", "pengeringan", "penjemuran|mengeringkan|dikeringkan"], ["m", "Pernyataan akhir yang menjawab tujuan eksperimen berdasarkan data dipanggil ___.", "kesimpulan", "rumusan"]]};
-  for (const y of [4, 5, 6]) D[y].siasat = ['Penyiasatan Saintifik', '🕵️', SIASAT[y]]; }
+// Penyiasatan Saintifik D4–D6 (Jabatan Kandungan 17 Nov 2026) — sumber: src/sn_siasat.js
+for (const y of [4, 5, 6]) D[y].siasat = [SIASAT[y].nama, '🕵️', SIASAT[y].item];
 const ORDER = {
 1: ['kps1','bilik1','hidup1','deria1','haiwan1','tumbuh1','magnet1','serap1','bumi1'],
 2: ['kps','manusia','haiwan','tumbuhan','cahaya','elektrik','campur2','air','binaan'],
@@ -8216,9 +8351,7 @@ NOTA.sn[6].interaksi = `
 <h3>Kesan persaingan tumbuhan</h3>
 <p>Anak pokok terlalu rapat → bersaing cahaya & nutrien → tumbesaran <b>terbantut</b>. Itulah sebab petani jarakkan tanaman!</p>
 <div class="tip">💡 Soalan "mengapa pokok ditanam berjarak?" → kurangkan PERSAINGAN untuk cahaya, air & nutrien → tumbesaran sihat. 4 benda tumbuhan rebut — hafal!</div>`;
-
-
-NOTA.sn[4] = NOTA.sn[4] || {}; NOTA.sn[5] = NOTA.sn[5] || {}; NOTA.sn[6] = NOTA.sn[6] || {};
+// Penyiasatan Saintifik D4–D6 (Jabatan Kandungan 17 Nov 2026) — sumber: src/nota_siasat.html
 NOTA.sn[4].siasat = NOTA.sn[5].siasat = NOTA.sn[6].siasat = `
 <h3>🕵️ Misi Detektif Sains: Penyiasatan Saintifik</h3>
 <p>Saintis menyiasat macam <b>detektif</b>: ada soalan, ada petunjuk, ada bukti. Dalam UASA, bahagian ini bawa <b>markah paling banyak</b>. Jom kuasai!</p>
@@ -8248,6 +8381,7 @@ NOTA.sn[4].siasat = NOTA.sn[5].siasat = NOTA.sn[6].siasat = `
 <li>Perubahan mengikut masa → guna <b>graf garis</b></li></ul>
 <div class="tip">💡 Data tak sama dengan hipotesis? JANGAN ubah data! Saintis yang jujur tolak hipotesis dan laporkan data sebenar. Itu baru detektif hebat! 🏅</div>
 `;
+
 </script>
 <script>
 (() => {
@@ -8538,7 +8672,7 @@ document.addEventListener('visibilitychange', () => {
 async function hantarSkor(y, rank, sc, el) {
   if (!sc) return;
   const P = PLAYER.get();
-  if (!P) { const mata = sc * (MULT[rank] || 1); const pm = DB.pending || {}; pm[y] = Math.min((pm[y] | 0) + mata, 90); DB.pending = pm; store.set(DB); if (el) el.innerHTML = `⭐ <b>+${mata} mata disimpan!</b> <a href="#ranking" style="font-weight:600">Daftar untuk masukkan ${tuntutJumlah()} mata ke Ranking →</a>`; return; }
+  if (!P) { const mata = sc * (MULT[rank] || 1); const pm = DB.pending || {}; pm[y] = Math.min((pm[y] | 0) + mata, 90); DB.pending = pm; store.set(DB); if (el) el.innerHTML = `⭐ <b>+${mata} mata disimpan!</b> <a href="#akaun/daftar" style="font-weight:600">Daftar percuma untuk masukkan ${tuntutJumlah()} mata ke Ranking →</a>`; return; }
   if (!apiOK()) return;
   simpanAuto();
   const mata = sc * (MULT[rank] || 1);
@@ -8642,7 +8776,7 @@ function premium(s, y, t, rank) {
     <p style="font-size:13.5px;color:var(--muted);margin:0 0 14px">Latihan tahap UASA tanpa had — <b>semua subjek bagi satu darjah</b> pilihan kamu. Tiada caj automatik; perbaharui bila tamat.</p>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
-      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div><b>Daftar akaun percuma</b> di halaman <a href="#ranking" style="font-weight:600">Ranking</a> (nama samaran + PIN — kalau belum).</div></div>
+      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div>${P ? `✅ Profil <b>${esc(P.nick)}</b> (Darjah ${P.darjah}) — kod akan ditebus untuk profil ini. <a href="${AKAUN.get() ? '#akaun' : '#ranking'}" style="font-weight:600">Tukar</a>` : `<b>Daftar / log masuk akaun ibu bapa</b> dan pilih profil anak — <a href="#akaun/daftar" style="font-weight:600">daftar percuma</a> atau <a href="#akaun" style="font-weight:600">log masuk</a>.`}</div></div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
           <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}</option>`).join('')}</select>
@@ -8672,7 +8806,7 @@ function premium(s, y, t, rank) {
     segar();
   });
   $('#tebus').onclick = async () => {
-    if (!P) { location.hash = '#ranking'; toast('Daftar dulu, kemudian tebus kod 😊'); return; }
+    if (!P) { location.hash = AKAUN.get() ? '#akaun' : '#akaun/daftar'; toast(AKAUN.get() ? 'Pilih profil anak dulu, kemudian tebus kod 😊' : 'Daftar akaun dulu, kemudian tebus kod 😊'); return; }
     const kod = $('#kodin').value.trim();
     if (kod.length < 6) { msg('⚠️ Sila masukkan kod yang lengkap.'); return; }
     msg('Menebus kod…');
@@ -8716,6 +8850,86 @@ async function pilihAnak(a) {
   try { const r = await apiGet({ a: 'load', nick: a.nick, pin: a.pin }); if (r.ok) mergeAwan(r.data); } catch (e) {}
   if (tuntutJumlah()) tuntutPending(PLAYER.get());
 }
+
+const EMEL_HUB = 'sudutbelajarpro@gmail.com';
+function mula() {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const A = AKAUN.get(), P = PLAYER.get();
+  app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:560px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 6px">Mula belajar bersama Sudut Belajar</h1>
+    <p class="lead" style="margin:0 0 20px">Pilih cara yang sesuai untuk anak anda. Anda boleh naik taraf ke Premium bila-bila masa.</p>
+    <div class="pilihmula">
+      <section class="kad" aria-labelledby="kpercuma">
+        <h2 id="kpercuma">Percuma <span>RM0</span></h2>
+        <ul><li>Tahap <b>Perajurit</b>, semua darjah &amp; subjek</li><li>Nota ulang kaji</li><li>Masuk ranking Dewan Juara</li><li>Satu akaun ibu bapa untuk semua anak</li></ul>
+        <a class="btn sec" href="${A ? '#akaun' : '#akaun/daftar'}" style="justify-content:center">${A ? 'Buka akaun saya' : 'Daftar percuma'}</a>
+      </section>
+      <section class="kad utama" aria-labelledby="kpremium">
+        <span class="lencanakad">Paling berbaloi</span>
+        <h2 id="kpremium">Premium <span>RM${hargaRM('2bulan')}<small style="font-size:13px;font-weight:600;color:var(--muted)"> / ${tt('hari_2bulan')} hari</small></span></h2>
+        <ul><li>Semua dalam Percuma</li><li>Tahap <b>Hulubalang, Panglima &amp; Laksamana</b> (gaya UASA)</li><li>Semua subjek bagi satu darjah pilihan</li><li>Mata ranking ×2, ×3, ×4 · layak hadiah juara musim</li></ul>
+        <a class="btn pri" href="#premium" style="justify-content:center">Pilih pakej Premium</a>
+        <p style="margin:0;font-size:12.5px;color:var(--muted);text-align:center">${hargaAwal('2bulan') ? `Harga awal hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}. ` : ''}Pakej Setahun RM${hargaRM('setahun')} juga ada.</p>
+      </section>
+    </div>
+    <p style="text-align:center;font-size:14px;margin-top:18px">${A ? `Log masuk sebagai <b>${esc(A.emel || '')}</b>${P ? ` · profil <b>${esc(P.nick)}</b>` : ''}` : 'Sudah ada akaun? <a href="#akaun" style="font-weight:700">Log masuk</a>'} · <a href="#faq">Soalan Lazim</a></p>
+  </section>`;
+  window.scrollTo(0, 0);
+}
+function faq() {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const k = kempenT();
+  const Q = (s, j) => `<details><summary>${s}</summary>${j}</details>`;
+  app.innerHTML = `<section class="wrap pagein faq" style="padding:28px 20px 60px;max-width:680px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 6px">Soalan Lazim</h1>
+    <p class="lead" style="margin:0 0 6px">Jawapan ringkas untuk ibu bapa. Tidak jumpa jawapan? <a href="mailto:${EMEL_HUB}">Emel</a> atau <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">WhatsApp</a> kami.</p>
+    <h2>Langganan &amp; penggunaan</h2>
+    ${Q('1. Apa beza Percuma dan Premium?', `<p><b>Percuma</b> membuka tahap pertama, <b>Perajurit</b>, untuk semua darjah dan subjek, berserta nota ulang kaji dan ranking Dewan Juara.</p><p><b>Premium</b> membuka tahap yang lebih mencabar: <b>Hulubalang</b>, <b>Panglima</b> dan <b>Laksamana</b> — soalan aplikasi, KBAT dan jawapan taip sendiri seperti UASA. Lebih tinggi tahap, lebih banyak mata ranking (×2, ×3, ×4).</p>`)}
+    ${Q('2. Adakah kandungan ikut silibus sekolah?', `<p>Ya. Soalan disusun mengikut DSKP KSSR bagi Matematik, Bahasa Melayu, English dan Sains, dan ditulis sendiri oleh pasukan Sudut Belajar. Kandungan sedang disemak oleh guru.</p><p>Untuk Darjah 1, kami tawarkan Matematik, Bahasa Melayu dan English sebagai <b>asas membaca, nombor dan English</b>. Murid Tahun 1 mulai 2027 mengikuti Kurikulum Persekolahan 2027, jadi kandungan Darjah 1 akan dikemas kini apabila dokumen rasmi dikeluarkan.</p>`)}
+    ${Q('3. Apa pakej yang ada dan berapa harganya?', `<p>Setiap pakej membuka <b>semua subjek bagi satu darjah</b>. Harga sama untuk semua darjah.</p><p>• <b>2 Bulan</b> (${tt('hari_2bulan')} hari): RM${hargaRM('2bulan')}${hargaAwal('2bulan') ? ` hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}` : ''}.<br>• <b>Setahun</b> (${tt('hari_setahun')} hari): RM${hargaRM('setahun')}${hargaAwal('setahun') ? ` hingga ${tarikhBM(tt('harga_setahun_awal_tamat'))}, kemudian RM${tt('harga_setahun')}` : ''}.</p>`)}
+    ${Q('4. Satu pakej untuk berapa orang anak?', `<p>Satu pakej untuk <b>seorang anak</b> (satu profil). Dalam satu akaun ibu bapa, anda boleh tambah profil untuk setiap anak dan beli pakej mengikut darjah masing-masing. Kemajuan dan ranking setiap anak disimpan berasingan.</p>`)}
+    ${Q('5. Boleh tukar darjah selepas membeli?', `<p>Tidak. Setiap pakej khusus untuk darjah yang dipilih semasa membeli. Untuk darjah lain, sila beli pakej darjah tersebut. Pakej sedia ada kekal boleh digunakan sehingga tamat tempoh.</p><p>Tip: semasa cuti sekolah, pilih darjah tahun depan jika anak mahu bersedia lebih awal.</p>`)}
+    ${Q('6. Ada caj automatik apabila tempoh tamat?', `<p><b>Tiada.</b> Setiap pakej ialah bayaran sekali. Apabila tamat, profil kembali ke Percuma — bintang, mata dan kemajuan anak <b>kekal</b>, dan anda boleh memperbaharui bila-bila masa.</p>`)}
+    ${Q('7. Bagaimana cara membayar?', `<p>Buat masa ini: pilih darjah dan pakej di halaman <a href="#premium">Premium</a>, kemudian tekan butang <b>WhatsApp</b>. Selepas bayaran disahkan, kami hantar <b>kod premium</b> — masukkan kod itu di halaman Premium semasa profil anak sedang dipilih.</p>`)}
+    ${Q('8. Boleh minta wang dikembalikan?', `<p>Tiada pulangan wang selepas pembelian. Kami galakkan anak mencuba tahap <b>Perajurit</b> percuma dahulu untuk melihat jenis soalan sebelum membeli Premium.</p>`)}
+    <h2>Akaun, keselamatan &amp; bantuan</h2>
+    ${Q('9. Adakah Sudut Belajar selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan <b>nama glamour pilihan anak</b> (bukan nama sebenar), darjah, mata dan nama sekolah jika diisi. Emel ibu bapa tidak pernah dipaparkan. Butiran: <a href="#privasi">Notis Privasi</a>.</p>`)}
+    ${Q('10. Bagaimana jika terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. <b>Kod 6 angka</b> akan dihantar ke emel ibu bapa (sah 30 minit). Masukkan kod itu dan pilih kata laluan baharu. Premium dan kemajuan anak tidak terjejas.</p>`)}
+    ${Q('11. Boleh guna di telefon dan komputer?', `<p>Boleh. Log masuk dengan emel dan kata laluan ibu bapa di mana-mana peranti, kemudian pilih profil anak. Premium ikut profil anak, bukan peranti.</p><p>Kemajuan disimpan ke awan secara automatik selepas kuiz. Pastikan peranti bersambung ke internet semasa kuiz tamat.</p>`)}
+    ${Q('12. Anak saya sudah ada nama samaran + PIN. Perlu daftar semula?', `<p>Tidak perlu. Selepas buat akaun ibu bapa, pilih <b>Pautkan profil sedia ada</b> dan masukkan nama samaran + PIN lama. Mata, bintang dan Premium dibawa bersama.</p>`)}
+    ${Q('13. Bila ranking Dewan Juara bermula semula?', `<p>Ranking berjalan ikut <b>musim ${tt('musim_bulan')} bulan</b>. Musim 1 bermula ${tarikhPenuh(tt('musim_mula'))}. Pada akhir setiap musim, pemain <b>👑 Premium</b> dengan mata tertinggi dalam ranking keseluruhan menerima <b>hadiah misteri</b> 🎁. Kemudian papan mata bermula semula. Bintang dan kemajuan anak tidak hilang.</p>`)}
+    ${k && k.kod ? Q('14. Apa itu kod kempen ' + esc(k.kod) + '?', `<p>Kod kempen pelancaran: ${k.had ? k.had + ' pengguna terawal' : 'pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.mula ? `, mulai ${tarikhPenuh(k.mula)}` : ''}${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Satu profil sekali sahaja. Masukkan kod di halaman Premium.</p>`) : ''}
+    ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>WhatsApp: <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">0${WA_NUM.slice(2, 4)}-${WA_NUM.slice(4)}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
+  </section>`;
+  window.scrollTo(0, 0);
+}
+function privasi() {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  app.innerHTML = `<section class="wrap pagein notis" style="padding:28px 20px 60px;max-width:680px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 6px">Notis Privasi</h1>
+    <p class="lead" style="margin:0">Ringkasan cara Sudut Belajar mengumpul dan menggunakan data. Dikemas kini 17 November 2026.</p>
+    <h2>Data yang kami simpan</h2>
+    <ul>
+      <li><b>Akaun ibu bapa:</b> alamat emel dan kata laluan. Kata laluan disimpan dalam bentuk <b>hash bergaram</b> — kami sendiri tidak dapat melihatnya.</li>
+      <li><b>Profil anak:</b> nama glamour / nama samaran (bukan nama sebenar), darjah, nama sekolah (pilihan), bintang, mata, rekod kuiz dan status Premium.</li>
+      <li><b>Dalam peranti:</b> kemajuan dan tetapan disimpan dalam storan pelayar (localStorage) supaya laman berfungsi tanpa internet.</li>
+    </ul>
+    <h2>Untuk apa data digunakan</h2>
+    <ul><li>Log masuk, menyimpan dan memulihkan kemajuan anak di mana-mana peranti.</li><li>Memaparkan ranking Dewan Juara.</li><li>Mengaktifkan Premium yang dibeli.</li><li>Menghantar kod set semula kata laluan dan maklumat penting akaun ke emel ibu bapa.</li></ul>
+    <h2>Apa yang dipaparkan kepada umum</h2>
+    <p>Ranking hanya memaparkan <b>nama glamour / nama samaran, darjah, mata, nama sekolah (jika diisi) dan tanda Premium 👑</b>. Emel ibu bapa tidak pernah dipaparkan. Jangan gunakan nama sebenar anak sebagai nama glamour.</p>
+    <h2>Perkongsian &amp; penyimpanan</h2>
+    <p>Kami <b>tidak menjual</b> data dan tiada iklan. Data disimpan dalam perkhidmatan Google (Google Sheets dan Apps Script) yang diurus oleh Sudut Belajar. Bayaran dalam talian, apabila tersedia, diproses oleh penyedia pembayaran (ToyyibPay) — kami tidak menyimpan butiran kad atau akaun bank.</p>
+    <h2>Hak anda</h2>
+    <p>Ibu bapa boleh meminta salinan, pembetulan atau pemadaman data akaun dan profil anak dengan menghubungi kami di <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a>. Kami membalas dalam tempoh 24 jam.</p>
+    <h2>Kanak-kanak</h2>
+    <p>Akaun ibu bapa didaftarkan oleh ibu bapa atau penjaga. Anak menggunakan profil di bawah akaun itu dan tidak perlu memberikan emel atau maklumat peribadi.</p>
+  </section>`;
+  window.scrollTo(0, 0);
+}
 function akaun(mod) {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
   const A = AKAUN.get();
@@ -8736,7 +8950,7 @@ function akaun(mod) {
           <label class="afield">Kod 6 angka dari emel<input id="akod" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></label>
           <label class="afield">Kata laluan baharu<input type="password" id="akata" autocomplete="new-password" minlength="8" required><small>Sekurang-kurangnya 8 aksara.</small></label>` : `
           <label class="afield">Kata laluan<input type="password" id="akata" autocomplete="${mod === 'daftar' ? 'new-password' : 'current-password'}" minlength="8" required>${mod === 'daftar' ? '<small>Sekurang-kurangnya 8 aksara.</small>' : ''}</label>
-          ${mod === 'daftar' ? '<label class="afield">Ulang kata laluan<input type="password" id="akata2" autocomplete="new-password" minlength="8" required></label>' : ''}`}
+          ${mod === 'daftar' ? '<label class="afield">Ulang kata laluan<input type="password" id="akata2" autocomplete="new-password" minlength="8" required></label><label class="asetuju"><input type="checkbox" id="asetuju"><span>Saya ibu bapa atau penjaga murid ini, dan bersetuju dengan <a href="#privasi" target="_blank" rel="noopener">Notis Privasi</a> serta <a href="#faq" target="_blank" rel="noopener">terma dalam Soalan Lazim</a>.</span></label>' : ''}`}
           <button class="btn pri" type="submit" style="width:100%">${{ masuk: 'Log masuk', daftar: 'Daftar akaun', lupa: 'Hantar kod ke emel', kod: 'Tukar kata laluan' }[mod]}</button>
         </form>
         <div class="amsg" id="amsg" role="status"></div>
@@ -8755,6 +8969,7 @@ function akaun(mod) {
       sessionStorage.setItem('sb.emel', emel);
       if (mod !== 'lupa' && kata.length < 8) return msg('⚠️ Kata laluan mesti sekurang-kurangnya 8 aksara.');
       if (mod === 'daftar' && kata !== $('#akata2').value) return msg('⚠️ Kata laluan tidak sama.');
+      if (mod === 'daftar' && !$('#asetuju').checked) return msg('⚠️ Sila tandakan kotak persetujuan ibu bapa / penjaga.');
       if (mod === 'kod' && !/^\d{6}$/.test($('#akod').value.trim())) return msg('⚠️ Kod mesti 6 angka.');
       if (!apiOK()) return msg('⚠️ Akaun belum dibuka.');
       msg('Sebentar…', true); const btn = ev.submitter || $('#fakaun button'); if (btn) btn.disabled = true;
@@ -8859,7 +9074,7 @@ function ranking() {
     <div class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px" id="profbox"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="lbfilter"></div>
     <div id="lb" class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 16px">Memuatkan…</div>
-    <p style="font-size:13px;color:var(--muted);margin-top:12px">🔒 Privasi: ranking hanya menghantar <b>nama samaran, darjah dan mata</b>. Tiada nama sebenar, emel atau maklumat peribadi. Penyertaan adalah pilihan.</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:12px">🔒 Privasi: ranking memaparkan <b>nama glamour / nama samaran, darjah, mata dan nama sekolah (jika diisi)</b>. Nama sebenar dan emel tidak dipaparkan. <a href="#privasi" style="font-weight:600">Notis Privasi</a></p>
   </section>`;
   const prof = () => {
     const P2 = PLAYER.get();
@@ -8869,15 +9084,16 @@ function ranking() {
         <button class="btn pri" id="psimpan" style="padding:8px 14px;font-size:14px">💾 Simpan progress ke awan</button>
         <button class="btn sec" id="psambung" style="padding:8px 14px;font-size:14px">📥 Sambung dari awan</button>
       </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)"></div>`
-    : `<b>Sertai Ranking</b> — cipta nama samaran & PIN (untuk simpan dan sambung di mana-mana peranti):
+    : `<b>Sertai Ranking</b> — cara paling mudah: <b>akaun ibu bapa</b> (satu emel untuk semua anak, tiada PIN untuk diingat).
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><a class="btn pri" href="#akaun/daftar" style="padding:10px 18px">👨‍👩‍👧 Daftar akaun ibu bapa</a><a class="btn sec" href="#akaun" style="padding:10px 18px">Log masuk</a></div>
+      <details id="pcaralama" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)"><summary style="cursor:pointer;font-weight:700;font-size:14px">Atau guna nama samaran + PIN</summary>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <input id="pnick" placeholder="Nama samaran (3-16 huruf)" maxlength="16" style="flex:2;min-width:150px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <select id="pdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">${[1,2,3,4,5,6].map(i=>`<option value="${i}">Darjah ${i}</option>`).join('')}</select>
         <input id="ppin" placeholder="PIN 4 angka" maxlength="4" inputmode="numeric" style="flex:1;min-width:100px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <input id="psek" placeholder="Nama sekolah — cth: SK Taman Mewah (pilihan)" maxlength="48" style="flex:1 1 100%;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit">
         <button class="btn pri" id="pjoin" style="padding:8px 16px">Mula ✔</button>
-      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div>
-      <div style="font-size:13.5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">👨‍👩‍👧 <b>Ibu bapa?</b> <a href="#akaun" style="font-weight:700">Buat akaun ibu bapa</a> — urus semua anak dengan satu emel, tanpa perlu ingat PIN.</div>`;
+      </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)">Jangan guna nama sebenar. Ingat PIN kamu — ia diperlukan untuk sambung di peranti lain.</div></details>`;
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
       $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
@@ -8967,7 +9183,7 @@ function home(y, scroll) {
         <span class="pill"><b>●</b> Mula percuma · Tanpa iklan · Tanpa emel</span>
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
         <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik tahap dari <b>Perajurit</b> ke <b>Hulubalang</b>, <b>Panglima</b> hingga <b>Laksamana</b>, dan kumpul bintang!</p>
-        <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
+        <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#mula">Daftar percuma · Pakej</a></div>
         <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>∞</b>Soalan rawak</div>`}</div>
       </div>
       <div class="art adagambar">
@@ -8991,12 +9207,12 @@ function home(y, scroll) {
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
       <div class="features">
         <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
-        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti ini secara automatik. Ranking &amp; simpan-awan adalah <b>pilihan</b>: hanya nama samaran, darjah dan mata dihantar — tiada nama sebenar, emel atau maklumat peribadi.</p></div>
+        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
         <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Darjah 2–6 ikut KSSR (Semakan 2017) yang dijajarkan. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
       </div>
     </section>
   </div>
-  <footer class="wrap"><p>© ${new Date().getFullYear()} Sudut Belajar · Percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -9065,9 +9281,10 @@ function quiz(s, y, t, rank) {
     app.innerHTML = `<section class="wrap pagein" style="padding:48px 20px 60px;max-width:560px;text-align:center">
       <div style="font-size:56px">🎓</div>
       <h1 style="margin:12px 0 8px">Hebat! Kamu dah kumpul <span style="color:var(--g1)">${tuntutJumlah()} mata</span> ⭐</h1>
-      <p class="lead" style="margin-bottom:6px">Daftar <b>percuma</b> untuk masukkan mata kamu ke Ranking dan terus belajar tanpa had — nama samaran dan PIN sahaja. Tiada emel, tiada bayaran.</p>
-      <p style="font-size:13.5px;color:var(--muted);margin-bottom:20px">Bonus: mata ranking dikumpul &amp; bintang kamu boleh disimpan ke awan.</p>
-      <a class="btn pri" href="#ranking" style="font-size:17px;padding:14px 28px">📝 Daftar sekarang — 30 saat</a>
+      <p class="lead" style="margin-bottom:6px">Minta ibu atau ayah daftar <b>percuma</b> — mata kamu masuk Ranking dan kamu boleh terus belajar tanpa had. Tiada bayaran.</p>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:20px">Satu akaun ibu bapa untuk semua adik-beradik · kemajuan disimpan ke awan · boleh log masuk di mana-mana peranti.</p>
+      <a class="btn pri" href="#akaun/daftar" style="font-size:17px;padding:14px 28px">👨‍👩‍👧 Daftar akaun ibu bapa — percuma</a>
+      <p style="font-size:13.5px;margin-top:14px"><a href="#akaun">Sudah ada akaun? Log masuk</a> · <a href="#ranking">Atau guna nama samaran + PIN</a></p>
     </section>`;
     window.scrollTo({ top: 0 }); return;
   }
@@ -9198,6 +9415,10 @@ function route() {
   if ((m = /^d([1-6])$/.exec(h))) return home(+m[1], true);
   if (h === 'ranking') return ranking();
   if (h === 'akaun') return akaun();
+  if (h === 'akaun/daftar' || h === 'akaun/masuk') return akaun(h.slice(6));
+  if (h === 'mula') return mula();
+  if (h === 'faq') return faq();
+  if (h === 'privasi') return privasi();
   if (h === 'premium') return premium();
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();

@@ -1,4 +1,4 @@
-// Sudut Belajar — service worker v3
+// Sudut Belajar — service worker v3.1 (aset/ cache-dahulu)
 // Pembetulan penting berbanding v2:
 //  1. Panggilan API (script.google.com) TIDAK PERNAH dipintas — ranking & simpan sentiasa data terkini.
 //  2. Halaman disimpan di SATU kunci tetap sahaja, jadi cache tidak membengkak walau berapa banyak
@@ -46,6 +46,18 @@ self.addEventListener('fetch', e => {
   // --- Fail HTML yang diminta melalui fetch(): internet dahulu, jangan sesekali hidang versi lama ---
   if (/\.html?($|\?)/.test(url.pathname + url.search) || url.pathname === '/' ) {
     e.respondWith(fetch(req).catch(() => caches.match(HALAMAN)));
+    return;
+  }
+
+  // --- Fail besar dalam aset/ (muzik, gambar): cache dahulu SAHAJA, jimat data murid.
+  //     Nama fail mesti ditukar jika kandungannya berubah. ---
+  if (url.pathname.includes('/aset/')) {
+    e.respondWith(
+      caches.open(CACHE).then(c => c.match(url.pathname).then(hit => hit || fetch(req).then(r => {
+        if (r && r.ok && r.status === 200) c.put(url.pathname, r.clone());
+        return r;
+      })))
+    );
     return;
   }
 

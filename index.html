@@ -194,6 +194,13 @@ section.blk{padding:44px 0}
 .sndbtn{background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:999px;width:38px;height:38px;font-size:17px;cursor:pointer;line-height:1;padding:0;transition:transform .15s,background .15s}
 .sndbtn:hover{transform:scale(1.1);background:#fff}
 .sndbtn:active{transform:scale(.92)}
+.sndbtn.off{opacity:.45}
+.art .heroimg{position:relative;z-index:1;display:block;width:100%;height:auto;border-radius:28px;box-shadow:var(--shadow-lg);animation:float 7s ease-in-out infinite}
+.art.adagambar{height:auto;padding:28px 18px}
+.art.adagambar .tile{z-index:2}
+.art.adagambar .t1{width:92px;height:92px;font-size:40px;left:-2%;top:-2%}
+.art.adagambar .t2{width:78px;height:78px;font-size:32px;right:0;top:-4%}
+.art.adagambar .t4{width:74px;height:74px;font-size:32px;left:2%;bottom:-2%}
 .sub.soon{filter:saturate(.6);opacity:.82}
 .sub.soon:hover{transform:none}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -346,9 +353,13 @@ footer p+p{margin-top:6px}
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:34px}
   .art{display:none}
+  .art.adagambar{display:block;max-width:560px;width:100%;margin:6px auto 0;padding:0}
+  .art.adagambar .tile{display:none}
   .subjects{grid-template-columns:1fr 1fr}
   .features{grid-template-columns:1fr}
 }
+.logo span,.nav a{white-space:nowrap}
+@media (max-width:420px){.nav{gap:3px}.nav a{padding:9px 10px}.nav a.hide-xs{display:none}.logo{font-size:19px;gap:8px}.logo img{width:32px;height:32px}.sndbtn{width:34px;height:34px;font-size:15px}}
 @media (max-width:560px){
   .nav a.hide-s{display:none}
   .years{grid-template-columns:repeat(3,1fr)}
@@ -371,7 +382,7 @@ footer p+p{margin-top:6px}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38"><span>Sudut Belajar</span></a>
-  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih">Darjah</a><a href="#ranking">🏆 Ranking</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
+  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#ranking">🏆 Ranking</a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
 </div></header>
 <main id="app"></main>
 <div class="toast" id="toast"></div>
@@ -1656,6 +1667,315 @@ if (typeof module !== 'undefined') module.exports = EN;
 const SN = (() => {
 const { shuffle, pick } = SB.U;
 const D = {
+1: {
+kps1: ['Kemahiran Sains', '🔍', [
+ ['e', 'Kita menggunakan apakah untuk memerhati warna bunga?', 'Mata', 'Telinga', 'Hidung', 'Lidah'],
+ ['e', 'Alat yang digunakan untuk melihat benda yang sangat kecil ialah …', 'kanta pembesar', 'cermin mata hitam', 'pembaris', 'jam'],
+ ['e', 'Kita menyusun benda mengikut warna. Kemahiran ini dipanggil …', 'mengelas', 'mengukur', 'membaca', 'menulis'],
+ ['e', 'Alat untuk mengukur panjang meja ialah …', 'pembaris', 'jam', 'penimbang', 'cawan'],
+ ['e', 'Alat untuk mengukur masa ialah …', 'jam', 'pembaris', 'cawan', 'penimbang'],
+ ['e', 'Bagaimanakah kita tahu air itu panas tanpa menyentuhnya?', 'Nampak wap keluar', 'Mendengar bunyi', 'Menghidu bau', 'Merasa dengan lidah'],
+ ['e', 'Apabila kita menyusun buah mengikut saiz besar ke kecil, kita sedang …', 'mengelas', 'membaca', 'melukis', 'menyanyi'],
+ ['e', 'Deria manakah yang digunakan untuk tahu sesuatu benda itu kasar atau licin?', 'Sentuhan', 'Penglihatan', 'Pendengaran', 'Bau'],
+ ['e', 'Alat untuk mengukur berat ialah …', 'penimbang', 'pembaris', 'jam', 'kanta pembesar'],
+ ['e', 'Memerhati bermaksud menggunakan …', 'deria kita', 'kaki kita', 'baju kita', 'beg kita'],
+ ['e', 'Apabila kita menyusun haiwan kepada kumpulan berkaki empat dan berkaki dua, kita sedang …', 'mengelas', 'mengukur', 'melukis', 'membaca'],
+
+ ['l', 'Ali hendak tahu panjang pensel. Alat yang paling sesuai ialah …', 'pembaris', 'jam', 'penimbang', 'kanta pembesar'],
+ ['l', 'Siti melihat semut dengan kanta pembesar. Mengapa?', 'Semut terlalu kecil untuk dilihat dengan jelas', 'Semut terlalu besar', 'Semut berwarna terang', 'Semut bergerak laju'],
+ ['l', 'Guru meminta murid mengumpulkan butang mengikut warna. Kemahiran yang digunakan ialah …', 'mengelas', 'mengukur', 'meramal', 'membaca'],
+ ['l', 'Kita TIDAK boleh merasa bahan kimia di dalam makmal dengan lidah kerana …', 'ia mungkin berbahaya', 'ia sedap', 'ia terlalu sejuk', 'ia terlalu murah'],
+ ['l', 'Aina ingin tahu berat sebiji tembikai. Alat yang paling sesuai ialah …', 'penimbang', 'pembaris', 'jam', 'cermin'],
+ ['l', 'Murid menyusun objek mengikut turutan paling ringan ke paling berat. Kemahiran ini ialah …', 'mengelas mengikut berat', 'membaca', 'mendengar', 'menyanyi'],
+ ['l', 'Apabila kita menggunakan lebih daripada satu deria untuk memerhati, pemerhatian kita menjadi …', 'lebih tepat', 'kurang tepat', 'salah', 'sama sahaja'],
+ ['l', 'Untuk mengetahui bau sesuatu bahan di makmal, cara yang selamat ialah …', 'kipas bau ke arah hidung dengan tangan', 'hidu terus dekat dengan hidung', 'rasa dengan lidah', 'sentuh dengan mata'],
+ ['l', 'Kumpulan manakah yang dikelaskan mengikut BENTUK?', 'bulat, segi empat, segi tiga', 'merah, biru, kuning', 'besar, kecil, sederhana', 'panas, sejuk, suam'],
+ ['l', 'Kumpulan manakah yang dikelaskan mengikut WARNA?', 'merah, biru, kuning', 'bulat, panjang, leper', 'besar, kecil', 'berat, ringan'],
+ ['l', 'Mengapakah kita perlu mencatat apa yang diperhati?', 'Supaya tidak lupa maklumat itu', 'Supaya buku penuh', 'Supaya pensel habis', 'Supaya cepat balik'],
+
+ ['m', 'Alat yang digunakan untuk melihat benda yang sangat kecil ialah ___', 'kanta pembesar', 'kanta|magnifying glass'],
+ ['m', 'Alat untuk mengukur panjang ialah ___', 'pembaris', ''],
+ ['m', 'Alat untuk mengukur masa ialah ___', 'jam', ''],
+ ['m', 'Alat untuk mengukur berat ialah ___', 'penimbang', 'neraca'],
+ ['m', 'Deria yang digunakan untuk melihat warna ialah deria ___', 'penglihatan', 'lihat|mata'],
+ ['m', 'Menyusun benda ke dalam kumpulan mengikut ciri yang sama dipanggil ___', 'mengelas', 'kelas|pengelasan'],
+ ['m', 'Menggunakan deria untuk mendapatkan maklumat dipanggil ___', 'memerhati', 'perhati|pemerhatian'],
+ ['m', 'Berapakah bilangan deria manusia? Taip nombor sahaja.', '5', 'lima'],
+ ['m', 'Deria yang digunakan untuk tahu benda itu kasar atau licin ialah deria ___', 'sentuhan', 'sentuh|kulit'],
+ ['m', 'Alat untuk mengukur suhu ialah ___', 'termometer', '']
+]],
+
+bilik1: ['Peraturan Bilik Sains', '⚠️', [
+ ['e', 'Sebelum membuat aktiviti sains, kita mesti mendapat kebenaran daripada …', 'guru', 'kawan', 'adik', 'jiran'],
+ ['e', 'Bolehkah kita makan di dalam bilik sains?', 'Tidak boleh', 'Boleh', 'Boleh jika lapar', 'Boleh pada waktu rehat'],
+ ['e', 'Apakah yang perlu dilakukan selepas membuat aktiviti sains?', 'Membasuh tangan', 'Terus balik', 'Terus makan', 'Tidur'],
+ ['e', 'Bolehkah kita berlari di dalam bilik sains?', 'Tidak boleh', 'Boleh', 'Boleh jika cepat', 'Boleh jika seronok'],
+ ['e', 'Apakah yang perlu dibuat jika kita terpecahkan kaca?', 'Beritahu guru', 'Sembunyikan', 'Diam sahaja', 'Terus balik'],
+ ['e', 'Bolehkah kita merasa bahan di dalam bilik sains dengan lidah?', 'Tidak boleh', 'Boleh', 'Boleh jika sedap', 'Boleh jika guru tiada'],
+ ['e', 'Bolehkah kita bermain dengan alat radas sains?', 'Tidak boleh', 'Boleh', 'Boleh jika seronok', 'Boleh selepas kelas'],
+ ['e', 'Apakah yang perlu dipakai untuk melindungi mata semasa aktiviti tertentu?', 'Cermin mata keselamatan', 'Topi', 'Sarung kaki', 'Jam tangan'],
+ ['e', 'Selepas guna alat sains, kita perlu …', 'menyimpannya semula di tempatnya', 'membuangnya', 'membawanya pulang', 'menyorokkannya'],
+ ['e', 'Bolehkah kita menolak kawan di dalam bilik sains?', 'Tidak boleh', 'Boleh', 'Boleh jika bergurau', 'Boleh jika kawan baik'],
+ ['e', 'Jika kita tidak faham arahan, kita perlu …', 'bertanya kepada guru', 'teka sahaja', 'buat ikut suka', 'tidak buat apa-apa'],
+
+ ['l', 'Mengapakah kita tidak boleh makan di dalam bilik sains?', 'Makanan boleh tercemar dengan bahan kimia', 'Makanan akan sejuk', 'Makanan akan hilang', 'Makanan terlalu mahal'],
+ ['l', 'Amin ternampak air tumpah di lantai bilik sains. Apakah yang patut dia buat?', 'Beritahu guru supaya ia dibersihkan', 'Buat tidak tahu', 'Berlari di atasnya', 'Tutup dengan kerusi'],
+ ['l', 'Mengapakah kita perlu membasuh tangan selepas aktiviti sains?', 'Untuk membuang bahan yang mungkin melekat di tangan', 'Supaya tangan wangi', 'Supaya tangan sejuk', 'Supaya cepat balik'],
+ ['l', 'Mengapakah kita tidak boleh berlari di dalam bilik sains?', 'Kita mungkin terlanggar alat dan tercedera', 'Lantai akan kotor', 'Kasut akan rosak', 'Guru akan penat'],
+ ['l', 'Siti hendak menghidu bau sesuatu bahan. Cara yang betul ialah …', 'kipas bau ke arah hidung dengan tangan', 'hidu terus dengan kuat', 'rasa dengan lidah', 'sentuh dengan mata'],
+ ['l', 'Mengapakah alat radas perlu disimpan semula selepas digunakan?', 'Supaya tidak hilang dan selamat untuk kegunaan seterusnya', 'Supaya bilik gelap', 'Supaya guru penat', 'Supaya murid balik awal'],
+ ['l', 'Apakah tindakan yang BETUL jika kawan kamu tercedera di bilik sains?', 'Beritahu guru dengan segera', 'Ketawakan dia', 'Lari keluar', 'Diamkan sahaja'],
+ ['l', 'Mengapakah kita tidak boleh bermain dengan radas sains?', 'Radas boleh pecah dan mencederakan kita', 'Radas terlalu berat', 'Radas tidak menarik', 'Radas berwarna putih'],
+ ['l', 'Sebelum menggunakan sesuatu bahan, kita perlu …', 'membaca label pada bekasnya', 'membuangnya', 'merasanya', 'menyorokkannya'],
+ ['l', 'Mengapakah kita perlu mengikut arahan guru di dalam bilik sains?', 'Untuk menjaga keselamatan semua orang', 'Supaya kelas cepat habis', 'Supaya guru gembira sahaja', 'Supaya dapat markah tinggi sahaja'],
+
+ ['m', 'Sebelum membuat aktiviti sains, kita mesti mendapat kebenaran daripada ___', 'guru', 'cikgu'],
+ ['m', 'Selepas membuat aktiviti sains, kita perlu ___ tangan.', 'membasuh', 'basuh|cuci|mencuci'],
+ ['m', 'Jika berlaku kemalangan di bilik sains, kita perlu ___ guru.', 'beritahu', 'memberitahu|lapor|melaporkan'],
+ ['m', 'Kita tidak boleh ___ di dalam bilik sains kerana makanan boleh tercemar.', 'makan', ''],
+ ['m', 'Kita perlu berjalan, bukan ___ di dalam bilik sains.', 'berlari', 'lari'],
+ ['m', 'Untuk melindungi mata, kita memakai ___ keselamatan.', 'cermin mata', 'cermin|gogal'],
+ ['m', 'Selepas guna, alat radas perlu di___ semula di tempatnya.', 'simpan', 'simpankan'],
+ ['m', 'Kita tidak boleh ___ bahan sains dengan lidah.', 'merasa', 'rasa']
+]],
+
+hidup1: ['Benda Hidup & Bukan Hidup', '🌱', [
+ ['e', 'Yang manakah benda hidup?', 'Kucing', 'Kerusi', 'Batu', 'Buku'],
+ ['e', 'Yang manakah benda bukan hidup?', 'Meja', 'Pokok', 'Ayam', 'Ikan'],
+ ['e', 'Benda hidup boleh …', 'membesar', 'berkarat', 'pecah sendiri', 'kekal sama selamanya'],
+ ['e', 'Yang manakah benda hidup?', 'Pokok bunga', 'Pensel', 'Cawan', 'Kipas'],
+ ['e', 'Benda hidup memerlukan … untuk hidup.', 'makanan dan air', 'wang', 'baju', 'buku'],
+ ['e', 'Yang manakah benda bukan hidup?', 'Basikal', 'Rama-rama', 'Rumput', 'Burung'],
+ ['e', 'Benda hidup boleh bergerak sendiri. Yang manakah contohnya?', 'Arnab', 'Bola', 'Kereta mainan', 'Almari'],
+ ['e', 'Yang manakah benda hidup?', 'Rumput', 'Batu', 'Plastik', 'Besi'],
+ ['e', 'Benda hidup perlu … untuk hidup.', 'udara', 'duit', 'televisyen', 'telefon'],
+ ['e', 'Yang manakah benda bukan hidup?', 'Batu', 'Semut', 'Pokok', 'Ikan'],
+ ['e', 'Benda hidup boleh menghasilkan anak. Perbuatan ini dipanggil …', 'membiak', 'berkarat', 'pecah', 'cair'],
+
+ ['l', 'Mengapakah kereta BUKAN benda hidup walaupun ia boleh bergerak?', 'Ia tidak membesar dan tidak membiak', 'Ia berwarna', 'Ia besar', 'Ia mahal'],
+ ['l', 'Pokok adalah benda hidup kerana ia …', 'membesar dan memerlukan air', 'berwarna hijau', 'berada di luar rumah', 'tinggi'],
+ ['l', 'Antara berikut, yang manakah ciri benda hidup?', 'Bernafas, makan, membesar, membiak', 'Berat, keras, licin', 'Besar, kecil, bulat', 'Merah, biru, kuning'],
+ ['l', 'Boneka boleh bergerak apabila ditarik tali. Adakah boneka benda hidup?', 'Tidak, kerana ia tidak membesar dan tidak bernafas', 'Ya, kerana ia bergerak', 'Ya, kerana ia ada mata', 'Ya, kerana ia comel'],
+ ['l', 'Benih kacang hijau yang disiram air akan bercambah. Ini menunjukkan benih itu …', 'benda hidup', 'benda bukan hidup', 'batu', 'plastik'],
+ ['l', 'Kumpulan manakah yang SEMUANYA benda hidup?', 'kucing, pokok, semut', 'kucing, meja, semut', 'kerusi, pokok, semut', 'kucing, pokok, batu'],
+ ['l', 'Kumpulan manakah yang SEMUANYA benda bukan hidup?', 'batu, meja, pensel', 'batu, pokok, pensel', 'batu, meja, ayam', 'ikan, meja, pensel'],
+ ['l', 'Mengapakah air BUKAN benda hidup walaupun ia boleh bergerak?', 'Ia tidak bernafas dan tidak membiak', 'Ia sejuk', 'Ia jernih', 'Ia banyak'],
+ ['l', 'Ayam bertelur dan telur itu menetas menjadi anak ayam. Ini menunjukkan ayam boleh …', 'membiak', 'berkarat', 'cair', 'pecah'],
+ ['l', 'Awan bergerak di langit. Adakah awan benda hidup?', 'Tidak, kerana ia tidak makan dan tidak membesar sendiri', 'Ya, kerana ia bergerak', 'Ya, kerana ia besar', 'Ya, kerana ia putih'],
+
+ ['m', 'Kucing ialah benda ___', 'hidup', ''],
+ ['m', 'Kerusi ialah benda ___ hidup.', 'bukan', 'tak'],
+ ['m', 'Benda hidup memerlukan makanan, air dan ___ untuk hidup.', 'udara', 'oksigen'],
+ ['m', 'Benda hidup boleh menghasilkan anak. Perbuatan ini dipanggil ___', 'membiak', 'biak|pembiakan'],
+ ['m', 'Pokok ialah benda ___', 'hidup', ''],
+ ['m', 'Batu ialah benda ___ hidup.', 'bukan', 'tak'],
+ ['m', 'Benda hidup akan menjadi lebih besar. Proses ini dipanggil ___', 'membesar', 'besar|tumbesaran'],
+ ['m', 'Manusia menarik dan menghembus udara. Perbuatan ini dipanggil ___', 'bernafas', 'nafas|pernafasan']
+]],
+
+deria1: ['Lima Deria Manusia', '👃', [
+ ['e', 'Kita melihat dengan menggunakan …', 'mata', 'telinga', 'hidung', 'lidah'],
+ ['e', 'Kita mendengar dengan menggunakan …', 'telinga', 'mata', 'hidung', 'kulit'],
+ ['e', 'Kita menghidu bau dengan menggunakan …', 'hidung', 'mata', 'telinga', 'lidah'],
+ ['e', 'Kita merasa makanan dengan menggunakan …', 'lidah', 'mata', 'telinga', 'hidung'],
+ ['e', 'Kita menyentuh dengan menggunakan …', 'kulit', 'mata', 'telinga', 'lidah'],
+ ['e', 'Berapakah bilangan deria manusia?', '5', '3', '4', '6'],
+ ['e', 'Deria penglihatan menggunakan organ …', 'mata', 'telinga', 'hidung', 'kulit'],
+ ['e', 'Deria pendengaran menggunakan organ …', 'telinga', 'mata', 'lidah', 'kulit'],
+ ['e', 'Deria rasa menggunakan organ …', 'lidah', 'mata', 'telinga', 'hidung'],
+ ['e', 'Kita tahu air itu panas apabila menyentuhnya. Deria yang digunakan ialah …', 'sentuhan', 'penglihatan', 'pendengaran', 'bau'],
+ ['e', 'Kita tahu bunga itu wangi. Deria yang digunakan ialah …', 'bau', 'penglihatan', 'pendengaran', 'rasa'],
+
+ ['l', 'Ali mendengar bunyi loceng sekolah. Deria yang digunakan ialah …', 'pendengaran', 'penglihatan', 'rasa', 'sentuhan'],
+ ['l', 'Siti tahu gula itu manis. Deria yang digunakan ialah …', 'rasa', 'penglihatan', 'pendengaran', 'bau'],
+ ['l', 'Kita tahu permukaan meja itu licin. Deria yang digunakan ialah …', 'sentuhan', 'penglihatan', 'pendengaran', 'rasa'],
+ ['l', 'Aina ternampak asap keluar dari dapur dan menghidu bau hangit. Berapakah deria yang digunakan?', '2', '1', '3', '4'],
+ ['l', 'Orang buta menggunakan deria manakah untuk membaca huruf Braille?', 'Sentuhan', 'Penglihatan', 'Rasa', 'Bau'],
+ ['l', 'Apabila kita demam selesema, deria manakah yang biasanya terjejas?', 'Bau', 'Penglihatan', 'Pendengaran', 'Sentuhan'],
+ ['l', 'Mengapakah kita perlu menjaga mata kita?', 'Supaya kita dapat melihat dengan jelas', 'Supaya mata berwarna cantik', 'Supaya mata besar', 'Supaya kita cepat tidur'],
+ ['l', 'Amin memakan buah limau dan rasanya masam. Organ deria yang digunakan ialah …', 'lidah', 'mata', 'telinga', 'hidung'],
+ ['l', 'Cara menjaga telinga yang BETUL ialah …', 'tidak mendengar bunyi terlalu kuat', 'mencucuk telinga dengan pensel', 'mendengar muzik sekuat-kuatnya', 'mencuci telinga dengan sabun di dalam'],
+ ['l', 'Kita dapat tahu makanan itu busuk sebelum merasanya. Deria yang membantu ialah …', 'bau', 'rasa', 'pendengaran', 'sentuhan'],
+
+ ['m', 'Kita melihat menggunakan ___', 'mata', ''],
+ ['m', 'Kita mendengar menggunakan ___', 'telinga', ''],
+ ['m', 'Kita menghidu bau menggunakan ___', 'hidung', ''],
+ ['m', 'Kita merasa makanan menggunakan ___', 'lidah', ''],
+ ['m', 'Kita menyentuh menggunakan ___', 'kulit', 'tangan'],
+ ['m', 'Berapakah bilangan deria manusia? Taip nombor sahaja.', '5', 'lima'],
+ ['m', 'Deria yang menggunakan mata ialah deria ___', 'penglihatan', 'lihat'],
+ ['m', 'Deria yang menggunakan telinga ialah deria ___', 'pendengaran', 'dengar']
+]],
+haiwan1: ['Haiwan', '🐄', [
+ ['e', 'Berapakah bilangan kaki seekor ayam?', '2', '4', '6', '8'],
+ ['e', 'Berapakah bilangan kaki seekor kucing?', '4', '2', '6', '8'],
+ ['e', 'Haiwan yang manakah mempunyai sayap?', 'Burung', 'Kucing', 'Ikan', 'Kambing'],
+ ['e', 'Haiwan yang manakah tinggal di dalam air?', 'Ikan', 'Ayam', 'Kucing', 'Kambing'],
+ ['e', 'Ayam membiak dengan cara …', 'bertelur', 'melahirkan anak', 'bercambah', 'membelah diri'],
+ ['e', 'Kucing membiak dengan cara …', 'melahirkan anak', 'bertelur', 'bercambah', 'membelah diri'],
+ ['e', 'Haiwan yang manakah bergerak dengan cara merangkak?', 'Semut', 'Burung', 'Ikan', 'Katak'],
+ ['e', 'Bagaimanakah ikan bergerak?', 'Berenang', 'Terbang', 'Berjalan', 'Melompat'],
+ ['e', 'Haiwan yang manakah makan rumput?', 'Lembu', 'Harimau', 'Helang', 'Buaya'],
+ ['e', 'Haiwan yang manakah mempunyai bulu pelepah?', 'Ayam', 'Kucing', 'Ikan', 'Ular'],
+ ['e', 'Bagaimanakah arnab bergerak?', 'Melompat', 'Berenang', 'Terbang', 'Merangkak'],
+
+ ['l', 'Mengapakah ikan boleh hidup di dalam air?', 'Ikan bernafas menggunakan insang', 'Ikan suka air sejuk', 'Ikan tidak perlu udara', 'Ikan pandai berenang'],
+ ['l', 'Haiwan yang manakah mempunyai sisik?', 'Ikan', 'Kucing', 'Ayam', 'Arnab'],
+ ['l', 'Harimau makan daging. Haiwan seperti ini dipanggil …', 'haiwan pemakan daging', 'haiwan pemakan tumbuhan', 'haiwan kecil', 'haiwan air'],
+ ['l', 'Kumpulan manakah yang SEMUANYA haiwan berkaki empat?', 'kucing, lembu, arnab', 'kucing, ayam, arnab', 'burung, lembu, arnab', 'ikan, lembu, arnab'],
+ ['l', 'Kumpulan manakah yang SEMUANYA haiwan bertelur?', 'ayam, itik, burung', 'ayam, kucing, burung', 'lembu, itik, burung', 'ayam, itik, kambing'],
+ ['l', 'Ular tidak mempunyai kaki. Bagaimanakah ia bergerak?', 'Menyusur di atas tanah', 'Terbang', 'Berenang sahaja', 'Melompat'],
+ ['l', 'Mengapakah burung boleh terbang?', 'Burung mempunyai sayap dan badan yang ringan', 'Burung makan banyak', 'Burung berwarna cantik', 'Burung tinggal di pokok'],
+ ['l', 'Haiwan yang manakah tinggal di dalam lubang di tanah?', 'Semut', 'Burung', 'Ikan', 'Monyet'],
+ ['l', 'Haiwan muda bagi ayam dipanggil …', 'anak ayam', 'anak kucing', 'anak itik', 'anak burung'],
+ ['l', 'Lembu memberi kita susu. Haiwan ini dipelihara untuk …', 'mendapatkan makanan', 'bermain', 'dibawa jalan', 'dipelihara sahaja'],
+
+ ['m', 'Berapakah bilangan kaki seekor kucing? Taip nombor sahaja.', '4', 'empat'],
+ ['m', 'Berapakah bilangan kaki seekor ayam? Taip nombor sahaja.', '2', 'dua'],
+ ['m', 'Ikan bernafas menggunakan ___', 'insang', ''],
+ ['m', 'Ayam membiak dengan cara ber___', 'telur', 'bertelur'],
+ ['m', 'Burung terbang menggunakan ___', 'sayap', ''],
+ ['m', 'Haiwan yang berenang di dalam air dan mempunyai sisik ialah ___', 'ikan', ''],
+ ['m', 'Haiwan yang memberi kita susu di ladang ialah ___', 'lembu', 'kambing'],
+ ['m', 'Anak kepada ayam dipanggil anak ___', 'ayam', '']
+]],
+
+tumbuh1: ['Tumbuhan', '🌳', [
+ ['e', 'Bahagian tumbuhan yang berada di dalam tanah ialah …', 'akar', 'daun', 'bunga', 'buah'],
+ ['e', 'Bahagian tumbuhan yang berwarna hijau dan nipis ialah …', 'daun', 'akar', 'batang', 'buah'],
+ ['e', 'Tumbuhan memerlukan … untuk hidup.', 'air dan cahaya matahari', 'wang', 'baju', 'muzik'],
+ ['e', 'Bahagian tumbuhan yang cantik dan berbau wangi ialah …', 'bunga', 'akar', 'batang', 'daun'],
+ ['e', 'Bahagian tumbuhan yang menyokong daun dan bunga ialah …', 'batang', 'akar', 'buah', 'biji'],
+ ['e', 'Akar berfungsi untuk …', 'menyerap air dari tanah', 'membuat bunga', 'memberi warna', 'menghasilkan bunyi'],
+ ['e', 'Yang manakah bahagian tumbuhan?', 'Daun', 'Sayap', 'Insang', 'Telinga'],
+ ['e', 'Tumbuhan membiak melalui …', 'biji benih', 'telur', 'susu', 'bulu'],
+ ['e', 'Apakah yang akan berlaku kepada pokok jika tidak disiram air?', 'Ia akan layu dan mati', 'Ia akan membesar', 'Ia akan berbunga', 'Ia akan berbuah'],
+ ['e', 'Tumbuhan mendapat cahaya daripada …', 'matahari', 'bulan', 'bintang', 'lampu suluh'],
+ ['e', 'Buah biasanya mengandungi …', 'biji', 'akar', 'daun', 'batang'],
+
+ ['l', 'Mengapakah tumbuhan perlu diletakkan di tempat yang terkena cahaya matahari?', 'Tumbuhan memerlukan cahaya untuk membuat makanan', 'Supaya tumbuhan panas', 'Supaya tumbuhan cantik', 'Supaya tumbuhan kering'],
+ ['l', 'Biji benih yang disiram air akan ber___ menjadi anak pokok.', 'cambah', 'telur', 'nafas', 'renang'],
+ ['l', 'Kumpulan manakah yang SEMUANYA bahagian tumbuhan?', 'akar, batang, daun', 'akar, sayap, daun', 'akar, batang, insang', 'bulu, batang, daun'],
+ ['l', 'Pokok yang diletakkan di dalam almari gelap selama seminggu akan …', 'menjadi pucat dan layu', 'membesar dengan cepat', 'berbunga banyak', 'bertukar warna merah'],
+ ['l', 'Tumbuhan berbeza daripada haiwan kerana tumbuhan …', 'tidak boleh bergerak dari satu tempat ke tempat lain', 'tidak memerlukan air', 'tidak membesar', 'tidak membiak'],
+ ['l', 'Apakah persamaan antara pokok dan kucing?', 'Kedua-duanya benda hidup yang membesar', 'Kedua-duanya berkaki empat', 'Kedua-duanya boleh berlari', 'Kedua-duanya berbulu'],
+ ['l', 'Mengapakah akar penting kepada tumbuhan?', 'Akar menyerap air dan menguatkan pokok di tanah', 'Akar memberi warna hijau', 'Akar menghasilkan bunyi', 'Akar menarik cahaya'],
+ ['l', 'Daun kebanyakan tumbuhan berwarna …', 'hijau', 'biru', 'hitam', 'ungu'],
+ ['l', 'Antara berikut, yang manakah tumbuh dari biji?', 'Pokok jagung', 'Batu', 'Besi', 'Plastik'],
+ ['l', 'Aina menanam dua biji kacang. Satu disiram air, satu tidak. Yang manakah akan tumbuh?', 'Yang disiram air', 'Yang tidak disiram', 'Kedua-duanya', 'Tiada satu pun'],
+
+ ['m', 'Bahagian tumbuhan yang berada di dalam tanah ialah ___', 'akar', ''],
+ ['m', 'Bahagian tumbuhan yang berwarna hijau dan nipis ialah ___', 'daun', ''],
+ ['m', 'Bahagian tumbuhan yang wangi dan berwarna-warni ialah ___', 'bunga', ''],
+ ['m', 'Bahagian tumbuhan yang menyokong daun ialah ___', 'batang', ''],
+ ['m', 'Tumbuhan memerlukan air dan cahaya ___ untuk hidup.', 'matahari', ''],
+ ['m', 'Tumbuhan baharu tumbuh daripada ___ benih.', 'biji', ''],
+ ['m', 'Biji benih yang disiram air akan ber___', 'cambah', 'bercambah'],
+ ['m', 'Pokok yang tidak disiram air akan ___ dan mati.', 'layu', 'kering']
+]],
+
+magnet1: ['Magnet', '🧲', [
+ ['e', 'Magnet boleh menarik bahan yang diperbuat daripada …', 'besi', 'kayu', 'plastik', 'kertas'],
+ ['e', 'Yang manakah BOLEH ditarik oleh magnet?', 'Paku besi', 'Pensel kayu', 'Beg plastik', 'Kertas'],
+ ['e', 'Yang manakah TIDAK boleh ditarik oleh magnet?', 'Getah', 'Paku', 'Klip kertas besi', 'Skru besi'],
+ ['e', 'Bahan yang boleh ditarik magnet dipanggil bahan …', 'magnetik', 'bukan magnetik', 'cair', 'panas'],
+ ['e', 'Berapakah bilangan kutub pada sebatang magnet?', '2', '1', '3', '4'],
+ ['e', 'Kutub magnet dipanggil kutub utara dan kutub …', 'selatan', 'timur', 'barat', 'tengah'],
+ ['e', 'Yang manakah bahan bukan magnetik?', 'Kayu', 'Besi', 'Keluli', 'Paku'],
+ ['e', 'Apabila dua kutub yang SAMA didekatkan, magnet akan …', 'menolak', 'menarik', 'melekat', 'cair'],
+ ['e', 'Apabila dua kutub yang BERLAINAN didekatkan, magnet akan …', 'menarik', 'menolak', 'pecah', 'cair'],
+ ['e', 'Magnet digunakan pada …', 'pintu peti sejuk', 'buku', 'baju', 'air'],
+ ['e', 'Yang manakah BOLEH ditarik oleh magnet?', 'Gunting besi', 'Pemadam getah', 'Botol kaca', 'Buku'],
+
+ ['l', 'Ali menguji sebatang pensel dengan magnet. Pensel tidak tertarik. Mengapa?', 'Pensel diperbuat daripada kayu, bukan besi', 'Magnet terlalu kecil', 'Pensel terlalu panjang', 'Pensel berwarna kuning'],
+ ['l', 'Kumpulan manakah yang SEMUANYA bahan magnetik?', 'paku, klip kertas besi, skru', 'paku, kayu, skru', 'getah, klip kertas, skru', 'paku, kertas, plastik'],
+ ['l', 'Kumpulan manakah yang SEMUANYA bahan bukan magnetik?', 'kayu, getah, plastik', 'kayu, besi, plastik', 'paku, getah, plastik', 'kayu, getah, skru besi'],
+ ['l', 'Siti mendekatkan kutub utara satu magnet kepada kutub utara magnet lain. Apakah yang berlaku?', 'Kedua-dua magnet menolak antara satu sama lain', 'Kedua-dua magnet menarik', 'Magnet pecah', 'Tiada apa-apa berlaku'],
+ ['l', 'Mengapakah magnet digunakan pada pintu peti sejuk?', 'Supaya pintu dapat menutup rapat', 'Supaya pintu cantik', 'Supaya pintu berat', 'Supaya pintu sejuk'],
+ ['l', 'Amin ingin mengutip paku yang bertaburan di lantai dengan cepat. Alat yang sesuai ialah …', 'magnet', 'pembaris', 'kertas', 'pensel'],
+ ['l', 'Magnet diletakkan berhampiran serbuk besi. Apakah yang berlaku?', 'Serbuk besi melekat pada magnet', 'Serbuk besi lari', 'Serbuk besi cair', 'Tiada apa-apa berlaku'],
+ ['l', 'Kekuatan magnet paling kuat di bahagian …', 'kutub', 'tengah', 'bawah', 'tepi'],
+ ['l', 'Aina menguji lima objek dengan magnet. Tiga tertarik, dua tidak. Tiga objek itu mungkin diperbuat daripada …', 'besi', 'kayu', 'plastik', 'kaca'],
+ ['l', 'Jika magnet digantung dan dibiarkan bebas, satu kutubnya akan menghala ke arah …', 'utara', 'bawah', 'atas', 'dalam'],
+
+ ['m', 'Magnet boleh menarik bahan yang diperbuat daripada ___', 'besi', 'keluli'],
+ ['m', 'Berapakah bilangan kutub pada sebatang magnet? Taip nombor sahaja.', '2', 'dua'],
+ ['m', 'Kutub magnet ialah kutub utara dan kutub ___', 'selatan', ''],
+ ['m', 'Bahan yang boleh ditarik magnet dipanggil bahan ___', 'magnetik', ''],
+ ['m', 'Apabila dua kutub yang sama didekatkan, magnet akan ___', 'menolak', 'tolak'],
+ ['m', 'Apabila dua kutub yang berlainan didekatkan, magnet akan ___', 'menarik', 'tarik'],
+ ['m', 'Kayu, getah dan plastik ialah bahan ___ magnetik.', 'bukan', 'tak'],
+ ['m', 'Kekuatan magnet paling kuat di bahagian ___', 'kutub', 'hujung']
+]],
+
+serap1: ['Penyerapan Air', '💧', [
+ ['e', 'Bahan yang manakah BOLEH menyerap air?', 'Span', 'Plastik', 'Kaca', 'Besi'],
+ ['e', 'Bahan yang manakah TIDAK boleh menyerap air?', 'Plastik', 'Tuala', 'Kertas tisu', 'Kain'],
+ ['e', 'Tuala digunakan untuk mengeringkan badan kerana ia boleh …', 'menyerap air', 'menolak air', 'membuat air', 'memanaskan air'],
+ ['e', 'Bahan yang boleh menyerap air dipanggil bahan …', 'penyerap', 'kalis air', 'keras', 'ringan'],
+ ['e', 'Payung diperbuat daripada bahan yang …', 'tidak menyerap air', 'menyerap air', 'cair dalam air', 'larut dalam air'],
+ ['e', 'Yang manakah menyerap air paling banyak?', 'Span', 'Plastik', 'Besi', 'Kaca'],
+ ['e', 'Kertas tisu digunakan untuk …', 'mengelap air yang tumpah', 'menahan hujan', 'memasak', 'menolak air'],
+ ['e', 'Baju hujan diperbuat daripada bahan …', 'kalis air', 'penyerap air', 'kertas', 'span'],
+ ['e', 'Yang manakah bahan kalis air?', 'Getah', 'Kain', 'Span', 'Kertas'],
+ ['e', 'Apabila kain dicelup ke dalam air, kain akan …', 'basah kerana menyerap air', 'kekal kering', 'menolak air', 'bertukar warna'],
+ ['e', 'Yang manakah BOLEH menyerap air?', 'Kain', 'Plastik', 'Besi', 'Getah'],
+
+ ['l', 'Mengapakah mop digunakan untuk membersihkan air yang tumpah?', 'Mop diperbuat daripada bahan yang menyerap air', 'Mop panjang', 'Mop berwarna cerah', 'Mop murah'],
+ ['l', 'Kumpulan manakah yang SEMUANYA bahan penyerap air?', 'span, tuala, kertas tisu', 'span, plastik, kertas tisu', 'besi, tuala, kertas tisu', 'span, tuala, getah'],
+ ['l', 'Kumpulan manakah yang SEMUANYA bahan kalis air?', 'plastik, getah, kaca', 'plastik, span, kaca', 'kain, getah, kaca', 'plastik, getah, tuala'],
+ ['l', 'Ali menuang air ke atas plastik dan ke atas kain. Apakah yang berlaku?', 'Air bertakung di atas plastik tetapi diserap oleh kain', 'Kedua-duanya menyerap air', 'Kedua-duanya menolak air', 'Air hilang'],
+ ['l', 'Mengapakah beg sekolah tidak diperbuat daripada kertas?', 'Kertas menyerap air dan mudah rosak apabila hujan', 'Kertas terlalu mahal', 'Kertas terlalu berat', 'Kertas berwarna putih'],
+ ['l', 'Siti hendak memilih bahan untuk membuat bumbung rumah mainan supaya tidak bocor. Bahan yang sesuai ialah …', 'plastik', 'kertas tisu', 'span', 'kain'],
+ ['l', 'Dua jenis kain diuji. Kain A menyerap 10 titis air, kain B menyerap 30 titis. Kain manakah lebih sesuai dijadikan tuala?', 'Kain B', 'Kain A', 'Kedua-duanya sama', 'Tiada satu pun'],
+ ['l', 'Mengapakah kasut hujan diperbuat daripada getah?', 'Getah tidak menyerap air jadi kaki kekal kering', 'Getah ringan', 'Getah murah', 'Getah berwarna hitam'],
+ ['l', 'Aina meletakkan span di dalam air selama satu minit. Berat span akan …', 'bertambah kerana menyerap air', 'berkurang', 'kekal sama', 'menjadi sifar'],
+ ['l', 'Antara berikut, yang manakah TIDAK sesuai dijadikan payung?', 'Kertas tisu', 'Plastik', 'Kain kalis air', 'Getah'],
+
+ ['m', 'Bahan yang boleh menyerap air dipanggil bahan ___', 'penyerap', 'serap|menyerap'],
+ ['m', 'Bahan yang tidak menyerap air dipanggil bahan ___ air.', 'kalis', 'tahan'],
+ ['m', 'Kita mengelap badan yang basah dengan ___', 'tuala', ''],
+ ['m', 'Bahan yang digunakan untuk membuat payung supaya hujan tidak masuk ialah ___', 'plastik', 'kain kalis air|getah'],
+ ['m', 'Span boleh ___ air dengan banyak.', 'menyerap', 'serap'],
+ ['m', 'Plastik ialah bahan ___ air.', 'kalis', 'tahan'],
+ ['m', 'Kita mengelap air yang tumpah dengan kertas ___', 'tisu', ''],
+ ['m', 'Berat span akan ___ selepas menyerap air.', 'bertambah', 'tambah|naik|meningkat']
+]],
+
+bumi1: ['Bumi Kita', '🌍', [
+ ['e', 'Kita tinggal di planet …', 'Bumi', 'Bulan', 'Matahari', 'Marikh'],
+ ['e', 'Yang manakah terdapat di permukaan bumi?', 'Tanah dan air', 'Hanya udara', 'Hanya api', 'Hanya besi'],
+ ['e', 'Bahagian bumi yang paling banyak ditutupi oleh …', 'air', 'batu', 'pasir', 'kayu'],
+ ['e', 'Yang manakah sumber air semula jadi?', 'Sungai', 'Paip', 'Botol', 'Cawan'],
+ ['e', 'Yang manakah bukan hidup di permukaan bumi?', 'Batu', 'Pokok', 'Burung', 'Ikan'],
+ ['e', 'Tanah digunakan untuk …', 'menanam tumbuhan', 'minum', 'bernafas', 'mendengar'],
+ ['e', 'Bumi menerima cahaya dan haba daripada …', 'matahari', 'bulan', 'bintang', 'awan'],
+ ['e', 'Yang manakah contoh muka bumi yang tinggi?', 'Gunung', 'Sungai', 'Laut', 'Tasik'],
+ ['e', 'Air laut rasanya …', 'masin', 'manis', 'masam', 'pahit'],
+ ['e', 'Kita perlu menjaga kebersihan bumi dengan …', 'tidak membuang sampah merata-rata', 'menebang semua pokok', 'membakar sampah di mana-mana', 'membuang sampah ke sungai'],
+ ['e', 'Yang manakah terdapat di dalam tanah?', 'Akar pokok', 'Awan', 'Bintang', 'Bulan'],
+
+ ['l', 'Mengapakah tanah penting kepada tumbuhan?', 'Tanah menyimpan air dan nutrien untuk tumbuhan', 'Tanah berwarna coklat', 'Tanah keras', 'Tanah berat'],
+ ['l', 'Mengapakah kita tidak boleh membuang sampah ke dalam sungai?', 'Air sungai akan tercemar dan haiwan air akan mati', 'Sungai akan jadi cantik', 'Air akan jadi jernih', 'Ikan akan membesar'],
+ ['l', 'Kumpulan manakah yang SEMUANYA sumber air semula jadi?', 'sungai, tasik, laut', 'sungai, paip, laut', 'botol, tasik, laut', 'sungai, cawan, laut'],
+ ['l', 'Ali membandingkan dua jenis tanah. Tanah A berwarna gelap dan lembap. Tanah B berpasir dan kering. Tanah manakah lebih sesuai untuk menanam pokok?', 'Tanah A', 'Tanah B', 'Kedua-duanya sama', 'Tiada satu pun'],
+ ['l', 'Apakah yang akan berlaku jika semua pokok di bumi ditebang?', 'Udara menjadi kotor dan haiwan kehilangan tempat tinggal', 'Bumi menjadi lebih cantik', 'Hujan akan bertambah', 'Tanah akan menjadi subur'],
+ ['l', 'Pasir, tanah liat dan batu kerikil ialah contoh …', 'jenis tanah di permukaan bumi', 'jenis air', 'jenis haiwan', 'jenis tumbuhan'],
+ ['l', 'Mengapakah air penting kepada semua benda hidup?', 'Semua benda hidup memerlukan air untuk hidup', 'Air berwarna jernih', 'Air sejuk', 'Air murah'],
+ ['l', 'Cara menjaga bumi yang BETUL ialah …', 'menanam pokok dan mengitar semula sampah', 'membakar hutan', 'membuang sampah ke sungai', 'menebang semua pokok'],
+ ['l', 'Mengapakah kita perlu menjimatkan air?', 'Air bersih adalah terhad dan diperlukan oleh semua', 'Air mahal sahaja', 'Air berat', 'Air tidak penting'],
+ ['l', 'Aina menuang air ke atas pasir dan ke atas tanah liat. Air meresap lebih cepat ke dalam …', 'pasir', 'tanah liat', 'kedua-duanya sama', 'tiada satu pun'],
+
+ ['m', 'Planet tempat kita tinggal ialah ___', 'Bumi', 'bumi'],
+ ['m', 'Bumi menerima cahaya dan haba daripada ___', 'matahari', 'Matahari'],
+ ['m', 'Air laut rasanya ___', 'masin', ''],
+ ['m', 'Bahagian bumi yang paling banyak ditutupi oleh ___', 'air', ''],
+ ['m', 'Tempat yang paling tinggi di permukaan bumi dipanggil ___', 'gunung', 'bukit'],
+ ['m', 'Kita menanam pokok di dalam ___', 'tanah', ''],
+ ['m', 'Sungai, tasik dan laut ialah sumber ___ semula jadi.', 'air', ''],
+ ['m', 'Untuk menjaga bumi, kita tidak boleh membuang ___ merata-rata.', 'sampah', '']
+]]
+},
 2: {
 manusia: ['Manusia', '👶', [
  ['e', 'Bagaimanakah manusia membiak?', 'Melahirkan anak', 'Bertelur', 'Membelah diri', 'Bercambah'],
@@ -3442,6 +3762,7 @@ ADD[2].kps = KPS1; ADD[3].kps = KPS1; ADD[4].kps = KPS2; ADD[5].kps = KPS2; ADD[
 
 for (const y in ADD) for (const t in ADD[y]) { const v = ADD[y][t]; if (typeof v[0] === 'string') D[y][t] = v; else D[y][t][2].push(...v); }
 const ORDER = {
+1: ['kps1','bilik1','hidup1','deria1','haiwan1','tumbuh1','magnet1','serap1','bumi1'],
 2: ['kps','manusia','haiwan','tumbuhan','cahaya','elektrik','campur2','air','binaan'],
 3: ['kps','gigi','makanan','cerna','tabiat','biak','ukur','asid','suria','takal'],
 4: ['kps','nafas','kumuh','haiwan4','tumbuhan4','cahaya4','bunyi','tenaga','bahan','bumi','mesin4'],
@@ -7973,6 +8294,58 @@ const SND = {
     } catch (e) {}
   }
 };
+// ---------------- MUZIK LATAR ----------------
+// Lalai: TUTUP. Fail hanya dimuat turun bila murid hidupkan, dan disimpan oleh service worker selepas itu.
+// Tenang di dalam subjek (topik, nota, soalan); rancak di laman utama, ranking dan premium.
+// Gelung tanpa putus guna Web Audio; pad pengekod MP3 di awal fail dilangkau secara automatik.
+const MUZIK = {
+  trek: { tenang: { src: 'aset/muzik-tenang.mp3', len: 2822400 / 44100 }, rancak: { src: 'aset/muzik-rancak.mp3', len: 2745216 / 44100 } },
+  vol: 0.32, buf: {}, muat: {}, src: null, gain: null, mod: null, _tok: 0,
+  on: (function () { try { return localStorage.getItem('sb.muzik') === '1'; } catch (e) { return false; } })(),
+  set(v) { this.on = !!v; try { localStorage.setItem('sb.muzik', v ? '1' : '0'); } catch (e) {} if (v) this.main(); else this.henti(); },
+  modSemasa() { return /^#d[1-6]\/(mt|bi|sn|bm)/.test(location.hash) ? 'tenang' : 'rancak'; },
+  ambil(m) {
+    if (this.buf[m]) return Promise.resolve(this.buf[m]);
+    if (!this.muat[m]) this.muat[m] = fetch(this.trek[m].src)
+      .then(r => { if (!r.ok) throw new Error('muzik ' + r.status); return r.arrayBuffer(); })
+      .then(a => new Promise((ok, no) => SND.ctx().decodeAudioData(a, ok, no)))
+      .then(b => (this.buf[m] = b));
+    return this.muat[m];
+  },
+  async main() {
+    if (!this.on) return;
+    const c = SND.ctx(); if (!c) return;
+    const m = this.modSemasa();
+    if (this.mod === m) return;             // sudah bermain atau sedang dimuat
+    this.mod = m; const tok = ++this._tok;
+    this.pudar();
+    let b;
+    try { b = await this.ambil(m); } catch (e) { this.muat[m] = null; if (tok === this._tok) this.mod = null; return; }
+    if (tok !== this._tok || !this.on) return;
+    // Kebanyakan pelayar sudah buang pad pengekod (panjang = tepat). Jika tidak, langkau pad LAME standard 1105 sampel.
+    const mula = (b.duration - this.trek[m].len) > 0.015 ? 1105 / 44100 : 0;
+    const s = c.createBufferSource(), g = c.createGain();
+    s.buffer = b; s.loop = true; s.loopStart = mula; s.loopEnd = Math.min(b.duration, mula + this.trek[m].len);
+    g.gain.setValueAtTime(0.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(this.vol, c.currentTime + 1.5);
+    s.connect(g); g.connect(c.destination); s.start(0, mula);
+    this.src = s; this.gain = g;
+  },
+  pudar() {
+    const c = SND._ctx; if (!c || !this.src) return;
+    const s = this.src, g = this.gain, t = c.currentTime;
+    g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(g.gain.value, 0.0001), t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.2); try { s.stop(t + 1.3); } catch (e) {}
+    this.src = null; this.gain = null;
+  },
+  henti() { this._tok++; this.pudar(); this.mod = null; }
+};
+function butangMuzik() {
+  const b = document.getElementById('muzikbtn'); if (!b) return;
+  b.classList.toggle('off', !MUZIK.on);
+  b.setAttribute('aria-pressed', MUZIK.on ? 'true' : 'false');
+  b.setAttribute('aria-label', MUZIK.on ? 'Muzik latar: hidup. Tekan untuk tutup' : 'Muzik latar: tutup. Tekan untuk hidupkan');
+  b.title = b.getAttribute('aria-label');
+}
 function butangBunyi() {
   const b = document.getElementById('sndbtn'); if (!b) return;
   b.textContent = SND.on ? '🔊' : '🔇';
@@ -8108,10 +8481,10 @@ function mergeAwan(data) {
   store.set(DB);
   return Object.keys(st).length;
 }
-const HARGA_TAMAT = new Date(2026, 10, 30, 23, 59);
+const HARGA_TAMAT = new Date(2026, 11, 7, 23, 59); // RM30 hingga 7 Dis, RM45 mula 8 Dis
 function hargaAwal() { return Date.now() <= HARGA_TAMAT.getTime(); }
 function hargaRM() { return hargaAwal() ? 30 : 45; }
-function kempenAktif() { const n = Date.now(); return n >= new Date(2026, 10, 23).getTime() && n <= new Date(2026, 11, 7, 23, 59).getTime(); }
+function kempenAktif() { const n = Date.now(); return n >= new Date(2026, 11, 1).getTime() && n <= new Date(2026, 11, 14, 23, 59).getTime(); }
 function premium(s, y, t, rank) {
   setTheme({ g1: '#b8860b', g2: '#ffd700' });
   const P = PLAYER.get();
@@ -8128,7 +8501,7 @@ function premium(s, y, t, rank) {
     <div style="background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid #ffd700;border-radius:16px;padding:18px 20px;margin-bottom:14px">
       <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#c62828">🔥 PROMO PELANCARAN — DISKAUN ${hargaAwal() ? '50' : '25'}%</div>
       <div style="margin:6px 0 2px"><span style="font-size:17px;color:var(--muted);text-decoration:line-through">RM60</span> <span style="font-size:34px;font-weight:900;color:#b8860b">RM${hargaRM()}</span> <span style="font-size:14px;color:var(--muted)">/ 2 bulan</span></div>
-      ${hargaAwal() ? `<div style="background:#ffebee;border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px;font-weight:700;color:#c62828">⏰ Harga RM30 ini tamat <b>30 November</b> — selepas itu RM45</div>` : ''}
+      ${hargaAwal() ? `<div style="background:#ffebee;border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px;font-weight:700;color:#c62828">⏰ Harga RM30 ini tamat <b>7 Disember</b> — selepas itu RM45</div>` : ''}
       <div style="font-size:13.5px;color:var(--muted)">Kurang dari <b>${hargaAwal() ? '50 sen' : 'RM0.75'} sehari</b> untuk latihan tahap UASA tanpa had — semua subjek, semua darjah. Boleh diperbaharui selepas 2 bulan.</div>
     </div>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
@@ -8279,10 +8652,9 @@ function home(y, scroll) {
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
         <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>∞</b>Soalan rawak</div>`}</div>
       </div>
-      <div class="art" aria-hidden="true">
-        <div class="tile t1">7</div><div class="tile t2">÷</div>
-        <div class="tile t3"><span>12 + 8 = <span class="grad">20</span></span></div>
-        <div class="tile t4">💎</div><div class="tile t5">ABC</div>
+      <div class="art adagambar">
+        <img class="heroimg" src="aset/hero-keluarga-1200.webp" srcset="aset/hero-keluarga-720.webp 720w, aset/hero-keluarga-1200.webp 1200w" sizes="(max-width:900px) 92vw, 520px" width="1200" height="670" fetchpriority="high" alt="Tiga murid sekolah rendah gembira belajar menggunakan Sudut Belajar di telefon, diperhatikan ibu bapa mereka">
+        <div class="tile t1" aria-hidden="true">7</div><div class="tile t2" aria-hidden="true">÷</div><div class="tile t4" aria-hidden="true">💎</div>
       </div>
     </section>
     <section class="blk" id="pilih">
@@ -8521,7 +8893,7 @@ async function homeLB() {
   } catch (e) { el.innerHTML = '<p style="padding:8px 0">Jadilah juara bulan ini! 🚀</p>'; }
 }
 const _route0 = route;
-route = function () { _route0(); homeLB(); };
+route = function () { _route0(); homeLB(); MUZIK.main(); };
 // Semakan senyap status premium (sekali sehari) — tamat tempoh auto-dikunci semula
 (async () => {
   try {
@@ -8540,6 +8912,22 @@ window.addEventListener('hashchange', route);
   if (!b) return;
   butangBunyi();
   b.onclick = () => { SND.set(!SND.on); butangBunyi(); if (SND.on) SND.play('bintang'); };
+})();
+// ---- butang muzik ----
+(function () {
+  const b = document.getElementById('muzikbtn');
+  if (!b) return;
+  butangMuzik();
+  b.onclick = () => { MUZIK.set(!MUZIK.on); butangMuzik(); if (MUZIK.on) toast('Muzik latar dihidupkan 🎵'); };
+  // Pelayar menyekat audio sebelum sentuhan pertama: sambung bila murid mula menyentuh skrin
+  const sentuh = () => { if (MUZIK.on) { SND.ctx(); MUZIK.main(); } };
+  addEventListener('pointerdown', sentuh, { once: true, capture: true });
+  addEventListener('keydown', sentuh, { once: true, capture: true });
+  if (MUZIK.on) MUZIK.main();
+  document.addEventListener('visibilitychange', () => {
+    const c = SND._ctx; if (!c) return;
+    if (document.hidden) c.suspend().catch(() => {}); else c.resume().catch(() => {});
+  });
 })();
 // ---- PWA ----
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});

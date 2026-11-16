@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sudut Belajar — Darjah 1 hingga 6</title>
-<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Rank Warrior percuma, tanpa iklan. Daftar nama samaran sahaja - tiada emel.">
+<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Tahap Perajurit percuma, tanpa iklan. Daftar nama samaran sahaja - tiada emel.">
 <meta name="theme-color" content="#5b4bdb">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -358,7 +358,11 @@ footer p+p{margin-top:6px}
 .rk{display:flex;align-items:center;gap:18px;padding:22px;border-radius:24px;color:#fff;text-decoration:none;background:linear-gradient(120deg,var(--r1),var(--r2));box-shadow:var(--shadow-lg);position:relative;overflow:hidden;transition:transform .15s}
 .rk::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.12);right:-50px;top:-80px}
 .rk:hover{transform:translateY(-3px) scale(1.01)}
-.rkic{font-size:42px;width:74px;height:74px;flex:none;border-radius:20px;background:rgba(255,255,255,.2);display:grid;place-items:center}
+.rkic{font-size:42px;width:74px;height:74px;flex:none;border-radius:20px;background:rgba(255,255,255,.2);display:grid;place-items:center;overflow:hidden}
+.rkic img,.feat .e img{width:100%;height:100%;object-fit:cover;display:block}
+.rankfeat .e{width:88px;height:88px;border-radius:22px;overflow:hidden;padding:0}
+.rkchip .tahapmini{width:26px;height:26px;border-radius:50%;object-fit:cover;vertical-align:middle;margin:-4px 6px -4px -8px;border:2px solid rgba(255,255,255,.7)}
+.tahapbaris{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 12px}.tahapbaris figure{margin:0;text-align:center;font-size:12px;font-weight:800;color:var(--muted)}.tahapbaris img{width:64px;height:64px;border-radius:18px;object-fit:cover;display:block;margin:0 auto 4px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
 .rkt{flex:1}
 .rkt h3{font-size:26px;display:inline}
 .tpb{display:inline-block;margin-left:8px;font-size:12px;font-weight:800;background:rgba(255,255,255,.25);padding:3px 9px;border-radius:999px;vertical-align:middle}
@@ -8229,12 +8233,13 @@ const SUBJ = [
   { id: 'sn', nama: 'Sains', ic: '🔬', g1: '#16a34a', g2: '#7dd56f', d1: { nama: 'Alam dan Manusia', ic: '🌱' } },
 ];
 const RANKS = [
-  { id: 'warrior', nama: 'Warrior', ic: '🛡️', tp: 'TP1', d: 'Permulaan: soalan asas, 2 pilihan jawapan. PERCUMA!', c1: '#2e7d32', c2: '#66bb6a' },
-  { id: 'epik', nama: 'Epik', ic: '⚔️', tp: 'TP1–2', d: 'Asas: soalan terus, 4 pilihan jawapan.', c1: '#6d4cff', c2: '#a68bff', prem: 1 },
-  { id: 'legend', nama: 'Legend', ic: '🏆', tp: 'TP3–4', d: 'Aplikasi: ayat cerita & pilihan yang lebih mengelirukan.', c1: '#e08a00', c2: '#ffc93c', prem: 1 },
-  { id: 'mythic', nama: 'Mythic', ic: '💎', tp: 'TP5–6', d: 'KBAT: tiada pilihan, taip jawapan sendiri (gaya UASA).', c1: '#c2185b', c2: '#7b1fa2', prem: 1 },
+  { id: 'warrior', nama: 'Perajurit', ic: '🛡️', img: 'perajurit', tp: 'TP1', d: 'Permulaan: soalan asas, 2 pilihan jawapan. PERCUMA!', c1: '#2e7d32', c2: '#66bb6a' },
+  { id: 'epik', nama: 'Hulubalang', ic: '⚔️', img: 'hulubalang', tp: 'TP1–2', d: 'Asas: soalan terus, 4 pilihan jawapan.', c1: '#1e4fbf', c2: '#5b8def', prem: 1 },
+  { id: 'legend', nama: 'Panglima', ic: '🎖️', img: 'panglima', tp: 'TP3–4', d: 'Aplikasi: ayat cerita & pilihan yang lebih mengelirukan.', c1: '#6a1b9a', c2: '#ab47bc', prem: 1 },
+  { id: 'mythic', nama: 'Laksamana', ic: '⚓', img: 'laksamana', tp: 'TP5–6', d: 'KBAT: tiada pilihan, taip jawapan sendiri (gaya UASA).', c1: '#8e1b2e', c2: '#d4a017', prem: 1 },
 ];
 const rankBy = id => RANKS.find(r => r.id === id);
+const rkImg = (r, cls) => `<img class="${cls || 'tahapimg'}" src="aset/tahap-${r.img}.webp" alt="${r.nama}" width="256" height="256" loading="lazy" decoding="async">`;
 // ---------------- MASKOT BINTANG ----------------
 // Riak: idle | fikir | gembira | simpati | raikan
 const MASKOT_SVG = `<svg viewBox="0 0 120 120" class="msvg" aria-hidden="true">
@@ -8589,12 +8594,13 @@ function premium(s, y, t, rank) {
     ${s ? `<a class="crumb" href="#d${y}/${s}/${t}">← Kembali</a>` : '<a class="crumb" href="#pilih">← Utama</a>'}
     <div style="font-size:56px">👑</div>
     <h1 style="margin:10px 0 6px">Sudut Belajar <span style="color:#b8860b">Premium</span></h1>
-    <p class="lead" style="margin-bottom:14px">Buka rank <b>⚔️ Epik</b>, <b>🏆 Legend</b> dan <b>💎 Mythic</b> untuk <b>semua subjek dalam satu darjah</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
+    <div class="tahapbaris">${RANKS.map(r => `<figure>${rkImg(r, '')}${r.nama}${r.prem ? '' : ' (percuma)'}</figure>`).join('')}</div>
+    <p class="lead" style="margin-bottom:14px">Buka tahap <b>⚔️ Hulubalang</b>, <b>🎖️ Panglima</b> dan <b>⚓ Laksamana</b> untuk <b>semua subjek dalam satu darjah</b> — soalan aplikasi, KBAT &amp; jawapan taip gaya UASA. Mata ranking lebih tinggi (×2, ×3, ×4)!</p>
     ${lain ? `<div style="background:#fff3e0;border:2px solid #ffb74d;border-radius:16px;padding:14px 18px;margin-bottom:14px;font-size:14.5px;text-align:left">👑 Pakej kamu sekarang: <b>Darjah ${+P.pakej}</b>${P.tamat ? ' (sehingga ' + esc(P.tamat) + ')' : ''}. Rank premium <b>Darjah ${+y}</b> perlukan pakej Darjah ${+y} — boleh dibeli selepas pakej semasa tamat. Untuk adik-beradik, daftar nama samaran sendiri bagi setiap anak.</div>` : ''}
     ${kempenAktif() ? `<div style="background:linear-gradient(135deg,#e8f5e9,#fff);border:2px solid #43a047;border-radius:16px;padding:18px 20px;margin-bottom:14px">
       <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#2e7d32">🎉 KEMPEN PELANCARAN — ${K.had ? K.had + ' TEMPAT PERCUMA' : 'AKSES PERCUMA'}</div>
       <div style="margin:6px 0 4px;font-size:26px;font-weight:900;color:#2e7d32">PERCUMA ${K.hari} HARI</div>
-      <div style="font-size:13.5px;color:var(--muted)">${K.had ? K.had + ' pengguna terawal' : 'Pengguna awal'} dapat akses penuh Epik, Legend &amp; Mythic <b>percuma ${K.hari} hari</b> untuk satu darjah pilihan. Masukkan kod kempen <b>${esc(K.kod)}</b> di langkah 3 di bawah${K.tamat ? ' sebelum <b>' + tarikhBM(K.tamat - 60000) + '</b>' : ''}.</div>
+      <div style="font-size:13.5px;color:var(--muted)">${K.had ? K.had + ' pengguna terawal' : 'Pengguna awal'} dapat akses penuh Hulubalang, Panglima &amp; Laksamana <b>percuma ${K.hari} hari</b> untuk satu darjah pilihan. Masukkan kod kempen <b>${esc(K.kod)}</b> di langkah 3 di bawah${K.tamat ? ' sebelum <b>' + tarikhBM(K.tamat - 60000) + '</b>' : ''}.</div>
       ${K.had ? `<div style="font-size:13px;font-weight:700;color:#2e7d32;margin-top:6px">Tinggal ${Math.max(0, K.had - (K.digunakan | 0))} daripada ${K.had} tempat</div>` : ''}
     </div>` : ''}
     <div class="pelanpilih" role="group" aria-label="Pilih pakej">${kadPelan('2bulan')}${kadPelan('setahun')}</div>
@@ -8618,7 +8624,7 @@ function premium(s, y, t, rank) {
         </div></div></div>
       <div style="text-align:center;margin-top:14px"><button class="btn sec" id="semak" style="padding:9px 18px;font-size:13.5px">🔄 Semak status Premium</button></div>
       <div id="premsg" style="font-size:14px;margin-top:10px;color:var(--muted);text-align:center"></div>
-      <div style="font-size:13px;color:var(--muted);margin-top:10px;border-top:1px solid var(--line);padding-top:10px">🛡️ Warrior kekal <b>percuma selamanya</b>. Premium membuka Epik, Legend &amp; Mythic untuk akaun kamu — kekal di semua peranti.</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:10px;border-top:1px solid var(--line);padding-top:10px">🛡️ Perajurit kekal <b>percuma selamanya</b>. Premium membuka Hulubalang, Panglima &amp; Laksamana untuk akaun kamu — kekal di semua peranti.</div>
     </div>
     <p style="font-size:12.5px;color:var(--muted)">Perlu akaun berdaftar dahulu (percuma). Status premium disimpan pada nama samaran kamu — kekal di semua peranti.</p>
   </section>`;
@@ -8925,7 +8931,7 @@ function home(y, scroll) {
       <div>
         <span class="pill"><b>●</b> Mula percuma · Tanpa iklan · Tanpa emel</span>
         <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
-        <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik rank dari <b>Epik</b> ke <b>Legend</b> hingga <b>Mythic</b>, dan kumpul bintang!</p>
+        <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik tahap dari <b>Perajurit</b> ke <b>Hulubalang</b>, <b>Panglima</b> hingga <b>Laksamana</b>, dan kumpul bintang!</p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#ibubapa">Untuk ibu bapa</a></div>
         <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>3</b>Rank</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>∞</b>Soalan rawak</div>`}</div>
       </div>
@@ -8943,8 +8949,8 @@ function home(y, scroll) {
       <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
       <div id="homelb" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 18px;margin-bottom:12px">Memuatkan juara…</div>
       <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
-      <div class="sh"><div><h2>Sistem rank</h2><p>Setiap topik ada 4 tahap: mula dengan Warrior (percuma), naik ke Epik, Legend dan Mythic.</p></div></div>
-      <div class="features">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${r.ic}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
+      <div class="sh"><div><h2>Empat tahap pendekar</h2><p>Setiap topik ada 4 tahap: mula sebagai Perajurit (percuma), naik ke Hulubalang, Panglima dan Laksamana.</p></div></div>
+      <div class="features">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${rkImg(r)}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
     </section>
     <section class="blk" id="ibubapa">
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
@@ -8983,7 +8989,7 @@ function topics(s, y) {
   const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${E.ICON[t]}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
   app.innerHTML = `<div class="wrap pagein">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
-      <h1><span class="bic">${S.ic}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Epik · 🏆 Legend · 💎 Mythic</span></div>
+      <h1><span class="bic">${S.ic}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
       ${y === 1 ? '<div class="note">ℹ️ Darjah 1 masih ikut KSSR. Akan dikemas kini mengikut Kurikulum Persekolahan 2027.</div>' : ''}
       <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
@@ -8997,10 +9003,10 @@ function ranks(s, y, t) {
   const S = subjBy(s), E = ENG[s]; setTheme(S);
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
-      <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih rank kamu</div></div>
+      <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih tahap kamu</div></div>
     ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
     <div class="ranks">${RANKS.map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !pakejOK(y) ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
-      <div class="rkic">${r.ic}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
+      <div class="rkic">${rkImg(r)}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700;white-space:nowrap;display:inline-block">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
@@ -9099,7 +9105,7 @@ function result() {
   const mz = document.querySelector('.mzone'); if (mz) mz.remove();
   $('#qbox').innerHTML = `<div class="res" id="res">
     <div class="mres">${maskotHTML()}</div>
-    <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</div>
+    <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${rkImg(R, 'tahapmini')}${R.nama}</div>
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
     ${rekodBaru && bestLama ? `<div class="rekod">🎯 Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}

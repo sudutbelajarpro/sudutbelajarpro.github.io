@@ -445,6 +445,45 @@ footer p+p{margin-top:6px}
 @keyframes bonusgoyang{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) scale(1.06)}}
 .bonuschip[hidden]{display:none}
 .bonuschip{display:inline-block;background:linear-gradient(135deg,#ff5c8a,#ff9a3c);color:#fff;font-weight:800;font-size:12px;border-radius:999px;padding:3px 10px;margin-top:4px}
+/* Dashboard prestasi ibu bapa */
+.ds{max-width:680px;margin:0 auto;padding:24px 16px 60px}
+.ds-anak{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.ds-anak button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink)}
+.ds-anak button.on{border-color:var(--brand);background:var(--brand);color:#fff}
+.ds-kad{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin-bottom:14px;box-shadow:0 8px 24px -18px rgba(46,32,140,.5)}
+.ds-kad h3{margin:0 0 10px;font-size:16.5px}
+.ds-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+@media (max-width:560px){.ds-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ds-m{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+.ds-m small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.ds-m>b{display:block;font-family:var(--fd);font-size:26px;line-height:1.2;color:var(--ink)}
+.ds-m i{font-style:normal;font-size:12px;font-weight:700}
+.ds-naik{color:var(--ok)}.ds-turun{color:#c2410c}.ds-sama{color:var(--muted)}
+.ds-bar{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:18px}
+.ds-bar div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-size:11.5px;color:var(--muted);font-weight:700}
+.ds-bar span{display:block;width:100%;max-width:38px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#8f7bff,#5b4bdb);transform-origin:bottom;animation:dstumbuh .7s cubic-bezier(.3,1.4,.6,1) both}
+.ds-bar span.kosong{background:var(--line)}
+@keyframes dstumbuh{0%{transform:scaleY(0)}100%{transform:scaleY(1)}}
+.ds-kal{display:grid;grid-template-columns:repeat(8,22px);grid-auto-flow:column;grid-template-rows:repeat(7,22px);gap:4px;flex:0 0 auto}
+.ds-kal i{border-radius:5px;background:#efedfb}
+.ds-kal i.l1{background:#cfc8ff}.ds-kal i.l2{background:#9a8cff}.ds-kal i.l3{background:#5b4bdb}
+.ds-sub{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:14px}
+.ds-sub .n{width:128px;font-weight:700}
+.ds-sub .tr{flex:1;height:12px;border-radius:9px;background:#efedfb;overflow:hidden}
+.ds-sub .tr i{display:block;height:100%;border-radius:9px;animation:dslebar .9s ease-out both;transform-origin:left}
+@keyframes dslebar{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.ds-sub .p{width:92px;text-align:right;font-size:12.5px;color:var(--muted);font-weight:600}
+.ds-tp{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.ds-tp:first-of-type{border-top:0}
+.ds-tp .ds-e{font-size:20px;width:26px;text-align:center}.ds-tp .ds-x{flex:1;min-width:0;font-weight:700}.ds-tp .ds-x small{display:block;color:var(--muted);font-size:12px;font-weight:500}
+.ds-tp b.ds-pc{font-family:var(--fd);font-size:18px}
+.ds-cad{border-radius:20px;padding:14px 18px;margin-bottom:14px;background:linear-gradient(135deg,#e8f9ee,#f3fff6);border:1.5px solid #9be2b0}
+.ds-cad li{margin:6px 0;font-size:14.5px}
+.ds-kunci{position:relative}
+.ds-kunci>.ds-isi{filter:blur(6px);pointer-events:none;user-select:none}
+.ds-kunci>.ds-tutup{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:8px}
+.ds-kosong{text-align:center;padding:26px 18px;color:var(--muted)}
+.ds-kosong .e{font-size:54px}
 </style>
 </head>
 <body>
@@ -9600,6 +9639,37 @@ async function tuntutPending(P, el) {
 // Simpan awan automatik: selepas kuiz (paling kerap sekali seminit) + semasa tutup/tukar tab
 const AUTO = { kotor: false, akhir: 0, t: null };
 function dataAwan() { return JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }); }
+// ---- STATISTIK untuk dashboard ibu bapa: disimpan ikut profil, ringkas (lihat code.gs statGabung_) ----
+const STAT = {
+  kunci(nick) { return 'sb.stat:' + String(nick || '').toLowerCase(); },
+  baca(nick) { try { const o = JSON.parse(localStorage.getItem(this.kunci(nick)) || '{}'); return { v: 1, h: (o && o.h) || {}, t: (o && o.t) || {} }; } catch (e) { return { v: 1, h: {}, t: {} }; } },
+  tulis(nick, o) { try { localStorage.setItem(this.kunci(nick), JSON.stringify(o)); } catch (e) {} },
+  potong(o) {
+    const hk = Object.keys(o.h).sort(); hk.slice(0, Math.max(0, hk.length - 56)).forEach(k => delete o.h[k]);
+    const tk = Object.keys(o.t).sort((a, b) => (o.t[b][3] | 0) - (o.t[a][3] | 0)); tk.slice(160).forEach(k => delete o.t[k]);
+    return o;
+  },
+  // satu pusingan selesai: kunci topik, bil. soalan, bil. betul, saat
+  catat(kunciTopik, soalan, betul, saat) {
+    const P = PLAYER.get(); if (!P || !P.nick || !soalan) return;
+    const o = this.baca(P.nick), d = hariIni_().replace(/-/g, ''), hn = +d;
+    const sa = Math.max(5, Math.min(900, Math.round(saat || 0)));
+    const h = o.h[d] || [0, 0, 0]; o.h[d] = [h[0] + sa, h[1] + soalan, h[2] + betul];
+    const t = o.t[kunciTopik] || [0, 0, 0, 0]; o.t[kunciTopik] = [t[0] + 1, t[1] + soalan, t[2] + betul, hn];
+    this.tulis(P.nick, this.potong(o));
+  },
+  // gabung dari awan (nilai tertinggi), selepas log masuk / tukar profil
+  gabung(dari, nick) {
+    if (!nick || !dari) return;
+    let a; try { a = typeof dari === 'string' ? JSON.parse(dari) : dari; } catch (e) { return; }
+    if (!a || typeof a !== 'object') return;
+    const o = this.baca(nick), mx = (x, y, n) => Array.from({ length: n }, (_, i) => Math.max(+(x || [])[i] || 0, +(y || [])[i] || 0));
+    for (const k in (a.h || {})) o.h[k] = mx(o.h[k], a.h[k], 3);
+    for (const k in (a.t || {})) o.t[k] = mx(o.t[k], a.t[k], 4);
+    this.tulis(nick, this.potong(o));
+  },
+  json(nick) { const o = this.baca(nick); return (Object.keys(o.h).length || Object.keys(o.t).length) ? JSON.stringify(o) : ''; }
+};
 function simpanAuto(segera) {
   const P = PLAYER.get(); if (!P || !apiOK()) return;
   AUTO.kotor = true; clearTimeout(AUTO.t);
@@ -9607,13 +9677,13 @@ function simpanAuto(segera) {
   AUTO.t = setTimeout(async () => {
     const P2 = PLAYER.get(); if (!P2 || !AUTO.kotor) return;
     AUTO.kotor = false; AUTO.akhir = Date.now();
-    try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: dataAwan() }); if (!r.ok) AUTO.kotor = true; } catch (e) { AUTO.kotor = true; }
+    try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: dataAwan(), stat: STAT.json(P2.nick) || undefined }); if (!r.ok) AUTO.kotor = true; } catch (e) { AUTO.kotor = true; }
   }, tunggu);
 }
 document.addEventListener('visibilitychange', () => {
   const P = PLAYER.get();
   if (document.hidden && AUTO.kotor && P && apiOK() && navigator.sendBeacon) {
-    try { if (navigator.sendBeacon(API, JSON.stringify({ a: 'simpan', nick: P.nick, pin: P.pin, tok: TOKP.get(P.nick), darjah: P.darjah, sekolah: P.sekolah || '', data: dataAwan() }))) { AUTO.kotor = false; AUTO.akhir = Date.now(); clearTimeout(AUTO.t); } } catch (e) {}
+    try { if (navigator.sendBeacon(API, JSON.stringify({ a: 'simpan', nick: P.nick, pin: P.pin, tok: TOKP.get(P.nick), darjah: P.darjah, sekolah: P.sekolah || '', data: dataAwan(), stat: STAT.json(P.nick) || undefined }))) { AUTO.kotor = false; AUTO.akhir = Date.now(); clearTimeout(AUTO.t); } } catch (e) {}
   }
 });
 async function hantarSkor(y, rank, sc, el) {
@@ -9806,7 +9876,7 @@ async function pilihAnak(a) {
   tukarProfil(r);
   const P = profilDari(Object.assign({}, r, { akaun: 1 }));
   if (lama && lama.pin && String(lama.nick).toLowerCase() === String(r.nick).toLowerCase()) P.pin = lama.pin;
-  PLAYER.set(P); mergeAwan(r.data);
+  PLAYER.set(P); mergeAwan(r.data); STAT.gabung(r.stat, r.nick);
   if (tuntutJumlah()) tuntutPending(PLAYER.get());
   return true;
 }
@@ -9822,7 +9892,7 @@ async function sambung(kod) {
     TOKP.set(r.nick, r.tok);
     tukarProfil(r);
     PLAYER.set(profilDari(Object.assign({}, r, { akaun: 1 })));
-    mergeAwan(r.data);
+    mergeAwan(r.data); STAT.gabung(r.stat, r.nick);
     try { sessionStorage.removeItem('sb.putus'); } catch (e) {}
     toast('Peranti ini kini log masuk sebagai ' + r.nick + '. Selamat belajar! 🚀');
     location.replace('#d' + (+r.darjah || 1));
@@ -10000,12 +10070,13 @@ function akaun(mod) {
   app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:620px">${kepala}
     <p style="margin:0 0 16px;color:var(--muted)">Log masuk sebagai <b style="color:var(--ink)">${esc(A.emel)}</b> · <button type="button" class="linkbtn" id="akeluar">Log keluar</button></p>
     ${P && !milik ? `<div class="akaunbox" style="border-color:#ffb74d;background:#fff8e1"><b>Profil di peranti ini: ${esc(P.nick)}</b> (belum dipautkan ke akaun).<br><button class="btn pri" id="apautsini" style="margin-top:10px;padding:10px 16px">🔗 Pautkan ${esc(P.nick)} ke akaun ini</button></div>` : ''}
+    ${anak.length ? `<a href="#prestasi" class="sediakad" style="background:linear-gradient(135deg,#5b4bdb,#8f7bff 60%,#20bf6b);margin:0 0 18px"><span class="sk-ic">📊</span><span class="sk-t"><span class="sk-baru" style="color:#5b4bdb">PREMIUM</span><b>Dashboard Prestasi Anak</b><span>Masa belajar, soalan dijawab, ketepatan &amp; topik lemah</span></span><span class="sk-go" style="color:#5b4bdb">Lihat →</span></a>` : ''}
     <h2 style="font-size:19px;margin:0 0 10px">Profil anak (${anak.length}/5)</h2>
     <div id="alist">${anak.length ? anak.map((a, i) => {
       const aktif = P && P.nick.toLowerCase() === a.nick.toLowerCase();
       return `<div class="anak${aktif ? ' aktif' : ''}"><div class="an"><b>${esc(a.nick)}</b><span>Darjah ${+a.darjah}${a.sekolah ? ' · ' + esc(a.sekolah) : ''}</span><span>${statusAnak(a)}</span></div>
         ${aktif ? '<span style="font-weight:800;color:var(--ok)">✓ Sedang main</span>' : `<button class="btn pri" data-pilih="${i}" style="padding:10px 16px">▶ Main sebagai ${esc(a.nick)}</button>`}
-        <div class="alat"><button type="button" class="linkbtn" data-hantar="${i}">📲 Hantar ke peranti anak</button><button type="button" class="linkbtn" data-tpin="${i}">🔑 Tetapkan PIN</button></div><div class="apanel" id="apanel${i}" hidden></div></div>`;
+        <div class="alat"><a class="linkbtn" href="#prestasi/${i}" style="font-weight:800">📊 Prestasi</a><button type="button" class="linkbtn" data-hantar="${i}">📲 Hantar ke peranti anak</button><button type="button" class="linkbtn" data-tpin="${i}">🔑 Tetapkan PIN</button></div><div class="apanel" id="apanel${i}" hidden></div></div>`;
     }).join('') : '<p style="color:var(--muted)">Belum ada profil anak. Tambah di bawah.</p>'}</div>
     ${anak.length < 5 ? `<details class="alipat"${anak.length ? '' : ' open'}><summary>＋ Tambah profil anak</summary>
       <form id="ftambah" novalidate style="margin-top:12px">
@@ -10143,7 +10214,7 @@ function ranking() {
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
       $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
-      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; P2.pakej = r.pakej || 0; PLAYER.set(P2); } const n = mergeAwan(r.data); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
+      $('#psambung').onclick = async () => { $('#pmsg').textContent = 'Mengambil…'; try { const r = await apiGet({ a: 'load', nick: P2.nick, pin: P2.pin }); if (r.ok) { if (r.premium) { P2.premium = 1; P2.pakej = r.pakej || 0; PLAYER.set(P2); } const n = mergeAwan(r.data); STAT.gabung(r.stat, P2.nick); $('#pmsg').textContent = `✅ Progress dipulihkan (${n} rekod digabung — bintang tertinggi dikekalkan).`; } else $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
     } else {
       $('#pjoin').onclick = async () => {
         const nick = $('#pnick').value.trim(), pin = $('#ppin').value.trim(), darjah = +$('#pdarjah').value, sekolah = $('#psek').value.trim().slice(0, 48);
@@ -10153,7 +10224,7 @@ function ranking() {
         try {
           const r = await apiPost({ a: 'simpan', nick, pin, darjah, sekolah, data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) });
           if (!r.ok) return $('#pmsg').textContent = '⚠️ ' + (r.err || 'Gagal');
-          let prem0 = 0, pk0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); prem0 = l.premium ? 1 : 0; pk0 = l.pakej || 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
+          let prem0 = 0, pk0 = 0, sek0 = sekolah; if (!r.baru) { const l = await apiGet({ a: 'load', nick, pin }); if (l.ok) { mergeAwan(l.data); STAT.gabung(l.stat, nick); prem0 = l.premium ? 1 : 0; pk0 = l.pakej || 0; if (!sek0 && l.sekolah) sek0 = l.sekolah; } }
           PLAYER.set({ nick, pin, darjah, premium: prem0, pakej: pk0, sekolah: sek0 }); prof(); toast('Selamat datang, ' + nick + '! 🎉');
           tuntutPending({ nick, pin }, $('#pmsg'));
         } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; }
@@ -10344,7 +10415,7 @@ function quiz(s, y, t, rank) {
   const genRank = rank === 'warrior' ? 'epik' : rank;
   let list = E.round ? E.round(y, t, 10, genRank) : SB.round(y, t, 10, genRank, E.gen);
   if (rank === 'warrior') list = list.map(q => { if (!q.opts || q.opts.length < 3) return q; const w = q.opts.filter(o => o !== q.ans); const pair = [q.ans, w[Math.floor(Math.random() * w.length)]]; if (Math.random() < .5) pair.reverse(); return Object.assign({}, q, { opts: pair }); });
-  Q = { s, y, t, rank, list, i: 0, score: 0, wrong: [], lock: false };
+  Q = { s, y, t, rank, list, i: 0, score: 0, wrong: [], lock: false, mula: Date.now() };
   document.body.classList.add('inquiz');
   app.innerHTML = `<div class="wrap"><div class="quiz">
     <div class="qtop"><a class="x" href="#d${y}/${s}/${t}" aria-label="Keluar">✕</a><div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div></div>
@@ -10392,6 +10463,7 @@ function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo
 function result() {
   const n = Q.list.length, sc = Q.score, pc = sc / n, st = pc >= .9 ? 3 : pc >= .7 ? 2 : pc >= .5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
   setStars(s, y, t, rank, st);
+  try { STAT.catat(`${s}.${y}.${t}`, n, sc, (Date.now() - (Q.mula || Date.now())) / 1000); } catch (e) {}
   DB.rounds = (DB.rounds || 0) + 1;
   const kunciBest = sk(s, y, t, rank);
   const bestLama = DB.best[kunciBest] | 0;
@@ -10714,7 +10786,7 @@ const PRA = (() => {
       SUARA.cakap(G.cakap); denyut();
     },
     betul(el, kata) {
-      if (G.kunci) return; G.kunci = true;
+      if (G.kunci) return; G.kunci = true; if (!G.silapIni) G.tepat++;
       if (el) { el.classList.add('ok'); el.classList.add('pr-lonjak'); kilau(el); }
       SND.play('betul'); try { maskot('gembira'); } catch (e) {}
       SUARA.cakap(kata || pick(PUJI));
@@ -10722,7 +10794,7 @@ const PRA = (() => {
       later(() => { G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); }, 1500);
     },
     salah(el) {
-      G.salah++; SND.play('salah'); try { maskot('simpati'); } catch (e) {}
+      G.salah++; G.silapIni = true; SND.play('salah'); try { maskot('simpati'); } catch (e) {}
       if (el) { el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); setTimeout(() => el && el.classList.remove('no'), 500); }
       SUARA.cakap(pick(PUJUK));
     },
@@ -11071,7 +11143,7 @@ const PRA = (() => {
   }
   function main(z, g) {
     TOK++; SUARA.henti();
-    G = { z, g, i: 0, n: g.n || 6, salah: 0, kunci: false, cakap: '' };
+    G = { z, g, i: 0, n: g.n || 6, salah: 0, kunci: false, cakap: '', mula: Date.now(), tepat: 0, silapIni: false };
     app.innerHTML = `<div class="pr"><div class="pr-main" style="--zw:${ZON[z].w}">
       <div class="pr-kepala"><button class="pr-btn x" id="prkeluar" aria-label="Keluar">✖</button><div class="pr-jejak" id="prjejak">${Array.from({ length: G.n }, () => '<i></i>').join('')}</div><b style="font-size:14px;white-space:nowrap">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
       <div class="pr-soal"><div class="m">${maskotHTML('kecil')}</div><div class="pr-teks" id="prteks"></div><button class="pr-dengar" id="prdengar" aria-label="Dengar semula">🔊</button></div>
@@ -11081,6 +11153,7 @@ const PRA = (() => {
     pusingan();
   }
   function pusingan() {
+    G.silapIni = false;
     const d = $('#prjejak'); if (d) [...d.children].forEach((c, i) => { if (i === G.i) c.className = 'kini'; });
     try { maskot('fikir'); } catch (e) {}
     const p = api.pentas(); if (!p) return; p.innerHTML = '';
@@ -11090,6 +11163,7 @@ const PRA = (() => {
     const bt = G.salah === 0 ? 3 : G.salah <= 3 ? 2 : 1;
     const s = ST.get(); const baru = !s.p.includes(G.g.id);
     s.g[G.g.id] = Math.max(s.g[G.g.id] || 0, bt); if (baru) s.p.push(G.g.id); ST.set(s);
+    try { STAT.catat('pra.0.' + G.g.id, G.n, G.tepat, (Date.now() - G.mula) / 1000); simpanAuto(); } catch (e) {}
     const z = G.z, g = G.g;
     const box = document.querySelector('.pr-main');
     box.innerHTML = `<div class="pr-hasil" id="prhasil"><div class="bt">${[1, 2, 3].map(i => `<i class="${i <= bt ? '' : 'mati'}" style="animation-delay:${i * .2}s">⭐</i>`).join('')}</div>
@@ -11128,6 +11202,94 @@ document.addEventListener('keydown', e => {
   else if ((e.key === 'Enter' || e.key === ' ') && Q.lock && $('#next') && document.activeElement !== $('#next')) { $('#next').click(); e.preventDefault(); }
 });
 
+// ---------------- DASHBOARD PRESTASI IBU BAPA ----------------
+const NAMA_SUBJ_DS = { mt: ['Matematik', '🔢', '#5b4bdb'], bm: ['Bahasa Melayu', '📖', '#f0603a'], bi: ['English', '🔤', '#0b9e93'], sn: ['Sains', '🔬', '#16a34a'], pra: ['Prasekolah', '🎒', '#ff5c8a'] };
+function tarikhKey_(d) { return tarikhStr_(d).replace(/-/g, ''); }
+function namaTopikDs_(k) {
+  const [s, y, t] = String(k).split('.');
+  if (s === 'pra') { try { const g = [...PRA._HURUF, ...PRA._NOMBOR].find(x => x.id === t); if (g) return [g.nama, g.ic, 'Prasekolah']; } catch (e) {} return [t, '🎒', 'Prasekolah']; }
+  const E = ENG[s]; if (!E) return [t, '📘', ''];
+  return [t === 'campuran' ? E.mix : (E.NAMES[t] || t), E.ICON[t] || '📘', (NAMA_SUBJ_DS[s] || [s])[0] + ' D' + y];
+}
+function kiraDs_(stat) {
+  const H = (stat && stat.h) || {}, T = (stat && stat.t) || {}, kini = new Date();
+  const hari = n => { const d = new Date(kini); d.setDate(d.getDate() - n); return d; };
+  const jum = (a, b) => { let o = [0, 0, 0, 0]; for (let i = a; i < b; i++) { const v = H[tarikhKey_(hari(i))]; if (v && v[1] > 0) { o[0] += v[0]; o[1] += v[1]; o[2] += v[2]; o[3]++; } } return o; };
+  const ini = jum(0, 7), lalu = jum(7, 14);
+  const minggu = []; for (let i = 6; i >= 0; i--) { const d = hari(i), v = H[tarikhKey_(d)] || [0, 0, 0]; minggu.push({ d, min: Math.round(v[0] / 60), soalan: v[1] }); }
+  const kal = []; const mula = 55 + ((kini.getDay() + 6) % 7) - 6; for (let i = mula; i >= mula - 55; i--) { const v = H[tarikhKey_(hari(i))]; kal.push(i < 0 ? -1 : (v && v[1] > 0) ? Math.max(1, Math.round(v[0] / 60)) : 0); }
+  const sub = {}; const topik = [];
+  for (const k in T) { const v = T[k], s = k.split('.')[0]; if (!v[1]) continue; const o = sub[s] || (sub[s] = { soalan: 0, betul: 0, topik: 0, mahir: 0 }); o.soalan += v[1]; o.betul += v[2]; o.topik++; const pc = v[2] / v[1]; if (pc >= .8 && v[1] >= 10) o.mahir++; topik.push({ k, pc, soalan: v[1], pusingan: v[0], akhir: v[3] }); }
+  let akhirAktif = 0; for (const k in H) if (H[k][1] > 0 && +k > akhirAktif) akhirAktif = +k;
+  return { ini, lalu, minggu, kal, sub, topik, akhirAktif, ada: Object.keys(H).length > 0 || topik.length > 0 };
+}
+function trendDs_(a, b, unit) { if (!b) return a ? '<i class="ds-naik">baharu minggu ini</i>' : '<i class="ds-sama">—</i>'; const d = a - b; if (!d) return '<i class="ds-sama">sama seperti minggu lalu</i>'; return `<i class="${d > 0 ? 'ds-naik' : 'ds-turun'}">${d > 0 ? '▲' : '▼'} ${Math.abs(d)}${unit || ''} berbanding minggu lalu</i>`; }
+function cadanganDs_(a, K) {
+  const c = [], nama = esc(a.nick);
+  const lemah = K.topik.filter(x => x.soalan >= 10 && x.pc < .7).sort((p, q) => p.pc - q.pc)[0];
+  const kuat = K.topik.filter(x => x.soalan >= 10 && x.pc >= .9).sort((p, q) => q.soalan - p.soalan)[0];
+  if (K.akhirAktif) { const g = bezaHari_(String(K.akhirAktif).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'), hariIni_()); if (g >= 3) c.push(`${nama} tidak berlatih ${g} hari. Cuba <b>10 minit hari ini</b> — sikit tapi kerap lebih berkesan.`); }
+  if (lemah) { const [n, ic] = namaTopikDs_(lemah.k); c.push(`Ulang kaji <b>${ic} ${esc(n)}</b> (${Math.round(lemah.pc * 100)}% betul). Mula di tahap <b>Perajurit</b> dan duduk bersama anak untuk 1 pusingan.`); }
+  if (kuat) { const [n, ic] = namaTopikDs_(kuat.k); c.push(`Puji ${nama} — <b>${ic} ${esc(n)}</b> sudah ${Math.round(kuat.pc * 100)}% betul. Cabar ke tahap seterusnya!`); }
+  if (K.ini[3] >= 5) c.push(`Rajin sungguh! Aktif <b>${K.ini[3]} hari</b> minggu ini. Kekalkan rentak ini.`);
+  if (K.ini[3] && K.ini[0] / K.ini[3] > 45 * 60) c.push('Purata lebih 45 minit sehari — ingatkan anak berehat mata setiap 20 minit.');
+  if (!c.length) c.push(`Sasaran mudah: <b>4 hari seminggu, 15 minit sehari</b>. ${nama} boleh mula dengan topik kegemarannya.`);
+  return c.slice(0, 3);
+}
+function prestasi(idx) {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const A = AKAUN.get(); if (!A) { location.hash = '#akaun'; return; }
+  const anak = A.anak || [];
+  if (!anak.length) { location.hash = '#akaun'; return; }
+  const i = Math.min(Math.max(0, +idx || 0), anak.length - 1), a = anak[i];
+  // gabung data awan dengan data tempatan peranti ini (jika anak main di peranti ini dan belum sempat dihantar)
+  const L = STAT.baca(a.nick), C = a.stat || {}, G = { h: Object.assign({}, C.h || {}), t: Object.assign({}, C.t || {}) }, mxa = (x, y, n) => Array.from({ length: n }, (_, j) => Math.max(+(x || [])[j] || 0, +(y || [])[j] || 0));
+  for (const k in L.h) G.h[k] = mxa(G.h[k], L.h[k], 3);
+  for (const k in L.t) G.t[k] = mxa(G.t[k], L.t[k], 4);
+  const K = kiraDs_(G);
+  const prem = !!a.premium;
+  const mins = Math.round(K.ini[0] / 60), ketepatan = K.ini[1] ? Math.round(K.ini[2] / K.ini[1] * 100) : 0, ketLalu = K.lalu[1] ? Math.round(K.lalu[2] / K.lalu[1] * 100) : 0;
+  const mx = Math.max(10, ...K.minggu.map(x => x.min)), HR = ['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'];
+  const subs = Object.keys(NAMA_SUBJ_DS).filter(s => K.sub[s]);
+  const lemah = K.topik.filter(x => x.soalan >= 10 && x.pc < .7).sort((p, q) => p.pc - q.pc).slice(0, 3);
+  const kuat = K.topik.filter(x => x.soalan >= 10 && x.pc >= .8).sort((p, q) => q.pc - p.pc || q.soalan - p.soalan).slice(0, 3);
+  const baris = (x, warna) => { const [n, ic, sub] = namaTopikDs_(x.k); return `<div class="ds-tp"><span class="ds-e">${ic}</span><span class="ds-x">${esc(n)}<small>${esc(sub)} · ${x.soalan} soalan</small></span><b class="ds-pc" style="color:${warna}">${Math.round(x.pc * 100)}%</b></div>`; };
+  const kunci = (isi, tajuk) => prem ? isi : `<div class="ds-kunci"><div class="ds-isi">${isi}</div><div class="ds-tutup"><div style="font-size:34px">🔒</div><b>${tajuk}</b><a class="btn pri" href="#premium" style="padding:9px 16px;font-size:14px">👑 Buka dengan Premium</a></div></div>`;
+  const kosong = `<div class="ds-kad ds-kosong"><div class="e">🌱</div><b style="color:var(--ink);font-size:17px">Belum ada aktiviti direkodkan untuk ${esc(a.nick)}</b><p style="margin:8px 0 0">Statistik direkod setiap kali ${esc(a.nick)} habis satu pusingan sambil log masuk ke profilnya, dan dihantar ke awan dalam masa seminit. Minta anak main satu pusingan, kemudian kembali ke sini.</p><p style="margin:10px 0 0;font-size:13px">Rekod bermula 17 November 2026. Aktiviti sebelum tarikh itu tidak dapat dipaparkan.</p></div>`;
+  app.innerHTML = `<section class="ds pagein">
+    <a class="crumb" href="#akaun">← Akaun ibu bapa</a>
+    <h1 style="margin:6px 0 4px;font-size:26px">📊 Prestasi anak</h1>
+    <p style="margin:0 0 14px;color:var(--muted)">7 hari terakhir, dibanding 7 hari sebelumnya.</p>
+    ${anak.length > 1 ? `<div class="ds-anak">${anak.map((x, j) => `<button type="button" data-ds="${j}" class="${j === i ? 'on' : ''}">${esc(x.nick)}</button>`).join('')}</div>` : ''}
+    <div class="ds-kad" style="display:flex;align-items:center;gap:12px;padding:12px 16px"><div style="width:46px;height:46px;border-radius:50%;background:#efedfb;display:flex;align-items:center;justify-content:center;font-size:24px">${+a.darjah <= 1 ? '🎒' : '🧒'}</div><div style="flex:1"><b style="font-size:17px">${esc(a.nick)}</b><div style="font-size:13px;color:var(--muted)">Darjah ${+a.darjah}${a.sekolah ? ' · ' + esc(a.sekolah) : ''} · ${prem ? '👑 Premium' : 'Percuma'}</div></div></div>
+    ${!K.ada ? kosong : `
+    <div class="ds-4">
+      <div class="ds-m"><small>Hari aktif</small><b>${K.ini[3]}<span style="font-size:15px;color:var(--muted)"> / 7</span></b>${trendDs_(K.ini[3], K.lalu[3], ' hari')}</div>
+      ${prem ? `<div class="ds-m"><small>Masa belajar</small><b>${mins}<span style="font-size:15px;color:var(--muted)"> min</span></b>${trendDs_(mins, Math.round(K.lalu[0] / 60), ' min')}</div>
+      <div class="ds-m"><small>Soalan dijawab</small><b>${K.ini[1]}</b>${trendDs_(K.ini[1], K.lalu[1])}</div>
+      <div class="ds-m"><small>Ketepatan</small><b>${K.ini[1] ? ketepatan + '%' : '—'}</b>${K.ini[1] && K.lalu[1] ? trendDs_(ketepatan, ketLalu, '%') : '<i class="ds-sama">&nbsp;</i>'}</div>`
+      : `<div class="ds-m" style="grid-column:span 3;display:flex;align-items:center;gap:12px"><span style="font-size:30px">🔒</span><span style="font-size:13.5px"><strong>Masa belajar, soalan dijawab &amp; ketepatan</strong> dibuka untuk ahli Premium. <a href="#premium" style="font-weight:700">Lihat pakej →</a></span></div>`}
+    </div>
+    ${kunci(`<div class="ds-kad"><h3>⏱️ Minit belajar setiap hari</h3><div class="ds-bar">${K.minggu.map((x, j) => `<div><b style="color:var(--ink);font-size:12px">${x.min || ''}</b><span class="${x.min ? '' : 'kosong'}" style="height:${x.min ? Math.max(8, Math.round(x.min / mx * 90)) : 4}px;animation-delay:${j * .06}s"></span>${HR[x.d.getDay()]}</div>`).join('')}</div></div>`, 'Carta masa belajar harian')}
+    <div class="ds-kad"><h3>🔥 Ketekunan 8 minggu</h3><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="ds-kal">${K.kal.map(m => `<i class="${m < 0 ? '' : m >= 20 ? 'l3' : m >= 8 ? 'l2' : m > 0 ? 'l1' : ''}"${m < 0 ? ' style="visibility:hidden"' : ''}></i>`).join('')}</div><div style="font-size:13px;color:var(--muted);line-height:1.7">Setiap petak = satu hari.<br>Lebih gelap = lebih lama belajar.<br>Lajur = minggu (Isnin di atas).</div></div></div>
+    ${kunci(`<div class="ds-kad"><h3>🎯 Penguasaan ikut subjek</h3>${subs.length ? subs.map((s, j) => { const o = K.sub[s], pc = Math.round(o.betul / o.soalan * 100), [n, ic, w] = NAMA_SUBJ_DS[s]; return `<div class="ds-sub"><span class="n">${ic} ${n}</span><span class="tr"><i style="width:${pc}%;background:${w};animation-delay:${j * .1}s"></i></span><span class="p">${pc}% · ${o.mahir}/${o.topik} mahir</span></div>`; }).join('') : '<p style="color:var(--muted);margin:0">Belum ada topik dicuba.</p>'}<p style="font-size:12px;color:var(--muted);margin:10px 0 0">Mahir = sekurang-kurangnya 10 soalan dengan 80% betul.</p></div>`, 'Penguasaan topik ikut subjek')}
+    ${kunci(`<div class="ds-kad" style="border-color:#ffd8a8"><h3>🆘 Perlu bantuan</h3>${lemah.length ? lemah.map(x => baris(x, '#c2410c')).join('') : '<p style="color:var(--muted);margin:0">Tiada topik lemah dikesan. 👍 (Dikira selepas sekurang-kurangnya 10 soalan bagi satu topik.)</p>'}</div>
+    <div class="ds-kad" style="border-color:#b2f2bb"><h3>🌟 Paling mahir</h3>${kuat.length ? kuat.map(x => baris(x, 'var(--ok)')).join('') : '<p style="color:var(--muted);margin:0">Belum ada topik mencapai 80% dengan 10 soalan.</p>'}</div>`, 'Topik lemah & topik paling mahir')}
+    ${kunci(`<div class="ds-cad"><h3 style="margin:0 0 4px">💡 Cadangan minggu ini</h3><ul style="margin:0;padding-left:20px">${cadanganDs_(a, K).map(x => `<li>${x}</li>`).join('')}</ul></div>`, 'Cadangan peribadi setiap minggu')}
+    `}
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:18px">Data dikemas kini setiap kali anak habis satu pusingan sambil log masuk ke profilnya. ${a.kemaskini ? 'Kemas kini terakhir: ' + new Date(a.kemaskini).toLocaleString('ms-MY', { dateStyle: 'medium', timeStyle: 'short' }) + '.' : ''}</p>
+  </section>`;
+  app.querySelectorAll('[data-ds]').forEach(b => b.onclick = () => { location.hash = '#prestasi/' + b.dataset.ds; });
+  // segar dari awan (data terkini)
+  if (apiOK() && !prestasi._segar) {
+    prestasi._segar = 1;
+    apiPost({ a: 'akaun_anak', token: A.token }).then(r => {
+      prestasi._segar = 0;
+      if (r && r.sesi === 0) { AKAUN.set(null); location.hash = '#akaun'; return; }
+      if (r && r.ok) { const A2 = AKAUN.get(); if (!A2) return; const lama = JSON.stringify(A2.anak); A2.anak = r.anak; AKAUN.set(A2); if (lama !== JSON.stringify(r.anak) && /^#prestasi/.test(location.hash)) prestasi(i); }
+    }).catch(() => { prestasi._segar = 0; });
+  }
+}
 // ---------------- ROUTER ----------------
 function route() {
   const h = location.hash.slice(1); let m;
@@ -11150,6 +11312,7 @@ function route() {
   if (h === 'privasi') return privasi();
   if (h === 'premium') return premium();
   if (h === 'premium/sedia') return premium(null, 1);
+  if ((m = /^prestasi(?:\/(\d))?$/.exec(h))) return prestasi(m[1]);
   if (h === 'sedia' || h.startsWith('sedia/')) return PRA.route(h);
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();

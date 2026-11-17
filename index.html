@@ -243,7 +243,9 @@ section.blk{padding:44px 0}
 .apanel .bt{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 details.alipat{border:1.5px dashed var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:#fff}
 details.alipat summary{font-weight:700;cursor:pointer}
-@media (max-width:420px){.nav a .lbl{display:none}}
+@media (max-width:420px){.nav a .lbl{display:none}.installbtn .lbl{display:none}.installbtn{padding:8px 10px}}
+.inquiz .installbtn{display:none}
+@media (max-width:380px){.logo span{display:none}.logo img{width:36px;height:36px}.nav{gap:3px}}
 .art .heroimg{position:relative;z-index:1;display:block;width:100%;height:auto;border-radius:28px;box-shadow:var(--shadow-lg);animation:float 7s ease-in-out infinite}
 .art.adagambar{height:auto;padding:28px 18px}
 .art.adagambar .tile{z-index:2}
@@ -435,7 +437,7 @@ footer p+p{margin-top:6px}
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38"><span>Sudut Belajar</span></a>
-  <nav class="nav"><button class="installbtn" id="install" hidden>📲 Pasang app</button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#akaun" class="akaunbtn" id="akaunbtn" aria-label="Akaun ibu bapa" title="Akaun ibu bapa">👤</a><a href="#ranking">🏆<span class="lbl"> Ranking</span></a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
+  <nav class="nav"><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app">📲<span class="lbl"> Pasang app</span></button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#akaun" class="akaunbtn" id="akaunbtn" aria-label="Akaun ibu bapa" title="Akaun ibu bapa">👤</a><a href="#ranking">🏆<span class="lbl"> Ranking</span></a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
 </div></header>
 <main id="app"></main>
 <div class="toast" id="toast"></div>
@@ -9808,6 +9810,28 @@ async function sambung(kod) {
   } catch (e) { gagal('Tiada sambungan internet. Cuba buka pautan sekali lagi.'); }
 }
 
+// ---------------- LETAK DI SKRIN TELEFON (#pasang) ----------------
+function pasang() {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1), android = /android/i.test(ua);
+  const dahPasang = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const langkah = (id, tajuk, ikon, l) => `<section class="kad" id="${id}" style="background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px"><h2 style="margin:0 0 10px;font-size:19px">${ikon} ${tajuk}</h2><ol style="margin:0;padding-left:22px;line-height:1.7">${l.map(x => `<li>${x}</li>`).join('')}</ol></section>`;
+  const A = langkah('pandroid', 'Telefon / tablet Android', '🤖', ['Buka <b>sudutbelajarpro.com</b> dalam <b>Chrome</b>.', 'Tekan butang <b>⋮</b> (tiga titik) di bucu atas kanan.', 'Pilih <b>"Tambah ke skrin utama"</b> atau <b>"Pasang aplikasi"</b>.', 'Tekan <b>Tambah</b>. Ikon Sudut Belajar akan muncul di skrin utama.']);
+  const I = langkah('pios', 'iPhone / iPad', '🍎', ['Buka <b>sudutbelajarpro.com</b> dalam <b>Safari</b> (bukan Chrome).', 'Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas ⬆️) di bawah skrin.', 'Skrol ke bawah dan pilih <b>"Tambah ke Skrin Utama"</b>.', 'Tekan <b>Tambah</b> di bucu atas kanan.']);
+  app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:620px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <h1 style="margin:10px 0 6px">📱 Letak Sudut Belajar di skrin telefon</h1>
+    <p class="lead" style="margin:0 0 16px">Tak perlu muat turun dari Play Store atau App Store. Tambah ikon ke skrin utama dan anak boleh buka terus, macam app.</p>
+    ${dahPasang ? '<div class="akaunbox" style="border-color:#43a047;background:#e8f5e9;margin-bottom:14px">✅ Sudut Belajar sudah ada di skrin utama peranti ini.</div>' : ''}
+    <div id="ppasang" ${deferred ? '' : 'hidden'} style="margin-bottom:14px"><button class="btn pri" id="ppasangbtn" style="width:100%;justify-content:center">📲 Pasang sekarang</button></div>
+    ${ios ? I + A : A + I}
+    <section class="kad" style="background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px"><h2 style="margin:0 0 10px;font-size:19px">💻 Komputer</h2><p style="margin:0">Buka dalam <b>Chrome</b> atau <b>Edge</b>, kemudian tandakan laman ini (Ctrl+D) supaya mudah dibuka semula.</p></section>
+    <p style="font-size:13px;color:var(--muted)">💡 Ikon ini membuka laman Sudut Belajar, jadi <b>sambungan internet diperlukan</b>. Kemajuan anak disimpan ke awan apabila log masuk melalui akaun ibu bapa. Untuk tablet anak sendiri, ibu bapa boleh guna <b>📲 Hantar ke peranti anak</b> di halaman <a href="#akaun">Akaun</a> supaya anak terus log masuk.</p>
+  </section>`;
+  const b = $('#ppasangbtn');
+  if (b) b.onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; ib.hidden = true; $('#ppasang').hidden = true; };
+}
+
 const EMEL_HUB = 'sudutbelajarpro@gmail.com';
 function mula() {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
@@ -9855,6 +9879,7 @@ function faq() {
     <h2>Akaun, keselamatan &amp; bantuan</h2>
     ${Q('9. Adakah Sudut Belajar selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan <b>nama glamour pilihan anak</b> (bukan nama sebenar), darjah, mata dan nama sekolah jika diisi. Emel ibu bapa tidak pernah dipaparkan. Butiran: <a href="#privasi">Notis Privasi</a>.</p>`)}
     ${Q('10. Bagaimana jika terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. <b>Kod 6 angka</b> akan dihantar ke emel ibu bapa (sah 30 minit). Masukkan kod itu dan pilih kata laluan baharu. Premium dan kemajuan anak tidak terjejas.</p>`)}
+    ${Q('11a. Ada app untuk dimuat turun?', `<p>Sudut Belajar tidak perlu dimuat turun dari Play Store atau App Store. Buka <b>sudutbelajarpro.com</b> dan tambah ikonnya ke skrin utama telefon — <a href="#pasang">lihat cara untuk Android &amp; iPhone</a>.</p>`)}
     ${Q('11. Boleh guna di telefon dan komputer?', `<p>Boleh. Log masuk dengan emel dan kata laluan ibu bapa di mana-mana peranti, kemudian pilih profil anak. Premium ikut profil anak, bukan peranti.</p><p><b>Tablet atau telefon anak sendiri?</b> Di halaman Akaun, tekan <b>📲 Hantar ke peranti anak</b>, kemudian imbas kod QR dengan kamera peranti anak (atau hantar pautannya). Peranti itu terus log masuk sebagai profil anak — tanpa kata laluan dan tanpa PIN. Pautan sah 24 jam dan sekali guna sahaja.</p><p>Kemajuan disimpan ke awan secara automatik selepas kuiz. Pastikan peranti bersambung ke internet semasa kuiz tamat.</p>`)}
     ${Q('12. Anak saya sudah ada nama samaran + PIN. Perlu daftar semula?', `<p>Tidak perlu. Selepas buat akaun ibu bapa, pilih <b>Pautkan profil sedia ada</b> dan masukkan nama samaran + PIN lama. Mata, bintang dan Premium dibawa bersama.</p>`)}
     ${Q('13. Bila ranking Dewan Juara bermula semula?', `<p>Ranking berjalan ikut <b>musim ${tt('musim_bulan')} bulan</b>. Musim 1 bermula ${tarikhPenuh(tt('musim_mula'))}. Pada akhir setiap musim, pemain <b>👑 Premium</b> dengan mata tertinggi dalam ranking keseluruhan menerima <b>hadiah misteri</b> 🎁. Kemudian papan mata bermula semula. Bintang dan kemajuan anak tidak hilang.</p>`)}
@@ -10209,11 +10234,12 @@ function home(y, scroll) {
       <div class="features">
         <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
         <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
+        <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e">📱</div><h3>Letak di skrin telefon</h3><p>Buka Sudut Belajar terus dari ikon di skrin utama telefon atau tablet anak, macam app. <b style="color:var(--brand)">Lihat cara →</b></p></a>
         <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Darjah 2–6 ikut KSSR (Semakan 2017) yang dijajarkan. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
       </div>
     </section>
   </div>
-  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -10421,6 +10447,7 @@ function route() {
   if ((m = /^sambung\/([0-9a-fA-F]{20})$/.exec(h))) return sambung(m[1]);
   if (h === 'mula') return mula();
   if (h === 'faq') return faq();
+  if (h === 'pasang') return pasang();
   if (h === 'privasi') return privasi();
   if (h === 'premium') return premium();
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
@@ -10480,8 +10507,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.se
 let deferred = null; const ib = $('#install');
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; ib.hidden = false; });
-if (!standalone && /iphone|ipad|ipod/i.test(navigator.userAgent)) ib.hidden = false;
-ib.onclick = async () => { if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; ib.hidden = true; } else toast('Di iPhone: tekan butang Kongsi ⬆️, kemudian pilih "Add to Home Screen".'); };
+if (!standalone) ib.hidden = false;
+ib.onclick = async () => { if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; ib.hidden = true; } else location.hash = '#pasang'; };
 window.addEventListener('appinstalled', () => { ib.hidden = true; toast('Sudut Belajar dah dipasang! 🎉'); });
 route();
 })();

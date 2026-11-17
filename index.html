@@ -10418,6 +10418,647 @@ function percikan(box) {
     setTimeout(() => c.remove(), 1200);
   }
 }
+// ================= SEDIA KE TAHUN 1 (prasekolah 5–6 tahun) =================
+// Permainan asli Sudut Belajar. Tiada bahan pihak ketiga. Gambar = emoji + bentuk CSS/SVG.
+// Disisip ke dalam IIFE utama: guna $, app, SND, maskot, maskotHTML, toast, esc.
+const PRA = (() => {
+  // ---------- utiliti ----------
+  const rnd = n => Math.floor(Math.random() * n);
+  const pick = a => a[rnd(a.length)];
+  const kocok = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const ambil = (a, k) => kocok(a).slice(0, k);
+  const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const VOKAL = 'aeiou'.split('');
+  const KELIRU = { b: 'dpq', d: 'bpq', p: 'bdq', q: 'pbd', m: 'nwu', n: 'mhu', u: 'nvw', w: 'mvu', a: 'oec', o: 'aec', e: 'aco', c: 'eoa', i: 'ljt', l: 'itj', j: 'ilg', h: 'nkb', f: 'tlk', t: 'fli', g: 'qyj', y: 'vgj', v: 'wyu', s: 'zcx', z: 'sxn', k: 'hxt', r: 'nmt', x: 'kzy' };
+  const silap = (h, k) => { const s = (KELIRU[h] || '').split('').filter(c => c !== h); const lain = kocok(ABC.map(c => c.toLowerCase()).filter(c => c !== h && !s.includes(c))); return kocok(s).concat(lain).slice(0, k); };
+  const SEBUT_HURUF = { a: 'a', b: 'bi', c: 'si', d: 'di', e: 'i', f: 'ef', g: 'ji', h: 'ec', i: 'ai', j: 'je', k: 'ke', l: 'el', m: 'em', n: 'en', o: 'o', p: 'pi', q: 'kiu', r: 'ar', s: 'es', t: 'ti', u: 'yu', v: 'vi', w: 'dabliu', x: 'eks', y: 'wai', z: 'zed' };
+  const sh = c => SEBUT_HURUF[c.toLowerCase()] || c;
+  const NOM = ['kosong', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'lapan', 'sembilan', 'sepuluh'];
+  const sn = n => n <= 10 ? NOM[n] : n === 11 ? 'sebelas' : n < 20 ? NOM[n - 10] + ' belas' : n === 20 ? 'dua puluh' : String(n);
+  const WARNA = ['#ff5c8a', '#ffb800', '#5b4bdb', '#20bf6b', '#2d98da', '#ff7f2a', '#a55eea', '#0fb9b1'];
+
+  // perkataan bergambar (emoji yang lama & disokong luas)
+  const KATA = [
+    ['ayam', '🐔'], ['anggur', '🍇'], ['api', '🔥'], ['awan', '☁️'],
+    ['bola', '⚽'], ['buku', '📖'], ['bunga', '🌸'], ['bas', '🚌'], ['bulan', '🌙'], ['burung', '🐦'], ['basikal', '🚲'], ['beruang', '🐻'],
+    ['cili', '🌶️'], ['cawan', '☕'],
+    ['dadu', '🎲'], ['daun', '🍃'], ['duit', '💵'],
+    ['epal', '🍎'],
+    ['gajah', '🐘'], ['gitar', '🎸'], ['gigi', '🦷'],
+    ['harimau', '🐯'], ['hati', '❤️'], ['hujan', '🌧️'],
+    ['ikan', '🐟'], ['itik', '🦆'],
+    ['jam', '⏰'], ['jagung', '🌽'],
+    ['kucing', '🐱'], ['kereta', '🚗'], ['kek', '🎂'], ['kunci', '🔑'], ['katak', '🐸'], ['kasut', '👟'],
+    ['lampu', '💡'], ['lebah', '🐝'], ['lemon', '🍋'],
+    ['matahari', '☀️'], ['monyet', '🐒'], ['mangga', '🥭'],
+    ['nanas', '🍍'], ['nasi', '🍚'],
+    ['oren', '🍊'], ['ombak', '🌊'],
+    ['pisang', '🍌'], ['payung', '☂️'], ['pokok', '🌳'], ['pensel', '✏️'], ['pintu', '🚪'], ['penguin', '🐧'],
+    ['rumah', '🏠'], ['roti', '🍞'], ['rama-rama', '🦋'], ['roket', '🚀'], ['rusa', '🦌'],
+    ['sudu', '🥄'], ['semut', '🐜'], ['siput', '🐌'], ['susu', '🥛'], ['singa', '🦁'],
+    ['topi', '🎩'], ['tikus', '🐭'], ['telur', '🥚'], ['tomato', '🍅'], ['tembikai', '🍉'],
+    ['ular', '🐍'], ['udang', '🦐'], ['unta', '🐫'],
+    ['zirafah', '🦒'],
+  ];
+
+  // ---------- simpanan (peranti sahaja) ----------
+  const ST = {
+    get() { try { const v = JSON.parse(localStorage.getItem('sb.pra') || '{}'); return { g: v.g || {}, p: v.p || [] }; } catch (e) { return { g: {}, p: [] }; } },
+    set(v) { try { localStorage.setItem('sb.pra', JSON.stringify(v)); } catch (e) {} },
+  };
+
+  // ---------- suara (pelayar) ----------
+  const SUARA = {
+    ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined',
+    v: null, cari: false,
+    on: (function () { try { return localStorage.getItem('sb.prasuara') !== '0'; } catch (e) { return true; } })(),
+    set(v) { this.on = !!v; try { localStorage.setItem('sb.prasuara', v ? '1' : '0'); } catch (e) {} if (!v) this.henti(); },
+    pilih() {
+      if (!this.ok) return null;
+      const vs = speechSynthesis.getVoices() || [];
+      const by = p => vs.find(v => (v.lang || '').toLowerCase().replace('_', '-').startsWith(p));
+      this.v = by('ms') || by('id') || null;
+      return this.v;
+    },
+    ada() { return this.ok && !!(this.v || this.pilih()); },
+    henti() { try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} },
+    cakap(t) {
+      if (!this.ok || !this.on || !t) return;
+      try {
+        if (!this.v) this.pilih();
+        if (!this.v && (speechSynthesis.getVoices() || []).length) return; // ada suara, tapi tiada BM/ID: jangan baca dengan loghat Inggeris
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = this.v ? this.v.lang : 'ms-MY'; if (this.v) u.voice = this.v;
+        u.rate = 0.88; u.pitch = 1.12;
+        speechSynthesis.speak(u);
+      } catch (e) {}
+    },
+  };
+  if (SUARA.ok) { try { speechSynthesis.onvoiceschanged = () => SUARA.pilih(); SUARA.pilih(); } catch (e) {} }
+
+  // ---------- gaya ----------
+  const CSS = `
+.pr{max-width:760px;margin:0 auto;padding:14px 14px 40px;font-family:var(--fd);animation:pagein .35s both}
+.pr *{-webkit-tap-highlight-color:transparent}
+.pr-hero{border-radius:28px;padding:22px 20px;color:#fff;background:linear-gradient(135deg,#ff7eb3,#ff9a3c 45%,#ffd23f);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.pr-hero h1{font-size:30px;margin:0 0 4px;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.12)}
+.pr-hero p{margin:0;font-family:var(--fb);font-weight:600;opacity:.95}
+.pr-hero .pr-awan{position:absolute;font-size:46px;opacity:.9;animation:prapung 6s ease-in-out infinite}
+@keyframes prapung{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.pr-zon{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media (max-width:520px){.pr-zon{grid-template-columns:1fr}}
+.pr-zk{border:0;border-radius:26px;padding:20px 16px;text-align:left;color:#fff;cursor:pointer;font-family:var(--fd);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s}
+.pr-zk:active{transform:scale(.97)}
+.pr-zk .ic{font-size:52px;display:block;animation:prapung 3s ease-in-out infinite}
+.pr-zk b{font-size:24px;display:block;margin-top:6px}
+.pr-zk span{font-family:var(--fb);font-weight:600;font-size:14px;opacity:.95}
+.pr-zk .bar{height:10px;border-radius:9px;background:rgba(255,255,255,.35);margin-top:12px;overflow:hidden}
+.pr-zk .bar i{display:block;height:100%;background:#fff;border-radius:9px}
+.pr-nota{background:#fff;border:2px dashed var(--line);border-radius:20px;padding:14px 16px;margin-top:16px;font-family:var(--fb);font-size:14px;color:var(--muted);line-height:1.55}
+.pr-nota b{color:var(--ink)}
+.pr-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pr-btn{border:0;border-radius:16px;padding:10px 14px;font-family:var(--fd);font-weight:600;font-size:16px;cursor:pointer;background:#fff;color:var(--ink);box-shadow:0 4px 0 #dcd6fb;transition:transform .1s}
+.pr-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #dcd6fb}
+.pr-btn.utama{background:linear-gradient(135deg,#ff5c8a,#ff9a3c);color:#fff;box-shadow:0 4px 0 #c2410c}
+.pr-top h2{flex:1;margin:0;font-size:22px;min-width:0}
+.pr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.pr-gk{border:0;border-radius:22px;padding:14px 10px;background:#fff;cursor:pointer;font-family:var(--fd);box-shadow:0 6px 0 var(--line);text-align:center;transition:transform .12s}
+.pr-gk:active{transform:translateY(4px);box-shadow:0 2px 0 var(--line)}
+.pr-gk .ic{font-size:46px;display:block;line-height:1.15}
+.pr-gk b{display:block;font-size:17px;margin-top:4px;color:var(--ink)}
+.pr-gk small{display:block;font-family:var(--fb);font-size:12px;color:var(--muted);margin-top:2px;min-height:30px}
+.pr-gk .bt{font-size:18px;letter-spacing:2px;margin-top:4px;display:block}
+.pr-main{background:#fff;border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+.pr-kepala{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--zw,linear-gradient(135deg,#7c6cff,#a78bfa));color:#fff}
+.pr-kepala .x{background:rgba(255,255,255,.25);color:#fff;box-shadow:none;padding:8px 12px}
+.pr-jejak{flex:1;display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+.pr-jejak i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s}
+.pr-jejak i.ok{background:#ffe066;box-shadow:0 0 0 3px rgba(255,224,102,.35);transform:scale(1.15)}
+.pr-jejak i.kini{background:#fff}
+.pr-soal{display:flex;align-items:center;gap:10px;padding:14px 14px 4px}
+.pr-soal .m{flex:0 0 auto}
+.pr-soal .m .msvg{width:62px;height:62px}
+.pr-soal .m .m-kata{display:none}
+.pr-teks{flex:1;font-size:22px;font-weight:600;line-height:1.25;color:var(--ink)}
+.pr-teks .h{display:inline-block;background:#fff3c4;border-radius:10px;padding:0 8px;color:#e8590c;font-weight:700}
+.pr-dengar{border:0;width:52px;height:52px;border-radius:50%;font-size:24px;background:#eef0ff;cursor:pointer;flex:0 0 auto;box-shadow:0 4px 0 #d6d9ff}
+.pr-dengar:active{transform:translateY(3px);box-shadow:0 1px 0 #d6d9ff}
+.pr-dengar.cakap{animation:prdenyut .8s ease-in-out infinite}
+@keyframes prdenyut{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.pr-pentas{position:relative;min-height:330px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;overflow:hidden}
+.pr-pil{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.pr-o{border:0;min-width:84px;height:84px;border-radius:24px;font-family:var(--fd);font-size:44px;font-weight:700;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 6px 0 #d9d4fb,0 0 0 3px #ece9ff inset;transition:transform .12s;padding:0 14px}
+.pr-o:active{transform:translateY(4px);box-shadow:0 2px 0 #d9d4fb,0 0 0 3px #ece9ff inset}
+.pr-o.ok{background:#d3f9d8;box-shadow:0 6px 0 #69db7c,0 0 0 3px #b2f2bb inset;animation:prlonjak .5s}
+.pr-o.no,.pr-goyang{animation:prgoyang .45s}
+@keyframes prgoyang{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px) rotate(-4deg)}40%{transform:translateX(9px) rotate(4deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes prlonjak{0%{transform:scale(1)}40%{transform:scale(1.18) translateY(-8px)}100%{transform:scale(1)}}
+.pr-lonjak{animation:prlonjak .55s}
+.pr-kilau{position:fixed;pointer-events:none;font-size:22px;z-index:60;animation:prkilau .9s ease-out forwards}
+@keyframes prkilau{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.2) rotate(160deg)}}
+.pr-konf{position:absolute;top:-12px;width:10px;height:16px;border-radius:3px;animation:prkonf 2.6s linear forwards;z-index:5}
+@keyframes prkonf{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(560px) rotate(720deg);opacity:.2}}
+.pr-gbr{font-size:96px;line-height:1;filter:drop-shadow(0 8px 10px rgba(0,0,0,.12))}
+.pr-kata{font-size:34px;font-weight:700;letter-spacing:1px;min-height:42px}
+.pr-kata .a1{color:#e8590c;background:#fff3c4;border-radius:8px;padding:0 4px}
+/* belon */
+.pr-langit{width:100%;min-height:300px;background:linear-gradient(#bfe7ff,#eaf7ff);border-radius:22px;display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:flex-end;padding:20px 8px 26px}
+.pr-belon{border:0;width:74px;height:90px;border-radius:50% 50% 47% 47%;position:relative;font-family:var(--fd);font-size:40px;font-weight:700;color:#fff;cursor:pointer;animation:prbelon 3.2s ease-in-out infinite;box-shadow:inset -8px -10px 0 rgba(0,0,0,.08),inset 8px 8px 0 rgba(255,255,255,.25);margin-bottom:var(--mb,0)}
+.pr-belon::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:34px;background:#8a8aa8;transform:translateX(-50%)}
+.pr-belon::before{content:'';position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-bottom-color:inherit}
+@keyframes prbelon{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.pr-letup{animation:prletup .35s forwards!important}
+@keyframes prletup{0%{transform:scale(1)}60%{transform:scale(1.35);opacity:.8}100%{transform:scale(0);opacity:0}}
+/* kereta api */
+.pr-landas{width:100%;overflow:hidden;padding:8px 0 4px;border-bottom:6px solid #8d6e63}
+.pr-kapi{display:flex;gap:6px;align-items:flex-end;transition:transform 1.6s cubic-bezier(.5,0,.75,0)}
+.pr-kapi.jalan{transform:translateX(120%)}
+.pr-gerabak{width:54px;height:56px;border-radius:12px 12px 6px 6px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;color:#fff;position:relative;flex:0 0 auto}
+.pr-gerabak::after{content:'';position:absolute;bottom:-12px;left:6px;width:14px;height:14px;border-radius:50%;background:#37474f;box-shadow:28px 0 0 #37474f}
+.pr-gerabak.kosong{background:#fff!important;color:#c5c0e8;border:3px dashed #b9b0f5}
+.pr-enjin{font-size:50px;line-height:1;transform:scaleX(-1);flex:0 0 auto}
+/* telur */
+.pr-sarang{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.pr-telur{border:0;width:92px;height:116px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 35% 30%,#fff,#fff3e0 60%,#ffe0b2);box-shadow:0 8px 0 #f3d9b1;font-family:var(--fd);font-size:44px;font-weight:700;color:#8d5a2b;cursor:pointer;position:relative;animation:prtelur 2.4s ease-in-out infinite}
+@keyframes prtelur{0%,100%{transform:rotate(0)}10%{transform:rotate(-6deg)}20%{transform:rotate(6deg)}30%{transform:rotate(0)}}
+.pr-telur.pecah{animation:none;background:none;box-shadow:none;font-size:70px}
+/* ikan */
+.pr-akuarium{width:100%;min-height:250px;border-radius:24px;background:linear-gradient(#7fd4ff,#2f80ed);position:relative;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:4px 14px;padding:16px;box-shadow:inset 0 -18px 0 rgba(255,214,140,.55)}
+.pr-ikan{border:0;background:none;font-size:46px;cursor:pointer;position:relative;animation:prrenang 2.6s ease-in-out infinite;line-height:1;padding:4px}
+.pr-ikan b{position:absolute;top:-6px;right:-4px;background:#ffe066;color:#5c3b00;font-size:16px;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-family:var(--fd)}
+@keyframes prrenang{0%,100%{transform:translate(0,0)}50%{transform:translate(8px,-8px)}}
+/* menara */
+.pr-tapak{display:flex;flex-direction:column-reverse;align-items:center;min-height:240px;justify-content:flex-start;border-bottom:8px solid #8bc34a;width:220px;padding-bottom:2px}
+.pr-blok{width:96px;height:34px;border-radius:8px;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:20px;animation:prjatuh .35s cubic-bezier(.3,1.6,.6,1);box-shadow:inset 0 -5px 0 rgba(0,0,0,.15);margin-top:3px}
+@keyframes prjatuh{0%{transform:translateY(-120px);opacity:0}100%{transform:translateY(0);opacity:1}}
+/* pinggan */
+.pr-pinggan{border:0;width:150px;min-height:150px;border-radius:50%;background:radial-gradient(circle,#fff 55%,#eef0ff 56%,#fff 70%);box-shadow:0 8px 0 #dcd6fb;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:2px;font-size:28px;cursor:pointer;padding:22px}
+/* batu sungai */
+.pr-sungai{width:100%;background:linear-gradient(#a5e3ff,#6cc3f0);border-radius:22px;padding:28px 8px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;position:relative}
+.pr-batu{width:56px;height:46px;border-radius:50%;background:#9e9e9e;box-shadow:inset 0 -6px 0 #757575;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;position:relative}
+.pr-batu.kosong{background:#fff;color:#bbb;box-shadow:inset 0 0 0 3px #bbb}
+.pr-katak{position:absolute;font-size:40px;transition:left .35s,top .35s;z-index:3}
+/* rama-rama */
+.pr-taman{width:100%;min-height:290px;background:linear-gradient(#e8fff0,#b9f6ca);border-radius:22px;position:relative;overflow:hidden}
+.pr-rama{border:0;background:none;position:absolute;cursor:pointer;display:flex;flex-direction:column;align-items:center;animation:prterbang var(--t,4s) ease-in-out infinite;font-family:var(--fd)}
+.pr-rama .e{font-size:44px;line-height:1;animation:prkepak .35s ease-in-out infinite alternate}
+.pr-rama b{font-size:26px;background:#fff;border-radius:12px;padding:0 8px;color:var(--ink);box-shadow:0 3px 0 #c8e6c9;margin-top:-4px}
+@keyframes prterbang{0%,100%{transform:translate(0,0)}25%{transform:translate(18px,-16px)}50%{transform:translate(-10px,-26px)}75%{transform:translate(-18px,-6px)}}
+@keyframes prkepak{0%{transform:scaleX(1)}100%{transform:scaleX(.7)}}
+.pr-tangkap{animation:prtangkap .5s forwards!important}
+@keyframes prtangkap{100%{transform:translateY(-200px) scale(.2);opacity:0}}
+/* bentuk */
+.pr-bentuk{border:0;background:#fff;border-radius:22px;width:120px;height:120px;cursor:pointer;box-shadow:0 6px 0 #e6e2fb;display:flex;align-items:center;justify-content:center}
+.pr-bentuk svg{width:86px;height:86px}
+/* ulat & susun */
+.pr-trek{display:flex;align-items:center;gap:0;min-height:76px;flex-wrap:wrap;justify-content:center}
+.pr-ruas{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:700;margin-left:-8px;animation:prlonjak .45s;box-shadow:inset -5px -6px 0 rgba(0,0,0,.12)}
+.pr-kepala-ulat{font-size:58px;line-height:1;margin-right:2px}
+.pr-trek.merayap{animation:prrayap 1.2s ease-in-out}
+@keyframes prrayap{0%{transform:translateX(0)}100%{transform:translateX(60px);opacity:.0}}
+.pr-roket{font-size:72px;line-height:1;transition:transform 1.4s cubic-bezier(.6,0,.9,.4)}
+.pr-roket.lancar{transform:translateY(-420px) rotate(-45deg)}
+/* bakul */
+.pr-bakul2{display:flex;gap:16px;justify-content:center;width:100%}
+.pr-bakul{border:0;flex:1;max-width:190px;border-radius:24px 24px 40px 40px;padding:16px 8px;font-family:var(--fd);font-size:20px;font-weight:700;cursor:pointer;color:#fff;box-shadow:0 7px 0 rgba(0,0,0,.18)}
+.pr-bakul small{display:block;font-size:26px;letter-spacing:4px;margin-top:4px}
+.pr-jatuh{font-size:70px;font-weight:700;width:110px;height:110px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 0 #e6e2fb;animation:prjatuhatas .6s cubic-bezier(.3,1.5,.6,1)}
+@keyframes prjatuhatas{0%{transform:translateY(-140px)}100%{transform:translateY(0)}}
+/* surih */
+.pr-surih{position:relative;touch-action:none}
+.pr-surih canvas{position:absolute;left:0;top:0;border-radius:22px}
+.pr-surih canvas.lapis{touch-action:none;cursor:crosshair}
+.pr-cari{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pr-cari button{border:0;width:66px;height:66px;border-radius:18px;background:#f4f2ff;font-family:var(--fd);font-size:36px;font-weight:700;color:var(--ink);cursor:pointer}
+.pr-cari button.jumpa{background:#ffe066;box-shadow:0 0 0 4px #ffb800;animation:prlonjak .5s}
+.pr-kira{font-family:var(--fb);font-weight:800;color:var(--muted)}
+/* keputusan */
+.pr-hasil{text-align:center;padding:26px 16px 30px;position:relative;overflow:hidden}
+.pr-hasil .bt{font-size:54px;letter-spacing:6px}
+.pr-hasil .bt i{display:inline-block;font-style:normal;animation:prbintang .6s both}
+.pr-hasil .bt i.mati{filter:grayscale(1);opacity:.3}
+@keyframes prbintang{0%{transform:scale(0) rotate(-90deg)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.pr-pelekat{width:130px;height:130px;margin:14px auto 6px;border-radius:50%;background:radial-gradient(circle,#fff,#fff4cc);display:flex;align-items:center;justify-content:center;font-size:76px;box-shadow:0 0 0 6px #ffe066,0 10px 30px -8px rgba(255,170,0,.6);animation:prlonjak .7s .5s both}
+.pr-album{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:12px}
+.pr-album div{aspect-ratio:1;border-radius:22px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:44px;box-shadow:0 5px 0 var(--line)}
+.pr-album div.tiada{background:#f1effa;color:#c9c4ea;font-size:30px}
+.pr-album small{font-size:11px;font-family:var(--fb);color:var(--muted);margin-top:2px;text-align:center;padding:0 4px}
+@media (max-width:400px){.pr-nm{display:none}.pr-teks{font-size:20px}}
+@media (prefers-reduced-motion:reduce){.pr *{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+`;
+  function gaya() { if (document.getElementById('pracss')) return; const s = document.createElement('style'); s.id = 'pracss'; s.textContent = CSS; document.head.appendChild(s); }
+
+  // ---------- kesan ----------
+  function kilau(el, ikon) {
+    if (!el) return; const r = el.getBoundingClientRect(); const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (let i = 0; i < 8; i++) { const s = document.createElement('i'); s.className = 'pr-kilau'; s.textContent = ikon || pick(['⭐', '✨', '🌟']); const a = Math.PI * 2 * i / 8; s.style.left = cx - 10 + 'px'; s.style.top = cy - 12 + 'px'; s.style.setProperty('--dx', Math.cos(a) * 70 + 'px'); s.style.setProperty('--dy', Math.sin(a) * 70 + 'px'); document.body.appendChild(s); setTimeout(() => s.remove(), 950); }
+  }
+  function konfeti(box) { if (!box) return; for (let i = 0; i < 46; i++) { const c = document.createElement('i'); c.className = 'pr-konf'; c.style.left = Math.random() * 100 + '%'; c.style.background = WARNA[i % WARNA.length]; c.style.animationDelay = Math.random() * .7 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3400); } }
+  function nada(jenis) {
+    if (!SND.on || !SND.ctx()) return;
+    try {
+      if (jenis === 'letup') { SND.tone(900, 0, .06, .12, 'square'); SND.tone(500, .04, .1, .08, 'triangle'); }
+      else if (jenis === 'tut') { SND.tone(330, 0, .18, .09, 'sawtooth'); SND.tone(330, .25, .18, .09, 'sawtooth'); }
+      else if (jenis === 'pop') SND.tone(700 + rnd(500), 0, .08, .1);
+      else if (jenis === 'lompat') { SND.tone(520, 0, .07, .08, 'triangle'); SND.tone(780, .06, .08, .08, 'triangle'); }
+      else if (jenis === 'roket') { for (let i = 0; i < 10; i++) SND.tone(200 + i * 80, i * .06, .08, .06, 'sawtooth'); }
+    } catch (e) {}
+  }
+
+  // ---------- enjin permainan ----------
+  let G = null, TOK = 0;
+  const later = (fn, ms) => { const t = TOK; setTimeout(() => { if (t === TOK) fn(); }, ms); };
+  const PUJI = ['Bagus!', 'Pandainya!', 'Hebat!', 'Betul!', 'Syabas!', 'Wah, pandai!'];
+  const PUJUK = ['Cuba lagi ya.', 'Hampir! Cuba lagi.', 'Tak apa, cuba lagi.'];
+
+  const api = {
+    soal(teks, cakap) {
+      const t = $('#prteks'); if (t) t.innerHTML = teks;
+      G.cakap = cakap || teks.replace(/<[^>]+>/g, '');
+      SUARA.cakap(G.cakap); denyut();
+    },
+    betul(el, kata) {
+      if (G.kunci) return; G.kunci = true;
+      if (el) { el.classList.add('ok'); el.classList.add('pr-lonjak'); kilau(el); }
+      SND.play('betul'); try { maskot('gembira'); } catch (e) {}
+      SUARA.cakap(kata || pick(PUJI));
+      const d = $('#prjejak'); if (d && d.children[G.i]) { d.children[G.i].className = 'ok'; }
+      later(() => { G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); }, 1500);
+    },
+    salah(el) {
+      G.salah++; SND.play('salah'); try { maskot('simpati'); } catch (e) {}
+      if (el) { el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); setTimeout(() => el && el.classList.remove('no'), 500); }
+      SUARA.cakap(pick(PUJUK));
+    },
+    ulangCakap() { SUARA.cakap(G.cakap); denyut(); },
+    pentas() { return $('#prpentas'); },
+    get kunci() { return G && G.kunci; },
+    later,
+  };
+  function denyut() { const b = $('#prdengar'); if (!b || !SUARA.on || !SUARA.ok) return; b.classList.add('cakap'); later(() => b.classList.remove('cakap'), 2200); }
+
+  // pilihan biasa (butang besar)
+  function pilihan(opsyen, betulIdx, onBetul, cls) {
+    return `<div class="pr-pil">${opsyen.map((o, i) => `<button class="pr-o ${cls || ''}" data-i="${i}">${o}</button>`).join('')}</div>`;
+  }
+  function ikatPilihan(betulIdx, kata) {
+    api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => { if (api.kunci) return; +b.dataset.i === betulIdx ? api.betul(b, kata) : api.salah(b); });
+  }
+
+  // ================= PERMAINAN: HURUF =================
+  const HURUF = [
+    { id: 'belon', ic: '🎈', nama: 'Belon Huruf', d: 'Pecahkan belon yang betul', pelekat: '🐶',
+      main(R) {
+        const besar = Math.random() < .5; const s = pick(ABC).toLowerCase();
+        const lain = silap(s, 4); const set = kocok([s, ...lain]).map(c => besar ? c.toUpperCase() : c);
+        const T = besar ? s.toUpperCase() : s;
+        api.soal(`Pecahkan belon huruf <span class="h">${T}</span>`, `Pecahkan belon huruf ${sh(s)}`);
+        api.pentas().innerHTML = `<div class="pr-langit">${set.map((c, i) => `<button class="pr-belon" data-c="${c}" style="background:${WARNA[i % WARNA.length]};border-bottom-color:${WARNA[i % WARNA.length]};animation-delay:${-i * .6}s;--mb:${rnd(50)}px">${c}</button>`).join('')}</div>`;
+        api.pentas().querySelectorAll('.pr-belon').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (b.dataset.c === T) { nada('letup'); kilau(b, '🎉'); b.classList.add('pr-letup'); api.betul(null); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'kawan', ic: '👫', nama: 'Kawan Huruf', d: 'Padankan huruf besar dan kecil', pelekat: '🐱',
+      main(R) {
+        const s = pick(ABC).toLowerCase(); const dariBesar = R.i % 2 === 0;
+        const ops = kocok([s, ...silap(s, 2)]).map(c => dariBesar ? c : c.toUpperCase());
+        const tunjuk = dariBesar ? s.toUpperCase() : s; const jwp = dariBesar ? s : s.toUpperCase();
+        api.soal(dariBesar ? `Huruf besar <span class="h">${tunjuk}</span>. Mana huruf kecilnya?` : `Huruf kecil <span class="h">${tunjuk}</span>. Mana huruf besarnya?`,
+          dariBesar ? `Ini huruf besar ${sh(s)}. Cari kawannya, huruf kecil ${sh(s)}.` : `Ini huruf kecil ${sh(s)}. Cari kawannya, huruf besar ${sh(s)}.`);
+        api.pentas().innerHTML = `<div style="display:flex;align-items:center;gap:14px"><div class="pr-o" style="font-size:64px;height:110px;min-width:110px;display:flex;align-items:center;justify-content:center;cursor:default" id="prsasar">${tunjuk}</div><div class="pr-o" style="font-size:64px;height:110px;min-width:110px;display:flex;align-items:center;justify-content:center;background:#f7f5ff;color:#c9c4ea;cursor:default" id="prtempat">?</div></div>${pilihan(ops)}`;
+        ikatPilihan(ops.indexOf(jwp));
+        api.pentas().querySelectorAll('.pr-o[data-i]').forEach(b => { const asal = b.onclick; b.onclick = () => { if (!api.kunci && b.textContent === jwp) { const t = $('#prtempat'); t.textContent = jwp; t.style.color = 'var(--ink)'; t.style.background = '#d3f9d8'; } asal(); }; });
+      } },
+    { id: 'keretaapi', ic: '🚂', nama: 'Kereta Api ABC', d: 'Isi huruf yang hilang', pelekat: '🐰',
+      main(R) {
+        const kecil = R.i >= 3; const mula = rnd(26 - 4); const siri = ABC.slice(mula, mula + 4).map(c => kecil ? c.toLowerCase() : c);
+        const k = 1 + rnd(3); const jwp = siri[k];
+        const ops = kocok([jwp, ...silap(jwp.toLowerCase(), 2).map(c => kecil ? c : c.toUpperCase())]);
+        api.soal('Huruf apa yang hilang dalam gerabak?', 'Kereta api A B C. Huruf apa yang hilang dalam gerabak?');
+        api.pentas().innerHTML = `<div class="pr-landas"><div class="pr-kapi" id="prkapi"><span class="pr-enjin">🚂</span>${siri.map((c, i) => `<div class="pr-gerabak ${i === k ? 'kosong' : ''}" ${i === k ? 'id="prgk"' : ''} style="background:${WARNA[(i + mula) % WARNA.length]}">${i === k ? '?' : c}</div>`).join('')}</div></div>${pilihan(ops)}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (b.textContent === jwp) { const g = $('#prgk'); g.textContent = jwp; g.classList.remove('kosong'); nada('tut'); later(() => { const kp = $('#prkapi'); if (kp) kp.classList.add('jalan'); }, 350); api.betul(b, 'Chu chu! ' + pick(PUJI)); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'awal', ic: '🍌', nama: 'Huruf Awal', d: 'Gambar ini mula dengan huruf apa?', pelekat: '🦁',
+      main(R) {
+        const [w, e] = pick(KATA); const s = w[0];
+        const ops = kocok([s, ...silap(s, 2)]);
+        api.soal(`Ini <b>_${esc(w.slice(1))}</b>. Bermula dengan huruf apa?`, `Ini ${w}. ${w} bermula dengan huruf apa?`);
+        api.pentas().innerHTML = `<div class="pr-gbr" id="prgbr">${e}</div><div class="pr-kata" id="prkata">${'_ '.repeat(Math.min(w.length, 9))}</div>${pilihan(ops)}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (b.textContent === s) { $('#prkata').innerHTML = `<span class="a1">${s}</span>${esc(w.slice(1))}`; $('#prgbr').classList.add('pr-lonjak'); api.betul(b, `Betul! ${sh(s)}, ${w}.`); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'vokal', ic: '✨', nama: 'Vokal Ajaib', d: 'Cari semua huruf vokal', pelekat: '🐼',
+      main(R) {
+        const v = ambil(VOKAL, 2 + rnd(2)); const k = ambil('bcdfghjklmnprstwyz'.split(''), 8 - v.length);
+        const set = kocok([...v, ...k]); let jumpa = 0;
+        api.soal(`Sentuh semua huruf <span class="h">vokal</span> (${v.length})`, `Sentuh semua huruf vokal. Ada ${sn(v.length)}.`);
+        api.pentas().innerHTML = `<div class="pr-kira">Vokal: a e i o u</div><div class="pr-cari">${set.map(c => `<button data-c="${c}">${c}</button>`).join('')}</div><div class="pr-kira" id="prkira">✨ 0 / ${v.length}</div>`;
+        api.pentas().querySelectorAll('.pr-cari button').forEach(b => b.onclick = () => {
+          if (api.kunci || b.classList.contains('jumpa')) return;
+          if (VOKAL.includes(b.dataset.c)) { b.classList.add('jumpa'); nada('pop'); kilau(b, '✨'); jumpa++; $('#prkira').textContent = `✨ ${jumpa} / ${v.length}`; SUARA.cakap(sh(b.dataset.c)); if (jumpa === v.length) api.betul(null, 'Hebat! Semua vokal dah jumpa!'); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'surih', ic: '✍️', nama: 'Surih Huruf', d: 'Tulis huruf dengan jari', pelekat: '🦊', n: 4,
+      main(R) {
+        const s0 = pick(R.i < 2 ? ['a', 'c', 'o', 'i', 'l', 'u', 'e', 't'] : ABC.map(c => c.toLowerCase())); const c = R.i % 2 ? s0.toUpperCase() : s0;
+        api.soal(`Surih huruf <span class="h">${c}</span> dengan jari`, `Surih huruf ${sh(s0)} dengan jari kamu.`);
+        const W = Math.min(300, (api.pentas().clientWidth || 320) - 30);
+        api.pentas().innerHTML = `<div class="pr-surih" style="width:${W}px;height:${W}px"><canvas id="prc1" width="${W}" height="${W}"></canvas><canvas id="prc2" class="lapis" width="${W}" height="${W}"></canvas></div><button class="pr-btn" id="prpadam">🧽 Padam</button>`;
+        const c1 = $('#prc1'), c2 = $('#prc2'), x1 = c1.getContext('2d'), x2 = c2.getContext('2d');
+        const fon = `700 ${Math.round(W * .8)}px Fredoka, 'Plus Jakarta Sans', sans-serif`;
+        const lukis = (ctx, isi, garis, lw) => { ctx.font = fon; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; if (isi) { ctx.fillStyle = isi; ctx.fillText(c, W / 2, W * .54); } if (garis) { ctx.lineWidth = lw; ctx.strokeStyle = garis; ctx.lineJoin = 'round'; ctx.strokeText(c, W / 2, W * .54); } };
+        let titik = [], luas = null;
+        const sedia = () => {
+          x1.fillStyle = '#fbfaff'; x1.fillRect(0, 0, W, W); lukis(x1, '#ece8ff'); x1.setLineDash([9, 8]); lukis(x1, null, '#a99ff0', 3); x1.setLineDash([]);
+          const m = document.createElement('canvas'); m.width = m.height = W; const mx = m.getContext('2d'); lukis(mx, '#000'); const d = mx.getImageData(0, 0, W, W).data;
+          const m2 = document.createElement('canvas'); m2.width = m2.height = W; const my = m2.getContext('2d'); lukis(my, '#000', '#000', W * .14); luas = my.getImageData(0, 0, W, W).data;
+          titik = []; for (let y = 0; y < W; y += 6) for (let x = 0; x < W; x += 6) if (d[(y * W + x) * 4 + 3] > 128) titik.push([x, y]);
+        };
+        (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => { if ($('#prc1') === c1) sedia(); });
+        sedia();
+        let lukisNow = false, warna = pick(WARNA);
+        const pos = e => { const r = c2.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * W / r.height]; };
+        c2.onpointerdown = e => { if (api.kunci) return; lukisNow = true; try { c2.setPointerCapture(e.pointerId); } catch (_) {} const [x, y] = pos(e); x2.strokeStyle = warna; x2.lineWidth = W * .1; x2.lineCap = 'round'; x2.lineJoin = 'round'; x2.beginPath(); x2.moveTo(x, y); x2.lineTo(x + .1, y); x2.stroke(); e.preventDefault(); };
+        c2.onpointermove = e => { if (!lukisNow) return; const [x, y] = pos(e); x2.lineTo(x, y); x2.stroke(); e.preventDefault(); };
+        const semak = () => {
+          if (!lukisNow) return; lukisNow = false; if (api.kunci || !titik.length) return;
+          const d = x2.getImageData(0, 0, W, W).data; let kena = 0; titik.forEach(([x, y]) => { if (d[(y * W + x) * 4 + 3] > 0) kena++; });
+          let luar = 0, dalam = 0; for (let y = 0; y < W; y += 6) for (let x = 0; x < W; x += 6) if (d[(y * W + x) * 4 + 3] > 0) { luas[(y * W + x) * 4 + 3] > 0 ? dalam++ : luar++; }
+          if (luar > dalam * .9 + 25) { api.salah(c2.parentNode); SUARA.cakap('Ikut garisan ya.'); x2.clearRect(0, 0, W, W); return; }
+          if (kena / titik.length >= .6) { x2.globalCompositeOperation = 'source-in'; x2.fillStyle = '#20bf6b'; x2.fillRect(0, 0, W, W); x2.globalCompositeOperation = 'source-over'; api.betul(c2.parentNode, 'Cantiknya tulisan kamu!'); }
+        };
+        c2.onpointerup = semak; c2.onpointercancel = semak;
+        $('#prpadam').onclick = () => { x2.clearRect(0, 0, W, W); warna = pick(WARNA); };
+      } },
+    { id: 'detektif', ic: '🔍', nama: 'Detektif Huruf', d: 'Cari huruf yang tersembunyi', pelekat: '🐯',
+      main(R) {
+        const s = pick('bdpqmnwuhaeocij'.split('')); const n = 3; const lain = silap(s, 3);
+        const set = kocok([...Array(n).fill(s), ...Array.from({ length: 16 - n }, (_, i) => lain[i % lain.length])]); let jumpa = 0;
+        api.soal(`Cari ${n} huruf <span class="h">${s}</span> yang tersembunyi`, `Detektif! Cari ${sn(n)} huruf ${sh(s)} yang tersembunyi.`);
+        api.pentas().innerHTML = `<div class="pr-cari">${set.map(c => `<button data-c="${c}">${c}</button>`).join('')}</div><div class="pr-kira" id="prkira">🔍 0 / ${n}</div>`;
+        api.pentas().querySelectorAll('.pr-cari button').forEach(b => b.onclick = () => {
+          if (api.kunci || b.classList.contains('jumpa')) return;
+          if (b.dataset.c === s) { b.classList.add('jumpa'); nada('pop'); kilau(b, '🔍'); jumpa++; $('#prkira').textContent = `🔍 ${jumpa} / ${n}`; if (jumpa === n) api.betul(null, 'Detektif hebat! Semua dah jumpa!'); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'telur', ic: '🥚', nama: 'Telur Dinosaur', d: 'Dengar dan pilih huruf', pelekat: '🦕',
+      main(R) {
+        const s = pick(ABC).toLowerCase(); const besar = Math.random() < .5; const ops = kocok([s, ...silap(s, 2)]).map(c => besar ? c.toUpperCase() : c); const T = besar ? s.toUpperCase() : s;
+        const suara = SUARA.on && SUARA.ada();
+        api.soal(suara ? '🔊 Dengar, kemudian sentuh telur huruf itu' : `Sentuh telur huruf <span class="h">${T}</span>`, `Sentuh telur huruf ${sh(s)}.`);
+        api.pentas().innerHTML = `<div class="pr-sarang">${ops.map(c => `<button class="pr-telur" data-c="${c}">${c}</button>`).join('')}</div><div class="pr-kira">🪺 Ada anak dinosaur dalam telur yang betul!</div>`;
+        api.pentas().querySelectorAll('.pr-telur').forEach((b, i) => { b.style.animationDelay = -i * .5 + 's'; b.onclick = () => {
+          if (api.kunci) return;
+          if (b.dataset.c === T) { b.classList.add('pecah'); b.textContent = pick(['🦕', '🐣', '🦖']); nada('pop'); api.betul(b, `Ya! Huruf ${sh(s)}. Anak dinosaur dah menetas!`); }
+          else api.salah(b);
+        }; });
+      } },
+    { id: 'ulat', ic: '🐛', nama: 'Ulat Abjad', d: 'Susun huruf ikut turutan', pelekat: '🦋',
+      main(R) {
+        const k = R.i < 3 ? 3 : 4; const mula = rnd(26 - k); const kecil = R.i % 2 === 1; const siri = ABC.slice(mula, mula + k).map(c => kecil ? c.toLowerCase() : c); let langkah = 0;
+        api.soal(`Bantu ulat! Sentuh huruf ikut turutan: <span class="h">${siri[0]}</span> dulu`, `Bantu ulat membesar! Sentuh huruf ikut turutan abjad. Mula dengan ${sh(siri[0])}.`);
+        api.pentas().innerHTML = `<div class="pr-trek" id="prtrek"><span class="pr-kepala-ulat">🐛</span></div><div class="pr-pil">${kocok(siri).map(c => `<button class="pr-o" data-c="${c}">${c}</button>`).join('')}</div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci || b.disabled) return;
+          if (b.dataset.c === siri[langkah]) { b.disabled = true; b.style.visibility = 'hidden'; const r = document.createElement('div'); r.className = 'pr-ruas'; r.style.background = WARNA[langkah % WARNA.length]; r.textContent = b.dataset.c; $('#prtrek').appendChild(r); nada('pop'); SUARA.cakap(sh(b.dataset.c)); langkah++;
+            if (langkah === siri.length) { later(() => { const t = $('#prtrek'); if (t) t.classList.add('merayap'); }, 500); api.betul(null, 'Ulat dah besar! Hebat!'); } }
+          else api.salah(b);
+        });
+      } },
+    { id: 'bakul', ic: '🧺', nama: 'Besar atau Kecil?', d: 'Masukkan huruf ke bakul betul', pelekat: '🐨', n: 8,
+      main(R) {
+        const s = pick('ABDEFGHJMNQRTY'.split('')); const besar = Math.random() < .5; const c = besar ? s : s.toLowerCase();
+        api.soal('Huruf ini huruf <b>besar</b> atau huruf <b>kecil</b>?', 'Huruf ini huruf besar, atau huruf kecil?');
+        api.pentas().innerHTML = `<div class="pr-jatuh" id="prjatuh" style="font-size:${besar ? 76 : 52}px">${c}</div><div class="pr-bakul2"><button class="pr-bakul" data-b="1" style="background:linear-gradient(135deg,#5b4bdb,#9a7bff)">🧺 Huruf Besar<small>A B C</small></button><button class="pr-bakul" data-b="0" style="background:linear-gradient(135deg,#ff5c8a,#ff9a3c)">🧺 Huruf Kecil<small>a b c</small></button></div>`;
+        api.pentas().querySelectorAll('.pr-bakul').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if ((b.dataset.b === '1') === besar) { const j = $('#prjatuh'); j.style.transition = 'transform .5s, opacity .5s'; const rb = b.getBoundingClientRect(), rj = j.getBoundingClientRect(); j.style.transform = `translate(${rb.left + rb.width / 2 - rj.left - rj.width / 2}px,${rb.top - rj.top}px) scale(.3)`; j.style.opacity = '0'; api.betul(b, besar ? 'Betul, huruf besar!' : 'Betul, huruf kecil!'); }
+          else api.salah(b);
+        });
+      } },
+  ];
+
+  // ================= PERMAINAN: NOMBOR =================
+  const julat = (R, a, b) => Math.min(b, a + Math.floor(R.i * (b - a) / Math.max(1, R.n - 1)));
+  const opsNombor = (n, maks) => { const s = new Set([n]); let d = 1; while (s.size < 3) { const c = n + (Math.random() < .5 ? -d : d); if (c >= 1 && c <= maks) s.add(c); d = d === 1 && Math.random() < .5 ? 1 : d + 1; if (d > 6) d = 1; } return kocok([...s]); };
+  const BENTUK = {
+    bulatan: w => `<circle cx="50" cy="50" r="42" fill="${w}"/>`,
+    'segi tiga': w => `<path d="M50 8 L94 88 L6 88 Z" fill="${w}" stroke-linejoin="round"/>`,
+    'segi empat sama': w => `<rect x="12" y="12" width="76" height="76" rx="6" fill="${w}"/>`,
+    'segi empat tepat': w => `<rect x="4" y="26" width="92" height="50" rx="6" fill="${w}"/>`,
+  };
+  const WARNA_N = [['merah', '#ef4444'], ['biru', '#3b82f6'], ['kuning', '#facc15'], ['hijau', '#22c55e'], ['ungu', '#a855f7'], ['oren', '#fb923c']];
+
+  const NOMBOR = [
+    { id: 'ikan', ic: '🐠', nama: 'Kira Ikan', d: 'Berapa ikan dalam akuarium?', pelekat: '🐬',
+      main(R) {
+        const n = 1 + rnd(julat(R, 4, 10)); const ops = opsNombor(n, 10); let kira = 0;
+        api.soal('Berapa ekor ikan? <small style="font-size:14px;color:var(--muted)">(sentuh ikan untuk kira)</small>', 'Berapa ekor ikan dalam akuarium? Sentuh ikan untuk mengira.');
+        api.pentas().innerHTML = `<div class="pr-akuarium">${Array.from({ length: n }, (_, i) => `<button class="pr-ikan" style="animation-delay:${-i * .4}s;animation-duration:${2 + Math.random() * 1.5}s">${pick(['🐟', '🐠', '🐡'])}</button>`).join('')}</div>${pilihan(ops)}`;
+        api.pentas().querySelectorAll('.pr-ikan').forEach(f => f.onclick = () => { if (f.querySelector('b')) return; kira++; f.insertAdjacentHTML('beforeend', `<b>${kira}</b>`); nada('pop'); SUARA.cakap(sn(kira)); });
+        ikatPilihan(ops.indexOf(n), `Betul! ${sn(n)} ekor ikan.`);
+      } },
+    { id: 'rama', ic: '🦋', nama: 'Tangkap Rama-rama', d: 'Tangkap nombor yang disebut', pelekat: '🐞',
+      main(R) {
+        const maks = R.i < 3 ? 10 : 20; const n = 1 + rnd(maks); const set = new Set([n]); while (set.size < 5) set.add(1 + rnd(maks)); const arr = kocok([...set]);
+        api.soal(`Tangkap rama-rama nombor <span class="h">${n}</span>`, `Tangkap rama-rama nombor ${sn(n)}.`);
+        const kedudukan = [[6, 10], [38, 6], [70, 12], [18, 52], [56, 50]];
+        api.pentas().innerHTML = `<div class="pr-taman">${arr.map((x, i) => `<button class="pr-rama" data-n="${x}" style="left:${kedudukan[i][0]}%;top:${kedudukan[i][1]}%;--t:${3 + Math.random() * 2}s;animation-delay:${-i * .7}s"><span class="e">🦋</span><b>${x}</b></button>`).join('')}</div>`;
+        api.pentas().querySelectorAll('.pr-rama').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (+b.dataset.n === n) { b.classList.add('pr-tangkap'); nada('pop'); api.betul(null, `Dapat! Nombor ${sn(n)}.`); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'pinggan', ic: '🍪', nama: 'Banyak atau Sedikit', d: 'Bandingkan dua kumpulan', pelekat: '🐹',
+      main(R) {
+        const jenis = pick(['banyak', 'sedikit']); const sama = Math.random() < .22; const e = pick(['🍪', '🍓', '🍩', '🍬', '🧁']);
+        let a = 1 + rnd(7), b; if (sama) b = a; else { do { b = 1 + rnd(8); } while (Math.abs(a - b) < 2); }
+        api.soal(`Pinggan mana ada <span class="h">lebih ${jenis}</span>? <small style="font-size:15px;color:var(--muted)">Jika sama, tekan ⚖️</small>`, `Pinggan mana ada lebih ${jenis}? Jika sama, tekan sama banyak.`);
+        const p = (n, k) => `<button class="pr-pinggan" data-k="${k}">${Array(n).fill(e).join('')}</button>`;
+        api.pentas().innerHTML = `<div class="pr-pil">${p(a, 'a')}${p(b, 'b')}</div><button class="pr-btn" data-k="s" style="font-size:20px">⚖️ Sama banyak</button>`;
+        const jwp = sama ? 's' : (jenis === 'banyak' ? (a > b ? 'a' : 'b') : (a < b ? 'a' : 'b'));
+        api.pentas().querySelectorAll('[data-k]').forEach(x => x.onclick = () => { if (api.kunci) return; x.dataset.k === jwp ? api.betul(x, jwp === 's' ? 'Betul, sama banyak!' : null) : api.salah(x); });
+      } },
+    { id: 'menara', ic: '🧱', nama: 'Bina Menara', d: 'Bina menara ikut nombor', pelekat: '🐻',
+      main(R) {
+        const n = 2 + rnd(julat(R, 4, 8)); let ada = 0;
+        api.soal(`Bina menara <span class="h">${n}</span> blok, kemudian tekan ✅`, `Bina menara ${sn(n)} blok. Kemudian tekan butang siap.`);
+        api.pentas().innerHTML = `<div class="pr-tapak" id="prtapak"></div><div class="pr-pil"><button class="pr-btn" id="prtolak" style="font-size:20px">➖</button><button class="pr-btn utama" id="prtambah" style="font-size:20px">➕ Blok</button><button class="pr-btn" id="prsiap" style="font-size:20px;background:#d3f9d8">✅ Siap</button></div>`;
+        $('#prtambah').onclick = () => { if (api.kunci || ada >= 10) return; ada++; const b = document.createElement('div'); b.className = 'pr-blok'; b.style.background = WARNA[ada % WARNA.length]; b.textContent = ada; $('#prtapak').appendChild(b); nada('pop'); SUARA.cakap(sn(ada)); };
+        $('#prtolak').onclick = () => { if (api.kunci || !ada) return; $('#prtapak').lastChild.remove(); ada--; };
+        $('#prsiap').onclick = () => { if (api.kunci) return; if (ada === n) api.betul($('#prtapak'), `Hebat! Menara ${sn(n)} blok!`); else { api.salah($('#prtapak')); SUARA.cakap(ada < n ? 'Tambah lagi blok.' : 'Terlebih blok. Buang sikit.'); } };
+      } },
+    { id: 'katak', ic: '🐸', nama: 'Katak Lompat', d: 'Cari nombor yang hilang', pelekat: '🐢',
+      main(R) {
+        const maks = R.i < 3 ? 10 : 20; const k = 5; const mula = 1 + rnd(maks - k + 1); const siri = Array.from({ length: k }, (_, i) => mula + i); const h = 1 + rnd(k - 2); const jwp = siri[h];
+        const ops = opsNombor(jwp, maks);
+        api.soal('Nombor apa yang hilang? Bantu katak menyeberang!', 'Nombor apa yang hilang? Bantu katak menyeberang sungai!');
+        api.pentas().innerHTML = `<div class="pr-sungai" id="prsungai">${siri.map((x, i) => `<div class="pr-batu ${i === h ? 'kosong' : ''}" ${i === h ? 'id="prkosong"' : ''}>${i === h ? '?' : x}</div>`).join('')}<span class="pr-katak" id="prkatak" style="left:4px;top:-6px">🐸</span></div>${pilihan(ops)}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (+b.textContent === jwp) {
+            const g = $('#prkosong'); g.textContent = jwp; g.classList.remove('kosong');
+            const batu = [...api.pentas().querySelectorAll('.pr-batu')], sg = $('#prsungai'), kt = $('#prkatak');
+            batu.forEach((bt, i) => later(() => { const rs = sg.getBoundingClientRect(), rb = bt.getBoundingClientRect(); kt.style.left = rb.left - rs.left + 6 + 'px'; kt.style.top = rb.top - rs.top - 34 + 'px'; nada('lompat'); }, 120 + i * 260));
+            api.betul(b, `Betul! ${sn(jwp)}.`);
+          } else api.salah(b);
+        });
+      } },
+    { id: 'padan', ic: '🐞', nama: 'Padan Bilangan', d: 'Cari kumpulan ikut nombor', pelekat: '🐝',
+      main(R) {
+        const n = 1 + rnd(julat(R, 5, 10)); const ops = opsNombor(n, 10); const e = pick(['🐞', '⭐', '🍎', '🌼', '🎈']);
+        api.soal(`Cari kumpulan yang ada <span class="h">${n}</span>`, `Cari kumpulan yang ada ${sn(n)}.`);
+        api.pentas().innerHTML = `<div class="pr-gbr" style="font-size:80px;font-weight:700;color:#5b4bdb;filter:none">${n}</div><div class="pr-pil">${ops.map((x, i) => `<button class="pr-o" data-i="${i}" style="font-size:24px;height:auto;min-height:96px;width:104px;padding:8px;line-height:1.15">${Array(x).fill(e).join('')}</button>`).join('')}</div>`;
+        ikatPilihan(ops.indexOf(n), `Betul! ${sn(n)}.`);
+      } },
+    { id: 'saiz', ic: '🐘', nama: 'Besar & Kecil', d: 'Paling besar? Paling kecil?', pelekat: '🐘',
+      main(R) {
+        const e = pick(['🐘', '🐶', '🐱', '🐢', '🐰', '🐻', '🚗', '🍎']); const cari = Math.random() < .5 ? 'besar' : 'kecil'; const saiz = kocok([40, 68, 100]);
+        api.soal(`Sentuh yang <span class="h">paling ${cari}</span>`, `Sentuh yang paling ${cari}.`);
+        api.pentas().innerHTML = `<div class="pr-pil" style="align-items:flex-end">${saiz.map((s, i) => `<button class="pr-o" data-i="${i}" style="font-size:${s}px;height:130px;min-width:110px;background:#fff">${e}</button>`).join('')}</div>`;
+        ikatPilihan(saiz.indexOf(cari === 'besar' ? 100 : 40), `Betul, yang paling ${cari}!`);
+      } },
+    { id: 'bentuk', ic: '🔺', nama: 'Bentuk & Warna', d: 'Kenal bentuk dan warna', pelekat: '🦄',
+      main(R) {
+        const nb = Object.keys(BENTUK); const b = pick(nb); const [wn, wk] = pick(WARNA_N); const pakaiWarna = R.i >= 2;
+        let set = [[b, wn, wk]];
+        while (set.length < 4) { const bb = pick(nb), [ww, wh] = pick(WARNA_N); if (pakaiWarna ? (bb === b && ww === wn) : bb === b) continue; if (set.some(x => x[0] === bb && x[1] === ww)) continue; set.push([bb, ww, wh]); }
+        set = kocok(set);
+        api.soal(pakaiWarna ? `Sentuh <span class="h">${b} ${wn}</span>` : `Sentuh bentuk <span class="h">${b}</span>`, pakaiWarna ? `Sentuh ${b} warna ${wn}.` : `Sentuh bentuk ${b}.`);
+        api.pentas().innerHTML = `<div class="pr-pil">${set.map((x, i) => `<button class="pr-bentuk" data-i="${i}" aria-label="${x[0]} ${x[1]}"><svg viewBox="0 0 100 100">${BENTUK[x[0]](x[2])}</svg></button>`).join('')}</div>`;
+        const jwp = set.findIndex(x => x[0] === b && (!pakaiWarna || x[1] === wn));
+        api.pentas().querySelectorAll('.pr-bentuk').forEach(x => x.onclick = () => { if (api.kunci) return; +x.dataset.i === jwp ? api.betul(x, `Betul! ${b}${pakaiWarna ? ' ' + wn : ''}.`) : api.salah(x); });
+      } },
+    { id: 'epal', ic: '🍎', nama: 'Tambah & Tolak', d: 'Epal jatuh, belon terbang', pelekat: '🐵',
+      main(R) {
+        const tolak = R.i % 2 === 1;
+        if (!tolak) {
+          const a = 1 + rnd(4), b = 1 + rnd(4), n = a + b; const ops = opsNombor(n, 10);
+          api.soal(`Ada <b>${a}</b> epal. Jatuh <b>${b}</b> lagi. Semua ada berapa?`, `Ada ${sn(a)} biji epal dalam bakul. Jatuh ${sn(b)} biji lagi. Semua ada berapa?`);
+          api.pentas().innerHTML = `<div style="font-size:42px;min-height:120px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:flex-end;max-width:300px" id="prbakul">${Array(a).fill('<span>🍎</span>').join('')}</div><div style="font-size:54px;margin-top:-10px">🧺</div>${pilihan(ops)}`;
+          for (let i = 0; i < b; i++) later(() => { const bk = $('#prbakul'); if (!bk) return; const s = document.createElement('span'); s.textContent = '🍎'; s.style.animation = 'prjatuh .5s cubic-bezier(.3,1.6,.6,1)'; bk.appendChild(s); nada('pop'); }, 700 + i * 550);
+          ikatPilihan(ops.indexOf(n), `Betul! ${sn(a)} tambah ${sn(b)}, jadi ${sn(n)}.`);
+        } else {
+          const a = 3 + rnd(6), b = 1 + rnd(a - 1), n = a - b; const ops = opsNombor(n, 9);
+          api.soal(`Ada <b>${a}</b> belon. <b>${b}</b> terbang. Tinggal berapa?`, `Ada ${sn(a)} biji belon. ${sn(b)} terbang ke langit. Tinggal berapa?`);
+          api.pentas().innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:320px;min-height:120px" id="prbelon">${Array.from({ length: a }, (_, i) => `<span style="font-size:44px;display:inline-block;transition:transform 1.2s ease-in,opacity 1.2s;animation:prbelon ${2.5 + i % 3 * .4}s ease-in-out infinite">🎈</span>`).join('')}</div>${pilihan(ops)}`;
+          later(() => { const ss = [...api.pentas().querySelectorAll('#prbelon span')].slice(-b); ss.forEach((s, i) => later(() => { s.style.animation = 'none'; s.style.transform = 'translateY(-300px)'; s.style.opacity = '0'; nada('lompat'); }, i * 300)); }, 900);
+          ikatPilihan(ops.indexOf(n), `Betul! Tinggal ${sn(n)}.`);
+        }
+      } },
+    { id: 'roket', ic: '🚀', nama: 'Roket Kira Detik', d: 'Susun nombor naik & turun', pelekat: '👽',
+      main(R) {
+        const turun = R.i % 2 === 1; const k = 5; const mula = 1 + rnd(turun ? 6 : 6); const siri = Array.from({ length: k }, (_, i) => mula + i); if (turun) siri.reverse(); let langkah = 0;
+        api.soal(turun ? `Kira detik! Sentuh dari <b>besar ke kecil</b>, mula <span class="h">${siri[0]}</span>` : `Susun bintang dari <b>kecil ke besar</b>, mula <span class="h">${siri[0]}</span>`, turun ? `Kira detik roket! Sentuh nombor dari besar ke kecil. Mula dengan ${sn(siri[0])}.` : `Susun nombor dari kecil ke besar. Mula dengan ${sn(siri[0])}.`);
+        api.pentas().innerHTML = `${turun ? '<div class="pr-roket" id="prroket">🚀</div>' : ''}<div class="pr-trek" id="prtrek" style="min-height:66px;gap:8px"></div><div class="pr-pil">${kocok(siri).map(c => `<button class="pr-o" data-c="${c}">${c}</button>`).join('')}</div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci || b.disabled) return;
+          if (+b.dataset.c === siri[langkah]) { b.disabled = true; b.style.visibility = 'hidden'; const r = document.createElement('div'); r.className = 'pr-ruas'; r.style.background = turun ? '#2d3436' : '#ffb800'; r.style.marginLeft = '0'; r.textContent = (turun ? '' : '⭐') + b.dataset.c; r.style.fontSize = turun ? '30px' : '20px'; $('#prtrek').appendChild(r); nada('pop'); SUARA.cakap(sn(+b.dataset.c)); langkah++;
+            if (langkah === siri.length) { if (turun) { later(() => { const rk = $('#prroket'); if (rk) { rk.classList.add('lancar'); nada('roket'); } }, 300); api.betul(null, 'Lancar! Roket terbang!'); } else api.betul(null, 'Hebat! Tersusun cantik!'); } }
+          else api.salah(b);
+        });
+      } },
+  ];
+
+  const ZON = {
+    huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
+    nombor: { nama: 'Taman Nombor', ic: '🎡', sub: 'Kira, bentuk & susun nombor', w: 'linear-gradient(135deg,#4f7cff,#22c1c3)', games: NOMBOR },
+  };
+  const semuaGame = () => [...HURUF.map(g => ['huruf', g]), ...NOMBOR.map(g => ['nombor', g])];
+
+  // ---------- halaman ----------
+  const bintangTeks = n => '⭐'.repeat(n) + '<span style="opacity:.25">' + '⭐'.repeat(3 - n) + '</span>';
+  function suaraBtn() { return `<button class="pr-btn" id="prsuara" title="Suara pembaca">${SUARA.on ? '🗣️ Suara' : '🔇 Suara'}</button>`; }
+  function ikatSuara() { const b = $('#prsuara'); if (b) b.onclick = () => { SUARA.set(!SUARA.on); b.innerHTML = SUARA.on ? '🗣️ Suara' : '🔇 Suara'; if (SUARA.on) SUARA.cakap('Suara dihidupkan.'); }; }
+
+  function hab() {
+    const s = ST.get(); const kira = z => ZON[z].games.filter(g => s.g[g.id]).length;
+    app.innerHTML = `<div class="pr">
+      <div class="pr-hero"><span class="pr-awan" style="right:14px;top:8px">🎒</span><span class="pr-awan" style="right:70px;bottom:6px;font-size:32px;animation-delay:-2s">✏️</span>
+        <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
+      <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${z.ic}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
+      <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
+      <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
+      <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
+      <div style="text-align:center;margin-top:14px">${suaraBtn()}</div>
+    </div>`;
+    const info = () => { const el = $('#prsuarainfo'); if (!el) return; if (!SUARA.ok || ((speechSynthesis.getVoices() || []).length && !SUARA.pilih())) { el.style.display = ''; el.innerHTML = '🔈 <b>Telefon ini belum ada suara Bahasa Melayu.</b> Anak masih boleh bermain, tetapi ibu bapa perlu bacakan arahan. Di Android: Tetapan → Sistem → Bahasa → Output teks-ke-pertuturan → pasang bahasa Melayu atau Indonesia.'; } };
+    setTimeout(info, 900);
+    app.querySelectorAll('[data-z]').forEach(b => b.onclick = () => { location.hash = '#sedia/' + b.dataset.z; });
+    ikatSuara();
+  }
+  function zon(z) {
+    const Z = ZON[z]; const s = ST.get();
+    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${Z.ic} ${Z.nama}</h2>${suaraBtn()}</div>
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk" data-g="${g.id}"><span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div></div>`;
+    app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
+    ikatSuara();
+  }
+  function album() {
+    const s = ST.get();
+    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>📒 Buku Pelekat</h2></div>
+      <p class="pr-kira" style="margin:0 0 12px">Habiskan permainan untuk dapat pelekat. Kumpul semua ${semuaGame().length}!</p>
+      <div class="pr-album">${semuaGame().map(([, g]) => s.p.includes(g.id) ? `<div>${g.pelekat}<small>${g.nama}</small></div>` : `<div class="tiada">?<small>${g.nama}</small></div>`).join('')}</div></div>`;
+  }
+  function main(z, g) {
+    TOK++; SUARA.henti();
+    G = { z, g, i: 0, n: g.n || 6, salah: 0, kunci: false, cakap: '' };
+    app.innerHTML = `<div class="pr"><div class="pr-main" style="--zw:${ZON[z].w}">
+      <div class="pr-kepala"><button class="pr-btn x" id="prkeluar" aria-label="Keluar">✖</button><div class="pr-jejak" id="prjejak">${Array.from({ length: G.n }, () => '<i></i>').join('')}</div><b style="font-size:14px;white-space:nowrap">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
+      <div class="pr-soal"><div class="m">${maskotHTML('kecil')}</div><div class="pr-teks" id="prteks"></div><button class="pr-dengar" id="prdengar" aria-label="Dengar semula">🔊</button></div>
+      <div class="pr-pentas" id="prpentas"></div></div></div>`;
+    $('#prkeluar').onclick = () => { location.hash = '#sedia/' + z; };
+    $('#prdengar').onclick = () => { if (!SUARA.on) { SUARA.set(true); } api.ulangCakap(); if (!SUARA.ok) toast('Telefon ini tiada suara pembaca. Ibu bapa, bacakan arahan ya 😊'); };
+    pusingan();
+  }
+  function pusingan() {
+    const d = $('#prjejak'); if (d) [...d.children].forEach((c, i) => { if (i === G.i) c.className = 'kini'; });
+    try { maskot('fikir'); } catch (e) {}
+    const p = api.pentas(); if (!p) return; p.innerHTML = '';
+    G.g.main(G);
+  }
+  function tamat() {
+    const bt = G.salah === 0 ? 3 : G.salah <= 3 ? 2 : 1;
+    const s = ST.get(); const baru = !s.p.includes(G.g.id);
+    s.g[G.g.id] = Math.max(s.g[G.g.id] || 0, bt); if (baru) s.p.push(G.g.id); ST.set(s);
+    const z = G.z, g = G.g;
+    const box = document.querySelector('.pr-main');
+    box.innerHTML = `<div class="pr-hasil" id="prhasil"><div class="bt">${[1, 2, 3].map(i => `<i class="${i <= bt ? '' : 'mati'}" style="animation-delay:${i * .2}s">⭐</i>`).join('')}</div>
+      <h2 style="margin:8px 0 0;font-size:28px">${bt === 3 ? 'Hebat sekali!' : bt === 2 ? 'Bagus!' : 'Syabas, kamu berjaya!'}</h2>
+      ${baru ? `<div class="pr-pelekat">${g.pelekat}</div><p style="font-weight:700;margin:4px 0 0">Pelekat baharu untuk Buku Pelekat!</p>` : `<div class="pr-pelekat" style="animation:none">${g.pelekat}</div>`}
+      <div class="pr-pil" style="margin-top:18px"><button class="pr-btn utama" id="prlagi" style="font-size:20px">🔁 Main lagi</button><button class="pr-btn" id="prlain" style="font-size:20px">🎮 Permainan lain</button></div></div>`;
+    SND.play('habis'); konfeti($('#prhasil'));
+    SUARA.cakap(bt === 3 ? 'Hebat sekali! Kamu dapat tiga bintang!' : bt === 2 ? 'Bagus! Kamu dapat dua bintang!' : 'Syabas! Kamu berjaya!');
+    $('#prlagi').onclick = () => main(z, g);
+    $('#prlain').onclick = () => { location.hash = '#sedia/' + z; };
+  }
+
+  function route(h) {
+    gaya(); TOK++; SUARA.henti(); G = null;
+    const p = h.split('/');
+    if (p.length === 1) return hab();
+    if (p[1] === 'pelekat') return album();
+    const Z = ZON[p[1]]; if (!Z) return hab();
+    if (p.length === 2) return zon(p[1]);
+    const g = Z.games.find(x => x.id === p[2]); if (!g) return zon(p[1]);
+    main(p[1], g);
+  }
+  return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _ST: ST };
+})();
+
 function confetti() {
   const box = $('#res'), cols = ['#ff5c8a', '#ffb800', '#5b4bdb', '#20bf6b', '#2d98da'];
   for (let i = 0; i < 60; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length]; c.style.animationDelay = Math.random() * .8 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3600); }
@@ -10433,6 +11074,7 @@ document.addEventListener('keydown', e => {
 // ---------------- ROUTER ----------------
 function route() {
   const h = location.hash.slice(1); let m;
+  if (typeof PRA !== 'undefined' && !/^sedia/.test(h)) PRA.henti();
   document.body.classList.remove('inquiz');
   const okT = (s, y, t) => ENG[s] && ENG[s].years.includes(+y) && (topicsOf(s, +y).includes(t) || t === 'campuran');
   if ((m = /^d([1-6])\/(mt|bi|sn|bm)\/([a-zA-Z0-9]+)\/nota$/.exec(h)) && okT(m[2], m[1], m[3]) && typeof NOTA !== 'undefined' && NOTA[m[2]] && NOTA[m[2]][+m[1]] && NOTA[m[2]][+m[1]][m[3]]) { Q = null; return notaPage(m[2], +m[1], m[3]); }
@@ -10450,6 +11092,7 @@ function route() {
   if (h === 'pasang') return pasang();
   if (h === 'privasi') return privasi();
   if (h === 'premium') return premium();
+  if (h === 'sedia' || h.startsWith('sedia/')) return PRA.route(h);
   if (h === 'pilih' || h === 'ibubapa') { if (!document.getElementById(h)) home(); requestAnimationFrame(() => document.getElementById(h).scrollIntoView({ behavior: 'smooth' })); return; }
   home();
 }

@@ -9421,8 +9421,16 @@ const API = 'https://script.google.com/macros/s/AKfycbx-tpE6ERhgTYG3gIZFZy6WoFXX
 const apiOK = () => API.indexOf('https') === 0;
 const WA_NUM = '60174515724'; // nombor WhatsApp jualan premium
 const PLAYER = { get() { try { return JSON.parse(localStorage.getItem('sb.player') || 'null'); } catch (e) { return null; } }, set(p) { try { localStorage.setItem('sb.player', JSON.stringify(p)); } catch (e) {} } };
-async function apiGet(p) { const r = await fetch(API + '?' + new URLSearchParams(p)); return r.json(); }
-async function apiPost(b) { const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return r.json(); }
+// Token peranti dipercayai (V13): peranti yang pernah log masuk tidak terkena sekatan cubaan PIN.
+const TOKP = {
+  semua() { try { return JSON.parse(localStorage.getItem('sb.tok') || '{}') || {}; } catch (e) { return {}; } },
+  get(n) { return this.semua()[String(n || '').toLowerCase()] || ''; },
+  set(n, t) { try { const m = this.semua(); m[String(n).toLowerCase()] = t; localStorage.setItem('sb.tok', JSON.stringify(m)); } catch (e) {} }
+};
+const denganTok = p => (p && p.nick && p.pin && !p.tok && p.a !== 'anak_tuntut' && TOKP.get(p.nick)) ? Object.assign({}, p, { tok: TOKP.get(p.nick) }) : p;
+const simpanTok = (p, j) => { if (j && j.tok && p && p.nick) TOKP.set(p.nick, j.tok); return j; };
+async function apiGet(p) { p = denganTok(p); const r = await fetch(API + '?' + new URLSearchParams(p)); return simpanTok(p, await r.json()); }
+async function apiPost(b) { b = denganTok(b); const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return simpanTok(b, await r.json()); }
 const MULT = { warrior: 1, epik: 2, legend: 3, mythic: 4 };
 const isPremium = () => { const P = PLAYER.get(); return !!(P && P.premium); };
 // Pakej ikut darjah (mula 1 Dis 2026): P.pakej = darjah pakej; 0/kosong = pakej lama (semua darjah)
@@ -9455,7 +9463,7 @@ function simpanAuto(segera) {
 document.addEventListener('visibilitychange', () => {
   const P = PLAYER.get();
   if (document.hidden && AUTO.kotor && P && apiOK() && navigator.sendBeacon) {
-    try { if (navigator.sendBeacon(API, JSON.stringify({ a: 'simpan', nick: P.nick, pin: P.pin, darjah: P.darjah, sekolah: P.sekolah || '', data: dataAwan() }))) { AUTO.kotor = false; AUTO.akhir = Date.now(); clearTimeout(AUTO.t); } } catch (e) {}
+    try { if (navigator.sendBeacon(API, JSON.stringify({ a: 'simpan', nick: P.nick, pin: P.pin, tok: TOKP.get(P.nick), darjah: P.darjah, sekolah: P.sekolah || '', data: dataAwan() }))) { AUTO.kotor = false; AUTO.akhir = Date.now(); clearTimeout(AUTO.t); } } catch (e) {}
   }
 });
 async function hantarSkor(y, rank, sc, el) {

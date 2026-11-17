@@ -226,6 +226,11 @@ section.blk{padding:44px 0}
 .anak .an{flex:1;min-width:160px}
 .anak .an b{font-size:17px}
 .anak .an span{display:block;font-size:13px;color:var(--muted)}
+.anak .alat{flex-basis:100%;display:flex;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:6px;margin-top:-2px}
+.apanel{flex-basis:100%;background:#f6f4ff;border:1.5px solid #c9c1ff;border-radius:12px;padding:14px;font-size:14px}
+.apanel .qr{display:block;margin:6px auto 10px;width:200px;height:200px;background:#fff;border-radius:8px}
+.apanel input{width:100%;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:13px;box-sizing:border-box}
+.apanel .bt{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 details.alipat{border:1.5px dashed var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:#fff}
 details.alipat summary{font-weight:700;cursor:pointer}
 @media (max-width:420px){.nav a .lbl{display:none}}
@@ -5770,6 +5775,120 @@ if (typeof module !== 'undefined') module.exports = BM;
 
 </script>
 <script>
+// ===== QR KOD (Sudut Belajar, ditulis sendiri, tiada pustaka luar) =====
+// Mod bait, aras pembetulan ralat M, versi 1–6 (sehingga 106 aksara). Cukup untuk pautan peranti anak.
+// QR.svg(teks) -> rentetan <svg>; QR.matriks(teks, topeng?) -> [[0/1]] (untuk ujian).
+const QR = (() => {
+  const EXP = new Array(512), LOG = new Array(256);
+  for (let i = 0, x = 1; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 256) x ^= 0x11d; }
+  for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+  const kali = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+  function janaRS(n) {
+    let g = [1];
+    for (let i = 0; i < n; i++) { const b = new Array(g.length + 1).fill(0); for (let j = 0; j < g.length; j++) { b[j] ^= g[j]; b[j + 1] ^= kali(g[j], EXP[i]); } g = b; }
+    return g;
+  }
+  function rs(data, n) {
+    const g = janaRS(n), r = data.concat(new Array(n).fill(0));
+    for (let i = 0; i < data.length; i++) { const c = r[i]; if (c) for (let j = 0; j < g.length; j++) r[i + j] ^= kali(g[j], c); }
+    return r.slice(data.length);
+  }
+  // [bilangan blok, data setiap blok, ECC setiap blok, pusat penjajaran]
+  const VER = [null, [1, 16, 10, []], [1, 28, 16, [6, 18]], [1, 44, 26, [6, 22]], [2, 32, 18, [6, 26]], [2, 43, 24, [6, 30]], [4, 27, 16, [6, 34]]];
+  function kodkata(bait, v) {
+    const [nb, nd, ne] = VER[v], muat = nb * nd, bit = [];
+    const tolak = (val, n) => { for (let i = n - 1; i >= 0; i--) bit.push((val >>> i) & 1); };
+    tolak(4, 4); tolak(bait.length, 8); bait.forEach(b => tolak(b, 8));
+    tolak(0, Math.min(4, muat * 8 - bit.length));
+    while (bit.length % 8) bit.push(0);
+    const d = []; for (let i = 0; i < bit.length; i += 8) d.push(parseInt(bit.slice(i, i + 8).join(''), 2));
+    for (let p = 0; d.length < muat; p ^= 1) d.push(p ? 0x11 : 0xEC);
+    const blok = []; for (let i = 0; i < nb; i++) blok.push(d.slice(i * nd, (i + 1) * nd));
+    const ecc = blok.map(b => rs(b, ne)), keluar = [];
+    for (let i = 0; i < nd; i++) blok.forEach(b => keluar.push(b[i]));
+    for (let i = 0; i < ne; i++) ecc.forEach(e => keluar.push(e[i]));
+    return keluar;
+  }
+  const TOPENG = [(x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, x => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => x * y % 2 + x * y % 3 === 0,
+    (x, y) => (x * y % 2 + x * y % 3) % 2 === 0, (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0];
+  function bina(v, cw, topeng) {
+    const n = 17 + 4 * v, m = [], f = [];
+    for (let y = 0; y < n; y++) { m.push(new Array(n).fill(0)); f.push(new Array(n).fill(false)); }
+    const set = (x, y, c) => { m[y][x] = c ? 1 : 0; f[y][x] = true; };
+    for (let i = 0; i < n; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+    [[3, 3], [n - 4, 3], [3, n - 4]].forEach(([cx, cy]) => {
+      for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+        const d = Math.max(Math.abs(dx), Math.abs(dy)), x = cx + dx, y = cy + dy;
+        if (x >= 0 && x < n && y >= 0 && y < n) set(x, y, d !== 2 && d !== 4);
+      }
+    });
+    const al = VER[v][3], L = al.length;
+    for (let i = 0; i < L; i++) for (let j = 0; j < L; j++) {
+      if ((i === 0 && j === 0) || (i === 0 && j === L - 1) || (i === L - 1 && j === 0)) continue;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(al[i] + dx, al[j] + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }
+    const format = mk => {
+      const d = (0 << 3) | mk; let r = d; // aras M = 00
+      for (let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+      const b = ((d << 10) | r) ^ 0x5412, bt = i => (b >>> i) & 1;
+      for (let i = 0; i <= 5; i++) set(8, i, bt(i));
+      set(8, 7, bt(6)); set(8, 8, bt(7)); set(7, 8, bt(8));
+      for (let i = 9; i < 15; i++) set(14 - i, 8, bt(i));
+      for (let i = 0; i < 8; i++) set(n - 1 - i, 8, bt(i));
+      for (let i = 8; i < 15; i++) set(8, n - 15 + i, bt(i));
+      set(8, n - 8, 1);
+    };
+    format(0);
+    let k = 0;
+    for (let kanan = n - 1; kanan >= 1; kanan -= 2) {
+      if (kanan === 6) kanan = 5;
+      for (let v2 = 0; v2 < n; v2++) for (let j = 0; j < 2; j++) {
+        const x = kanan - j, naik = ((kanan + 1) & 2) === 0, y = naik ? n - 1 - v2 : v2;
+        if (!f[y][x] && k < cw.length * 8) { m[y][x] = (cw[k >>> 3] >>> (7 - (k & 7))) & 1; k++; }
+      }
+    }
+    const cuba = mk => {
+      const t = m.map(r => r.slice());
+      for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!f[y][x] && TOPENG[mk](x, y)) t[y][x] ^= 1;
+      const m0 = m.map(r => r.slice()); for (let y = 0; y < n; y++) m[y] = t[y]; format(mk);
+      const hasil = m.map(r => r.slice()); for (let y = 0; y < n; y++) m[y] = m0[y];
+      return hasil;
+    };
+    if (topeng != null) return cuba(topeng);
+    let terbaik = null, skor = Infinity;
+    for (let mk = 0; mk < 8; mk++) { const t = cuba(mk), p = penalti(t); if (p < skor) { skor = p; terbaik = t; } }
+    return terbaik;
+  }
+  function penalti(t) {
+    const n = t.length; let p = 0, gelap = 0;
+    const baris = i => t[i], lajur = i => t.map(r => r[i]);
+    const corak = [[1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1]];
+    for (let i = 0; i < n; i++) for (const a of [baris(i), lajur(i)]) {
+      let run = 1;
+      for (let j = 1; j <= n; j++) { if (j < n && a[j] === a[j - 1]) run++; else { if (run >= 5) p += run - 2; run = 1; } }
+      for (let j = 0; j + 11 <= n; j++) for (const c of corak) if (c.every((b, q) => a[j + q] === b)) p += 40;
+    }
+    for (let y = 0; y < n - 1; y++) for (let x = 0; x < n - 1; x++) { const c = t[y][x]; if (c === t[y][x + 1] && c === t[y + 1][x] && c === t[y + 1][x + 1]) p += 3; }
+    t.forEach(r => r.forEach(c => { gelap += c; }));
+    return p + (Math.ceil(Math.abs(gelap * 20 - n * n * 10) / (n * n)) - 1) * 10;
+  }
+  function matriks(teks, topeng) {
+    const bait = Array.from(new TextEncoder().encode(String(teks)));
+    let v = 1; while (v <= 6 && VER[v][0] * VER[v][1] - 2 < bait.length) v++;
+    if (v > 6) throw new Error('Teks terlalu panjang untuk QR');
+    return bina(v, kodkata(bait, v), topeng);
+  }
+  function svg(teks, sisi) {
+    const t = matriks(teks), n = t.length, s = n + 8; let d = '';
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (t[y][x]) d += 'M' + (x + 4) + ',' + (y + 4) + 'h1v1h-1z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + s + ' ' + s + '" width="' + (sisi || 200) + '" height="' + (sisi || 200) + '" shape-rendering="crispEdges" role="img" aria-label="Kod QR"><rect width="' + s + '" height="' + s + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>';
+  }
+  return { svg: svg, matriks: matriks };
+})();
+
+</script>
+<script>
 // ===== RAMALAN UASA D4–D6 (Jabatan Kandungan, 17 Nov 2026) =====
 // Topik premium sahaja (Hulubalang/Panglima/Laksamana). Soalan setara asal — BUKAN salinan kertas sebenar/penerbit.
 var RMT = {"4": [["e", "38 406 + 27 859 = ___", "66 265", "66 165", "67 265", "66 255"], ["e", "70 000 − 42 385 = ___", "27 615", "27 625", "26 615", "27 715"], ["e", "2 315 × 24 = ___", "55 560", "46 300", "55 800", "53 245"], ["e", "9 456 ÷ 8 = ___", "1 182", "1 192", "1 082", "11 820"], ["e", "Bundarkan 64 573 kepada ribu yang terdekat.", "65 000", "64 000", "64 600", "60 000"], ["e", "Nilai digit 7 dalam nombor 57 219 ialah ___", "7 000", "700", "70 000", "7"], ["e", "2/5 + 3/10 = ___", "7/10", "5/15", "5/10", "7/20"], ["e", "6.4 − 2.75 = ___", "3.65", "4.35", "3.75", "4.65"], ["e", "0.07 ditulis sebagai peratus ialah ___", "7%", "70%", "0.7%", "0.07%"], ["e", "3 kg 45 g = ___ g", "3 045", "3 450", "345", "3 405"], ["e", "2 jam 25 minit = ___ minit", "145", "125", "225", "85"], ["e", "Waktu 1745 dalam sistem 24 jam bersamaan ___", "5.45 petang", "7.45 petang", "5.45 pagi", "17.45 pagi"], ["l", "Sebuah kedai menjual 4 kotak pensel. Setiap kotak berisi 1 250 batang. Kedai itu ada 875 batang pensel lagi di stor. Berapakah jumlah pensel kedai itu?", "5 875", "5 000", "6 750", "2 125"], ["l", "Puan Lina ada RM250. Dia membeli 3 pasang kasut sekolah berharga RM48.90 sepasang. Berapakah baki wangnya?", "RM103.30", "RM201.10", "RM146.70", "RM113.30"], ["l", "Bas bertolak pada pukul 0915 dan tiba pada pukul 1240. Berapa lamakah perjalanan bas itu?", "3 jam 25 minit", "3 jam 35 minit", "2 jam 25 minit", "3 jam 15 minit"], ["l", "3/8 daripada 40 orang murid suka bola sepak. Berapa orang murid suka bola sepak?", "15", "12", "24", "8"], ["l", "Sebuah segi empat tepat berukuran 14 cm panjang dan 9 cm lebar. Hitung perimeternya.", "46 cm", "23 cm", "126 cm", "32 cm"], ["l", "Sebuah segi empat sama mempunyai sisi 11 cm. Berapakah luasnya?", "121 cm²", "44 cm²", "22 cm²", "110 cm²"], ["l", "Setiap botol berisi 1.5 ℓ jus. Berapakah jumlah isi padu jus dalam 6 botol?", "9 ℓ", "7.5 ℓ", "6.5 ℓ", "90 ℓ"], ["l", "Seutas reben sepanjang 3 m dipotong kepada 4 bahagian sama panjang. Berapakah panjang setiap bahagian dalam cm?", "75 cm", "7.5 cm", "0.75 cm", "34 cm"], ["l", "Titik P berada pada koordinat (3, 5). Titik Q berada 4 unit ke kanan P. Apakah koordinat Q?", "(7, 5)", "(3, 9)", "(7, 9)", "(4, 5)"], ["l", "Nisbah bilangan guli merah kepada guli biru ialah 1 : 3. Jika ada 6 guli merah, berapakah guli biru?", "18", "2", "9", "24"], ["l", "Carta palang: Isnin 12 buku, Selasa 8 buku, Rabu 15 buku dipinjam. Berapakah beza hari paling banyak dengan paling sedikit?", "7", "3", "4", "35"], ["l", "40% daripada 200 biji telur pecah. Berapakah telur yang TIDAK pecah?", "120", "80", "160", "40"], ["m", "Encik Ravi membeli 1 250 biji durian dan 2 870 biji rambutan. Dia menjual 1 945 biji buah. Berapa biji buah yang tinggal?", "2 175", ""], ["m", "Harga sebuah basikal RM385. Ayah membayar dengan 4 keping wang kertas RM100. Berapakah baki wang ayah, dalam RM?", "RM15", ""], ["m", "Sebuah bekas berisi 4 ℓ air. 1 ℓ 250 mℓ air dituang keluar. Berapa mℓ air yang tinggal?", "2750 ml", ""], ["m", "Filem bermula pukul 2.40 petang dan tamat 1 jam 55 minit kemudian. Pukul berapakah filem tamat? (cth: 4.35 petang)", "4.35 petang", "4.35|435 petang|4:35 petang|1635|16:35"], ["m", "Hitung: 12 000 − 4 385 + 2 019", "9 634", ""], ["m", "Seekor kucing berjisim 4 kg 300 g dan seekor lagi 3 kg 900 g. Berapakah jumlah jisim, dalam g?", "8200 g", ""], ["m", "Luas sebuah taman berbentuk segi empat tepat ialah 96 m². Panjangnya 12 m. Berapakah lebarnya, dalam m?", "8 m", ""], ["m", "3/4 daripada sebiji kek dimakan. Kek itu dipotong kepada 12 bahagian sama besar. Berapa bahagian yang TINGGAL?", "3", ""], ["m", "Nombor bulat terbesar yang dibundarkan kepada 45 000 (ribu terdekat) ialah ___", "45499", ""], ["m", "Hitung: 2.35 + 4.8 + 0.65", "7.8", ""]], "5": [["e", "476 380 + 358 947 = ___", "835 327", "834 327", "835 337", "735 327"], ["e", "1 000 000 − 263 478 = ___", "736 522", "736 532", "736 521", "737 522"], ["e", "4 036 × 125 = ___", "504 500", "500 464", "100 900", "504 625"], ["e", "Antara berikut, yang manakah nombor perdana?", "29", "27", "33", "39"], ["e", "2/3 × 9/10 = ___", "3/5", "18/13", "11/13", "2/5"], ["e", "3.6 × 0.8 = ___", "2.88", "28.8", "0.288", "2.98"], ["e", "15.36 ÷ 6 = ___", "2.56", "2.46", "25.6", "2.61"], ["e", "35% daripada 640 ialah ___", "224", "22.4", "2 240", "186"], ["e", "2.65 juta ditulis dalam angka ialah ___", "2 650 000", "265 000", "26 500 000", "2 065 000"], ["e", "3 abad 6 dekad = ___ tahun", "360", "306", "3 600", "36"], ["e", "4.08 kg = ___ g", "4 080", "408", "4 800", "40 800"], ["e", "Isi padu kuboid 8 cm × 5 cm × 3 cm ialah ___", "120 cm³", "16 cm³", "40 cm³", "79 cm³"], ["l", "Sebuah kilang menghasilkan 12 450 tin minuman sehari. Berapakah tin dihasilkan dalam 2 minggu?", "174 300", "24 900", "87 150", "149 400"], ["l", "Jisim 5 bungkus beras ialah 12.5 kg. Berapakah jisim 3 bungkus beras yang sama?", "7.5 kg", "2.5 kg", "37.5 kg", "9.5 kg"], ["l", "Purata markah 4 orang murid ialah 72. Jumlah markah 3 orang ialah 210. Berapakah markah murid keempat?", "78", "72", "70", "68"], ["l", "Adik menyimpan RM1 250 di bank dengan kadar faedah 4% setahun. Berapakah faedah yang diterima selepas setahun?", "RM50", "RM5", "RM500", "RM1 300"], ["l", "Encik Lim berumur 1/3 abad lebih 6 tahun. Berapakah umurnya?", "39 tahun", "36 tahun", "33 tahun", "42 tahun"], ["l", "Sebuah tangki berbentuk kubus bersisi 50 cm diisi penuh dengan air. Berapakah isi padu air dalam liter?", "125 ℓ", "12.5 ℓ", "1 250 ℓ", "150 ℓ"], ["l", "Jarak rumah ke sekolah 2.4 km. Faiz pergi dan balik setiap hari selama 5 hari. Berapakah jumlah jarak?", "24 km", "12 km", "4.8 km", "120 km"], ["l", "Sebuah poligon mempunyai 8 sisi. Apakah nama poligon itu?", "oktagon", "heksagon", "pentagon", "heptagon"], ["l", "Nisbah murid lelaki kepada perempuan ialah 2 : 3. Terdapat 40 orang murid kesemuanya. Berapakah murid perempuan?", "24", "16", "20", "30"], ["l", "Harga asal sebuah beg RM80. Kedai memberi diskaun 25%. Berapakah harga jualnya?", "RM60", "RM20", "RM55", "RM100"], ["l", "Pada satah Cartes, titik A (2, 7) dan titik B (9, 7). Setiap unit mewakili 1 km. Berapakah jarak AB?", "7 km", "9 km", "11 km", "2 km"], ["l", "Kereta api bertolak pukul 2245 dan tiba keesokan harinya pukul 0610. Berapa lamakah perjalanan itu?", "7 jam 25 minit", "8 jam 25 minit", "16 jam 25 minit", "7 jam 35 minit"], ["m", "Sebuah sekolah ada 1 248 murid. 3/8 daripada mereka menyertai kelab sains. Berapakah murid TIDAK menyertai kelab sains?", "780", ""], ["m", "Puan Aini membeli 2.4 kg daging dengan harga RM32.50 sekilogram. Berapakah dia perlu bayar, dalam RM?", "RM78", ""], ["m", "Purata jisim 5 biji tembikai ialah 3.2 kg. Hitung jumlah jisim kesemua tembikai, dalam kg.", "16 kg", ""], ["m", "Hitung isi padu sebuah kotak kuboid berukuran 12 cm panjang, 6 cm lebar dan 5 cm tinggi, dalam cm³.", "360", ""], ["m", "Hitung: 72 600 ÷ 15", "4 840", ""], ["m", "Sebuah kedai mendapat untung RM18 000 sebulan. 15% daripada untung itu disimpan. Berapakah simpanan sebulan, dalam RM?", "RM2700", ""], ["m", "Nombor perdana di antara 40 dan 50 ialah 41, 43 dan ___", "47", ""], ["m", "Tempoh 1 dekad 8 tahun bersamaan ___ bulan.", "216", ""], ["m", "Lily membaca 0.6 daripada sebuah buku 240 muka surat. Berapa muka surat lagi yang belum dibaca?", "96", ""], ["m", "Sebuah sekolah menerima 1.25 juta ringgit untuk membina dewan. RM875 000 sudah digunakan. Berapakah baki, dalam RM?", "RM375000", ""]], "6": [["e", "6 045 380 − 2 786 495 = ___", "3 258 885", "3 258 895", "3 257 885", "3 358 885"], ["e", "48 + 36 × 5 − 120 ÷ 4 = ___", "198", "390", "202", "270"], ["e", "Bundarkan 7 486 512 kepada ratus ribu terdekat.", "7 500 000", "7 400 000", "7 490 000", "8 000 000"], ["e", "5/6 − 1/4 = ___", "7/12", "4/2", "1/2", "2/3"], ["e", "3/4 ÷ 3 = ___", "1/4", "9/4", "1/12", "1/3"], ["e", "0.48 ÷ 0.06 = ___", "8", "0.8", "80", "0.08"], ["e", "1 3/5 ditulis sebagai peratus ialah ___", "160%", "135%", "16%", "1.6%"], ["e", "Isi padu 2.4 ℓ + 650 mℓ = ___", "3.05 ℓ", "3.5 ℓ", "2.465 ℓ", "8.9 ℓ"], ["e", "Mod bagi set data 5, 8, 3, 8, 6, 8, 5 ialah ___", "8", "5", "6", "3"], ["e", "Median bagi data 12, 7, 15, 9, 10 ialah ___", "10", "9", "15", "10.6"], ["e", "Julat bagi data 34, 18, 27, 41, 22 ialah ___", "23", "41", "18", "19"], ["e", "Nisbah 18 : 24 dalam sebutan terendah ialah ___", "3 : 4", "9 : 12", "4 : 3", "6 : 8"], ["l", "Harga kos sebuah telefon RM850. Peniaga menjualnya dengan untung 20%. Berapakah harga jualnya?", "RM1 020", "RM170", "RM870", "RM1 050"], ["l", "Sebuah bandar ada 2.4 juta penduduk. 35% ialah kanak-kanak. Berapakah bilangan kanak-kanak?", "840 000", "84 000", "1 560 000", "8 400 000"], ["l", "Encik Kamal meminjam RM5 000 dengan kadar faedah 6% setahun. Berapakah jumlah yang perlu dibayar selepas 1 tahun?", "RM5 300", "RM300", "RM5 060", "RM5 600"], ["l", "Harga sehelai baju RM60 dan dikenakan cukai jualan 10%. Berapakah harga yang dibayar?", "RM66", "RM6", "RM54", "RM70"], ["l", "Jejari sebuah bulatan ialah 7 cm. Berapakah diameternya?", "14 cm", "3.5 cm", "21 cm", "49 cm"], ["l", "Pada satah Cartes, titik P (1, 2) dan Q (5, 9). Hitung jarak mencancang dari P ke Q (unit).", "7", "4", "11", "5"], ["l", "Waktu di Kuala Lumpur 1430 hari Isnin. Waktu di London 8 jam lebih awal. Pukul berapa di London?", "0630 hari Isnin", "2230 hari Isnin", "0630 hari Selasa", "2230 hari Ahad"], ["l", "Nisbah wang Ali kepada wang Ben ialah 3 : 5. Wang Ben RM40. Berapakah jumlah wang mereka berdua?", "RM64", "RM24", "RM40", "RM120"], ["l", "Sebuah kotak mengandungi 4 bola merah dan 1 bola biru. Satu bola diambil secara rawak. Kemungkinan mendapat bola biru ialah ___", "kurang mungkin", "pasti", "sama mungkin", "lebih mungkin"], ["l", "Purata 3 nombor ialah 25. Dua nombor ialah 18 dan 30. Apakah nombor ketiga?", "27", "25", "24", "75"], ["l", "Sebuah kuboid berisi padu 480 cm³. Panjang 10 cm dan lebar 8 cm. Berapakah tingginya?", "6 cm", "48 cm", "4.8 cm", "8 cm"], ["l", "Sebuah kereta bergerak 3 jam 45 minit. Berapakah tempoh itu dalam minit?", "225 minit", "345 minit", "180 minit", "215 minit"], ["m", "Sebuah kedai membeli 120 biji tembikai dengan harga RM3.50 sebiji. Semuanya dijual dengan harga RM5 sebiji. Berapakah untung kedai itu, dalam RM?", "RM180", ""], ["m", "Hitung: 2.4 juta − 750 000 (beri jawapan dalam angka)", "1650000", ""], ["m", "Hitung: 36 + 64 ÷ 8 × 3 − 10", "50", ""], ["m", "Harga asal sebuah kamera RM1 200. Harga itu dikurangkan 15%. Berapakah harga baharu, dalam RM?", "RM1020", ""], ["m", "Markah 5 orang murid: 78, 85, 62, 90, 85. Hitung purata markah.", "80", ""], ["m", "Nisbah gula kepada tepung dalam resipi ialah 2 : 5. Jika 750 g tepung digunakan, berapakah g gula diperlukan?", "300 g", ""], ["m", "Sebuah kapal terbang bertolak pukul 2250 hari Jumaat dan tiba 9 jam 40 minit kemudian. Pukul berapakah ia tiba (sistem 24 jam)?", "0830", "08:30|8.30 pagi|0830 hari sabtu|8.30"], ["m", "Diameter sebuah roda ialah 56 cm. Berapakah jejarinya, dalam cm?", "28 cm", ""], ["m", "Data: 14, 9, 21, 9, 17. Hitung julat data itu.", "12", ""], ["m", "Puan Siti menyimpan RM8 000 dengan kadar faedah 3.5% setahun. Berapakah faedah selepas 1 tahun, dalam RM?", "RM280", ""]]};
@@ -9427,8 +9546,13 @@ const TOKP = {
   get(n) { return this.semua()[String(n || '').toLowerCase()] || ''; },
   set(n, t) { try { const m = this.semua(); m[String(n).toLowerCase()] = t; localStorage.setItem('sb.tok', JSON.stringify(m)); } catch (e) {} }
 };
-const denganTok = p => (p && p.nick && p.pin && !p.tok && p.a !== 'anak_tuntut' && TOKP.get(p.nick)) ? Object.assign({}, p, { tok: TOKP.get(p.nick) }) : p;
-const simpanTok = (p, j) => { if (j && j.tok && p && p.nick) TOKP.set(p.nick, j.tok); return j; };
+const denganTok = p => (p && p.nick && !p.tok && !p.token && TOKP.get(p.nick)) ? Object.assign({}, p, { tok: TOKP.get(p.nick) }) : p;
+const simpanTok = (p, j) => {
+  if (j && j.tok && p && p.nick) TOKP.set(p.nick, j.tok);
+  // Peranti tanpa PIN (log masuk melalui pautan) yang token-nya dibatalkan ibu bapa -> beritahu sekali
+  if (j && j.ok === 0 && !j.kunci && p && p.nick && !p.pin && p.tok && /PIN/.test(j.err || '')) { try { if (!sessionStorage.getItem('sb.putus')) { sessionStorage.setItem('sb.putus', '1'); setTimeout(() => toast('Peranti ini sudah dilog keluar. Minta ibu/bapa hantar pautan baharu dari halaman Akaun 📲'), 0); } } catch (e) {} }
+  return j;
+};
 async function apiGet(p) { p = denganTok(p); const r = await fetch(API + '?' + new URLSearchParams(p)); return simpanTok(p, await r.json()); }
 async function apiPost(b) { b = denganTok(b); const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(b) }); return simpanTok(b, await r.json()); }
 const MULT = { warrior: 1, epik: 2, legend: 3, mythic: 4 };
@@ -9573,7 +9697,7 @@ function premium(s, y, t, rank) {
     <p style="font-size:13.5px;color:var(--muted);margin:0 0 14px">Latihan tahap UASA tanpa had — <b>semua subjek bagi satu darjah</b> pilihan kamu. Tiada caj automatik; perbaharui bila tamat.</p>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
-      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div>${P ? `✅ Profil <b>${esc(P.nick)}</b> (Darjah ${P.darjah}) — kod akan ditebus untuk profil ini. <a href="${AKAUN.get() ? '#akaun' : '#ranking'}" style="font-weight:600">Tukar</a>` : `<b>Daftar / log masuk akaun ibu bapa</b> dan pilih profil anak — <a href="#akaun/daftar" style="font-weight:600">daftar percuma</a> atau <a href="#akaun" style="font-weight:600">log masuk</a>.`}</div></div>
+      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div>${P && P.akaun === 0 ? `⚠️ Profil <b>${esc(P.nick)}</b> belum dipautkan ke <b>akaun ibu bapa</b>. Premium memerlukan akaun ibu bapa (percuma) — <a href="${AKAUN.get() ? '#akaun' : '#akaun/daftar'}" style="font-weight:600">${AKAUN.get() ? 'pautkan profil ini' : 'daftar akaun & pautkan profil ini'}</a>.` : P ? `✅ Profil <b>${esc(P.nick)}</b> (Darjah ${P.darjah}) — kod akan ditebus untuk profil ini. <a href="${AKAUN.get() ? '#akaun' : '#ranking'}" style="font-weight:600">Tukar</a>` : `<b>Daftar / log masuk akaun ibu bapa</b> dan pilih profil anak — <a href="#akaun/daftar" style="font-weight:600">daftar percuma</a> atau <a href="#akaun" style="font-weight:600">log masuk</a>.`}</div></div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
           <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}</option>`).join('')}</select>
@@ -9592,7 +9716,7 @@ function premium(s, y, t, rank) {
       <div id="premsg" style="font-size:14px;margin-top:10px;color:var(--muted);text-align:center"></div>
       <div style="font-size:13px;color:var(--muted);margin-top:10px;border-top:1px solid var(--line);padding-top:10px">🛡️ Perajurit kekal <b>percuma selamanya</b>. Premium membuka Hulubalang, Panglima &amp; Laksamana untuk akaun kamu — kekal di semua peranti.</div>
     </div>
-    <p style="font-size:12.5px;color:var(--muted)">Perlu akaun berdaftar dahulu (percuma). Status premium disimpan pada nama samaran kamu — kekal di semua peranti.</p>
+    <p style="font-size:12.5px;color:var(--muted)">Premium memerlukan <b>akaun ibu bapa</b> (percuma) — supaya pembelian diurus oleh ibu bapa dan emel peringatan dihantar sebelum tamat. Status Premium disimpan pada profil anak — kekal di semua peranti.</p>
   </section>`;
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
   const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkwa').href = waURL(d, pelan); $('#pkwapl').textContent = NAMA_PELAN[pelan] + ' RM' + hargaRM(pelan); };
@@ -9611,6 +9735,7 @@ function premium(s, y, t, rank) {
       const pakej = +$('#pkdarjah').value;
       const r = await apiPost({ a: 'tebus', nick: P.nick, pin: P.pin, darjah: P.darjah, kod, pakej });
       if (r.ok) { P.premium = 1; P.tamat = r.tamat || ''; P.pakej = r.pakej || pakej; PLAYER.set(P); msg(''); toast(r.kempen ? ('🎉 AKSES PERCUMA Darjah ' + P.pakej + ' AKTIF sehingga ' + r.tamat + '!' + ((r.baki || r.baki === 0) ? ' Tinggal ' + r.baki + ' tempat.' : '') + ' Selamat belajar!') : ('👑 PREMIUM Darjah ' + P.pakej + ' AKTIF' + (r.tamat ? ' sehingga ' + r.tamat : '') + '! Selamat belajar!')); if (s && +P.pakej === +y) location.hash = `#d${y}/${s}/${t}/${rank}`; else if (s) location.hash = `#d${P.pakej}`; else location.hash = '#pilih'; }
+      else if (r.perluAkaun) { P.akaun = 0; PLAYER.set(P); const m = $('#premsg'); m.innerHTML = '⚠️ Premium memerlukan <b>akaun ibu bapa</b> (percuma). Minta ibu/bapa <a href="' + (AKAUN.get() ? '#akaun' : '#akaun/daftar') + '" style="font-weight:700">' + (AKAUN.get() ? 'pautkan profil ' : 'daftar akaun dan pautkan profil ') + esc(P.nick) + '</a>, kemudian tebus kod sekali lagi. Kod anda belum digunakan.'; }
       else msg('⚠️ ' + (r.err || 'Gagal'));
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
@@ -9626,7 +9751,7 @@ const AKAUN = {
   set(a) { try { if (a) localStorage.setItem('sb.akaun', JSON.stringify(a)); else localStorage.removeItem('sb.akaun'); } catch (e) {} butangAkaun(); }
 };
 function butangAkaun() { const b = document.getElementById('akaunbtn'); if (b) b.classList.toggle('masuk', !!AKAUN.get()); }
-function profilDari(a) { return { nick: a.nick, pin: String(a.pin), darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
+function profilDari(a) { return { nick: a.nick, pin: a.pin ? String(a.pin) : '', akaun: a.akaun === 0 ? 0 : 1, darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
 // Kemajuan disimpan ikut profil: tukar profil = simpan DB profil lama, muat DB profil baharu.
 // Profil pertama di peranti mewarisi kemajuan tanpa nama (sama seperti daftar biasa).
 function tukarProfil(a) {
@@ -9641,11 +9766,36 @@ function tukarProfil(a) {
     DB = n; store.set(DB);
   } catch (e) {}
 }
+// Ibu bapa pilih "Main sebagai X": pelayan beri token peranti (PIN tidak lagi didedahkan).
 async function pilihAnak(a) {
-  tukarProfil(a);
-  PLAYER.set(profilDari(a));
-  try { const r = await apiGet({ a: 'load', nick: a.nick, pin: a.pin }); if (r.ok) mergeAwan(r.data); } catch (e) {}
+  const A = AKAUN.get(); let r = null;
+  try { r = await apiPost({ a: 'anak_peranti', token: A && A.token, nick: a.nick }); } catch (e) { return false; }
+  if (!r || !r.ok) { if (r && r.sesi === 0) AKAUN.set(null); return false; }
+  const lama = PLAYER.get();
+  tukarProfil(r);
+  const P = profilDari(Object.assign({}, r, { akaun: 1 }));
+  if (lama && lama.pin && String(lama.nick).toLowerCase() === String(r.nick).toLowerCase()) P.pin = lama.pin;
+  PLAYER.set(P); mergeAwan(r.data);
   if (tuntutJumlah()) tuntutPending(PLAYER.get());
+  return true;
+}
+// Peranti anak buka pautan dari ibu bapa: #sambung/<kod>
+async function sambung(kod) {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  app.innerHTML = `<section class="wrap pagein" style="padding:40px 20px 60px;max-width:520px;text-align:center"><h1 style="margin:0 0 10px">📲 Menyambung peranti…</h1><p class="lead" id="smsg">Sebentar ya.</p></section>`;
+  const gagal = t => { const m = $('#smsg'); if (m) m.innerHTML = '⚠️ ' + esc(t) + '<br><br><a class="btn pri" href="#pilih" style="justify-content:center">Ke halaman utama</a>'; };
+  if (!apiOK()) return gagal('Sistem belum dibuka.');
+  try {
+    const r = await apiPost({ a: 'pautan_guna', kod });
+    if (!r.ok) return gagal(r.err || 'Pautan tidak sah.');
+    TOKP.set(r.nick, r.tok);
+    tukarProfil(r);
+    PLAYER.set(profilDari(Object.assign({}, r, { akaun: 1 })));
+    mergeAwan(r.data);
+    try { sessionStorage.removeItem('sb.putus'); } catch (e) {}
+    toast('Peranti ini kini log masuk sebagai ' + r.nick + '. Selamat belajar! 🚀');
+    location.replace('#d' + (+r.darjah || 1));
+  } catch (e) { gagal('Tiada sambungan internet. Cuba buka pautan sekali lagi.'); }
 }
 
 const EMEL_HUB = 'sudutbelajarpro@gmail.com';
@@ -9689,12 +9839,13 @@ function faq() {
     ${Q('4. Satu pakej untuk berapa orang anak?', `<p>Satu pakej untuk <b>seorang anak</b> (satu profil). Dalam satu akaun ibu bapa, anda boleh tambah profil untuk setiap anak dan beli pakej mengikut darjah masing-masing. Kemajuan dan ranking setiap anak disimpan berasingan.</p>`)}
     ${Q('5. Boleh tukar darjah selepas membeli?', `<p>Tidak. Setiap pakej khusus untuk darjah yang dipilih semasa membeli. Untuk darjah lain, sila beli pakej darjah tersebut. Pakej sedia ada kekal boleh digunakan sehingga tamat tempoh.</p><p>Tip: semasa cuti sekolah, pilih darjah tahun depan jika anak mahu bersedia lebih awal.</p>`)}
     ${Q('6. Ada caj automatik apabila tempoh tamat?', `<p><b>Tiada.</b> Setiap pakej ialah bayaran sekali. Apabila tamat, profil kembali ke Percuma — bintang, mata dan kemajuan anak <b>kekal</b>, dan anda boleh memperbaharui bila-bila masa.</p>`)}
-    ${Q('7. Bagaimana cara membayar?', `<p>Buat masa ini: pilih darjah dan pakej di halaman <a href="#premium">Premium</a>, kemudian tekan butang <b>WhatsApp</b>. Selepas bayaran disahkan, kami hantar <b>kod premium</b> — masukkan kod itu di halaman Premium semasa profil anak sedang dipilih.</p>`)}
+    ${Q('7. Bagaimana cara membayar?', `<p>Buat masa ini: pilih darjah dan pakej di halaman <a href="#premium">Premium</a>, kemudian tekan butang <b>WhatsApp</b>. Selepas bayaran disahkan, kami hantar <b>kod premium</b> — masukkan kod itu di halaman Premium semasa profil anak sedang dipilih.</p><p>Premium memerlukan <b>akaun ibu bapa</b> (percuma). Jika anak bermula dengan nama samaran + PIN, pautkan profilnya ke akaun ibu bapa dahulu.</p>`)}
+    ${Q('7a. Adakah saya diberitahu sebelum Premium tamat?', `<p>Ya. Kami menghantar <b>emel peringatan</b> ke emel akaun ibu bapa <b>14 hari, 7 hari dan 1 hari</b> sebelum Premium tamat. Tiada caj automatik — anda pilih sama ada mahu memperbaharui.</p>`)}
     ${Q('8. Boleh minta wang dikembalikan?', `<p>Tiada pulangan wang selepas pembelian. Kami galakkan anak mencuba tahap <b>Perajurit</b> percuma dahulu untuk melihat jenis soalan sebelum membeli Premium.</p>`)}
     <h2>Akaun, keselamatan &amp; bantuan</h2>
     ${Q('9. Adakah Sudut Belajar selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan <b>nama glamour pilihan anak</b> (bukan nama sebenar), darjah, mata dan nama sekolah jika diisi. Emel ibu bapa tidak pernah dipaparkan. Butiran: <a href="#privasi">Notis Privasi</a>.</p>`)}
     ${Q('10. Bagaimana jika terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. <b>Kod 6 angka</b> akan dihantar ke emel ibu bapa (sah 30 minit). Masukkan kod itu dan pilih kata laluan baharu. Premium dan kemajuan anak tidak terjejas.</p>`)}
-    ${Q('11. Boleh guna di telefon dan komputer?', `<p>Boleh. Log masuk dengan emel dan kata laluan ibu bapa di mana-mana peranti, kemudian pilih profil anak. Premium ikut profil anak, bukan peranti.</p><p>Kemajuan disimpan ke awan secara automatik selepas kuiz. Pastikan peranti bersambung ke internet semasa kuiz tamat.</p>`)}
+    ${Q('11. Boleh guna di telefon dan komputer?', `<p>Boleh. Log masuk dengan emel dan kata laluan ibu bapa di mana-mana peranti, kemudian pilih profil anak. Premium ikut profil anak, bukan peranti.</p><p><b>Tablet atau telefon anak sendiri?</b> Di halaman Akaun, tekan <b>📲 Hantar ke peranti anak</b>, kemudian imbas kod QR dengan kamera peranti anak (atau hantar pautannya). Peranti itu terus log masuk sebagai profil anak — tanpa kata laluan dan tanpa PIN. Pautan sah 24 jam dan sekali guna sahaja.</p><p>Kemajuan disimpan ke awan secara automatik selepas kuiz. Pastikan peranti bersambung ke internet semasa kuiz tamat.</p>`)}
     ${Q('12. Anak saya sudah ada nama samaran + PIN. Perlu daftar semula?', `<p>Tidak perlu. Selepas buat akaun ibu bapa, pilih <b>Pautkan profil sedia ada</b> dan masukkan nama samaran + PIN lama. Mata, bintang dan Premium dibawa bersama.</p>`)}
     ${Q('13. Bila ranking Dewan Juara bermula semula?', `<p>Ranking berjalan ikut <b>musim ${tt('musim_bulan')} bulan</b>. Musim 1 bermula ${tarikhPenuh(tt('musim_mula'))}. Pada akhir setiap musim, pemain <b>👑 Premium</b> dengan mata tertinggi dalam ranking keseluruhan menerima <b>hadiah misteri</b> 🎁. Kemudian papan mata bermula semula. Bintang dan kemajuan anak tidak hilang.</p>`)}
     ${k && k.kod ? Q('14. Apa itu kod kempen ' + esc(k.kod) + '?', `<p>Kod kempen pelancaran: ${k.had ? k.had + ' pengguna terawal' : 'pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.mula ? `, mulai ${tarikhPenuh(k.mula)}` : ''}${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Satu profil sekali sahaja. Masukkan kod di halaman Premium.</p>`) : ''}
@@ -9798,7 +9949,8 @@ function akaun(mod) {
     <div id="alist">${anak.length ? anak.map((a, i) => {
       const aktif = P && P.nick.toLowerCase() === a.nick.toLowerCase();
       return `<div class="anak${aktif ? ' aktif' : ''}"><div class="an"><b>${esc(a.nick)}</b><span>Darjah ${+a.darjah}${a.sekolah ? ' · ' + esc(a.sekolah) : ''}</span><span>${statusAnak(a)}</span></div>
-        ${aktif ? '<span style="font-weight:800;color:var(--ok)">✓ Sedang main</span>' : `<button class="btn pri" data-pilih="${i}" style="padding:10px 16px">▶ Main sebagai ${esc(a.nick)}</button>`}</div>`;
+        ${aktif ? '<span style="font-weight:800;color:var(--ok)">✓ Sedang main</span>' : `<button class="btn pri" data-pilih="${i}" style="padding:10px 16px">▶ Main sebagai ${esc(a.nick)}</button>`}
+        <div class="alat"><button type="button" class="linkbtn" data-hantar="${i}">📲 Hantar ke peranti anak</button><button type="button" class="linkbtn" data-tpin="${i}">🔑 Tetapkan PIN</button></div><div class="apanel" id="apanel${i}" hidden></div></div>`;
     }).join('') : '<p style="color:var(--muted)">Belum ada profil anak. Tambah di bawah.</p>'}</div>
     ${anak.length < 5 ? `<details class="alipat"${anak.length ? '' : ' open'}><summary>＋ Tambah profil anak</summary>
       <form id="ftambah" novalidate style="margin-top:12px">
@@ -9821,7 +9973,48 @@ function akaun(mod) {
   const tamatSesi = r => { if (r && r.sesi === 0) { AKAUN.set(null); toast('Sesi tamat. Sila log masuk semula.'); akaun(); return true; } return false; };
   const kemas = r => { const A2 = AKAUN.get(); if (A2) { A2.anak = r.anak || []; AKAUN.set(A2); } };
   $('#akeluar').onclick = async () => { const t = A.token; AKAUN.set(null); try { await apiPost({ a: 'akaun_keluar', token: t }); } catch (e) {} toast('Log keluar. Jumpa lagi! 👋'); akaun(); };
-  app.querySelectorAll('[data-pilih]').forEach(b => b.onclick = async () => { const a = anak[+b.dataset.pilih]; b.disabled = true; await pilihAnak(a); toast('Selamat belajar, ' + a.nick + '! 🚀'); location.hash = '#d' + a.darjah; });
+  app.querySelectorAll('[data-pilih]').forEach(b => b.onclick = async () => { const a = anak[+b.dataset.pilih]; b.disabled = true; if (!(await pilihAnak(a))) { b.disabled = false; if (!AKAUN.get()) { toast('Sesi tamat. Sila log masuk semula.'); return akaun(); } return msg('⚠️ Tidak dapat menyambung. Semak internet dan cuba lagi.'); } toast('Selamat belajar, ' + a.nick + '! 🚀'); location.hash = '#d' + a.darjah; });
+  const panel = (i, html) => { app.querySelectorAll('.apanel').forEach(x => { if (x.id !== 'apanel' + i) { x.hidden = true; x.innerHTML = ''; } }); const el = $('#apanel' + i); el.innerHTML = html; el.hidden = !html; return el; };
+  app.querySelectorAll('[data-hantar]').forEach(b => b.onclick = async () => {
+    const i = +b.dataset.hantar, a = anak[i];
+    panel(i, 'Menjana pautan…');
+    try {
+      const r = await apiPost({ a: 'pautan_buat', token: A.token, nick: a.nick });
+      if (tamatSesi(r)) return;
+      if (!r.ok) return panel(i, '⚠️ ' + esc(r.err || 'Gagal'));
+      const url = location.origin + location.pathname + '#sambung/' + r.kod;
+      const teks = 'Pautan Sudut Belajar untuk ' + a.nick + ' (buka pada tablet/telefon anak, sah 24 jam, sekali guna): ' + url;
+      let qr = ''; try { qr = QR.svg(url, 200).replace('<svg ', '<svg class="qr" '); } catch (e) {}
+      const el = panel(i, `<b>Hantar ke peranti ${esc(a.nick)}</b>
+        <p style="margin:6px 0 4px">Pada tablet atau telefon anak, <b>imbas kod QR ini dengan kamera</b> — atau hantar pautan di bawah. Peranti itu terus log masuk sebagai <b>${esc(a.nick)}</b>, tanpa PIN.</p>${qr}
+        <input readonly value="${esc(url)}" aria-label="Pautan untuk peranti anak">
+        <div class="bt"><button type="button" class="btn pri" data-salin style="padding:8px 14px;font-size:14px">📋 Salin pautan</button><a class="btn sec" href="https://wa.me/?text=${encodeURIComponent(teks)}" target="_blank" rel="noopener" style="padding:8px 14px;font-size:14px">💬 Hantar melalui WhatsApp</a></div>
+        <p style="font-size:12.5px;color:var(--muted);margin:10px 0 0">⏳ Sah <b>24 jam</b> dan <b>sekali guna</b> sahaja. 🔒 Hantar terus ke peranti anak — <b>jangan kongsi dalam kumpulan</b>, kerana sesiapa yang membukanya dahulu akan log masuk sebagai ${esc(a.nick)}.</p>`);
+      el.querySelector('input').onclick = ev => ev.target.select();
+      el.querySelector('[data-salin]').onclick = async ev => { try { await navigator.clipboard.writeText(url); ev.target.textContent = '✅ Disalin'; } catch (e) { const t = el.querySelector('input'); t.select(); ev.target.textContent = 'Tekan Ctrl+C / Salin'; } };
+    } catch (e) { panel(i, '⚠️ Tiada sambungan internet'); }
+  });
+  app.querySelectorAll('[data-tpin]').forEach(b => b.onclick = () => {
+    const i = +b.dataset.tpin, a = anak[i];
+    const el = panel(i, `<b>Tetapkan PIN baharu untuk ${esc(a.nick)}</b>
+      <p style="margin:6px 0 8px">PIN digunakan jika anak log masuk dengan <b>nama samaran + PIN</b> (halaman Ranking). PIN lama tidak boleh dilihat — hanya boleh ditukar. Selepas ditukar, <b>semua peranti lain yang log masuk sebagai ${esc(a.nick)} akan dilog keluar</b>.</p>
+      <form data-fpin novalidate><input type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="PIN baharu (4 angka)" aria-label="PIN baharu 4 angka" required>
+      <div class="bt"><button class="btn pri" type="submit" style="padding:8px 14px;font-size:14px">Simpan PIN</button></div></form>`);
+    el.querySelector('form').onsubmit = async ev => {
+      ev.preventDefault();
+      const pin = el.querySelector('input').value.trim();
+      if (!/^\d{4}$/.test(pin)) return msg('⚠️ PIN mesti 4 angka.');
+      const P0 = PLAYER.get(), sini = P0 && P0.nick.toLowerCase() === a.nick.toLowerCase();
+      msg('Sebentar…', true);
+      try {
+        const r = await apiPost({ a: 'anak_pin', token: A.token, nick: a.nick, pin, sini: sini ? 1 : 0 });
+        if (tamatSesi(r)) return;
+        if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
+        if (sini) { P0.pin = pin; PLAYER.set(P0); }
+        kemas(r); panel(i, ''); msg('✅ PIN baharu untuk ' + a.nick + ' disimpan. Peranti lain telah dilog keluar — guna "Hantar ke peranti anak" untuk menyambung semula.', true);
+      } catch (e) { msg('⚠️ Tiada sambungan internet'); }
+    };
+  });
   const tambah = $('#ftambah');
   if (tambah) tambah.onsubmit = async ev => {
     ev.preventDefault();
@@ -9843,7 +10036,8 @@ function akaun(mod) {
       const r = await apiPost({ a: 'anak_tuntut', token: A.token, nick, pin });
       if (tamatSesi(r)) return;
       if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
-      kemas(r); toast('Profil ' + nick + ' dipautkan! 🔗'); akaun();
+      kemas(r); const P3 = PLAYER.get(); if (P3 && P3.nick.toLowerCase() === nick.toLowerCase()) { P3.akaun = 1; PLAYER.set(P3); }
+      toast('Profil ' + nick + ' dipautkan! 🔗'); akaun();
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
   const paut = $('#fpaut');
@@ -10214,6 +10408,7 @@ function route() {
   if (h === 'ranking') return ranking();
   if (h === 'akaun') return akaun();
   if (h === 'akaun/daftar' || h === 'akaun/masuk') return akaun(h.slice(6));
+  if ((m = /^sambung\/([0-9a-fA-F]{20})$/.exec(h))) return sambung(m[1]);
   if (h === 'mula') return mula();
   if (h === 'faq') return faq();
   if (h === 'privasi') return privasi();
@@ -10241,7 +10436,7 @@ route = function () { _route0(); homeLB(); MUZIK.main(); };
     if (Date.now() - last < 20 * 3600 * 1000) return;
     localStorage.setItem('sb.premchk', String(Date.now()));
     const r = await apiGet({ a: 'load', nick: P.nick, pin: P.pin });
-    if (r.ok) { P.premium = r.premium ? 1 : 0; P.tamat = r.tamat || ''; P.pakej = r.pakej || 0; PLAYER.set(P); if (!r.premium) toast('Tempoh Premium kamu telah tamat. Perbaharui di halaman Premium 👑'); }
+    if (r.ok) { P.premium = r.premium ? 1 : 0; P.tamat = r.tamat || ''; P.pakej = r.pakej || 0; if ('akaun' in r) P.akaun = r.akaun ? 1 : 0; PLAYER.set(P); if (!r.premium) toast('Tempoh Premium kamu telah tamat. Perbaharui di halaman Premium 👑'); }
   } catch (e) {}
 })();
 window.addEventListener('hashchange', route);

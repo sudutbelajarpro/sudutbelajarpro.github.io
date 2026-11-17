@@ -376,6 +376,22 @@ footer p+p{margin-top:6px}
 .rp.got{filter:none;opacity:1;background:color-mix(in srgb,var(--r1) 14%,#fff);color:var(--r1)}
 .tp.mix .rp{background:rgba(255,255,255,.22);color:#fff;filter:none;opacity:.9}
 .ranks{display:grid;gap:14px;padding-bottom:40px}
+.kemjejak{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.kemjejak span{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
+.kemjejak span.siap{background:rgba(255,255,255,.92);color:#2e7d32}
+.kemjejak span.kini{background:#fff3b0;color:#5d4037;box-shadow:0 0 0 2px #fff inset;animation:kemdenyut 1.6s ease-in-out infinite}
+.kemjejak .kemtrofi{background:#ffd54f!important;color:#5d4037!important}
+@keyframes kemdenyut{50%{transform:scale(1.06)}}
+.qlabel .kemchip{background:linear-gradient(120deg,#20bf6b,#2d98da);color:#fff;font-weight:700}
+.kemban{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 0 12px;padding:12px 16px;border-radius:18px;background:linear-gradient(120deg,#e8f8ef,#e3f2fd);border:2px dashed #20bf6b;font-size:17px;text-align:center;animation:kemmasuk .5s ease-out}
+.kemban span{font-size:13.5px;color:var(--muted)}
+@keyframes kemmasuk{from{opacity:0;transform:translateY(-8px) scale(.96)}}
+.kemres{margin:14px auto 4px;max-width:480px;padding:12px 14px;border-radius:18px;background:linear-gradient(120deg,#e8f8ef,#e3f2fd);display:flex;flex-direction:column;gap:6px;align-items:center;font-size:15px}
+.kemres span{font-size:13px;color:var(--muted)}
+.kemjejak.besar{justify-content:center;margin:0}
+.kemjejak.besar span{background:#dfe6e9;color:#636e72;font-size:13.5px}
+.kemjejak.besar span.siap{background:#20bf6b;color:#fff}
+@media (prefers-reduced-motion:reduce){.kemjejak span.kini,.kemban{animation:none}}
 .rk{display:flex;align-items:center;gap:18px;padding:22px;border-radius:24px;color:#fff;text-decoration:none;background:linear-gradient(120deg,var(--r1),var(--r2));box-shadow:var(--shadow-lg);position:relative;overflow:hidden;transition:transform .15s}
 .rk::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.12);right:-50px;top:-80px}
 .rk:hover{transform:translateY(-3px) scale(1.01)}
@@ -13203,7 +13219,7 @@ async function tuntutPending(P, el) {
 }
 // Simpan awan automatik: selepas kuiz (paling kerap sekali seminit) + semasa tutup/tukar tab
 const AUTO = { kotor: false, akhir: 0, t: null };
-function dataAwan() { return JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }); }
+function dataAwan() { return JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best, kem: DB.kem || {} }); }
 // ---- STATISTIK untuk dashboard ibu bapa: disimpan ikut profil, ringkas (lihat code.gs statGabung_) ----
 const STAT = {
   kunci(nick) { return 'sb.stat:' + String(nick || '').toLowerCase(); },
@@ -13266,6 +13282,12 @@ function mergeAwan(data) {
   if (!o || typeof o !== 'object') return 0;
   const st = (o.stars && typeof o.stars === 'object') ? o.stars : {};
   for (const k in st) { if ((st[k] | 0) > (DB.stars[k] | 0)) DB.stars[k] = st[k] | 0; }
+  // kedudukan Kembara: ambil yang lebih jauh (dua peranti tak saling undur)
+  try {
+    const km = (o.kem && typeof o.kem === 'object') ? o.kem : {};
+    DB.kem = DB.kem || {};
+    for (const k in km) { const v = Math.min(km[k] | 0, 9999); if (v > (DB.kem[k] | 0)) DB.kem[k] = v; }
+  } catch (e) {}
   // rekod peribadi: ambil yang lebih tinggi
   try {
     const bs = (o.best && typeof o.best === 'object') ? o.best : {};
@@ -13942,7 +13964,7 @@ function ranks(s, y, t) {
       <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih tahap kamu</div></div>
     ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
     <div class="ranks">${RANKS_UNTUK(t).map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !pakejOK(y) ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
-      <div class="rkic">${rkImg(r)}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700;white-space:nowrap;display:inline-block">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p></div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
+      <div class="rkic">${rkImg(r)}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700;white-space:nowrap;display:inline-block">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p>${r.prem && !pakejOK(y) ? '' : kemJejak(s, y, t, r.id)}</div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
   </div>`;
   window.scrollTo(0, 0);
 }
@@ -13978,10 +14000,11 @@ function quiz(s, y, t, rank) {
   if (RK.prem && !pakejOK(y)) return premium(s, y, t, rank);
   const S = subjBy(s), E = ENG[s]; setTheme(S); const R = RK;
   const genRank = rank === 'warrior' ? 'epik' : rank;
-  // Kitaran: soalan yang belum pernah keluar didahulukan (set 1 → 2 → 3), mula semula bila semua sudah keluar
-  let list = pilihKitaran(`${s}.${y}.${t}.${rank}`, E.round ? E.round(y, t, 60, genRank) : SB.round(y, t, 40, genRank, E.gen), 10);
+  // Kembara: 3 set tetap (🌴 Rimba → 🌊 Lautan → ⛰️ Puncak) — sama di semua peranti; kedudukan disimpan ke awan (DB.kem)
+  const KI = kemInfo(s, y, t, rank);
+  let list = kemSenarai(KI, 10);
   if (rank === 'warrior') list = list.map(q => { if (!q.opts || q.opts.length < 3) return q; const w = q.opts.filter(o => o !== q.ans); const pair = [q.ans, w[Math.floor(Math.random() * w.length)]]; if (Math.random() < .5) pair.reverse(); return Object.assign({}, q, { opts: pair }); });
-  Q = { s, y, t, rank, list, i: 0, score: 0, wrong: [], lock: false, mula: Date.now() };
+  Q = { s, y, t, rank, list, i: 0, score: 0, wrong: [], lock: false, mula: Date.now(), kem: KI };
   document.body.classList.add('inquiz');
   app.innerHTML = `<div class="wrap"><div class="quiz">
     <div class="qtop"><a class="x" href="#d${y}/${s}/${t}" aria-label="Keluar">✕</a><div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div></div>
@@ -13997,7 +14020,8 @@ function showQ() {
     ? `<form class="typed" id="tform" autocomplete="off"><input id="tin" class="tin" placeholder="${esc(hintFor(q))}" autocapitalize="off" spellcheck="false" inputmode="${/^[\d{]|^RM/.test(q.ans) && !/[a-z]{3}/i.test(q.ans.replace(/^RM/, '')) ? 'decimal' : 'text'}"><button class="btn pri" type="submit">Semak ✓</button></form>`
     : `<div class="opts">${q.opts.map((o, i) => `<button class="opt ${q.small ? 'small' : ''}" data-i="${i}"><span class="k">${'ABCD'[i]}</span>${rf(o)}</button>`).join('')}</div>`;
   $('#qbox').innerHTML = `
-    <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span><span>✅ ${Q.score}</span>${chipStreak_()}</div>
+    <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span>${Q.kem && Q.kem.ns === 3 ? `<span class="kemchip">${KEM[Q.kem.set].ic} Set ${Q.kem.set + 1} · ${KEM[Q.kem.set].n}</span>` : ''}<span>✅ ${Q.score}</span>${chipStreak_()}</div>
+    ${Q.i === 0 && Q.kem && Q.kem.ns === 3 ? `<div class="kemban">${KEM[Q.kem.set].ic} <b>Kembara Set ${Q.kem.set + 1}: ${KEM[Q.kem.set].n}</b><span>${['Mula kembara! 10 soalan menanti di rimba.', '10 soalan baharu di lautan!', 'Set terakhir — tawan puncak!'][Q.kem.set]}</span></div>` : ''}
     <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${body}</div>
     <div class="fb" id="fb"></div>`;
   Q.lock = false;
@@ -14026,26 +14050,45 @@ function answer(x) {
   fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else result(); }
-const LIHAT = { get() { try { return JSON.parse(localStorage.getItem('sb.lihat') || '{}'); } catch (e) { return {}; } }, set(o) { try { localStorage.setItem('sb.lihat', JSON.stringify(o)); } catch (e) {} } };
+// ---------------- KEMBARA (3 set tetap setiap topik & tahap) ----------------
+const KEM = [{ ic: '🌴', n: 'Rimba' }, { ic: '🌊', n: 'Lautan' }, { ic: '⛰️', n: 'Puncak' }];
+try { localStorage.removeItem('sb.lihat'); } catch (e) {} // sistem lama (sejarah dalam peranti sahaja)
 const cincang_ = x => { let h = 5381; for (let i = 0; i < x.length; i++) h = (h * 33 + x.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
-function pilihKitaran(kunci, calon, n) {
-  const sedia = [], ada = new Set();
-  (calon || []).forEach(q => { const h = cincang_(String(q.q).replace(/<svg[\s\S]*?<\/svg>/g, '') + '|' + q.ans); if (!ada.has(h)) { ada.add(h); sedia.push([h, q]); } });
-  if (!sedia.length) return calon || [];
-  const L = LIHAT.get(); let lihat = Array.isArray(L[kunci]) ? L[kunci] : [];
-  let pilih = sedia.filter(([h]) => !lihat.includes(h));
-  if (pilih.length < n) {
-    const lama = sedia.filter(([h]) => lihat.includes(h)).sort((a, b) => lihat.indexOf(a[0]) - lihat.indexOf(b[0]));
-    pilih = pilih.concat(lama.slice(0, n - pilih.length)); lihat = [];
-  }
-  pilih = pilih.slice(0, n);
-  while (pilih.length < n && sedia.length) pilih.push(sedia[pilih.length % sedia.length]);
-  L[kunci] = lihat.concat(pilih.map(x => x[0])).slice(-60); LIHAT.set(L);
-  return pilih.map(x => x[1]);
+function benih_(str) { let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; } let a = h >>> 0; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function denganBenih_(kunci, fn) { const asal = Math.random; Math.random = benih_(kunci); try { return fn(); } finally { Math.random = asal; } }
+function kemPool_(s, y, t, rank, benih) {
+  const E = ENG[s], gr = rank === 'warrior' ? 'epik' : rank;
+  return denganBenih_(`${s}.${y}.${t}.${rank}#${benih}`, () => {
+    const calon = E.round ? E.round(y, t, 60, gr) : SB.round(y, t, 40, gr, E.gen), sedia = [], ada = new Set();
+    (calon || []).forEach(q => { const h = cincang_(String(q.q).replace(/<svg[\s\S]*?<\/svg>/g, '') + '|' + q.ans); if (!ada.has(h)) { ada.add(h); sedia.push(q); } });
+    return sedia;
+  });
+}
+const KEM_NS = {};
+function kemInfo(s, y, t, rank) {
+  const k = `${s}.${y}.${t}.${rank}`, n = (DB.kem && DB.kem[k]) | 0;
+  let pool = kemPool_(s, y, t, rank, 'k' + Math.floor(n / 3));
+  const ns = Math.max(1, Math.min(3, Math.floor(pool.length / 10))); KEM_NS[k] = ns;
+  if (ns < 3) pool = kemPool_(s, y, t, rank, 'p' + n); // kurang 30 soalan: kocok baharu setiap pusingan
+  return { k, n, ns, set: n % ns, kitaran: Math.floor(n / ns), pool };
+}
+function kemNS(s, y, t, rank) { const k = `${s}.${y}.${t}.${rank}`; if (!(k in KEM_NS)) { try { kemInfo(s, y, t, rank); } catch (e) { KEM_NS[k] = 1; } } return KEM_NS[k]; }
+function kemSenarai(KI, n) {
+  const P = KI.pool; if (!P.length) return [];
+  const out = KI.ns === 3 ? P.slice(KI.set * n, KI.set * n + n) : P.slice(0, n);
+  for (let i = 0; out.length < n; i++) out.push(P[i % P.length]);
+  return out;
+}
+function kemSelesai(KI) { DB.kem = DB.kem || {}; DB.kem[KI.k] = KI.n + 1; }
+function kemJejak(s, y, t, rank) {
+  if (kemNS(s, y, t, rank) !== 3) return '';
+  const n = (DB.kem && DB.kem[`${s}.${y}.${t}.${rank}`]) | 0, set = n % 3, kit = Math.floor(n / 3);
+  return `<div class="kemjejak" title="Kembara: Rimba → Lautan → Puncak">${KEM.map((m, i) => `<span class="${i < set ? 'siap' : i === set ? 'kini' : ''}">${i === set ? `${m.ic} ${m.n}` : m.ic + (i < set ? '✓' : '')}</span>`).join('')}${kit ? `<span class="kemtrofi">🏆×${kit}</span>` : ''}</div>`;
 }
 function result() {
   const n = Q.list.length, sc = Q.score, pc = sc / n, st = pc >= .9 ? 3 : pc >= .7 ? 2 : pc >= .5 ? 1 : 0, { s, y, t, rank } = Q, E = ENG[s], R = rankBy(rank);
   setStars(s, y, t, rank, st);
+  const KI = Q.kem; if (KI) kemSelesai(KI);
   try { STAT.catat(`${s}.${y}.${t}`, n, sc, (Date.now() - (Q.mula || Date.now())) / 1000); } catch (e) {}
   DB.rounds = (DB.rounds || 0) + 1;
   const kunciBest = sk(s, y, t, rank);
@@ -14067,7 +14110,8 @@ function result() {
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
     ${rekodBaru && bestLama ? `<div class="rekod">🎯 Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
     ${SK.naik ? `<div class="skbar"><b>🔥 ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">🛡️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">🔥 ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
-    <div class="row">${up}<button class="btn pri" id="again">🔁 Main lagi</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    ${KI && KI.ns === 3 ? `<div class="kemres"><div class="kemjejak besar">${KEM.map((m, i) => `<span class="${i <= KI.set ? 'siap' : ''}">${m.ic} ${m.n}${i <= KI.set ? ' ✓' : ''}</span>`).join('')}</div><b>${KI.set < 2 ? `${KEM[KI.set].ic} ${KEM[KI.set].n} selesai! Seterusnya: ${KEM[KI.set + 1].ic} ${KEM[KI.set + 1].n} — 10 soalan baharu` : `⛰️ Puncak ditawan! Kembara ke-${KI.kitaran + 1} tamat 🏆`}</b>${KI.set === 2 ? '<span>Main lagi untuk mulakan kembara baharu dari 🌴 Rimba.</span>' : ''}</div>` : ''}
+    <div class="row">${up}<button class="btn pri" id="again">${KI && KI.ns === 3 ? (KI.set < 2 ? `${KEM[KI.set + 1].ic} Teruskan ke ${KEM[KI.set + 1].n}` : '🌴 Kembara baharu') : '🔁 Main lagi'}</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
     <div id="cloudmsg" style="margin-top:10px;font-size:14px"></div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;

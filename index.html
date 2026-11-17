@@ -376,6 +376,13 @@ footer p+p{margin-top:6px}
 .rp.got{filter:none;opacity:1;background:color-mix(in srgb,var(--r1) 14%,#fff);color:var(--r1)}
 .tp.mix .rp{background:rgba(255,255,255,.22);color:#fff;filter:none;opacity:.9}
 .ranks{display:grid;gap:14px;padding-bottom:40px}
+.sbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.sbtn{border:2px solid #d9d3ff;background:#fff;color:#5b4bdb;border-radius:14px;padding:9px 14px;font:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.sbtn.main{background:#5b4bdb;color:#fff;border-color:#5b4bdb}
+.sbtn.sm{font-size:13.5px;padding:9px 11px}
+.passage .bs{border-radius:6px;transition:background .15s}
+.passage .bs.bacanow{background:#fff3b0;box-shadow:0 0 0 3px #fff3b0}
+.opt.bacanow{border-color:#ffd54f!important;background:#fffbe6}
 .kemjejak{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .kemjejak span{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
 .kemjejak span.siap{background:rgba(255,255,255,.92);color:#2e7d32}
@@ -14599,6 +14606,58 @@ function quiz(s, y, t, rank) {
     <div class="mzone">${maskotHTML()}</div></div></div>`;
   showQ(); window.scrollTo(0, 0);
 }
+// ---------------- SUARA READING (English) — pembaca suara peranti, percuma ----------------
+const SUARA_EN = {
+  ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined', v: null, g: 0,
+  laju() { try { return +localStorage.getItem('sb.laju') || .85; } catch (e) { return .85; } },
+  pilih() {
+    if (!this.ok) return;
+    const vs = (speechSynthesis.getVoices() || []).filter(v => /^en(-|_|$)/i.test(v.lang));
+    const skor = v => (/en[-_]GB/i.test(v.lang) ? 30 : /en[-_](US|AU)/i.test(v.lang) ? 20 : 10) + (/natural|premium|enhanced|neural|google/i.test(v.name) ? 15 : 0) + (v.localService ? 2 : 0);
+    vs.sort((a, b) => skor(b) - skor(a)); this.v = vs[0] || null;
+  },
+  henti() { this.g++; try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} document.querySelectorAll('.bacanow').forEach(e => e.classList.remove('bacanow')); document.querySelectorAll('.sbtn.main').forEach(b => b.classList.remove('main')); },
+  siri(bahagian, sorot, btn) {
+    this.henti(); if (!this.v) return; const g = ++this.g; let i = 0; if (btn) btn.classList.add('main');
+    const step = () => {
+      if (g !== this.g) return;
+      document.querySelectorAll('.bacanow').forEach(e => e.classList.remove('bacanow'));
+      if (i >= bahagian.length) { if (btn) btn.classList.remove('main'); return; }
+      const el = sorot(i); if (el) el.classList.add('bacanow');
+      const u = new SpeechSynthesisUtterance(String(bahagian[i]).replace(/RM\s?(\d+)/g, 'R M $1'));
+      u.voice = this.v; u.lang = this.v.lang; u.rate = this.laju(); u.pitch = 1.05;
+      u.onend = () => { i++; setTimeout(step, 180); }; u.onerror = () => { i++; step(); };
+      try { speechSynthesis.speak(u); } catch (e) {}
+    };
+    step();
+  }
+};
+if (SUARA_EN.ok) { try { SUARA_EN.pilih(); if (speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', () => SUARA_EN.pilih()); setTimeout(() => SUARA_EN.pilih(), 800); } catch (e) {} } // addEventListener: tidak ganggu pengendali suara Prasekolah
+window.addEventListener('hashchange', () => SUARA_EN.henti());
+function pasangSuara_(q) {
+  if (!(Q.s === 'bi' && q.read)) return;
+  if (!SUARA_EN.v) SUARA_EN.pilih();
+  if (!SUARA_EN.v) return; // tiada suara English dalam peranti: butang disorok, teks kekal
+  const box = document.querySelector('#qbox .passage'); if (!box) return;
+  // pecah petikan kepada ayat (setiap baris dikekalkan)
+  const ayat = []; box.innerHTML = box.innerHTML.split(/<br\s*\/?>/i).map(baris => {
+    const tmp = document.createElement('div'); tmp.innerHTML = baris; const teks = tmp.textContent;
+    return (teks.match(/[^.!?]+[.!?]+["'”’]?\s*|[^.!?]+$/g) || [teks]).map(x => { ayat.push(x.trim()); return `<span class="bs" data-i="${ayat.length - 1}">${esc(x)}</span>`; }).join('');
+  }).join('<br>');
+  const qtext = box.parentNode; const tmp = qtext.cloneNode(true); const pb = tmp.querySelector('.passage'); if (pb) pb.remove();
+  const soalan = tmp.textContent.trim();
+  const LJ = [['🐢', .7, 'Perlahan'], ['🙂', .85, 'Biasa'], ['🐇', 1, 'Laju']];
+  const ljKini = () => LJ.find(x => x[1] === SUARA_EN.laju()) || LJ[1];
+  const bar = document.createElement('div'); bar.className = 'sbar';
+  bar.innerHTML = `<button type="button" class="sbtn" id="sdengar">🔊 Dengar petikan</button><button type="button" class="sbtn" id="ssoal">🔊 Soalan</button><button type="button" class="sbtn sm" id="slaju" aria-label="Kelajuan suara">${ljKini()[0]} ${ljKini()[2]}</button>`;
+  box.insertAdjacentElement('afterend', bar);
+  $('#sdengar').onclick = e => SUARA_EN.siri(ayat, i => box.querySelector(`.bs[data-i="${i}"]`), e.currentTarget);
+  $('#ssoal').onclick = e => {
+    const opsi = q.typed ? [] : [...document.querySelectorAll('#qbox .opt')];
+    SUARA_EN.siri([soalan].concat(opsi.map((b, i) => `${'ABCD'[i]}. ${b.textContent.replace(/^[A-D]/, '').trim()}.`)), i => i === 0 ? null : opsi[i - 1], e.currentTarget);
+  };
+  $('#slaju').onclick = e => { const n = LJ[(LJ.indexOf(ljKini()) + 1) % LJ.length]; try { localStorage.setItem('sb.laju', String(n[1])); } catch (er) {} e.currentTarget.textContent = `${n[0]} ${n[2]}`; };
+}
 function showQ() {
   const q = Q.list[Q.i], E = ENG[Q.s], R = rankBy(Q.rank);
   $('#bar').style.width = (Q.i / Q.list.length * 100) + '%';
@@ -14612,12 +14671,14 @@ function showQ() {
     <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${body}</div>
     <div class="fb" id="fb"></div>`;
   Q.lock = false;
+  SUARA_EN.henti(); try { pasangSuara_(q); } catch (e) {}
   maskot('fikir');
   if (q.typed) { const f = $('#tform'); f.onsubmit = e => { e.preventDefault(); const v = $('#tin').value; if (!v.trim()) { toast('Taip jawapan dulu.'); return; } answer(v); }; setTimeout(() => $('#tin') && $('#tin').focus({ preventScroll: true }), 60); }
   else $('#qbox').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
 }
 function answer(x) {
   if (Q.lock) return; Q.lock = true;
+  SUARA_EN.henti();
   const q = Q.list[Q.i]; let ok, pickTxt;
   if (q.typed) {
     ok = check(q, x); pickTxt = esc(x); const inp = $('#tin'); inp.disabled = true; inp.classList.add(ok ? 'ok' : 'no'); $('#tform button').disabled = true;

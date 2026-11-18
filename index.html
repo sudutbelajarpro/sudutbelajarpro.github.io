@@ -257,6 +257,24 @@ section.blk{padding:44px 0}
 .af-faq details{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:8px}
 .af-faq summary{font-weight:700;cursor:pointer}
 .af-faq p{margin:8px 0 2px;color:var(--muted);font-size:14px}
+.af-borang{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:22px 20px;box-shadow:0 20px 40px -30px rgba(46,32,140,.7)}
+.af-borang h2{font-family:var(--fd);font-size:22px;margin:0 0 4px}
+.af-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.af-g .p{grid-column:1/-1}
+.af-borang label{display:block;font-size:13.5px;font-weight:700;margin-bottom:5px}
+.af-borang label i{font-style:normal;font-weight:500;color:var(--muted)}
+.af-borang input,.af-borang select,.af-borang textarea{width:100%;font:500 15px var(--fb);padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fbfaff;color:var(--ink);outline:none}
+.af-borang input:focus,.af-borang select:focus,.af-borang textarea:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(91,75,219,.12)}
+.af-borang textarea{min-height:70px;resize:vertical}
+.af-setuju{display:flex!important;gap:10px;align-items:flex-start;font-weight:500!important;font-size:13.5px!important;color:var(--muted);margin-top:14px}
+.af-setuju input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--brand)}
+.af-hantar{width:100%;justify-content:center;margin-top:14px;font-size:16px;padding:14px}
+.af-ralat{color:var(--no);font-weight:700;font-size:14px;margin-top:10px}
+.af-lagi{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px}
+.af-berjaya{text-align:center;padding:10px 4px}
+.af-berjaya .e{font-size:54px}
+.af-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+@media (max-width:560px){.af-g{grid-template-columns:1fr}}
 .af-feat{position:relative;border:1.5px solid transparent!important;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--brand),#ff5c8a) border-box!important}
 .af-tag{background:#fff3e0;color:#e65100;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:800;vertical-align:middle}
 @media (max-width:640px){.af-langkah{grid-template-columns:1fr 1fr}.af-faedah{grid-template-columns:1fr}.af-hero h1{font-size:28px}.af-hero{padding:28px 20px 22px}}
@@ -18149,7 +18167,7 @@ function affiliate() {
       <span class="af-eye">⏳ AKAN DIBUKA KEMUDIAN</span>
       <h1>Kongsi ilmu, <span>raih ganjaran.</span></h1>
       <p>Sertai Program Affiliate Sudut Belajar. Kongsikan platform latihan Darjah 1–6 ini dengan keluarga dan kenalan, dan terima komisen bagi setiap langganan Premium yang anda rujuk.</p>
-      <a class="af-cta" id="affwa" href="${wa}" target="_blank" rel="noopener">💬 Daftar minat sekarang</a>
+      <a class="af-cta" href="#affiliate" id="affke">✍️ Daftar minat sekarang</a>
       <span class="af-nota">Percuma untuk sertai · Kami hubungi anda sebaik program dibuka</span>
       <div class="af-pil"><div><b>💰</b>Komisen setiap langganan</div><div><b>🎁</b>Harga istimewa untuk rakan anda</div><div><b>📅</b>Bayaran setiap bulan</div></div>
     </div>
@@ -18172,13 +18190,51 @@ function affiliate() {
       ${Q('Berapa kadar komisen?', 'Kadar komisen dan syarat penuh akan diumumkan semasa program dibuka.')}
       ${Q('Perlukah saya melanggan Premium dahulu?', 'Tidak wajib, tetapi kami galakkan anda mencuba Sudut Belajar supaya cadangan anda lebih meyakinkan.')}
     </div>
-    <div class="af-tutup">
-      <h2>Jadi antara yang terawal</h2>
-      <p>Daftar minat melalui WhatsApp. Kami akan hubungi anda sebaik sahaja program dibuka.</p>
-      <a class="af-cta" href="${wa}" target="_blank" rel="noopener">💬 Daftar minat melalui WhatsApp</a>
+    <div class="af-borang" id="affborang">
+      <h2>✍️ Daftar minat</h2>
+      <p class="af-sub" style="margin:0">Isi borang ringkas ini. Kami akan hubungi anda sebaik sahaja program dibuka.</p>
+      <form id="afform" novalidate>
+        <div class="af-g">
+          <div class="p"><label for="afnama">Nama penuh *</label><input id="afnama" maxlength="60" autocomplete="name" required></div>
+          <div><label for="aftel">No. telefon (WhatsApp) *</label><input id="aftel" type="tel" inputmode="tel" maxlength="16" placeholder="012-345 6789" autocomplete="tel" required></div>
+          <div><label for="afemel">Emel <i>(pilihan)</i></label><input id="afemel" type="email" maxlength="120" autocomplete="email"></div>
+          <div><label for="afkat">Saya seorang… *</label><select id="afkat" required><option value="">— Pilih —</option>${['Ibu bapa', 'Pencipta kandungan', 'Penulis blog', 'Komuniti ibu bapa', 'Guru tuisyen', 'Lain-lain'].map(x => `<option>${x}</option>`).join('')}</select></div>
+          <div><label for="afneg">Negeri</label><select id="afneg"><option value="">— Pilih —</option>${['Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan', 'Pahang', 'Perak', 'Perlis', 'Pulau Pinang', 'Sabah', 'Sarawak', 'Selangor', 'Terengganu', 'WP Kuala Lumpur', 'WP Labuan', 'WP Putrajaya', 'Luar negara'].map(x => `<option>${x}</option>`).join('')}</select></div>
+          <div class="p"><label for="afpaut">Media sosial utama <i>(pilihan — cth @namaanda atau pautan TikTok/Facebook)</i></label><input id="afpaut" maxlength="150"></div>
+          <div class="p"><label for="afcat">Ceritakan sedikit <i>(pilihan — cth bilangan pengikut, cara anda mahu promosi)</i></label><textarea id="afcat" maxlength="300"></textarea></div>
+        </div>
+        <input class="af-hp" id="afweb" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="af-setuju"><input type="checkbox" id="afsetuju"><span>Saya berumur 18 tahun ke atas dan bersetuju Sudut Belajar menyimpan maklumat ini untuk menghubungi saya tentang Program Affiliate. <a href="#privasi">Notis Privasi</a></span></label>
+        <button class="btn pri af-hantar" id="afbtn" type="submit">Hantar pendaftaran</button>
+        <div class="af-ralat" id="afralat" role="alert"></div>
+      </form>
+      <p class="af-lagi">Lebih suka berbual? <a id="affwa" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp kami</a></p>
     </div>
     <p style="font-size:13px;color:var(--muted);margin-top:16px;text-align:center">Ada soalan? <a href="mailto:${EMEL_HUB}">Emel kami</a>. Kami membalas dalam tempoh 24 jam.</p>
   </section>`;
+  $('#affke').onclick = e => { e.preventDefault(); $('#affborang').scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => $('#afnama').focus({ preventScroll: true }), 450); };
+  const f = $('#afform'), ral = $('#afralat'), btn = $('#afbtn');
+  f.onsubmit = async e => {
+    e.preventDefault(); ral.textContent = '';
+    const v = id => $(id).value.trim();
+    const d = { a: 'aff_minat', nama: v('#afnama'), telefon: v('#aftel'), emel: v('#afemel'), kategori: $('#afkat').value, negeri: $('#afneg').value, pautan: v('#afpaut'), catatan: v('#afcat'), setuju: $('#afsetuju').checked, web: $('#afweb').value };
+    const t = d.telefon.replace(/[\s\-()+]/g, '').replace(/^60/, '0');
+    if (d.nama.length < 2) return (ral.textContent = 'Sila isi nama penuh anda.', $('#afnama').focus());
+    if (!/^01\d{8,9}$/.test(t)) return (ral.textContent = 'Nombor telefon tidak sah. Contoh: 012-345 6789', $('#aftel').focus());
+    if (d.emel && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(d.emel)) return (ral.textContent = 'Emel tidak sah.', $('#afemel').focus());
+    if (!d.kategori) return (ral.textContent = 'Sila pilih kategori anda.', $('#afkat').focus());
+    if (!d.setuju) return (ral.textContent = 'Sila tandakan kotak persetujuan.');
+    btn.disabled = true; btn.textContent = 'Menghantar…';
+    try {
+      const r = await (await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(d) })).json();
+      if (!r.ok) throw new Error(r.err || 'Gagal dihantar.');
+      $('#affborang').innerHTML = `<div class="af-berjaya"><div class="e">🎉</div><h2>Terima kasih, ${esc(d.nama.split(' ')[0])}!</h2><p class="af-sub">${r.kemaskini ? 'Maklumat anda telah dikemas kini.' : 'Pendaftaran minat anda telah diterima.'} Kami akan hubungi anda melalui WhatsApp${d.emel ? ' atau emel' : ''} sebaik sahaja Program Affiliate dibuka.</p><a class="btn sec" href="#pilih">← Kembali ke laman utama</a></div>`;
+      $('#affborang').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (er) {
+      ral.textContent = (er && er.message && !/fetch|network/i.test(er.message)) ? er.message : 'Tiada sambungan. Cuba lagi sebentar.';
+      btn.disabled = false; btn.textContent = 'Hantar pendaftaran';
+    }
+  };
 }
 
 function privasi() {
@@ -18186,12 +18242,13 @@ function privasi() {
   app.innerHTML = `<section class="wrap pagein notis" style="padding:28px 20px 60px;max-width:680px">
     <a class="crumb" href="#pilih">← Utama</a>
     <h1 style="margin:10px 0 6px">Notis Privasi</h1>
-    <p class="lead" style="margin:0">Ringkasan cara Sudut Belajar mengumpul dan menggunakan data. Dikemas kini 17 November 2026.</p>
+    <p class="lead" style="margin:0">Ringkasan cara Sudut Belajar mengumpul dan menggunakan data. Dikemas kini 18 November 2026.</p>
     <h2>Data yang kami simpan</h2>
     <ul>
       <li><b>Akaun ibu bapa:</b> alamat emel dan kata laluan. Kata laluan disimpan dalam bentuk <b>hash bergaram</b> — kami sendiri tidak dapat melihatnya.</li>
       <li><b>Profil anak:</b> nama glamour / nama samaran (bukan nama sebenar), darjah, nama sekolah (pilihan), bintang, mata, rekod kuiz dan status Premium.</li>
       <li><b>Dalam peranti:</b> kemajuan dan tetapan disimpan dalam storan pelayar (localStorage) supaya laman berfungsi tanpa internet.</li>
+      <li><b>Pendaftaran minat Program Affiliate (dewasa sahaja):</b> nama, nombor telefon, emel (pilihan), kategori, negeri, pautan media sosial dan catatan yang anda isi. Digunakan <b>hanya</b> untuk menghubungi anda tentang Program Affiliate dan tidak dipaparkan kepada umum. Minta pemadaman bila-bila masa melalui emel kami.</li>
     </ul>
     <h2>Untuk apa data digunakan</h2>
     <ul><li>Log masuk, menyimpan dan memulihkan kemajuan anak di mana-mana peranti.</li><li>Memaparkan ranking Dewan Juara.</li><li>Mengaktifkan Premium yang dibeli.</li><li>Menghantar kod set semula kata laluan dan maklumat penting akaun ke emel ibu bapa.</li></ul>

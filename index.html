@@ -218,6 +218,49 @@ section.blk{padding:44px 0}
 .pm .crumb{display:block;text-align:left}
 .silibus{display:inline-flex;align-items:center;gap:10px;margin:2px 0 16px;padding:8px 14px 8px 10px;border-radius:14px;background:#ecfdf3;border:1.5px solid #a6e9c1;text-align:left}
 .silibus span{font-size:24px}.silibus b{display:block;font-size:14.5px;color:#11633a}.silibus small{display:block;font-size:12.5px;color:#2f6b4a;line-height:1.3}
+.af{max-width:760px}
+.af-hero{position:relative;overflow:hidden;border-radius:26px;padding:34px 26px 28px;color:#fff;background:radial-gradient(90% 120% at 100% 0%,rgba(255,140,190,.55) 0%,rgba(255,140,190,0) 55%),radial-gradient(80% 100% at 0% 100%,rgba(90,200,255,.35) 0%,rgba(90,200,255,0) 60%),linear-gradient(135deg,#2f2386 0%,#5b4bdb 55%,#8f6bff 100%);box-shadow:0 26px 50px -30px #2f2386;margin:12px 0 30px}
+.af-hero:after{content:"🤝";position:absolute;right:-14px;top:-6px;font-size:130px;opacity:.12;transform:rotate(-12deg);pointer-events:none}
+.af-eye{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:1.2px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 12px;backdrop-filter:blur(4px)}
+.af-hero h1{font-family:var(--fd);font-size:34px;line-height:1.12;margin:14px 0 10px;color:#fff;max-width:520px}
+.af-hero h1 span{background:linear-gradient(90deg,#ffe082,#ffb3d1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.af-hero p{margin:0 0 20px;font-size:16px;opacity:.93;max-width:540px}
+.af-cta{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#2f2386;font-weight:800;border-radius:14px;padding:13px 22px;text-decoration:none;box-shadow:0 10px 24px -12px rgba(0,0,0,.5);transition:transform .15s}
+.af-cta:hover{transform:translateY(-2px)}
+.af-nota{display:block;margin-top:10px;font-size:12.5px;opacity:.8}
+.af-pil{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;position:relative;z-index:1}
+.af-pil div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px 10px;text-align:center;font-size:13px;font-weight:700;line-height:1.3}
+.af-pil b{display:block;font-size:22px;margin-bottom:4px}
+.af-h{font-family:var(--fd);font-size:23px;margin:0 0 4px}
+.af-sub{color:var(--muted);margin:0 0 16px}
+.af-sek{margin-bottom:34px}
+.af-langkah{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:l}
+.af-l{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:18px 14px 16px;box-shadow:0 10px 24px -20px rgba(46,32,140,.6)}
+.af-l:before{counter-increment:l;content:counter(l);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#ff5c8a);color:#fff;font-weight:800;margin-bottom:10px}
+.af-l h3{font-size:15.5px;margin:0 0 4px}
+.af-l p{margin:0;font-size:13.5px;color:var(--muted)}
+.af-faedah{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.af-f{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:16px}
+.af-f .i{flex-shrink:0;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,#efeaff,#ffe9f1)}
+.af-f h3{font-size:15.5px;margin:2px 0 3px}
+.af-f p{margin:0;font-size:13.5px;color:var(--muted)}
+.af-cip{display:flex;flex-wrap:wrap;gap:8px}
+.af-cip span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:700}
+.af-prinsip{background:linear-gradient(135deg,#f3fbf5,#f4f1ff);border:1.5px solid #d6efdc;border-radius:20px;padding:18px 18px 8px}
+.af-prinsip li{list-style:none;display:flex;gap:10px;margin-bottom:12px;font-size:14.5px}
+.af-prinsip ul{margin:0;padding:0}
+.af-prinsip li:before{content:"✓";flex-shrink:0;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-weight:800;font-size:13px;margin-top:1px}
+.af-tutup{text-align:center;border-radius:22px;padding:26px 20px;background:linear-gradient(135deg,#1f9d55,#25d366);color:#fff;box-shadow:0 20px 40px -28px #1f9d55}
+.af-tutup h2{color:#fff;margin:0 0 6px;font-size:22px}
+.af-tutup p{margin:0 0 16px;opacity:.95}
+.af-tutup .af-cta{color:#137a3f}
+.af-faq details{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:8px}
+.af-faq summary{font-weight:700;cursor:pointer}
+.af-faq p{margin:8px 0 2px;color:var(--muted);font-size:14px}
+.af-feat{position:relative;border:1.5px solid transparent!important;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--brand),#ff5c8a) border-box!important}
+.af-tag{background:#fff3e0;color:#e65100;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:800;vertical-align:middle}
+@media (max-width:640px){.af-langkah{grid-template-columns:1fr 1fr}.af-faedah{grid-template-columns:1fr}.af-hero h1{font-size:28px}.af-hero{padding:28px 20px 22px}}
+@media (max-width:380px){.af-langkah{grid-template-columns:1fr}.af-pil{grid-template-columns:1fr}.af-pil div{display:flex;align-items:center;gap:10px;text-align:left}.af-pil b{margin:0;font-size:20px}}
 .pm-hero{background:radial-gradient(120% 90% at 50% 0%,#fff6d6 0%,#fffdf6 60%,#fff 100%);border:1.5px solid #f3e2a8;border-radius:24px;padding:28px 22px 22px;margin:8px 0 26px;box-shadow:0 18px 40px -28px #b8860b}
 .pm-eye{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.5px;color:#8a6400;background:#fff;border:1.5px solid #f0d78c;border-radius:999px;padding:5px 12px}
 .pm-hero h1{font-size:clamp(26px,5.4vw,38px);line-height:1.15;margin:14px 0 10px}
@@ -18093,6 +18136,51 @@ function faq() {
   </section>`;
   window.scrollTo(0, 0);
 }
+// ---------------- PROGRAM AFFILIATE (#affiliate) — AKAN DIBUKA ----------------
+function affiliate() {
+  setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
+  const wa = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya berminat dengan Program Affiliate Sudut Belajar. Tolong maklumkan saya bila ia dibuka. Nama saya: ');
+  const L = (t, p) => `<div class="af-l"><h3>${t}</h3><p>${p}</p></div>`;
+  const F = (i, t, p) => `<div class="af-f"><div class="i">${i}</div><div><h3>${t}</h3><p>${p}</p></div></div>`;
+  const Q = (q, a) => `<details><summary>${q}</summary><p>${a}</p></details>`;
+  app.innerHTML = `<section class="wrap pagein af" style="padding:28px 20px 60px">
+    <a class="crumb" href="#pilih">← Utama</a>
+    <div class="af-hero">
+      <span class="af-eye">⏳ AKAN DIBUKA KEMUDIAN</span>
+      <h1>Kongsi ilmu, <span>raih ganjaran.</span></h1>
+      <p>Sertai Program Affiliate Sudut Belajar. Kongsikan platform latihan Darjah 1–6 ini dengan keluarga dan kenalan, dan terima komisen bagi setiap langganan Premium yang anda rujuk.</p>
+      <a class="af-cta" id="affwa" href="${wa}" target="_blank" rel="noopener">💬 Daftar minat sekarang</a>
+      <span class="af-nota">Percuma untuk sertai · Kami hubungi anda sebaik program dibuka</span>
+      <div class="af-pil"><div><b>💰</b>Komisen setiap langganan</div><div><b>🎁</b>Harga istimewa untuk rakan anda</div><div><b>📅</b>Bayaran setiap bulan</div></div>
+    </div>
+    <div class="af-sek"><h2 class="af-h">Cara ia berfungsi</h2><p class="af-sub">Empat langkah mudah, tanpa modal.</p>
+      <div class="af-langkah">${L('Daftar', 'Isi borang ringkas dan dapatkan kod rujukan anda sendiri.')}${L('Kongsi', 'Kongsi pautan atau kod di media sosial, blog atau dengan kenalan.')}${L('Rakan langgan', 'Ibu bapa melanggan Premium dengan kod anda dan dapat harga istimewa.')}${L('Terima komisen', 'Komisen dibayar terus ke akaun bank anda setiap bulan.')}</div></div>
+    <div class="af-sek"><h2 class="af-h">Kenapa sertai?</h2><p class="af-sub">Produk yang memang dicari ibu bapa.</p>
+      <div class="af-faedah">${F('🆓', 'Tiada kos untuk sertai', 'Tiada yuran, tiada stok, tiada sasaran jualan wajib.')}${F('📚', 'Mudah dipromosi', 'Latihan BM, English, Matematik dan Sains Darjah 1–6 ikut silibus, dengan tahap Perajurit percuma untuk dicuba.')}${F('🔗', 'Kod dan pautan sendiri', 'Setiap rujukan dikira mengikut kod anda.')}${F('🤲', 'Telus dan amanah', 'Ringkasan komisen dan bayaran dihantar setiap bulan.')}</div></div>
+    <div class="af-sek"><h2 class="af-h">Siapa yang sesuai?</h2><p class="af-sub">Terbuka kepada sesiapa berumur 18 tahun ke atas dengan akaun bank Malaysia.</p>
+      <div class="af-cip"><span>👪 Ibu bapa</span><span>🎥 Pencipta kandungan keluarga</span><span>✍️ Penulis blog pendidikan</span><span>📣 Komuniti ibu bapa</span></div></div>
+    <div class="af-sek"><h2 class="af-h">Prinsip kami</h2><p class="af-sub">Supaya nama baik semua pihak terjaga.</p>
+      <div class="af-prinsip"><ul>
+        <li><span>Komisen hanya untuk jualan yang anda rujuk sendiri — <b>tiada sistem rekrut berlapis</b>.</span></li>
+        <li><span>Promosi mesti jujur: tiada janji keputusan peperiksaan dan tiada desakan palsu.</span></li>
+        <li><span>Jangan kongsi gambar atau nama sebenar kanak-kanak tanpa izin ibu bapa mereka.</span></li>
+        <li><span>Tidak dibenarkan promosi dalam kumpulan rasmi sekolah atau kelas.</span></li>
+      </ul></div></div>
+    <div class="af-sek af-faq"><h2 class="af-h">Soalan lazim</h2>
+      ${Q('Bila program ini dibuka?', 'Selepas pelancaran Sudut Belajar. Mereka yang mendaftar minat akan dimaklumkan dahulu.')}
+      ${Q('Perlukah saya bayar untuk sertai?', 'Tidak. Penyertaan adalah percuma.')}
+      ${Q('Berapa kadar komisen?', 'Kadar komisen dan syarat penuh akan diumumkan semasa program dibuka.')}
+      ${Q('Perlukah saya melanggan Premium dahulu?', 'Tidak wajib, tetapi kami galakkan anda mencuba Sudut Belajar supaya cadangan anda lebih meyakinkan.')}
+    </div>
+    <div class="af-tutup">
+      <h2>Jadi antara yang terawal</h2>
+      <p>Daftar minat melalui WhatsApp. Kami akan hubungi anda sebaik sahaja program dibuka.</p>
+      <a class="af-cta" href="${wa}" target="_blank" rel="noopener">💬 Daftar minat melalui WhatsApp</a>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:16px;text-align:center">Ada soalan? <a href="mailto:${EMEL_HUB}">Emel kami</a>. Kami membalas dalam tempoh 24 jam.</p>
+  </section>`;
+}
+
 function privasi() {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
   app.innerHTML = `<section class="wrap pagein notis" style="padding:28px 20px 60px;max-width:680px">
@@ -18444,10 +18532,11 @@ function home(y, scroll) {
         <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
         <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e">📱</div><h3>Letak di skrin telefon</h3><p>Buka Sudut Belajar terus dari ikon di skrin utama telefon atau tablet anak, macam app. <b style="color:var(--brand)">Lihat cara →</b></p></a>
         <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Sentiasa dikemas kini mengikut kurikulum persekolahan terkini.</p></div>
+        <a class="feat af-feat" href="#affiliate" style="text-decoration:none;color:inherit"><div class="e">🤝</div><h3>Program Affiliate <small class="af-tag">AKAN DIBUKA</small></h3><p>Kongsi Sudut Belajar dan dapat komisen untuk setiap langganan yang anda rujuk. <b style="color:var(--brand)">Daftar minat →</b></p></a>
       </div>
     </section>
   </div>
-  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Topik disusun berdasarkan dokumen kurikulum KPM dan sedang disemak oleh guru.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -19519,6 +19608,7 @@ function route() {
   if (h === 'faq') return faq();
   if (h === 'pasang') return pasang();
   if (h === 'privasi') return privasi();
+  if (h === 'affiliate') return affiliate();
   if (h === 'premium') return premium();
   if (h === 'premium/sedia') return premium(null, 1);
   if ((m = /^prestasi(?:\/(\d))?$/.exec(h))) return prestasi(m[1]);

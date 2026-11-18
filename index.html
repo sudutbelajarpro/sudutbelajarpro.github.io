@@ -20634,7 +20634,7 @@ const PRA = (() => {
     ['🐟', 'ikan', 'laut'], ['🐙', 'sotong kurita', 'laut'], ['🐬', 'ikan lumba-lumba', 'laut'], ['🦀', 'ketam', 'laut'], ['🐳', 'ikan paus', 'laut'],
     ['🐒', 'monyet', 'hutan'], ['🐯', 'harimau', 'hutan'], ['🐘', 'gajah', 'hutan'], ['🦜', 'burung kakak tua', 'hutan'],
     ['🐫', 'unta', 'gurun'], ['🦂', 'kala jengking', 'gurun'],
-    ['🐄', 'lembu', 'ladang'], ['🐐', 'kambing', 'ladang'], ['🐔', 'ayam', 'ladang'], ['🐑', 'biri-biri', 'ladang'],
+    ['🐄', 'lembu', 'ladang'], ['🐐', 'kambing', 'ladang'], ['🐔', 'ayam', 'ladang', 'hutan'], ['🐑', 'biri-biri', 'ladang'],
     ['🐧', 'penguin', 'kutub'],
   ];
   const SAINS = [
@@ -20669,8 +20669,8 @@ const PRA = (() => {
       } },
     { id: 'habitat', ic: '🏕️', nama: 'Rumah Haiwan', d: 'Di mana haiwan ini tinggal?', pelekat: '🦉',
       main(R) {
-        const [e, nm, h] = (R.dahH = R.dahH || ambil(HAIWAN, 8))[R.i];
-        const lain = ambil(Object.keys(HABITAT).filter(k => k !== h), 2); const ops = kocok([h, ...lain]);
+        const [e, nm, h, juga] = (R.dahH = R.dahH || ambil(HAIWAN, 8))[R.i];
+        const lain = ambil(Object.keys(HABITAT).filter(k => k !== h && k !== juga), 2); const ops = kocok([h, ...lain]);
         api.soal(`Di mana <span class="h">${nm}</span> tinggal?`, `Di mana ${nm} tinggal?`);
         api.pentas().innerHTML = `<div class="pr-gbr">${e}</div>${pilihanLbl(ops.map(k => HABITAT[k]))}`;
         ikatPilihan(ops.indexOf(h), `Betul! ${nm} tinggal di ${HABITAT[h][1].toLowerCase()}.`);
@@ -20680,9 +20680,9 @@ const PRA = (() => {
   // ---------- KAMPUNG CERIA ----------
   const MUKA = { gembira: '😀', sedih: '😢', marah: '😠', takut: '😨', terkejut: '😲' };
   const ADEGAN_RASA = [
-    ['🎁', 'Adik dapat hadiah hari jadi.', 'gembira'], ['🍦', 'Aiskrim adik jatuh ke lantai.', 'sedih'], ['⛈️', 'Bunyi guruh sangat kuat pada waktu malam.', 'takut'],
-    ['🧸', 'Kawan merampas mainan tanpa minta izin.', 'marah'], ['🎉', 'Semua kawan datang ke majlis hari jadi.', 'gembira'], ['🎈', 'Belon tiba-tiba meletup di sebelah adik.', 'terkejut'],
-    ['🐶', 'Anak anjing peliharaan hilang.', 'sedih'], ['🏆', 'Adik menang pertandingan mewarna.', 'gembira'],
+    ['🎁', 'Adik dapat hadiah hari jadi.', 'gembira'], ['🍦', 'Aiskrim adik jatuh ke lantai.', 'sedih', 'marah'], ['⛈️', 'Bunyi guruh sangat kuat pada waktu malam.', 'takut', 'terkejut'],
+    ['🧸', 'Kawan merampas mainan tanpa minta izin.', 'marah', 'sedih'], ['🎉', 'Semua kawan datang ke majlis hari jadi.', 'gembira'], ['🎈', 'Belon tiba-tiba meletup di sebelah adik.', 'terkejut', 'takut'],
+    ['🐶', 'Anak anjing peliharaan hilang.', 'sedih', 'takut'], ['🏆', 'Adik menang pertandingan mewarna.', 'gembira'],
   ];
   const SELAMAT = [
     ['🚸', 'Melintas jalan sambil pegang tangan ibu', 1], ['🚗', 'Pakai tali pinggang keledar dalam kereta', 1], ['🚲', 'Pakai topi keledar semasa naik basikal', 1],
@@ -20703,8 +20703,8 @@ const PRA = (() => {
           api.pentas().innerHTML = `<div class="pr-pil">${ops.map((k, i) => `<button class="pr-o" data-i="${i}" style="font-size:64px;height:104px;min-width:104px">${MUKA[k]}</button>`).join('')}</div>`;
           ikatPilihan(ops.indexOf(r), `Betul! Itu muka ${r}.`);
         } else {
-          const [e, t, r] = (R.dahA = R.dahA || kocok(ADEGAN_RASA))[R.i >> 1];
-          const ops = kocok([r, ...ambil(Object.keys(MUKA).filter(k => k !== r), 2)]);
+          const [e, t, r, juga] = (R.dahA = R.dahA || kocok(ADEGAN_RASA))[R.i >> 1];
+          const ops = kocok([r, ...ambil(Object.keys(MUKA).filter(k => k !== r && k !== juga), 2)]);
           api.soal('Apa perasaannya?', `${t} Apa perasaannya?`);
           api.pentas().innerHTML = `<div class="pr-adegan"><span class="e">${e}</span><p>${t}</p></div>${pilihanLbl(ops.map(k => [MUKA[k], k[0].toUpperCase() + k.slice(1)]))}`;
           ikatPilihan(ops.indexOf(r), `Betul! Rasa ${r}.`);
@@ -20860,7 +20860,7 @@ const PRA = (() => {
     [['🎃', 'labu'], ['🍓', 'strawberi']], [['📚', 'timbunan buku'], ['✏️', 'pensel']], [['🐄', 'lembu'], ['🐤', 'anak ayam']], [['🎒', 'beg sekolah penuh'], ['🎈', 'belon']]];
   const BUNYI = [['🐄', 'lembu', 'Mooo'], ['🐱', 'kucing', 'Meow meow'], ['🐶', 'anjing', 'Guk guk'], ['🐓', 'ayam jantan', 'Kukuruyuk'], ['🦆', 'itik', 'Kuek kuek'],
     ['🐐', 'kambing', 'Mbekk'], ['🐝', 'lebah', 'Bzzzz'], ['🐍', 'ular', 'Sssss'], ['🦁', 'singa', 'Aummm']];
-  const MAGNET = [['🔩', 'skru besi', 1], ['📎', 'klip kertas', 1], ['🔑', 'kunci besi', 1], ['🥄', 'sudu besi', 1], ['🔧', 'sepana', 1], ['⛓️', 'rantai besi', 1],
+  const MAGNET = [['🔩', 'skru besi', 1], ['📎', 'klip kertas', 1], ['🔑', 'kunci besi', 1], ['🧷', 'pin baju', 1], ['🔧', 'sepana', 1], ['⛓️', 'rantai besi', 1],
     ['📄', 'kertas', 0], ['🍎', 'epal', 0], ['🧸', 'patung kain', 0], ['✏️', 'pensel kayu', 0], ['🍃', 'daun', 0], ['🎈', 'belon', 0]];
   SAINS.push(
     { id: 'deria', ic: '👃', nama: 'Deria Saya', d: 'Mata, telinga, hidung, lidah, kulit', pelekat: '🦔',
@@ -21220,6 +21220,7 @@ const PRA = (() => {
   return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, PERCUMA };
 })();
 
+try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k) } }); } catch (e) {}
 function confetti() {
   const box = $('#res'), cols = ['#ff5c8a', '#ffb800', '#5b4bdb', '#20bf6b', '#2d98da'];
   for (let i = 0; i < 60; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length]; c.style.animationDelay = Math.random() * .8 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3600); }
@@ -21237,7 +21238,7 @@ const NAMA_SUBJ_DS = { mt: ['Matematik', '🔢', '#5b4bdb'], bm: ['Bahasa Melayu
 function tarikhKey_(d) { return tarikhStr_(d).replace(/-/g, ''); }
 function namaTopikDs_(k) {
   const [s, y, t] = String(k).split('.');
-  if (s === 'pra') { try { const g = [...PRA._HURUF, ...PRA._NOMBOR].find(x => x.id === t); if (g) return [g.nama, g.ic, 'Prasekolah']; } catch (e) {} return [t, '🎒', 'Prasekolah']; }
+  if (s === 'pra') { try { const g = (PRA._ZON ? Object.values(PRA._ZON).flatMap(z => z.games) : [...PRA._HURUF, ...PRA._NOMBOR]).find(x => x.id === t); if (g) return [g.nama, g.ic, 'Prasekolah']; } catch (e) {} return [t, '🎒', 'Prasekolah']; }
   const E = ENG[s]; if (!E) return [t, '📘', ''];
   return [t === 'campuran' ? E.mix : (E.NAMES[t] || t), E.ICON[t] || '📘', (NAMA_SUBJ_DS[s] || [s])[0] + ' D' + y];
 }

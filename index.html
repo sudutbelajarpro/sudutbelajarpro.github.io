@@ -18966,8 +18966,49 @@ async function hantarSkor(y, rank, sc, el) {
   if (!apiOK()) return;
   simpanAuto();
   const mata = sc * (MULT[rank] || 1);
-  try { const r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '' }); if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} ${/^M/.test(r.tempoh || '') ? 'musim ini' : 'bulan ini'}: ${r.jumlah})`; else if (el) el.textContent = r.err || ''; } catch (e) { if (el) el.textContent = ''; }
+  const item = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), nick: P.nick, y: +y, mata, t: Date.now() };
+  const simpanGiliran = () => { GILIRAN.tambah(item); if (el) el.innerHTML = `📶 <b>Internet terputus.</b> +${mata} mata disimpan dalam peranti ini dan akan dihantar ke Ranking bila internet kembali.`; };
+  if (navigator.onLine === false) return simpanGiliran();
+  let r;
+  try { r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: y, mata, sekolah: P.sekolah || '', id: item.id }); }
+  catch (e) { return simpanGiliran(); }   // gagal rangkaian sahaja masuk giliran; jawapan pelayan (ok:0) tidak diulang
+  if (el && r.ok) el.innerHTML = `🏆 <b>+${mata} mata</b> dihantar ke Ranking! (Jumlah D${y} ${/^M/.test(r.tempoh || '') ? 'musim ini' : 'bulan ini'}: ${r.jumlah})`; else if (el) el.textContent = r.err || '';
+  if (r.ok) GILIRAN.hantar();
 }
+// Giliran mata ranking yang gagal dihantar kerana internet terputus (18 Nov).
+// Disimpan di kunci sendiri (bukan DB) supaya tidak ditimpa oleh data awan.
+// Had: 20 item, 3 hari, hanya untuk pemain yang sama; setiap item dihantar SEKALI dengan id unik.
+const GILIRAN = {
+  KUNCI: 'sb.giliran', MAKS: 20, HAYAT: 3 * 864e5, sedang: false,
+  baca() { try { const a = JSON.parse(localStorage.getItem(this.KUNCI) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } },
+  tulis(a) { try { a.length ? localStorage.setItem(this.KUNCI, JSON.stringify(a)) : localStorage.removeItem(this.KUNCI); } catch (e) {} },
+  bersih(a) { const kini = Date.now(); return a.filter(x => x && x.id && (x.mata | 0) > 0 && +x.t > 0 && kini - x.t < this.HAYAT && kini >= +x.t - 60000); },   // +x.t (bukan |0: cap masa melebihi had 32-bit)
+  tambah(item) { const a = this.bersih(this.baca()).filter(x => x.id !== item.id); a.push(item); this.tulis(a.slice(-this.MAKS)); },
+  async hantar() {
+    if (this.sedang || !apiOK() || navigator.onLine === false) return 0;
+    const P = PLAYER.get(); if (!P) return 0;
+    const sama = x => String(x.nick).toLowerCase() === String(P.nick).toLowerCase();
+    // kunci antara tab: elak dua tab menghantar item yang sama serentak
+    try { const k = +localStorage.getItem('sb.giliran.kunci') || 0; if (Date.now() - k < 30000) return 0; localStorage.setItem('sb.giliran.kunci', String(Date.now())); } catch (e) {}
+    this.sedang = true; let jumlah = 0;
+    try {
+      this.tulis(this.bersih(this.baca()));   // buang yang luput (semua pemain); item adik-beradik lain dikekalkan
+      let x; const dah = new Set();
+      while ((x = this.bersih(this.baca()).find(z => sama(z) && !dah.has(z.id)))) {
+        dah.add(x.id); let r;
+        try { r = await apiPost({ a: 'skor', nick: P.nick, pin: P.pin, darjah: x.y, mata: x.mata, sekolah: P.sekolah || '', id: x.id }); }
+        catch (e) { break; }   // masih tiada internet: cuba lagi kemudian
+        this.tulis(this.baca().filter(z => z.id !== x.id));   // dihantar sekali sahaja, berjaya atau ditolak pelayan
+        if (r && r.ok) jumlah += x.mata;
+        try { localStorage.setItem('sb.giliran.kunci', String(Date.now())); } catch (e) {}
+      }
+    } finally { this.sedang = false; try { localStorage.removeItem('sb.giliran.kunci'); } catch (e) {} }
+    if (jumlah) toast('📶 Internet kembali — ' + jumlah + ' mata yang tertangguh telah dihantar ke Ranking!');
+    return jumlah;
+  }
+};
+window.addEventListener('online', () => GILIRAN.hantar());
+setTimeout(() => GILIRAN.hantar(), 4000);
 function mergeAwan(data) {
   let o;
   try { o = JSON.parse(data || '{}'); } catch (e) { return 0; }
@@ -21265,7 +21306,7 @@ const PRA = (() => {
   return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, PERCUMA };
 })();
 
-try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k) } }); } catch (e) {}
+try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k), hantarSkor: (...a) => hantarSkor(...a) } }); } catch (e) {}
 function confetti() {
   const box = $('#res'), cols = ['#ff5c8a', '#ffb800', '#5b4bdb', '#20bf6b', '#2d98da'];
   for (let i = 0; i < 60; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length]; c.style.animationDelay = Math.random() * .8 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3600); }

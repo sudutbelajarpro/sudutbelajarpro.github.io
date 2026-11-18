@@ -821,6 +821,7 @@ const slips = (n, y) => { const out = []; [1, 10, 100, 1000, 10000, 100000].forE
 const MAXN = { 1: 100, 2: 1000, 3: 10000, 4: 100000, 5: 1000000, 6: 10000000 };
 const NAMA = ['Ali', 'Mei Ling', 'Muthu', 'Aisyah', 'Daniel', 'Farah', 'Wei Jie', 'Priya', 'Hakim', 'Siti'];
 const BENDA = ['guli', 'pensel', 'buku', 'gula-gula', 'epal', 'pelekat', 'bola', 'kad'];
+const PJ = { guli: 'biji', pensel: 'batang', buku: 'buah', 'gula-gula': 'biji', epal: 'biji', pelekat: 'keping', bola: 'biji', kad: 'keping', 'kereta mainan': 'buah', belon: 'biji' };
 const two = () => { const a = pick(NAMA); let b; do b = pick(NAMA); while (b === a); return [a, b]; };
 
 // ---------- Nombor dalam perkataan ----------
@@ -915,8 +916,8 @@ T.nombor = y => {
 
 const STORY_T = (y, a, b, op) => {
   const [n1, n2] = two(), bd = pick(BENDA);
-  if (y <= 2) return op === '+' ? `${n1} ada ${fmt(a)} biji ${bd}. ${n2} memberinya ${fmt(b)} biji ${bd} lagi. Berapakah jumlah ${bd} ${n1} sekarang?`
-    : `${n1} ada ${fmt(a)} biji ${bd}. Dia memberikan ${fmt(b)} biji ${bd} kepada ${n2}. Berapakah ${bd} yang tinggal?`;
+  if (y <= 2) return op === '+' ? `${n1} ada ${fmt(a)} ${PJ[bd]} ${bd}. ${n2} memberinya ${fmt(b)} ${PJ[bd]} ${bd} lagi. Berapakah jumlah ${bd} ${n1} sekarang?`
+    : `${n1} ada ${fmt(a)} ${PJ[bd]} ${bd}. Dia memberikan ${fmt(b)} ${PJ[bd]} ${bd} kepada ${n2}. Berapakah ${bd} yang tinggal?`;
   if (op === '+') return pick([
     `Sebuah kedai buku menjual ${fmt(a)} buah buku pada bulan Mac dan ${fmt(b)} buah buku pada bulan April. Berapakah jumlah buku yang dijual?`,
     `Sebuah stadium ada ${fmt(a)} penonton lelaki dan ${fmt(b)} penonton perempuan. Berapakah jumlah penonton?`,
@@ -1025,7 +1026,7 @@ T.pecahan = y => {
   if (t === 'visual') { const n = R(2, 10), k = R(1, n - 1); return visualQ(k, n); }
   if (t === 'set') {
     const n = R(5, 12), k = R(1, n - 1), bd = pick(['bola', 'belon', 'kereta mainan']), w = pick(['merah', 'biru', 'kuning']);
-    return mk(`Ada ${n} biji ${bd}. Sebanyak ${k} biji berwarna ${w}. Apakah pecahan ${bd} berwarna ${w}?`, fraw(k, n), [fraw(n - k, n), fraw(k, n + k), k + 1 < n ? fraw(k + 1, n) : null, fraw(n, k + n + 1)], { story: true });
+    return mk(`Ada ${n} ${PJ[bd]} ${bd}. Sebanyak ${k} ${PJ[bd]} berwarna ${w}. Apakah pecahan ${bd} berwarna ${w}?`, fraw(k, n), [fraw(n - k, n), fraw(k, n + k), k + 1 < n ? fraw(k + 1, n) : null, fraw(n, k + n + 1)], { story: true });
   }
   if (t === 'setara') {
     const n = pick([2, 3, 4, 5]), k = R(1, n - 1), m = R(2, 4);
@@ -1106,7 +1107,7 @@ T.perpuluhan = y => {
 };
 
 T.peratus = y => {
-  const types = ['kePeratus', 'kePecahan']; if (y >= 5) types.push('daripada', 'daripada', 'berapaPeratus'); if (y >= 6) types.push('diskaun', 'untung', 'untungPeratus');
+  const types = ['kePeratus', 'kePecahan']; if (y >= 5) types.push('daripada', 'daripada', 'berapaPeratus'); if (y >= 6) types.push('diskaun', 'untungPeratus');
   const t = pick(types);
   if (t === 'kePeratus') {
     if (Math.random() < .5) { const k = R(1, 99); return mk(`Tukarkan ${fraw(k, 100)} kepada ${B('peratus')}.`, k + '%', [(k * 10) + '%', (k + 1) + '%', (100 - k) + '%', (k - 1) + '%'].filter(s => parseInt(s) > 0)); }
@@ -1151,11 +1152,17 @@ T.wang = y => {
   }
   const cap = { 2: 10000, 3: 100000, 4: 1000000, 5: 10000000, 6: 100000000 }[y], step = y === 2 ? 10 : 5;
   const price = (lo, hi) => R(Math.ceil(lo / step), Math.floor(hi / step)) * step;
-  const t = pick(['jumlah', 'baki'].concat(y >= 3 ? ['darab'] : []).concat(y >= 4 ? ['bahagi'] : []));
+  const t = pick(['jumlah', 'baki'].concat(y >= 3 ? ['darab'] : []).concat(y >= 4 ? ['bahagi'] : []).concat(y >= 6 ? ['untung'] : []));
+  if (t === 'untung') {
+    const K = price(cap * .001, cap * .05), U = price(-K / 3, K / 2); if (U === 0) return null; const J = K + U, kata = U > 0 ? 'untung' : 'rugi'; const [n1] = two();
+    return mk(`${n1} membeli sebuah motosikal terpakai dengan harga ${rm(K)} dan menjualnya dengan harga ${rm(J)}. Berapakah ${kata} yang diperoleh?`, rm(Math.abs(U)), [rm(K + J), rm(Math.abs(U) + 1000), rm(Math.abs(Math.abs(U) - 500) || 500), rm(Math.abs(U) * 10)], { story: true });
+  }
   const sl = n => [n + 10, n - 10, n + 100, n - 100, n + 1000, n - 1000, n + 50].filter(x => x > 0).map(rm);
-  if (t === 'jumlah') { const a = price(cap * .05, cap * .5), b = price(cap * .05, cap * .45); const [n1] = two(); return mk(`${n1} membeli sebuah beg berharga ${rm(a)} dan sepasang kasut berharga ${rm(b)}. Berapakah jumlah harga yang perlu dibayar?`, rm(a + b), sl(a + b), { story: true }); }
-  if (t === 'baki') { const bayar = pick([cap / 10, cap / 5, cap / 2, cap].filter(x => x >= 1000)), h = price(bayar * .1, bayar * .9); const [n1] = two(); return mk(`${n1} membayar ${rm(bayar)} untuk barang berharga ${rm(h)}. Berapakah baki wangnya?`, rm(bayar - h), sl(bayar - h), { story: true }); }
-  if (t === 'darab') { const n = R(2, 9), h = price(50, cap / 10 / n); const it = pick(['sebatang pen', 'sebuah buku', 'sekotak susu', 'sebiji bola']); return mk(`Harga ${it} ialah ${rm(h)}. Berapakah harga ${n} unit?`, rm(h * n), [h * n + h, h * n - h, h + n * 100, h * n + 100, h * n - 100].filter(x => x > 0).map(rm), { story: true }); }
+  const BRG = { 2: ['sebuah buku cerita', 'sekotak pensel warna', 'sebuah mainan'], 3: ['sebuah basikal', 'sepasang kasut sukan', 'sebuah beg sekolah'], 4: ['sebuah peti sejuk', 'sebuah televisyen', 'sebuah mesin basuh'], 5: ['sebuah motosikal', 'sebuah kereta terpakai', 'sebuah komputer riba'], 6: ['sebuah rumah', 'sebuah kereta', 'sebidang tanah'] }[y];
+  const [b1, b2] = shuffle(BRG);
+  if (t === 'jumlah') { const a = price(cap * .05, cap * .5), b = price(cap * .05, cap * .45); const [n1] = two(); return mk(`${n1} membeli ${b1} berharga ${rm(a)} dan ${b2} berharga ${rm(b)}. Berapakah jumlah harga yang perlu dibayar?`, rm(a + b), sl(a + b), { story: true }); }
+  if (t === 'baki') { const bayar = pick([cap / 10, cap / 5, cap / 2, cap].filter(x => x >= 1000)), h = price(bayar * .1, bayar * .9); const [n1] = two(); return mk(`${n1} membayar ${rm(bayar)} untuk ${b1} berharga ${rm(h)}. Berapakah baki wangnya?`, rm(bayar - h), sl(bayar - h), { story: true }); }
+  if (t === 'darab') { const [lo, its] = { 3: [50, ['sebatang pen', 'sebuah buku', 'sebiji bola']], 4: [1000, ['sepasang kasut', 'sebuah beg', 'sebuah kamus']], 5: [50000, ['sebuah telefon bimbit', 'sebuah komputer riba', 'sebuah televisyen']], 6: [500000, ['sebuah motosikal', 'sebuah kereta', 'sebuah bot']] }[y]; const n = R(2, 9); if (cap / 10 / n <= lo * 1.2) return null; const h = price(lo, cap / 10 / n); const it = pick(its); return mk(`Harga ${it} ialah ${rm(h)}. Berapakah harga ${n} unit?`, rm(h * n), [h * n + h, h * n - h, h + n * 100, h * n + 100, h * n - 100].filter(x => x > 0).map(rm), { story: true }); }
   const n = pick([2, 4, 5, 8, 10]), each = price(100, cap / 10 / n) , tot = each * n;
   return mk(`Wang sebanyak ${rm(tot)} dikongsi sama banyak oleh ${n} orang adik-beradik. Berapakah wang yang diterima oleh setiap orang?`, rm(each), [each + 100, each - 100, tot - each, each * 2, each + 10].filter(x => x > 0).map(rm), { story: true });
 };
@@ -1341,15 +1348,18 @@ T.perimeter = y => {
 };
 
 T.purata = y => {
-  const k = R(3, 5), avg = R(5, y === 5 ? 60 : 500), xs = [];
-  for (let i = 0; i < k - 1; i++) xs.push(avg + R(-Math.floor(avg / 2), Math.floor(avg / 2)));
-  const last = k * avg - xs.reduce((a, b) => a + b, 0); if (last <= 0) return null; xs.push(last);
-  const S = k * avg;
+  const k = R(3, 5);
   if (y === 6 && Math.random() < .4) {
-    const m = xs.pop();
+    const avg = R(20, 500), xs = []; for (let i = 0; i < k - 1; i++) xs.push(avg + R(-Math.floor(avg / 2), Math.floor(avg / 2)));
+    const m = k * avg - xs.reduce((a, b) => a + b, 0); if (m <= 0) return null; const S = k * avg;
     return mk(`Purata ${k} nombor ialah ${B(fmt(avg))}. ${k - 1} daripada nombor itu ialah ${xs.map(fmt).join(', ')}. Apakah nombor yang satu lagi?`, fmt(m), [m + 1, m - 1, avg, m + k, S - m, m + 10].filter(x => x !== m).map(fmt), { story: true });
   }
-  const unit = pick([['jisim', 'kg', 'orang murid'], ['markah', '', 'orang murid'], ['tinggi', 'cm', 'batang pokok']]);
+  // nilai munasabah: jisim murid 22–60 kg, markah 20–100, tinggi pokok 40–600 cm (D5 had 60 kecuali markah/pokok)
+  const unit = pick([['jisim', 'kg', 'orang murid', 22, 60], ['markah', '', 'orang murid', 20, 100], ['tinggi', 'cm', 'batang pokok', 40, y === 5 ? 99 : 600]]);
+  const [, , , lo, hi] = unit, avg = R(lo + 5, hi - 5), sp = Math.max(3, Math.floor((hi - lo) / 4)), xs = [];
+  for (let i = 0; i < k - 1; i++) xs.push(Math.min(hi, Math.max(lo, avg + R(-sp, sp))));
+  const last = k * avg - xs.reduce((a, b) => a + b, 0); if (last < lo || last > hi) return null; xs.push(last);
+  const S = k * avg;
   return mk(`${unit[0][0].toUpperCase() + unit[0].slice(1)} ${k} ${unit[2]} ialah ${xs.map(x => fmt(x) + (unit[1] ? ' ' + unit[1] : '')).join(', ')}. Berapakah purata ${unit[0]}?`, fmt(avg) + (unit[1] ? ' ' + unit[1] : ''), [avg + 1, avg - 1, avg + 2, S, Math.round(S / (k - 1)), avg + k].filter(x => x !== avg && x > 0).map(x => fmt(x) + (unit[1] ? ' ' + unit[1] : '')), { story: true });
 };
 
@@ -9476,6 +9486,7 @@ kerja: ['Kata Kerja', '🏃', [
  ['m', '"Kakak ___ lantai dengan penyapu." (sapu dengan imbuhan me-)', 'menyapu', ''],
  ['m', '"Datuk ___ pokok bunga itu." (siram dengan imbuhan me-)', 'menyiram', ''],
  ['m', '"Adik ___ gambar kucing." (lukis dengan imbuhan me-)', 'melukis', ''],
+ ['m', '"Hujan lebat, jadi perlawanan bola ___." (tangguh dengan imbuhan di-)', 'ditangguhkan', 'ditangguh|dibatalkan'],
 ]],
 adjektif: ['Kata Adjektif', '🌈', [
  ['e', 'Yang manakah kata adjektif?', 'cantik', 'berlari', 'sekolah', 'menulis'],
@@ -9629,13 +9640,13 @@ faham: ['Pemahaman', '📖', [
  ['m', 'Adik tidur kerana mengantuk. Kata tanya yang sesuai untuk jawapan ini ialah ___. (sebab)', 'mengapa', 'mengapakah|kenapa'],
  ['m', '"Pak Samad menangkap ikan di laut." Pekerjaan Pak Samad ialah ___.', 'nelayan', ''],
  ['m', '"Cikgu Rina mengajar di sekolah." Pekerjaan Cikgu Rina ialah ___.', 'guru', 'cikgu'],
- ['m', '"Hujan lebat, jadi perlawanan bola ___." (tangguh dengan imbuhan di-)', 'ditangguhkan', 'ditangguh|dibatalkan'],
  ['m', 'Orang yang merawat pesakit di hospital ialah ___.', 'doktor', ''],
  ['m', 'Danish memulangkan dompet yang dijumpainya. Sikapnya ___.', 'jujur', 'amanah'],
  ['m', 'Murid yang selalu siapkan kerja sekolah ialah murid yang ___.', 'rajin', ''],
  ['m', 'Tempat nelayan menangkap ikan ialah ___.', 'laut', ''],
  ['m', 'Orang yang menanam padi di sawah ialah ___.', 'petani', 'pesawah'],
  ['m', 'Kita menyimpan wang saku. Amalan ini dipanggil ___.', 'menabung', ''],
+ ['m', 'Hari ini hujan lebat. Pak Mat tidak pergi ke laut. — Mengapakah Pak Mat tidak ke laut? Kerana hujan ___.', 'lebat', ''],
 ]],
 };
 // BM Tahun 3
@@ -11212,8 +11223,8 @@ arah1: [
  ['e', '"Ali menulis ___ pensel." Pilih kata sendi yang betul.', 'dengan', 'di', 'ke', 'dari'],
  ['e', '"Saya mandi ___ bilik air." Pilih kata sendi yang betul.', 'di', 'ke', 'dari', 'dengan'],
  ['e', '"Ayah membeli ikan ___ pasar." Pilih kata sendi yang betul.', 'di', 'ke', 'dengan', 'untuk'],
- ['e', 'Lawan bagi "naik" ialah …', 'turun', 'atas', 'keluar', 'masuk'],
- ['e', 'Lawan bagi "masuk" ialah …', 'keluar', 'naik', 'bawah', 'turun'],
+ ['e', 'Lawan arah bagi "dalam" ialah …', 'luar', 'atas', 'depan', 'kanan'],
+ ['e', 'Lawan arah bagi "utara" ialah …', 'selatan', 'timur', 'barat', 'atas'],
  ['e', 'Matahari terbit dari arah …', 'timur', 'barat', 'utara', 'selatan'],
  ['e', 'Matahari terbenam di arah …', 'barat', 'timur', 'utara', 'selatan'],
  ['e', 'Perkataan manakah kata arah?', 'sebelah', 'sebiji', 'sebuah', 'seekor'],
@@ -11240,8 +11251,8 @@ arah1: [
  ['l', '"Hadiah ini ___ adik kerana dia mendapat nombor satu." Pilih kata sendi yang betul.', 'untuk', 'dari', 'di', 'ke'],
  ['l', 'Pasangan manakah yang BUKAN lawan arah?', 'kiri – depan', 'atas – bawah', 'dalam – luar', 'timur – barat'],
 
- ['m', 'Lawan bagi "naik" ialah ___', 'turun', ''],
- ['m', 'Lawan bagi "masuk" ialah ___', 'keluar', ''],
+ ['m', 'Lawan arah bagi "hadapan" ialah ___', 'belakang', ''],
+ ['m', 'Lawan arah bagi "tepi" ialah ___', 'tengah', ''],
  ['m', 'Lawan arah bagi "barat" ialah ___', 'timur', ''],
  ['m', 'Lawan arah bagi "selatan" ialah ___', 'utara', ''],
  ['m', 'Lawan bagi "bawah" ialah ___', 'atas', ''],

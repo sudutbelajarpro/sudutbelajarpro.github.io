@@ -19066,11 +19066,11 @@ function premium(s, y, t, rank) {
       <tr><td>Ramalan UASA, Graf &amp; Rajah (D4–6)</td><td>—</td><td>✅</td></tr>
       <tr><td>Laporan penuh ibu bapa</td><td>Asas</td><td>✅</td></tr>
       <tr><td>Hadiah juara musim</td><td>—</td><td>✅</td></tr>
-      <tr><td>Sedia ke Tahun 1 (prasekolah)</td><td>8 permainan</td><td>20 · Pakej D1</td></tr>
+      <tr><td>Sedia ke Tahun 1 (prasekolah)</td><td>10 permainan</td><td>30 · Pakej D1</td></tr>
     </tbody></table>
     <div class="bonuskotak"><span class="pitab">🎁 BONUS</span>
       <div style="font-family:var(--fd);font-size:20px;font-weight:700;margin-top:4px">Pakej Darjah 1 + <span style="color:#e8590c">Sedia ke Tahun 1</span></div>
-      <div style="font-size:14px;color:var(--ink);margin-top:4px">Beli <b>Pakej Darjah 1</b>, dapat <b>PERCUMA</b> semua <b>20 permainan prasekolah</b> (huruf, nombor, bentuk &amp; warna) untuk anak 5–6 tahun. Sesuai untuk anak masuk Tahun 1 pada Januari 2027. <a href="#sedia" style="font-weight:700">Cuba 8 permainan percuma →</a></div>
+      <div style="font-size:14px;color:var(--ink);margin-top:4px">Beli <b>Pakej Darjah 1</b>, dapat <b>PERCUMA</b> semua <b>30 permainan prasekolah</b> (huruf, nombor, sains, perasaan &amp; kreatif) untuk anak 5–6 tahun. Sesuai untuk anak masuk Tahun 1 pada Januari 2027. <a href="#sedia" style="font-weight:700">Cuba 10 permainan percuma →</a></div>
     </div>
     <h2 class="pm-h" id="pm-pakej">Pilih pakej</h2>
     ${hargaAwal('2bulan') || hargaAwal('setahun') ? `<div class="pm-naik"><span class="pm-naikt">⏰ TAWARAN HARGA AWAL · TERHAD</span>
@@ -19093,7 +19093,7 @@ function premium(s, y, t, rank) {
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
           <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}${i === 1 ? ' + 🎁 BONUS' : ''}</option>`).join('')}</select>
-          <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (20 permainan prasekolah)</span></span>
+          <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (30 permainan prasekolah)</span></span>
         </div>
         <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Cuti sekolah? Pilih darjah tahun depan untuk bersedia, atau darjah semasa untuk ulang kaji.</div>
         ${REF.buka() ? (REF.sah() ? `<div class="pk-ref" id="pkref">🎁 Kod rakan <b>${esc(REF.sah())}</b> digunakan — ${['2bulan', 'setahun'].some(x => REF.diskaun(x)) ? ['2bulan', 'setahun'].filter(x => REF.diskaun(x)).map(x => `jimat <b>RM${REF.diskaun(x)}</b> (${NAMA_PELAN[x]})`).join(' · ') : 'harga awal sekarang sudah paling rendah'}. <button type="button" class="pk-refx" id="pkrefx" aria-label="Buang kod rakan">✕</button></div>` : `<details class="pk-refd" id="pkref"><summary>🎁 Ada kod rakan?</summary><div style="display:flex;gap:8px;margin-top:8px"><input id="refin" placeholder="cth AINA27" maxlength="12" autocomplete="off" style="flex:1;min-width:0;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase"><button type="button" class="btn sec" id="refguna" style="padding:9px 16px">Guna</button></div><div id="refmsg" style="font-size:13px;margin-top:6px;color:var(--muted)"></div></details>`) : ''}
@@ -19271,7 +19271,7 @@ function faq() {
     ${Q('Adakah selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan nama glamour pilihan anak, bukan nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p>`)}
     ${Q('Terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. Kod 6 angka dihantar ke emel ibu bapa (sah 30 minit).</p>`)}
     ${Q('Perlu muat turun app?', `<p>Tidak. Buka <b>sudutbelajarpro.com</b> di mana-mana peranti dan <a href="#pasang">tambah ke skrin utama</a>. Untuk tablet anak, guna <b>📲 Hantar ke peranti anak</b> di halaman Akaun.</p>`)}
-    ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 20 permainan untuk anak 5–6 tahun, 8 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
+    ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 30 permainan untuk anak 5–6 tahun, 10 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
     ${Q('Bila ranking bermula semula?', `<p>Setiap musim ${tt('musim_bulan')} bulan, bermula ${tarikhPenuh(tt('musim_mula'))}. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
     ${k && k.kod ? Q('Apa itu kod kempen ' + esc(k.kod) + '?', `<p>${k.had ? k.had + ' pengguna terawal' : 'Pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Sekali bagi setiap profil.</p>`) : ''}
     ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>WhatsApp: <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">0${WA_NUM.slice(2, 4)}-${WA_NUM.slice(4)}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
@@ -19693,7 +19693,7 @@ function home(y, scroll) {
         <div class="tile t1" aria-hidden="true">7</div><div class="tile t2" aria-hidden="true">÷</div><div class="tile t4" aria-hidden="true">💎</div>
       </div>
     </section>
-    <a class="sediakad" href="#sedia"><span class="sk-ic">🎒</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 20 permainan huruf &amp; nombor · <u>8 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
+    <a class="sediakad" href="#sedia"><span class="sk-ic">🎒</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 30 permainan huruf, nombor, sains &amp; kreatif · <u>10 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
     <section class="blk" id="pilih">
       <div class="sh"><div><h2>Pilih darjah</h2><p>Kemudian pilih subjek untuk mula berlatih.</p></div></div>
       <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="l">Darjah ${i}</span></button>`).join('')}</div>
@@ -20573,15 +20573,231 @@ const PRA = (() => {
       } },
   ];
 
-  // 8 permainan percuma; selebihnya dibuka oleh Pakej Darjah 1 (BONUS) atau Premium lama semua darjah
-  const PERCUMA = ['belon', 'keretaapi', 'telur', 'surih', 'ikan', 'rama', 'menara', 'roket'];
+
+  // ================= 18 Nov 2026: 3 ZON BAHARU (10 permainan asli) =================
+  const CSS2 = `
+.pr-o.lbl{font-size:19px;height:auto;min-height:96px;padding:10px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.1}
+.pr-o.lbl .e{font-size:44px;line-height:1.1}
+.pr-o.besar{min-width:140px;font-size:22px}
+.pr-o.besar .e{font-size:52px}
+.pr-adegan{background:#fff8e6;border-radius:24px;padding:14px 18px;text-align:center;max-width:420px;box-shadow:0 6px 0 #ffe3a3}
+.pr-adegan .e{font-size:72px;line-height:1.1;display:block}
+.pr-adegan p{font-family:var(--fb);font-weight:700;font-size:18px;margin:6px 0 0;color:var(--ink)}
+.pr-tangki{position:relative;width:220px;height:200px;border-radius:0 0 28px 28px;border:5px solid #b9e3ff;border-top:0;background:linear-gradient(transparent 38%,#7fd0ff 38%,#3b9be8);overflow:hidden}
+.pr-tangki::before{content:'';position:absolute;left:0;right:0;top:38%;height:8px;background:repeating-radial-gradient(circle at 10px -4px,transparent 0 8px,#bfe8ff 8px 10px);opacity:.8}
+.pr-tangki .obj{position:absolute;left:50%;top:6px;font-size:58px;line-height:1;transform:translateX(-50%);transition:top 1.1s cubic-bezier(.3,.8,.4,1)}
+.pr-tangki .obj.timbul{top:24%;animation:prapung 1.8s ease-in-out .9s infinite}
+.pr-tangki .obj.tenggelam{top:68%}
+.pr-bayang{filter:brightness(0) opacity(.85);font-size:110px;line-height:1}
+.pr-kadgrid{display:grid;grid-template-columns:repeat(var(--k,3),1fr);gap:10px}
+.pr-kad{border:0;width:76px;height:92px;border-radius:18px;cursor:pointer;font-size:44px;position:relative;background:transparent;perspective:600px;padding:0}
+.pr-kad i{position:absolute;inset:0;border-radius:18px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .4s;font-style:normal}
+.pr-kad .dpn{background:linear-gradient(135deg,#7c6cff,#a78bfa);color:#fff;font-size:30px;box-shadow:0 5px 0 #5b4bdb}
+.pr-kad .blk{background:#fff;transform:rotateY(180deg);box-shadow:0 5px 0 #dcd6fb,0 0 0 3px #ece9ff inset}
+.pr-kad.buka .dpn{transform:rotateY(180deg)}.pr-kad.buka .blk{transform:rotateY(0)}
+.pr-kad.siap .blk{background:#d3f9d8;box-shadow:0 5px 0 #69db7c}
+.pr-pola{display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:44px;line-height:1;background:#f4f2ff;border-radius:22px;padding:14px 12px}
+.pr-pola span{display:inline-flex;width:50px;height:50px;align-items:center;justify-content:center}
+.pr-pola .tanya{border:3px dashed #a99bff;border-radius:16px;color:#a99bff;font-family:var(--fd);font-weight:700;font-size:34px;background:#fff}
+.pr-cat{width:72px;height:72px;flex:none;border-radius:50%;box-shadow:inset -8px -10px 0 rgba(0,0,0,.12),0 6px 0 rgba(0,0,0,.08);display:inline-block}
+.pr-campur{display:flex;align-items:center;gap:8px;font-size:32px;font-weight:700;color:var(--muted)}
+.pr-campur .pr-cat{transition:transform .9s cubic-bezier(.5,0,.5,1)}
+.pr-campur.gaul .kiri{transform:translateX(40px) scale(.8)}.pr-campur.gaul .kanan{transform:translateX(-40px) scale(.8)}
+.pr-o .pr-cat{width:58px;height:58px}
+.pr-kitar{display:flex;align-items:center;gap:3px;flex-wrap:nowrap;justify-content:center;min-height:80px}
+.pr-kitar .tp{width:58px;height:58px;flex:none;border-radius:18px;background:#f1fff4;border:3px dashed #8ce99a;display:flex;align-items:center;justify-content:center;font-size:40px}
+.pr-kitar .tp.isi{border-style:solid;background:#d3f9d8;animation:prlonjak .45s}
+.pr-kitar .ar{font-size:18px;color:#69db7c;flex:none}
+.pr-kpg{display:inline-block;width:24px;height:44px;border-radius:50%/60%;background:linear-gradient(135deg,#c9a26b,#8d6e3f);box-shadow:inset -4px -5px 0 rgba(0,0,0,.18);vertical-align:middle}
+.pr-zon .pr-zk[data-z]:not([data-z=pelekat]):last-child:nth-child(odd){grid-column:1/-1}
+@media (max-width:400px){.pr-kad{width:64px;height:80px;font-size:36px}.pr-pola{font-size:30px;padding:12px 6px}.pr-pola span{width:38px;height:42px}.pr-pola .tanya{font-size:26px}.pr-kitar .tp{width:52px;height:52px;font-size:34px}.pr-o.lbl{min-height:84px;font-size:17px}}
+`;
+  function gaya2() { if (document.getElementById('pracss2')) return; const s = document.createElement('style'); s.id = 'pracss2'; s.textContent = CSS2; document.head.appendChild(s); }
+  const KPG = '<span class="pr-kpg" aria-label="kepompong"></span>';
+  const lbl = (e, t) => `<span class="e">${e}</span>${t}`;
+  // pilihan berlabel (emoji + teks); kembalikan html
+  const pilihanLbl = (ops, cls) => `<div class="pr-pil">${ops.map((o, i) => `<button class="pr-o lbl ${cls || ''}" data-i="${i}">${lbl(o[0], o[1])}</button>`).join('')}</div>`;
+
+  // ---------- HUTAN SAINS ----------
+  const KITAR = [
+    { n: 'ayam', t: ['🥚', '🐣', '🐥', '🐔'], k: ['telur', 'menetas', 'anak ayam', 'ayam'] },
+    { n: 'rama-rama', t: ['🥚', '🐛', KPG, '🦋'], k: ['telur', 'ulat', 'kepompong', 'rama-rama'] },
+    { n: 'pokok', t: ['🌰', '🌱', '🌿', '🌳'], k: ['biji benih', 'anak pokok', 'pokok kecil', 'pokok besar'] },
+    { n: 'manusia', t: ['👶', '🧒', '🧑', '🧓'], k: ['bayi', 'kanak-kanak', 'dewasa', 'warga emas'] },
+  ];
+  const BENDA_AIR = [
+    ['🦆', 'itik mainan', 1], ['🍃', 'daun', 1], ['⚽', 'bola', 1], ['🥥', 'kelapa', 1], ['🍎', 'epal', 1], ['🎈', 'belon', 1], ['🧽', 'span', 1], ['⛵', 'bot kertas', 1], ['🍋', 'lemon', 1],
+    ['🔑', 'kunci', 0], ['⚓', 'sauh', 0], ['🔩', 'skru besi', 0], ['🥄', 'sudu besi', 0], ['🔨', 'tukul', 0], ['💍', 'cincin', 0], ['⚙️', 'gear besi', 0],
+  ];
+  const HABITAT = { laut: ['🌊', 'Laut'], hutan: ['🌳', 'Hutan'], gurun: ['🏜️', 'Padang pasir'], ladang: ['🚜', 'Ladang'], kutub: ['❄️', 'Kutub'] };
+  const HAIWAN = [
+    ['🐟', 'ikan', 'laut'], ['🐙', 'sotong kurita', 'laut'], ['🐬', 'ikan lumba-lumba', 'laut'], ['🦀', 'ketam', 'laut'], ['🐳', 'ikan paus', 'laut'],
+    ['🐒', 'monyet', 'hutan'], ['🐯', 'harimau', 'hutan'], ['🐘', 'gajah', 'hutan'], ['🦜', 'burung kakak tua', 'hutan'],
+    ['🐫', 'unta', 'gurun'], ['🦂', 'kala jengking', 'gurun'],
+    ['🐄', 'lembu', 'ladang'], ['🐐', 'kambing', 'ladang'], ['🐔', 'ayam', 'ladang'], ['🐑', 'biri-biri', 'ladang'],
+    ['🐧', 'penguin', 'kutub'],
+  ];
+  const SAINS = [
+    { id: 'kitaran', ic: '🐣', nama: 'Kitaran Hidup', d: 'Susun dari kecil hingga besar', pelekat: '🐤',
+      main(R) {
+        const K = KITAR[R.i % KITAR.length]; let lk = 1;
+        api.soal(`Susun kitaran hidup <span class="h">${K.n}</span>. Apa selepas ${K.k[0]}?`, `Mari susun kitaran hidup ${K.n}. Mula dengan ${K.k[0]}. Apa yang datang selepas itu?`);
+        const susun = [1, 2, 3];
+        api.pentas().innerHTML = `<div class="pr-kitar" id="prkitar">${K.t.map((e, i) => `${i ? '<span class="ar">➜</span>' : ''}<span class="tp${i === 0 ? ' isi' : ''}" data-s="${i}">${i === 0 ? e : '?'}</span>`).join('')}</div>
+          <div class="pr-pil">${kocok(susun).map(i => `<button class="pr-o lbl" data-c="${i}">${lbl(K.t[i], K.k[i])}</button>`).join('')}</div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci || b.disabled) return;
+          if (+b.dataset.c === lk) {
+            const tp = api.pentas().querySelector(`.tp[data-s="${lk}"]`); tp.innerHTML = K.t[lk]; tp.classList.add('isi');
+            b.disabled = true; b.style.visibility = 'hidden'; nada('pop'); SUARA.cakap(K.k[lk]); lk++;
+            if (lk === 4) api.betul(null, `Hebat! ${K.k.join(', ')}.`);
+          } else api.salah(b);
+        });
+      } },
+    { id: 'timbul', ic: '⛵', nama: 'Timbul atau Tenggelam', d: 'Teka, kemudian lihat!', pelekat: '🐳',
+      main(R) {
+        const [e, nm, tb] = (R.dahAir = R.dahAir || ambil(BENDA_AIR, 8))[R.i];
+        api.soal(`Kalau <span class="h">${nm}</span> dimasukkan ke dalam air, ia timbul atau tenggelam?`, `Kalau ${nm} dimasukkan ke dalam air, ia timbul atau tenggelam?`);
+        api.pentas().innerHTML = `<div class="pr-tangki"><span class="obj" id="probj">${e}</span></div>
+          <div class="pr-pil"><button class="pr-o lbl besar" data-t="1">${lbl('🛟', 'Timbul')}</button><button class="pr-o lbl besar" data-t="0">${lbl('⬇️', 'Tenggelam')}</button></div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          const o = $('#probj');
+          if (+b.dataset.t === tb) { if (o) o.classList.add(tb ? 'timbul' : 'tenggelam'); nada(tb ? 'lompat' : 'tut'); api.betul(b, tb ? `Betul! ${nm} timbul.` : `Betul! ${nm} tenggelam ke dasar.`); }
+          else api.salah(b);
+        });
+      } },
+    { id: 'habitat', ic: '🏕️', nama: 'Rumah Haiwan', d: 'Di mana haiwan ini tinggal?', pelekat: '🦉',
+      main(R) {
+        const [e, nm, h] = (R.dahH = R.dahH || ambil(HAIWAN, 8))[R.i];
+        const lain = ambil(Object.keys(HABITAT).filter(k => k !== h), 2); const ops = kocok([h, ...lain]);
+        api.soal(`Di mana <span class="h">${nm}</span> tinggal?`, `Di mana ${nm} tinggal?`);
+        api.pentas().innerHTML = `<div class="pr-gbr">${e}</div>${pilihanLbl(ops.map(k => HABITAT[k]))}`;
+        ikatPilihan(ops.indexOf(h), `Betul! ${nm} tinggal di ${HABITAT[h][1].toLowerCase()}.`);
+      } },
+  ];
+
+  // ---------- KAMPUNG CERIA ----------
+  const MUKA = { gembira: '😀', sedih: '😢', marah: '😠', takut: '😨', terkejut: '😲' };
+  const ADEGAN_RASA = [
+    ['🎁', 'Adik dapat hadiah hari jadi.', 'gembira'], ['🍦', 'Aiskrim adik jatuh ke lantai.', 'sedih'], ['⛈️', 'Bunyi guruh sangat kuat pada waktu malam.', 'takut'],
+    ['🧸', 'Kawan merampas mainan tanpa minta izin.', 'marah'], ['🎉', 'Semua kawan datang ke majlis hari jadi.', 'gembira'], ['🎈', 'Belon tiba-tiba meletup di sebelah adik.', 'terkejut'],
+    ['🐶', 'Anak anjing peliharaan hilang.', 'sedih'], ['🏆', 'Adik menang pertandingan mewarna.', 'gembira'],
+  ];
+  const SELAMAT = [
+    ['🚸', 'Melintas jalan sambil pegang tangan ibu', 1], ['🚗', 'Pakai tali pinggang keledar dalam kereta', 1], ['🚲', 'Pakai topi keledar semasa naik basikal', 1],
+    ['🧼', 'Basuh tangan sebelum makan', 1], ['🏊', 'Berenang bersama orang dewasa', 1], ['☎️', 'Hafal nombor telefon ibu bapa', 1],
+    ['🔥', 'Bermain dengan mancis dan api', 0], ['🔌', 'Masukkan jari ke dalam soket elektrik', 0], ['💊', 'Makan ubat tanpa izin ibu bapa', 0],
+    ['🛣️', 'Bermain bola di tepi jalan raya', 0], ['🍬', 'Ikut orang tidak dikenali yang beri gula-gula', 0], ['🔪', 'Bermain dengan pisau', 0], ['🪟', 'Memanjat tingkap yang terbuka', 0],
+  ];
+  const KERJA = [
+    ['🩺', 'stetoskop', '👩‍⚕️', 'Doktor'], ['🧯', 'pemadam api', '👨‍🚒', 'Ahli bomba'], ['🍳', 'kuali', '👨‍🍳', 'Tukang masak'], ['🚜', 'traktor', '👩‍🌾', 'Petani'],
+    ['📚', 'buku', '👩‍🏫', 'Guru'], ['🚓', 'kereta peronda', '👮', 'Polis'], ['🔧', 'sepana', '👨‍🔧', 'Mekanik'], ['✈️', 'kapal terbang', '👩‍✈️', 'Juruterbang'],
+  ];
+  const KAMPUNG = [
+    { id: 'perasaan', ic: '😊', nama: 'Wajah Perasaan', d: 'Kenal gembira, sedih, marah', pelekat: '🐷',
+      main(R) {
+        if (R.i % 2 === 0) {
+          const r = pick(Object.keys(MUKA)); const ops = kocok([r, ...ambil(Object.keys(MUKA).filter(k => k !== r), 2)]);
+          api.soal(`Mana muka yang <span class="h">${r}</span>?`, `Cari muka yang ${r}.`);
+          api.pentas().innerHTML = `<div class="pr-pil">${ops.map((k, i) => `<button class="pr-o" data-i="${i}" style="font-size:64px;height:104px;min-width:104px">${MUKA[k]}</button>`).join('')}</div>`;
+          ikatPilihan(ops.indexOf(r), `Betul! Itu muka ${r}.`);
+        } else {
+          const [e, t, r] = (R.dahA = R.dahA || kocok(ADEGAN_RASA))[R.i >> 1];
+          const ops = kocok([r, ...ambil(Object.keys(MUKA).filter(k => k !== r), 2)]);
+          api.soal('Apa perasaannya?', `${t} Apa perasaannya?`);
+          api.pentas().innerHTML = `<div class="pr-adegan"><span class="e">${e}</span><p>${t}</p></div>${pilihanLbl(ops.map(k => [MUKA[k], k[0].toUpperCase() + k.slice(1)]))}`;
+          ikatPilihan(ops.indexOf(r), `Betul! Rasa ${r}.`);
+        }
+      } },
+    { id: 'selamat', ic: '🚦', nama: 'Selamat atau Bahaya?', d: 'Kenal perbuatan selamat', pelekat: '🦒',
+      main(R) {
+        const [e, t, ok] = (R.dahS = R.dahS || ambil(SELAMAT, 8))[R.i];
+        api.soal('Ini <b>selamat</b> atau <b>bahaya</b>?', `${t}. Ini selamat atau bahaya?`);
+        api.pentas().innerHTML = `<div class="pr-adegan"><span class="e">${e}</span><p>${t}</p></div>
+          <div class="pr-pil"><button class="pr-o lbl besar" data-t="1" style="background:#ebfbee">${lbl('✅', 'Selamat')}</button><button class="pr-o lbl besar" data-t="0" style="background:#fff0f0">${lbl('⛔', 'Bahaya')}</button></div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          +b.dataset.t === ok ? api.betul(b, ok ? 'Betul! Itu selamat.' : 'Betul! Itu bahaya. Jangan buat ya.') : api.salah(b);
+        });
+      } },
+    { id: 'kerjaya', ic: '🧰', nama: 'Siapa Guna Alat Ini?', d: 'Padankan alat dan kerja', pelekat: '🐮',
+      main(R) {
+        const k = (R.dahK = R.dahK || ambil(KERJA, 8))[R.i]; const ops = kocok([k, ...ambil(KERJA.filter(x => x !== k), 2)]);
+        api.soal(`Siapa yang guna <span class="h">${k[1]}</span>?`, `Siapa yang guna ${k[1]}?`);
+        api.pentas().innerHTML = `<div class="pr-gbr">${k[0]}</div>${pilihanLbl(ops.map(x => [x[2], x[3]]))}`;
+        ikatPilihan(ops.indexOf(k), `Betul! ${k[3]} guna ${k[1]}.`);
+      } },
+  ];
+
+  // ---------- STUDIO KREATIF ----------
+  const BAYANG = KATA.filter(([k]) => ['ayam','gajah','gitar','pisang','payung','rama-rama','roket','siput','unta','rusa','basikal','penguin','pokok','ikan','itik','semut','ular','kunci','kasut','anggur','cili','bas','udang','burung','lebah'].includes(k));
+  const POLA_SET = [['🔴', '🔵', '🟡'], ['🍎', '🍌', '🍇'], ['🐱', '🐶', '🐰'], ['⭐', '🌙', '☀️'], ['🟩', '🟧', '🟪'], ['🚗', '🚌', '🚲']];
+  const POLA_JENIS = [[0, 1], [0, 0, 1], [0, 1, 1], [0, 1, 2]];
+  const CAT = { merah: '#ef4444', kuning: '#facc15', biru: '#3b82f6', putih: '#ffffff', hitam: '#1f2937', oren: '#fb923c', hijau: '#22c55e', ungu: '#a855f7', 'merah jambu': '#f9a8d4', kelabu: '#9ca3af', coklat: '#92400e' };
+  const CAMPUR = [['merah', 'kuning', 'oren'], ['biru', 'kuning', 'hijau'], ['merah', 'biru', 'ungu'], ['merah', 'putih', 'merah jambu'], ['hitam', 'putih', 'kelabu']];
+  const cat = (w, cls) => `<span class="pr-cat ${cls || ''}" style="background:${CAT[w]}${w === 'putih' ? ';box-shadow:inset 0 0 0 2px #e5e7eb,inset -8px -10px 0 rgba(0,0,0,.08)' : ''}"></span>`;
+  const KREATIF = [
+    { id: 'bayang', ic: '👤', nama: 'Teka Bayang', d: 'Bayang siapa ini?', pelekat: '🐺',
+      main(R) {
+        const t = (R.dahB = R.dahB || ambil(BAYANG, 8))[R.i]; const ops = kocok([t, ...ambil(BAYANG.filter(x => x !== t), 2)]);
+        api.soal('Ini bayang apa?', 'Lihat bayang ini. Ini bayang apa?');
+        api.pentas().innerHTML = `<div class="pr-bayang" id="prbyg">${t[1]}</div>${pilihanLbl(ops.map(x => [x[1], x[0]]))}`;
+        ikatPilihan(ops.indexOf(t), `Betul! Itu bayang ${t[0]}.`);
+        api.pentas().querySelectorAll('.pr-o').forEach(b => { const a = b.onclick; b.onclick = () => { if (!api.kunci && ops[+b.dataset.i] === t) { const y = $('#prbyg'); if (y) { y.style.transition = 'filter .6s'; y.style.filter = 'none'; } } a(); }; });
+      } },
+    { id: 'ingat', ic: '🃏', nama: 'Ingat Kad', d: 'Cari kad yang sama', pelekat: '🐙', n: 4,
+      main(R) {
+        const k = R.i < 2 ? 3 : 4; const muka = ambil(KATA.map(x => x[1]), k); const kad = kocok([...muka, ...muka]);
+        api.soal('Buka dua kad. Cari pasangan yang sama!', 'Buka dua kad. Cari gambar yang sama.');
+        api.pentas().innerHTML = `<div class="pr-kadgrid" style="--k:${k}">${kad.map((e, i) => `<button class="pr-kad" data-i="${i}" aria-label="Kad ${i + 1}"><i class="dpn">⭐</i><i class="blk">${e}</i></button>`).join('')}</div>`;
+        let buka = [], siap = 0, sibuk = false;
+        api.pentas().querySelectorAll('.pr-kad').forEach(b => b.onclick = () => {
+          if (api.kunci || sibuk || b.classList.contains('buka')) return;
+          b.classList.add('buka'); nada('pop'); buka.push(b);
+          if (buka.length < 2) return;
+          const [a, c] = buka; buka = [];
+          if (kad[+a.dataset.i] === kad[+c.dataset.i]) { a.classList.add('siap'); c.classList.add('siap'); kilau(c); siap++; if (siap === k) api.betul(null, 'Hebat! Semua pasangan dijumpai!'); else SUARA.cakap(pick(['Sama!', 'Bagus!', 'Jumpa!'])); }
+          else { sibuk = true; later(() => { a.classList.remove('buka'); c.classList.remove('buka'); sibuk = false; }, 900); }
+        });
+      } },
+    { id: 'pola', ic: '🧩', nama: 'Pola Seterusnya', d: 'Apa yang datang seterusnya?', pelekat: '🦀',
+      main(R) {
+        const set = kocok(pick(POLA_SET)); const j = POLA_JENIS[[0, 0, 1, 1, 2, 3][R.i] ?? 3];
+        const siri = Array.from({ length: j.length === 2 ? 5 : j.length * 2 }, (_, i) => set[j[i % j.length]]);
+        const jwp = set[j[siri.length % j.length]];
+        api.soal('Apa yang datang seterusnya?', 'Lihat corak ini. Apa yang datang seterusnya?');
+        api.pentas().innerHTML = `<div class="pr-pola">${siri.map(e => `<span>${e}</span>`).join('')}<span class="tanya" id="prtanya">?</span></div>${pilihan(kocok(set))}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => { if (api.kunci) return; if (b.textContent === jwp) { const t = $('#prtanya'); if (t) { t.textContent = jwp; t.className = ''; } api.betul(b, 'Betul! Coraknya berulang.'); } else api.salah(b); });
+      } },
+    { id: 'warna', ic: '🎨', nama: 'Campur Warna', d: 'Dua warna jadi warna baharu', pelekat: '🦜',
+      main(R) {
+        const [a, b, h] = (R.dahW = R.dahW || kocok(CAMPUR).concat(kocok(CAMPUR)))[R.i];
+        const ops = kocok([h, ...ambil(['oren', 'hijau', 'ungu', 'merah jambu', 'kelabu', 'coklat'].filter(x => x !== h), 2)]);
+        api.soal(`<b>${a}</b> campur <b>${b}</b> jadi warna apa?`, `Warna ${a} campur warna ${b}. Jadi warna apa?`);
+        api.pentas().innerHTML = `<div class="pr-campur" id="prcampur">${cat(a, 'kiri')}<span>+</span>${cat(b, 'kanan')}<span>=</span><span class="pr-cat" id="prhasilcat" style="background:#fff;box-shadow:inset 0 0 0 3px #e5e7eb;display:inline-flex;align-items:center;justify-content:center;font-size:34px;color:#c4c0e0">?</span></div>
+          <div class="pr-pil">${ops.map((w, i) => `<button class="pr-o lbl" data-i="${i}">${cat(w)}${w}</button>`).join('')}</div>`;
+        later(() => { const c = $('#prcampur'); if (c) c.classList.add('gaul'); }, 700);
+        api.pentas().querySelectorAll('.pr-o').forEach(btn => btn.onclick = () => {
+          if (api.kunci) return;
+          if (ops[+btn.dataset.i] === h) { const r = $('#prhasilcat'); if (r) { r.textContent = ''; r.style.background = CAT[h]; r.style.boxShadow = ''; r.classList.add('pr-lonjak'); } api.betul(btn, `Betul! ${a} campur ${b} jadi ${h}.`); }
+          else api.salah(btn);
+        });
+      } },
+  ];
+
+  // 10 permainan percuma; selebihnya dibuka oleh Pakej Darjah 1 (BONUS) atau Premium lama semua darjah
+  const PERCUMA = ['belon', 'keretaapi', 'telur', 'surih', 'ikan', 'rama', 'menara', 'roket', 'timbul', 'ingat'];
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
     nombor: { nama: 'Taman Nombor', ic: '🎡', sub: 'Kira, bentuk & susun nombor', w: 'linear-gradient(135deg,#4f7cff,#22c1c3)', games: NOMBOR },
+    sains: { nama: 'Hutan Sains', ic: '🌳', sub: 'Haiwan, air & kitaran hidup', w: 'linear-gradient(135deg,#20bf6b,#0fb9b1)', games: SAINS },
+    kampung: { nama: 'Kampung Ceria', ic: '🏡', sub: 'Perasaan, keselamatan & kerjaya', w: 'linear-gradient(135deg,#fa8231,#f7b731)', games: KAMPUNG },
+    kreatif: { nama: 'Studio Kreatif', ic: '🎨', sub: 'Bayang, ingatan, corak & warna', w: 'linear-gradient(135deg,#8854d0,#d980fa)', games: KREATIF },
   };
-  const semuaGame = () => [...HURUF.map(g => ['huruf', g]), ...NOMBOR.map(g => ['nombor', g])];
+  const semuaGame = () => Object.entries(ZON).flatMap(([k, z]) => z.games.map(g => [k, g]));
 
   // ---------- halaman ----------
   const bintangTeks = n => '⭐'.repeat(n) + '<span style="opacity:.25">' + '⭐'.repeat(3 - n) + '</span>';
@@ -20595,7 +20811,7 @@ const PRA = (() => {
         <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
       <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${z.ic}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
       <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
-      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 20 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">8 permainan PERCUMA · 12 lagi sebagai BONUS</b>Semua 20 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
+      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 30 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">10 permainan PERCUMA · 20 lagi sebagai BONUS</b>Semua 30 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
       <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
       <div style="text-align:center;margin-top:14px">${suaraBtn()}</div>
@@ -20608,7 +20824,7 @@ const PRA = (() => {
   function zon(z) {
     const Z = ZON[z]; const s = ST.get();
     app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${Z.ic} ${Z.nama}</h2>${suaraBtn()}</div>
-      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 20 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 30 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
     app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
@@ -20617,7 +20833,7 @@ const PRA = (() => {
       <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
       <div class="pr-pintu"><div class="ic">🔒</div><h2>Permainan ini berkunci</h2>
         <p style="font-family:var(--fb);font-size:17px;font-weight:600;margin:0">Minta ayah atau ibu buka ya! 😊</p>
-        <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 20 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
+        <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 30 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
         <button class="pr-btn utama pr-tahan" id="prtahan"><i></i><span style="position:relative">👨‍👩‍👧 Ibu bapa: tekan &amp; tahan</span></button>
         <div style="margin-top:14px"><button class="pr-btn" onclick="location.hash='#sedia/${z}'">🎮 Main permainan percuma</button></div>
       </div></div></div>`;
@@ -20670,7 +20886,7 @@ const PRA = (() => {
   }
 
   function route(h) {
-    gaya(); TOK++; SUARA.henti(); G = null;
+    gaya(); gaya2(); TOK++; SUARA.henti(); G = null;
     const p = h.split('/');
     if (p.length === 1) return hab();
     if (p[1] === 'pelekat') return album();
@@ -20680,7 +20896,7 @@ const PRA = (() => {
     if (!terbuka(g)) return pintu(p[1], g);
     main(p[1], g);
   }
-  return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _ST: ST, PERCUMA };
+  return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, PERCUMA };
 })();
 
 function confetti() {

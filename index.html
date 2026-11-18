@@ -17464,6 +17464,947 @@ NOTA.sn[4].siasat = NOTA.sn[5].siasat = NOTA.sn[6].siasat = `
 // 18 Nov 2026: nota English Tahun 2 dipindah ke Tahun 1 bersama tajuknya
 ['freetime', 'house', 'clothes', 'robot', 'beach', 'reading'].forEach(t => { if (NOTA.bi[2] && NOTA.bi[2][t]) { NOTA.bi[1][t] = NOTA.bi[2][t]; delete NOTA.bi[2][t]; } });
 
+// ===== 18 Nov 2026: nota tambahan — topik yang belum ada nota (BI T2 baharu, T4–T6) =====
+NOTA.bi[5] = NOTA.bi[5] || {}; NOTA.bi[6] = NOTA.bi[6] || {};
+// ---------- BI TAHUN 2 (unit baharu) ----------
+NOTA.bi[2].routine = `
+<h3>⏰ My Daily Routine</h3>
+<p>Routine = perkara yang kita buat <b>setiap hari</b>. Guna <b>Simple Present</b>.</p>
+<table><tr><th>I / You / We / They</th><th>He / She / It / Ali</th></tr>
+<tr><td>I <b>wake</b> up at six.</td><td>She <b>wakes</b> up at six.</td></tr>
+<tr><td>We <b>go</b> to school.</td><td>He <b>goes</b> to school.</td></tr>
+<tr><td>They <b>brush</b> their teeth.</td><td>Siti <b>brushes</b> her teeth.</td></tr>
+<tr><td>I <b>do</b> my homework.</td><td>Ali <b>does</b> his homework.</td></tr></table>
+<h3>Meals (waktu makan)</h3>
+<ul><li><b>breakfast</b> — pagi · <b>lunch</b> — tengah hari · <b>dinner</b> — malam</li></ul>
+<h3>Time (masa)</h3>
+<ul><li><b>a.m.</b> = pagi (7.00 a.m.) · <b>p.m.</b> = petang/malam (9.00 p.m.)</li>
+<li><b>in</b> the morning / afternoon / evening · <b>at</b> night · <b>at</b> seven o'clock</li></ul>
+<div class="tip">💡 Ada <b>he / she / nama seorang</b>? Tambah <b>-s</b> atau <b>-es</b> pada kata kerja: play<b>s</b>, wash<b>es</b>, go<b>es</b>.</div>`;
+
+NOTA.bi[2].home = `
+<h3>🏡 Home Sweet Home</h3>
+<table><tr><th>Room</th><th>Things inside</th></tr>
+<tr><td><b>living room</b></td><td>sofa, television, fan, clock</td></tr>
+<tr><td><b>kitchen</b></td><td>stove, pot, pan, fridge, sink</td></tr>
+<tr><td><b>bedroom</b></td><td>bed, pillow, blanket, wardrobe</td></tr>
+<tr><td><b>bathroom</b></td><td>toothbrush, towel, soap, shower</td></tr>
+<tr><td><b>dining room</b></td><td>table, chairs, plates</td></tr></table>
+<p>Bahagian rumah: <b>roof</b> (bumbung), <b>door</b>, <b>window</b>, <b>stairs</b> (tangga), <b>wall</b>, <b>floor</b>.</p>
+<h3>There is / There are</h3>
+<ul><li>There <b>is</b> a clock on the wall. (satu)</li>
+<li>There <b>are</b> two beds in my room. (banyak)</li></ul>
+<h3>Where is it?</h3>
+<p><b>in</b> (dalam) · <b>on</b> (atas) · <b>under</b> (bawah) · <b>between</b> (di antara dua benda) · <b>next to</b> (sebelah)</p>
+<div class="tip">💡 Soalan "Which word does NOT belong?" — cari benda yang <b>bukan</b> dalam kumpulan (cth. bicycle bukan barang dapur).</div>`;
+
+NOTA.bi[2].wh = `
+<h3>❓ Ask &amp; Answer</h3>
+<table><tr><th>Question word</th><th>Tanya tentang</th><th>Contoh jawapan</th></tr>
+<tr><td><b>What</b></td><td>benda / warna / haiwan</td><td>It is a ball. / It is green.</td></tr>
+<tr><td><b>Who</b></td><td>orang</td><td>Encik Lim is my neighbour.</td></tr>
+<tr><td><b>Where</b></td><td>tempat</td><td>It is under the table.</td></tr>
+<tr><td><b>When</b></td><td>masa / hari / bulan</td><td>It is on 5th May.</td></tr>
+<tr><td><b>How many</b></td><td>bilangan</td><td>I have five pencils.</td></tr>
+<tr><td><b>How old</b></td><td>umur</td><td>I am eight years old.</td></tr></table>
+<h3>Polite replies (jawapan sopan)</h3>
+<ul><li>"Happy birthday!" → <b>Thank you!</b></li>
+<li>"Thank you." → <b>You're welcome.</b></li>
+<li>"How are you?" → <b>I'm fine, thank you.</b></li></ul>
+<div class="tip">💡 Baca <b>jawapan</b> dulu! Jawapan ada nombor umur → <b>How old</b>. Ada tempat → <b>Where</b>. Ada nama orang → <b>Who</b>.</div>`;
+
+NOTA.bi[2].phonics = `
+<h3>🔡 Phonics &amp; Spelling</h3>
+<p>Dua huruf boleh berbunyi <b>satu bunyi</b>. Kenal bunyi ini:</p>
+<table><tr><th>Sound</th><th>Examples</th></tr>
+<tr><td><b>ee</b></td><td>tree, bee, green</td></tr>
+<tr><td><b>oo</b></td><td>moon, food, spoon</td></tr>
+<tr><td><b>ar</b></td><td>car, star, farm</td></tr>
+<tr><td><b>or</b></td><td>fork, horse, storm</td></tr>
+<tr><td><b>ir / er / ur</b></td><td>bird, skirt, perch, nurse</td></tr>
+<tr><td><b>ou / ow</b></td><td>cloud, house, cow</td></tr>
+<tr><td><b>ai / ay</b></td><td>rain, tail, play</td></tr>
+<tr><td><b>oa / oe</b></td><td>boat, coat, toe</td></tr>
+<tr><td><b>au / aw</b></td><td>sauce, saw</td></tr>
+<tr><td><b>sh / ch</b></td><td>ship, chair</td></tr></table>
+<h3>Syllables (suku kata)</h3>
+<p>Tepuk tangan sambil sebut: cat (1) · ti-ger (2) · el-e-phant (3).</p>
+<div class="tip">💡 Susun huruf (rearrange)? Cari bunyi yang dikenali dulu (cth. <b>sn</b>, <b>st</b>, <b>ir</b>), kemudian sebut perlahan-lahan.</div>`;
+
+NOTA.bi[2].grammar = `
+<h3>✏️ Grammar Fun</h3>
+<h3>a / an / the</h3>
+<ul><li><b>a</b> + bunyi konsonan: a dog, a book · <b>an</b> + bunyi vokal: an apple, an egg</li>
+<li><b>the</b> = benda yang kita sudah tahu: "Hamzah has a car. <b>The</b> car is red."</li></ul>
+<h3>am / is / are</h3>
+<p>I <b>am</b> · He / She / It <b>is</b> · You / We / They <b>are</b></p>
+<h3>Plurals (lebih dari satu)</h3>
+<p>cat → cat<b>s</b> · box → box<b>es</b> · <b>Istimewa:</b> foot → <b>feet</b>, man → <b>men</b>, child → <b>children</b>, mouse → <b>mice</b></p>
+<h3>my / his / her / their</h3>
+<p>Saya → <b>my</b> bag · Ali → <b>his</b> bag · Siti → <b>her</b> doll · mereka → <b>their</b> house</p>
+<h3>and / but</h3>
+<p>I like apples <b>and</b> oranges. · I want to play, <b>but</b> it is raining.</p>
+<div class="tip">💡 Opposites: open ↔ close · wet ↔ dry · fast ↔ slow · big ↔ small · hot ↔ cold.</div>`;
+
+NOTA.bi[2].rules = `
+<h3>🚸 Signs &amp; Good Values</h3>
+<table><tr><th>Sign</th><th>Maksud</th></tr>
+<tr><td>NO RUNNING</td><td>Walk slowly. (jalan perlahan)</td></tr>
+<tr><td>KEEP QUIET</td><td>Do not make noise. (di perpustakaan)</td></tr>
+<tr><td>NO LITTERING</td><td>Do not throw rubbish here.</td></tr>
+<tr><td>ZEBRA CROSSING</td><td>Tempat melintas jalan.</td></tr></table>
+<h3>Road safety</h3>
+<p>Look <b>left and right</b> before you cross the road. Cross at the <b>zebra crossing</b>.</p>
+<h3>Good values (nilai murni)</h3>
+<ul><li><b>kind</b> — suka menolong · <b>polite</b> — sopan · <b>honest</b> — jujur</li>
+<li>Respect elders: "Good morning, Grandma." · Return library books <b>on time</b>.</li></ul>
+<h3>Recycle</h3>
+<p>glass: jam jar, bottle · paper: old newspaper, box · plastic: plastic bottle</p>
+<div class="tip">💡 Soalan "Why must we…?" — pilih jawapan yang beri <b>sebab baik</b> (cth. sea animals can die).</div>`;
+
+NOTA.bi[2].reading = `
+<h3>📖 Reading</h3>
+<p>Teks Tahun 2: kad jemputan, jadual harian, poster, cerita pendek.</p>
+<h3>Langkah menjawab</h3>
+<ul><li><b>1.</b> Baca soalan dulu.</li>
+<li><b>2.</b> Baca teks, garis nama, tarikh, masa dan tempat.</li>
+<li><b>3.</b> Cari ayat dalam teks yang sama dengan soalan.</li></ul>
+<h3>Kad jemputan (invitation)</h3>
+<table><tr><th>Question</th><th>Cari</th></tr>
+<tr><td>When?</td><td>Date: … / tarikh</td></tr>
+<tr><td>What time?</td><td>Time: … / 3.00 p.m.</td></tr>
+<tr><td>Where?</td><td>Place: … / alamat</td></tr>
+<tr><td>Whose party?</td><td>Nama di bawah (— Nurul) → Nurul's</td></tr></table>
+<div class="tip">💡 Jadual (timetable)? Lihat <b>masa</b> di kiri, aktiviti di kanan. Jangan teka — semua jawapan ada dalam teks!</div>`;
+
+// ---------- BI TAHUN 4 ----------
+NOTA.bi[4].presSimple = `
+<h3>🔁 Simple Present</h3>
+<p>Untuk <b>tabiat, rutin dan fakta</b>: every day, always, usually, on Sundays, after school.</p>
+<h3>He / She / It + -s / -es / -ies</h3>
+<table><tr><th>Rule</th><th>Contoh</th></tr>
+<tr><td>Biasa: + s</td><td>play → play<b>s</b>, swim → swim<b>s</b>, draw → draw<b>s</b></td></tr>
+<tr><td>-sh, -ch, -s, -x, -o: + es</td><td>wash → wash<b>es</b>, watch → watch<b>es</b>, go → go<b>es</b>, do → do<b>es</b></td></tr>
+<tr><td>konsonan + y: buang y + ies</td><td>study → stud<b>ies</b>, carry → carr<b>ies</b></td></tr>
+<tr><td>vokal + y: + s sahaja</td><td>play → play<b>s</b>, buy → buy<b>s</b></td></tr></table>
+<h3>Subjek ramai = TIADA -s</h3>
+<p>My parents <b>swim</b>. The children <b>go</b>. We <b>plant</b>. (bukan "goes")</p>
+<div class="tip">💡 Kenal pasti subjek dulu: <b>seorang/satu</b> (Ali, my brother, she) → tambah -s. <b>Ramai</b> (my parents, the children) → tiada -s.</div>`;
+
+NOTA.bi[4].presCont = `
+<h3>▶️ Present Continuous</h3>
+<p>Perbuatan yang <b>sedang berlaku sekarang</b>: <b>am / is / are + verb-ing</b>.</p>
+<table><tr><th>Subject</th><th>be</th><th>Contoh</th></tr>
+<tr><td>I</td><td>am</td><td>I <b>am writing</b> a letter.</td></tr>
+<tr><td>He / She / Kumar</td><td>is</td><td>Kumar <b>is walking</b> to school.</td></tr>
+<tr><td>We / They / You</td><td>are</td><td>We <b>are swimming</b> now.</td></tr></table>
+<h3>Ejaan -ing</h3>
+<ul><li>Biasa: help → help<b>ing</b>, buy → buy<b>ing</b></li>
+<li>Buang e: make → mak<b>ing</b>, write → writ<b>ing</b>, have → hav<b>ing</b></li>
+<li>Ganda konsonan: run → ru<b>nn</b>ing, swim → swi<b>mm</b>ing</li></ul>
+<h3>Kata isyarat</h3>
+<p><b>Look! · Listen! · now · right now · at the moment</b></p>
+<div class="tip">💡 Mesti ada <b>DUA</b> bahagian: is + walking. "Kumar walking" ❌ "Kumar is walk" ❌ → "Kumar <b>is walking</b>" ✅</div>`;
+
+NOTA.bi[4].compare = `
+<h3>📏 Comparing</h3>
+<p><b>-er / more</b> = banding DUA benda (+ <b>than</b>) · <b>-est / most</b> = paling (+ <b>the</b>)</p>
+<table><tr><th>Rule</th><th>Contoh</th></tr>
+<tr><td>Pendek: + er / est</td><td>old → old<b>er</b> → the old<b>est</b></td></tr>
+<tr><td>Berakhir e: + r / st</td><td>large → large<b>r</b> → the large<b>st</b></td></tr>
+<tr><td>CVC: ganda huruf</td><td>big → bi<b>gg</b>er → the bi<b>gg</b>est</td></tr>
+<tr><td>konsonan + y → i</td><td>easy → eas<b>ier</b> → the eas<b>iest</b></td></tr>
+<tr><td>Panjang</td><td>expensive → <b>more</b> expensive → the <b>most</b> expensive</td></tr>
+<tr><td>Istimewa</td><td>good → <b>better</b> → the <b>best</b><br>bad → <b>worse</b> → the <b>worst</b></td></tr></table>
+<div class="tip">💡 Nampak <b>than</b> → guna -er/more. Nampak <b>the … in / of all</b> → guna -est/most. Jangan guna dua sekali: "more bigger" ❌</div>`;
+
+NOTA.bi[4].quantity = `
+<h3>🧺 some / any / much / many</h3>
+<table><tr><th>Word</th><th>Bila guna</th><th>Contoh</th></tr>
+<tr><td><b>some</b></td><td>ayat positif, tawaran, permintaan</td><td>Let's buy <b>some</b> apples. Would you like <b>some</b> cake?</td></tr>
+<tr><td><b>any</b></td><td>ayat negatif &amp; soalan</td><td>We don't have <b>any</b> eggs. Are there <b>any</b> books?</td></tr>
+<tr><td><b>many</b></td><td>benda boleh dikira (countable)</td><td>How <b>many</b> eggs? (egg → eggs)</td></tr>
+<tr><td><b>much</b></td><td>benda tak boleh dikira (uncountable)</td><td>How <b>much</b> milk / money / salt?</td></tr></table>
+<h3>Uncountable (tiada -s)</h3>
+<p>milk, water, salt, sugar, rice, money, bread, noise, time, homework</p>
+<div class="tip">💡 Ada <b>not / n't</b> atau tanda soal? → <b>any</b>. Tanya bilangan benda yang boleh dikira (pupils, windows)? → <b>How many</b>.</div>`;
+
+NOTA.bi[4].conj = `
+<h3>🔗 Conjunctions (kata hubung)</h3>
+<table><tr><th>Word</th><th>Fungsi</th><th>Contoh</th></tr>
+<tr><td><b>and</b></td><td>tambah idea yang sama</td><td>Raju fed the chickens <b>and</b> collected the eggs.</td></tr>
+<tr><td><b>but</b></td><td>idea bertentangan</td><td>The bag is old <b>but</b> it is still strong.</td></tr>
+<tr><td><b>or</b></td><td>pilihan</td><td>Saturday <b>or</b> Sunday?</td></tr>
+<tr><td><b>because</b></td><td>sebab (kenapa?)</td><td>He was late <b>because</b> he missed the bus.</td></tr>
+<tr><td><b>so</b></td><td>akibat (jadi…)</td><td>It was raining, <b>so</b> we stayed at home.</td></tr></table>
+<div class="tip">💡 Tanya diri: bahagian kedua ialah <b>SEBAB</b> → because. Bahagian kedua ialah <b>HASIL</b> → so. Bertentangan → but.</div>`;
+
+NOTA.bi[4].qwords = `
+<h3>❓ Question Words</h3>
+<table><tr><th>Word</th><th>Tanya</th><th>Jawapan</th></tr>
+<tr><td><b>Who</b></td><td>orang</td><td>Puan Rohana did.</td></tr>
+<tr><td><b>Where</b></td><td>tempat</td><td>On the table. / In Ipoh.</td></tr>
+<tr><td><b>When</b></td><td>masa / tarikh</td><td>On 3rd May.</td></tr>
+<tr><td><b>Why</b></td><td>sebab</td><td><b>Because</b> it is a holiday.</td></tr>
+<tr><td><b>Whose</b></td><td>milik siapa</td><td>It is Ali's.</td></tr>
+<tr><td><b>How</b></td><td>cara / keadaan</td><td>By bus. / Much better.</td></tr>
+<tr><td><b>How many</b></td><td>bilangan</td><td>Three.</td></tr>
+<tr><td><b>How long</b></td><td>tempoh</td><td>For five years.</td></tr>
+<tr><td><b>How often</b></td><td>kekerapan</td><td>Twice a week.</td></tr>
+<tr><td><b>Which</b></td><td>pilih antara beberapa</td><td>The red one.</td></tr></table>
+<div class="tip">💡 Sentiasa baca <b>jawapan</b> dulu, kemudian pilih kata tanya yang sepadan.</div>`;
+
+NOTA.bi[4].langUse = `
+<h3>🧩 Language Use</h3>
+<h3>Articles</h3>
+<ul><li><b>a</b> + bunyi konsonan: a uniform (bunyi "yu") · <b>an</b> + bunyi vokal: an hour (h senyap)</li>
+<li><b>the</b> + benda khusus/satu-satunya: the sun, the moon</li></ul>
+<h3>Prepositions</h3>
+<p><b>between</b> (antara dua) · <b>during</b> (semasa) · <b>opposite</b> (berhadapan) · <b>next to</b> (sebelah)</p>
+<h3>Punctuation</h3>
+<ul><li>Huruf besar: awal ayat, nama orang/tempat/hari (Penang, Sunday)</li>
+<li>Tanda soal <b>?</b> untuk soalan · koma sebelum nama dipanggil: "…, Danial?"</li>
+<li>Singkatan guna apostrophe: can't, don't, I'm</li>
+<li>Petikan: "Please sit down," said the teacher.</li></ul>
+<h3>Synonyms (sama maksud)</h3>
+<p>completed = <b>finished</b> · wealthy = <b>rich</b> · marvellous = <b>wonderful</b> · huge = <b>big</b></p>
+<div class="tip">💡 Social expressions: "Excuse me, may I pass?" · "Good morning, Uncle!" · "I'm sorry." · "Congratulations!"</div>`;
+
+NOTA.bi[4].cloze = `
+<h3>📝 Cloze Passage</h3>
+<p>Isi tempat kosong dalam petikan. Setiap kosong menguji <b>tatabahasa</b> atau <b>makna</b>.</p>
+<h3>Langkah</h3>
+<ul><li><b>1.</b> Baca SELURUH petikan dulu — faham ceritanya.</li>
+<li><b>2.</b> Lihat perkataan <b>sebelum dan selepas</b> tempat kosong.</li>
+<li><b>3.</b> Tentukan jenis perkataan diperlukan.</li>
+<li><b>4.</b> Baca semula ayat dengan jawapan — bunyi betul?</li></ul>
+<h3>Petunjuk biasa</h3>
+<table><tr><th>Nampak</th><th>Mungkin perlu</th></tr>
+<tr><td>yesterday, last week</td><td>past tense (gave, ran)</td></tr>
+<tr><td>every day, always</td><td>simple present (cooks)</td></tr>
+<tr><td>people ___ are sick</td><td>relative / pronoun (who)</td></tr>
+<tr><td>___ name is Snowy</td><td>possessive (Its, His, Her)</td></tr>
+<tr><td>dua idea bertentangan</td><td>but</td></tr></table>
+<div class="tip">💡 Huruf besar di awal ayat? Jawapan juga mesti sesuai di <b>permulaan ayat</b>.</div>`;
+
+NOTA.bi[4].reading = `
+<h3>📖 Reading (Year 4)</h3>
+<p>Jenis teks: cerita, berita, aturcara majlis, arahan (how to…), e-mel, iklan.</p>
+<h3>Strategi</h3>
+<ul><li><b>Skim</b> — baca laju untuk tahu idea utama.</li>
+<li><b>Scan</b> — cari maklumat khusus (nombor, nama, masa).</li>
+<li>Soalan <b>"Why"</b> → cari because / so.</li>
+<li>Soalan <b>sifat watak</b> (honest, brave, kind) → lihat <b>tindakan</b> watak, bukan sekadar perkataan dalam teks.</li></ul>
+<h3>Ikut jenis teks</h3>
+<table><tr><th>Teks</th><th>Fokus</th></tr>
+<tr><td>Berita</td><td>Who, what, where, when — biasanya ada di ayat pertama</td></tr>
+<tr><td>Aturcara</td><td>baca masa di kiri, acara di kanan</td></tr>
+<tr><td>Arahan / prosedur</td><td>Materials (bahan) dan langkah mengikut nombor</td></tr></table>
+<div class="tip">💡 Jawapan pilihan sering ada perkataan dari teks tetapi <b>maksud berbeza</b>. Semak maksud, bukan perkataan sahaja!</div>`;
+
+// ---------- BI TAHUN 5 ----------
+NOTA.bi[5].pastCont = `
+<h3>🎞️ Past Continuous</h3>
+<p>Perbuatan yang <b>sedang berlaku pada satu masa dahulu</b>: <b>was / were + verb-ing</b>.</p>
+<table><tr><th>Subject</th><th>be</th><th>Contoh</th></tr>
+<tr><td>I / He / She / It / Ali</td><td><b>was</b></td><td>I <b>was eating</b> when the phone rang.</td></tr>
+<tr><td>You / We / They</td><td><b>were</b></td><td>They <b>were swimming</b> when it rained.</td></tr></table>
+<h3>when vs while</h3>
+<ul><li>Perbuatan PANJANG (past continuous) + <b>when</b> + perbuatan PENDEK (simple past):<br>She <b>was washing</b> the dishes <b>when</b> the phone <b>rang</b>.</li>
+<li><b>While</b> + perbuatan panjang: <b>While</b> I <b>was reading</b>, the lights went out.</li></ul>
+<div class="tip">💡 Phone <b>rang</b>, door <b>opened</b>, lights <b>went</b> out = kejadian SEKEJAP (simple past). Yang sedang dibuat = was/were + -ing.</div>`;
+
+NOTA.bi[5].future = `
+<h3>🔮 Future: will / going to</h3>
+<h3>will + verb asas</h3>
+<p>Tomorrow, she <b>will visit</b> Grandma. · Next week, we <b>will plant</b> a tree.</p>
+<p>Guna untuk: keputusan spontan, janji, ramalan. "I <b>will help</b> you!"</p>
+<h3>am / is / are + going to + verb asas</h3>
+<p>I <b>am going to</b> buy a new bag. (sudah dirancang) · Look at the clouds! It <b>is going to</b> rain. (bukti nampak)</p>
+<h3>Kata isyarat masa depan</h3>
+<p><b>tomorrow, tonight, next week, next Saturday, soon, later</b></p>
+<div class="tip">💡 Selepas <b>will</b>, verb mesti <b>asas</b>: "will visits" ❌ "will visited" ❌ → "will <b>visit</b>" ✅ (untuk semua subjek).</div>`;
+
+NOTA.bi[5].pastSimple = `
+<h3>⏪ Simple Past (Year 5)</h3>
+<p>Kata isyarat: <b>yesterday, last week, two days ago, in 2020</b>.</p>
+<h3>Irregular verbs (hafal!)</h3>
+<table><tr><th>Corak</th><th>Base → Past</th></tr>
+<tr><td>i → a</td><td>begin → <b>began</b>, swim → <b>swam</b>, drink → <b>drank</b>, sing → <b>sang</b></td></tr>
+<tr><td>-ought / -aught</td><td>think → <b>thought</b>, buy → <b>bought</b>, bring → <b>brought</b>, catch → <b>caught</b>, teach → <b>taught</b></td></tr>
+<tr><td>i_e → o_e</td><td>ride → <b>rode</b>, write → <b>wrote</b>, drive → <b>drove</b></td></tr>
+<tr><td>-t</td><td>sleep → <b>slept</b>, feel → <b>felt</b>, leave → <b>left</b></td></tr>
+<tr><td>lain-lain</td><td>choose → <b>chose</b>, forget → <b>forgot</b>, fly → <b>flew</b>, go → <b>went</b></td></tr></table>
+<h3>Regular: -ed</h3>
+<p>visit<b>ed</b> · stud<b>ied</b> · stop<b>ped</b> · danc<b>ed</b></p>
+<div class="tip">💡 Hafal ikut <b>corak</b>, bukan satu-satu. Selepas <b>did / didn't</b>, guna verb ASAS: "Did you <b>buy</b>?"</div>`;
+
+NOTA.bi[5].modals = `
+<h3>🚦 Modal Verbs</h3>
+<table><tr><th>Modal</th><th>Maksud</th><th>Contoh</th></tr>
+<tr><td><b>can</b> / <b>can't</b></td><td>boleh / tak boleh (kebolehan)</td><td>Birds <b>can</b> fly.</td></tr>
+<tr><td><b>could</b></td><td>boleh (dahulu)</td><td>When I was five, I <b>could</b> ride a bicycle.</td></tr>
+<tr><td><b>should</b> / <b>shouldn't</b></td><td>nasihat</td><td>You have a fever. You <b>should</b> see a doctor.</td></tr>
+<tr><td><b>must</b></td><td>wajib / peraturan</td><td>You <b>must</b> wear a seat belt.</td></tr>
+<tr><td><b>mustn't</b></td><td>dilarang</td><td>You <b>mustn't</b> talk in the library.</td></tr>
+<tr><td><b>may</b></td><td>minta izin (sopan)</td><td><b>May</b> I borrow your eraser?</td></tr>
+<tr><td><b>might</b></td><td>mungkin</td><td>Take an umbrella. It <b>might</b> rain.</td></tr></table>
+<div class="tip">💡 Selepas modal → verb <b>asas</b>: "can swims" ❌ → "can <b>swim</b>" ✅. Ada "when I was…", "last year" → <b>could</b>.</div>`;
+
+NOTA.bi[5].adverbs = `
+<h3>🏃 Adverbs</h3>
+<h3>Adverb of manner (bagaimana)</h3>
+<table><tr><th>Rule</th><th>Contoh</th></tr>
+<tr><td>adjective + ly</td><td>loud → loud<b>ly</b>, careful → careful<b>ly</b>, quiet → quiet<b>ly</b></td></tr>
+<tr><td>-y → -ily</td><td>happy → happ<b>ily</b>, easy → eas<b>ily</b></td></tr>
+<tr><td>-le → -ly</td><td>gentle → gent<b>ly</b>, simple → simp<b>ly</b></td></tr>
+<tr><td>Istimewa</td><td>good → <b>well</b> · fast → <b>fast</b> · hard → <b>hard</b></td></tr></table>
+<h3>Adverb of frequency (kekerapan)</h3>
+<p><b>always</b> (100%) → <b>usually</b> → <b>often</b> → <b>sometimes</b> → <b>rarely</b> → <b>never</b> (0%)</p>
+<p>Letak <b>sebelum</b> kata kerja utama: She <b>always</b> goes… · Letak <b>selepas</b> is/am/are: He <b>is</b> never late.</p>
+<div class="tip">💡 "fastly" ❌ "goodly" ❌. Ingat: sing <b>well</b>, run <b>fast</b>, work <b>hard</b>.</div>`;
+
+NOTA.bi[5].compare = `
+<h3>📏 Comparing (Year 5)</h3>
+<p>Comparative (+ <b>than</b>) → Superlative (<b>the</b> …)</p>
+<table><tr><th>Adjective</th><th>Bentuk</th></tr>
+<tr><td>fast</td><td>faster → the fastest</td></tr>
+<tr><td>big</td><td>bi<b>gg</b>er → the bi<b>gg</b>est</td></tr>
+<tr><td>smelly</td><td>smell<b>ier</b> → the smell<b>iest</b></td></tr>
+<tr><td>interesting</td><td><b>more</b> interesting → the <b>most</b> interesting</td></tr>
+<tr><td>good</td><td><b>better</b> → the <b>best</b></td></tr>
+<tr><td>bad</td><td><b>worse</b> → the <b>worst</b></td></tr>
+<tr><td>far</td><td><b>farther</b> → the <b>farthest</b></td></tr></table>
+<h3>Fakta Malaysia (selalu keluar)</h3>
+<p>Mount Kinabalu is the <b>highest</b> mountain in Malaysia. The Pahang River is the <b>longest</b> river in Peninsular Malaysia.</p>
+<div class="tip">💡 Frasa "… I have <b>ever</b> read/eaten" → sentiasa superlative: the most interesting story I have ever read.</div>`;
+
+NOTA.bi[5].pronouns = `
+<h3>🫵 Possessive Pronouns</h3>
+<table><tr><th>Subject</th><th>Possessive adjective (+ noun)</th><th>Possessive pronoun (tanpa noun)</th></tr>
+<tr><td>I</td><td><b>my</b> book</td><td>It is <b>mine</b>.</td></tr>
+<tr><td>you</td><td><b>your</b> book</td><td>It is <b>yours</b>.</td></tr>
+<tr><td>he</td><td><b>his</b> book</td><td>It is <b>his</b>.</td></tr>
+<tr><td>she</td><td><b>her</b> book</td><td>It is <b>hers</b>.</td></tr>
+<tr><td>it</td><td><b>its</b> tail</td><td>—</td></tr>
+<tr><td>we</td><td><b>our</b> house</td><td>It is <b>ours</b>.</td></tr>
+<tr><td>they</td><td><b>their</b> room</td><td>It is <b>theirs</b>.</td></tr></table>
+<h3>Cara pilih</h3>
+<ul><li>Ada kata nama selepasnya? → <b>my / your / her / its…</b> (Her cat is white.)</li>
+<li>Tiada kata nama selepasnya? → <b>mine / yours / hers / ours…</b> (The cat is hers.)</li></ul>
+<div class="tip">💡 <b>its</b> = milik benda/haiwan (The dog wagged its tail). <b>it's</b> = it is. Tiada apostrophe pada yours, hers, ours, theirs!</div>`;
+
+NOTA.bi[5].conj = `
+<h3>🔗 Conjunctions (Year 5)</h3>
+<table><tr><th>Word</th><th>Fungsi</th><th>Contoh</th></tr>
+<tr><td><b>and / but / or</b></td><td>tambah / bertentangan / pilihan</td><td>a pen <b>or</b> a pencil</td></tr>
+<tr><td><b>because</b></td><td>sebab</td><td>We wear raincoats <b>because</b> it is raining.</td></tr>
+<tr><td><b>so</b></td><td>akibat</td><td>I was hungry, <b>so</b> I ate.</td></tr>
+<tr><td><b>although</b></td><td>walaupun</td><td><b>Although</b> he was tired, he finished his work.</td></tr>
+<tr><td><b>before</b></td><td>sebelum</td><td>Read carefully <b>before</b> you answer.</td></tr>
+<tr><td><b>after</b></td><td>selepas</td><td>Zara felt better <b>after</b> she took the medicine.</td></tr>
+<tr><td><b>until</b></td><td>sehingga</td><td>Do not open the oven <b>until</b> the cake is ready.</td></tr>
+<tr><td><b>while</b></td><td>sementara / semasa</td><td>Jun listened to music <b>while</b> he was painting.</td></tr>
+<tr><td><b>when</b></td><td>apabila</td><td>Call me <b>when</b> you arrive.</td></tr></table>
+<div class="tip">💡 Susun dua kejadian ikut <b>masa</b>: mana berlaku dulu? Itu menentukan before / after / until.</div>`;
+
+NOTA.bi[5].langUse = `
+<h3>🧩 Language Use (Year 5)</h3>
+<h3>Articles</h3>
+<p><b>a</b> pilot · <b>an</b> honest boy · <b>the</b> moon / <b>the</b> highest mountain (superlative guna "the")</p>
+<h3>Prepositions</h3>
+<table><tr><th>Word</th><th>Maksud</th><th>Contoh</th></tr>
+<tr><td><b>across</b></td><td>merentasi</td><td>The ball rolled across the road.</td></tr>
+<tr><td><b>into</b></td><td>masuk ke dalam</td><td>Aina jumped into the pool.</td></tr>
+<tr><td><b>among</b></td><td>di antara (banyak)</td><td>among the stones</td></tr>
+<tr><td><b>through</b></td><td>melalui</td><td>We walked through the forest.</td></tr></table>
+<h3>Proverbs (peribahasa)</h3>
+<ul><li>Practice makes <b>perfect</b>. · A friend in need is a friend <b>indeed</b>.</li>
+<li>Better late than <b>never</b>. · Don't judge a book by its <b>cover</b>.</li></ul>
+<h3>Punctuation</h3>
+<p>Ayat seruan guna <b>!</b> — What a beautiful garden! · Gelaran tanpa titik: Mr Lee, Dr Tan.</p>
+<div class="tip">💡 Ucapan sesuai situasi: birthday → "Happy birthday!" · kawan menang → "Congratulations!" · kawan sakit → "Get well soon!"</div>`;
+
+NOTA.bi[5].cloze = `
+<h3>📝 Cloze Passage (Year 5)</h3>
+<p>Petikan lebih panjang: surat, fakta haiwan, cerita lawatan, nasihat kesihatan.</p>
+<h3>Semakan 5 saat</h3>
+<table><tr><th>Lihat</th><th>Pilih</th></tr>
+<tr><td>Ada <b>last month / yesterday</b></td><td>past tense (enjoyed, arrived)</td></tr>
+<tr><td>Nasihat: "If you want to stay healthy, you ___ …"</td><td>modal: should / must</td></tr>
+<tr><td>Tujuan: "come to the beach ___ lay eggs"</td><td>to + verb</td></tr>
+<tr><td>Alat: "digs a hole ___ her flippers"</td><td>with</td></tr>
+<tr><td>"the ___ girl in our class"</td><td>superlative (kindest)</td></tr>
+<tr><td>"too ___ sweet drinks" (uncountable)</td><td>much</td></tr></table>
+<div class="tip">💡 Selepas siap, baca SEMULA seluruh petikan. Kalau cerita masa lampau, pastikan semua kata kerja kekal lampau.</div>`;
+
+NOTA.bi[5].reading = `
+<h3>📖 Reading (Year 5)</h3>
+<p>Teks: cerita bersiri, poster kesihatan (cth. denggi), artikel alam sekitar, cerita moral.</p>
+<h3>Jenis soalan</h3>
+<table><tr><th>Soalan</th><th>Cara</th></tr>
+<tr><td>Fakta (what, where, when)</td><td>scan — cari terus dalam teks</td></tr>
+<tr><td>Inference (kenapa watak berasa…)</td><td>gabung beberapa petunjuk dalam teks</td></tr>
+<tr><td>Maksud perkataan</td><td>baca ayat sebelum &amp; selepas; ganti perkataan pilihan, adakah maksud kekal?</td></tr>
+<tr><td>Moral / nilai</td><td>apa yang watak <b>belajar</b> atau <b>lakukan</b> dengan baik</td></tr>
+<tr><td>Idea utama</td><td>tajuk + ayat pertama setiap perenggan</td></tr></table>
+<div class="tip">💡 Pilihan yang "betul tetapi tidak menjawab soalan" ialah perangkap. Pastikan jawapan menjawab <b>soalan</b> yang ditanya.</div>`;
+
+// ---------- BI TAHUN 6 ----------
+NOTA.bi[6].presPerfect = `
+<h3>✅ Present Perfect</h3>
+<p>Formula: <b>has / have + past participle (V3)</b>. Perbuatan sudah berlaku dan masih ada kaitan dengan sekarang.</p>
+<table><tr><th>Subject</th><th>Contoh</th></tr>
+<tr><td>He / She / It / Mei Ling</td><td>She <b>has taken</b> a photo.</td></tr>
+<tr><td>I / You / We / They / The children</td><td>They <b>have done</b> their homework.</td></tr></table>
+<h3>Past participle (V3) penting</h3>
+<p>do – did – <b>done</b> · go – went – <b>gone</b> · take – took – <b>taken</b> · write – wrote – <b>written</b> · eat – ate – <b>eaten</b> · see – saw – <b>seen</b> · run – ran – <b>run</b> · feed – fed – <b>fed</b></p>
+<h3>for vs since</h3>
+<ul><li><b>for</b> + tempoh: for three years, for two weeks, for a long time</li>
+<li><b>since</b> + titik mula: since 2020, since Monday, since last year, since this morning</li></ul>
+<div class="tip">💡 Kata isyarat: <b>already, just, ever, never, yet, many times</b>. Tanya: "berapa lama?" → for. "sejak bila?" → since.</div>`;
+
+NOTA.bi[6].relative = `
+<h3>👉 Relative Pronouns</h3>
+<p>Menyambung dua ayat dan menerangkan kata nama sebelumnya.</p>
+<table><tr><th>Word</th><th>Untuk</th><th>Contoh</th></tr>
+<tr><td><b>who</b></td><td>orang</td><td>The girl <b>who</b> won the race is my sister.</td></tr>
+<tr><td><b>which</b></td><td>benda / haiwan</td><td>The cake <b>which</b> you baked was delicious.</td></tr>
+<tr><td><b>where</b></td><td>tempat</td><td>That is the hospital <b>where</b> I was born.</td></tr>
+<tr><td><b>whose</b></td><td>milik (+ kata nama)</td><td>I have a friend <b>whose</b> father is a pilot.</td></tr></table>
+<h3>Cantum dua ayat</h3>
+<p>The man is a doctor. <i>He</i> lives next door. → The man <b>who</b> lives next door is a doctor.</p>
+<div class="tip">💡 Lihat kata nama SEBELUM kosong: orang → who · benda → which · tempat + ada perbuatan di situ → where · selepas kosong ada kata nama milik (father, bag) → whose.</div>`;
+
+NOTA.bi[6].conditional = `
+<h3>🌧️ If… (Conditional)</h3>
+<h3>Zero conditional — fakta / sentiasa benar</h3>
+<p><b>If + simple present, simple present</b></p>
+<p>If water reaches 100°C, it <b>boils</b>. · If you mix red and yellow, you <b>get</b> orange.</p>
+<h3>First conditional — kemungkinan masa depan</h3>
+<p><b>If + simple present, will + verb asas</b></p>
+<p>If it <b>rains</b> tomorrow, we <b>will cancel</b> the picnic. · If you <b>study</b> hard, you <b>will pass</b>.</p>
+<h3>Perangkap utama</h3>
+<ul><li>Bahagian <b>If</b> TIDAK guna will: "If it will rain" ❌ → "If it <b>rains</b>" ✅</li>
+<li>Subjek tunggal dalam bahagian If perlu -s: If Ali <b>finishes</b>… · If the team <b>wins</b>…</li></ul>
+<div class="tip">💡 Fakta sains/alam (air mendidih, campur warna) → zero conditional. Rancangan/kemungkinan esok → first conditional dengan will.</div>`;
+
+NOTA.bi[6].tenses = `
+<h3>🌀 Mixed Tenses</h3>
+<table><tr><th>Tense &amp; formula</th><th>Kata isyarat · contoh</th></tr>
+<tr><td><b>Simple Present</b><br>V1 / V1+s</td><td>every day, always<br>Kumar <b>cooks</b> dinner every day.</td></tr>
+<tr><td><b>Present Continuous</b><br>am/is/are + -ing</td><td>now, Look!, at the moment<br>She <b>is feeding</b> the cat.</td></tr>
+<tr><td><b>Simple Past</b><br>V2</td><td>yesterday, ago, last<br>They <b>swam</b> last Sunday.</td></tr>
+<tr><td><b>Past Continuous</b><br>was/were + -ing</td><td>when the phone rang<br>I <b>was studying</b> when…</td></tr>
+<tr><td><b>Future</b><br>will + V1</td><td>tomorrow, tonight, next<br>He <b>will clean</b> the room.</td></tr>
+<tr><td><b>Present Perfect</b><br>has/have + V3</td><td>already, for, since<br>We <b>have lived</b> here since 2020.</td></tr></table>
+<div class="tip">💡 Bulatkan kata isyarat masa dalam ayat DULU, baru pilih tense. Kata isyarat ialah kunci jawapan!</div>`;
+
+NOTA.bi[6].modals = `
+<h3>🚦 Modal Verbs (Year 6)</h3>
+<table><tr><th>Modal</th><th>Fungsi</th><th>Contoh</th></tr>
+<tr><td><b>can / can't</b></td><td>kebolehan sekarang</td><td>Cats <b>can</b> see in the dark.</td></tr>
+<tr><td><b>could / couldn't</b></td><td>kebolehan dahulu</td><td>Last year, I <b>could</b> not reach the shelf.</td></tr>
+<tr><td><b>must / mustn't</b></td><td>wajib / larangan (peraturan)</td><td>You <b>mustn't</b> talk loudly in the library.</td></tr>
+<tr><td><b>should / shouldn't</b></td><td>nasihat</td><td>People <b>shouldn't</b> throw rubbish into the river.</td></tr>
+<tr><td><b>may</b></td><td>izin (sopan)</td><td><b>May</b> I borrow your eraser, please?</td></tr>
+<tr><td><b>might</b></td><td>kemungkinan</td><td>The sky is dark. There <b>might</b> be a storm.</td></tr></table>
+<h3>Beza halus</h3>
+<ul><li><b>must</b> (peraturan, kuat) vs <b>should</b> (nasihat, lembut)</li>
+<li><b>mustn't</b> = dilarang · <b>don't have to</b> = tidak perlu</li></ul>
+<div class="tip">💡 Bahagian Laksamana: taip modal dengan ejaan tepat termasuk apostrophe — <b>mustn't, shouldn't, can't</b>.</div>`;
+
+NOTA.bi[6].compare = `
+<h3>📏 Comparing (Year 6)</h3>
+<h3>Ringkasan rule</h3>
+<table><tr><th>Jenis</th><th>Comparative → Superlative</th></tr>
+<tr><td>1 suku kata</td><td>tall<b>er</b> → the tall<b>est</b></td></tr>
+<tr><td>CVC</td><td>thi<b>nn</b>er → the thi<b>nn</b>est</td></tr>
+<tr><td>berakhir -y</td><td>heav<b>ier</b> → the heav<b>iest</b></td></tr>
+<tr><td>2+ suku kata</td><td><b>more</b> beautiful → the <b>most</b> beautiful</td></tr>
+<tr><td>istimewa</td><td>good: better → the best<br>bad: worse → the worst<br>many: more → the most</td></tr></table>
+<h3>Struktur lain</h3>
+<ul><li><b>as … as</b> = sama: Ali is <b>as tall as</b> Abu.</li>
+<li><b>not as … as</b> = kurang: A cat is <b>not as big as</b> a tiger.</li>
+<li><b>less</b> = kurang: This bag is <b>less expensive</b> than that one.</li></ul>
+<div class="tip">💡 Dengan <b>as … as</b>, adjective kekal ASAS: "as taller as" ❌ → "as <b>tall</b> as" ✅</div>`;
+
+NOTA.bi[6].adverbs = `
+<h3>🏃 Adverbs (Year 6)</h3>
+<h3>Manner — bagaimana sesuatu dibuat</h3>
+<p>patient → patient<b>ly</b> · clear → clear<b>ly</b> · sudden → sudden<b>ly</b> · silent → silent<b>ly</b> · happy → happ<b>ily</b> · gentle → gent<b>ly</b></p>
+<p>Istimewa: good → <b>well</b>, fast → <b>fast</b>, hard → <b>hard</b>, late → <b>late</b></p>
+<h3>Frequency — berapa kerap</h3>
+<p>always › usually › often › sometimes › rarely › never</p>
+<ul><li>Fakta sentiasa benar: The sun <b>always</b> rises in the east.</li>
+<li>Tidak pernah: My father <b>never</b> drinks coffee.</li></ul>
+<h3>Adjective atau adverb?</h3>
+<ul><li>Terangkan <b>kata nama</b> → adjective: a <b>careful</b> driver</li>
+<li>Terangkan <b>kata kerja</b> → adverb: He drives <b>carefully</b>.</li></ul>
+<div class="tip">💡 Selepas kata kerja perbuatan (sang, walked, drove) biasanya perlu adverb <b>-ly</b>. Selepas is/was/looks/feels → adjective (She looks happy).</div>`;
+
+NOTA.bi[6].langUse = `
+<h3>🧩 Language Use (Year 6)</h3>
+<h3>Articles</h3>
+<p><b>an</b> hour, <b>an</b> honest girl (h senyap) · <b>a</b> university, <b>a</b> uniform (bunyi "yu") · <b>an</b> orange and <b>a</b> banana</p>
+<h3>Similes (as … as a …)</h3>
+<table><tr><th>Simile</th><th>Maksud</th></tr>
+<tr><td>as proud as a <b>peacock</b></td><td>sangat bangga</td></tr>
+<tr><td>as cool as a <b>cucumber</b></td><td>sangat tenang</td></tr>
+<tr><td>as busy as a <b>bee</b></td><td>sangat sibuk</td></tr>
+<tr><td>as brave as a <b>lion</b></td><td>sangat berani</td></tr>
+<tr><td>as slow as a <b>tortoise</b></td><td>sangat perlahan</td></tr></table>
+<h3>Prepositions</h3>
+<p><b>opposite</b> (berhadapan) · <b>among</b> (di antara banyak) · <b>into</b> (masuk ke) · <b>across</b> · <b>beside</b></p>
+<h3>Giving directions</h3>
+<p>Go straight · Turn left / right · It is next to / opposite / between …</p>
+<div class="tip">💡 Punctuation: petikan ayat seruan — "Watch out!" shouted the boy. Nama perayaan/negara guna huruf besar: Hari Raya, Malaysia.</div>`;
+
+NOTA.bi[6].cloze = `
+<h3>📝 Cloze Passage (Year 6, gaya UPSR/UASA)</h3>
+<p>Setiap tempat kosong biasanya menguji SATU kemahiran. Kenal pasti jenisnya:</p>
+<table><tr><th>Jenis</th><th>Tanda dalam ayat</th></tr>
+<tr><td>Tense</td><td>kata isyarat masa; tense ayat-ayat lain dalam petikan</td></tr>
+<tr><td>Subject-verb agreement</td><td>subjek tunggal / jamak</td></tr>
+<tr><td>Preposition</td><td>tempat / masa / arah</td></tr>
+<tr><td>Conjunction</td><td>hubungan dua idea: sebab, akibat, bertentangan</td></tr>
+<tr><td>Pronoun / possessive</td><td>merujuk siapa? (he/his, they/their)</td></tr>
+<tr><td>Vocabulary</td><td>makna yang sesuai konteks</td></tr></table>
+<h3>Langkah</h3>
+<p>Baca seluruh petikan → jawab yang mudah dulu → kembali ke yang susah → baca semula semua.</p>
+<div class="tip">💡 Jangan pilih jawapan kerana "bunyi biasa". Uji setiap pilihan dalam ayat — hanya SATU betul dari segi tatabahasa DAN makna.</div>`;
+
+NOTA.bi[6].reading = `
+<h3>📖 Reading (Year 6)</h3>
+<p>Teks lebih panjang: rencana, biografi, cerita, notis, carta / jadual maklumat.</p>
+<h3>Strategi lengkap</h3>
+<ul><li><b>1. Baca soalan dahulu</b> — garis kata kunci.</li>
+<li><b>2. Skim teks</b> — tajuk, ayat pertama setiap perenggan.</li>
+<li><b>3. Scan</b> — cari kata kunci / sinonimnya dalam teks.</li>
+<li><b>4. Bukti</b> — tunjuk ayat dalam teks yang menyokong jawapan.</li></ul>
+<h3>Soalan aras tinggi</h3>
+<table><tr><th>Soalan</th><th>Tip</th></tr>
+<tr><td>Why do you think…?</td><td>beri sebab yang logik berdasarkan teks</td></tr>
+<tr><td>What is the meaning of…?</td><td>guna konteks, bukan makna kamus sahaja</td></tr>
+<tr><td>True / False / Not stated</td><td>"Not stated" jika teks tidak sebut langsung</td></tr>
+<tr><td>Best title / main idea</td><td>pilih yang merangkumi KESELURUHAN teks</td></tr></table>
+<div class="tip">💡 Pengurusan masa: jangan tersangkut satu soalan. Tanda, teruskan, kemudian kembali.</div>`;
+
+// ---------- BM TAHUN 1 ----------
+NOTA.bm[1] = NOTA.bm[1] || {};
+NOTA.bm[1].sukukata1 = `
+<h3>🧩 Suku Kata &amp; Bina Perkataan</h3>
+<p>Huruf vokal: <b>a, e, i, o, u</b>. Huruf lain ialah konsonan (b, c, d, k, m …).</p>
+<h3>Gabung suku kata</h3>
+<table><tr><th>Suku kata</th><th>Perkataan</th><th>Bilangan</th></tr>
+<tr><td>bu + ku</td><td><b>buku</b></td><td>2</td></tr>
+<tr><td>ti + kus</td><td><b>tikus</b></td><td>2</td></tr>
+<tr><td>ha + ri + mau</td><td><b>harimau</b></td><td>3</td></tr>
+<tr><td>se + ko + lah</td><td><b>sekolah</b></td><td>3</td></tr>
+<tr><td>te + le + vi + syen</td><td><b>televisyen</b></td><td>4</td></tr></table>
+<h3>Suku kata awal &amp; akhir</h3>
+<p>me-<b>ja</b> → suku kata akhir "ja". Tukar "ku" dalam bu<b>ku</b> kepada "ka" → bu<b>ka</b>.</p>
+<div class="tip">💡 Kira suku kata dengan menepuk tangan: ha (tepuk) – ri (tepuk) – mau (tepuk) = 3!</div>`;
+
+NOTA.bm[1].nama1 = `
+<h3>🍎 Kata Nama Am</h3>
+<p>Kata nama ialah nama bagi <b>orang, haiwan, benda dan tempat</b>.</p>
+<table><tr><th>Jenis</th><th>Contoh</th></tr>
+<tr><td>Orang</td><td>guru, ibu, doktor, nelayan, murid</td></tr>
+<tr><td>Haiwan</td><td>kucing, ayam, ikan, lembu</td></tr>
+<tr><td>Benda</td><td>pensel, meja, periuk, kuali, susu</td></tr>
+<tr><td>Tempat</td><td>sekolah, kedai, pasar, taman</td></tr></table>
+<h3>Cari kata nama dalam ayat</h3>
+<p>"<b>Ayah</b> membaiki <b>kereta</b>." → 2 kata nama: ayah, kereta.</p>
+<p><b>Bukan</b> kata nama: gembira, rajin (adjektif) · lari, makan (kata kerja).</p>
+<div class="tip">💡 Uji: boleh letak "seorang / seekor / sebuah" di depannya? Kalau boleh, ia kata nama.</div>`;
+
+NOTA.bm[1].khas1 = `
+<h3>🏷️ Kata Nama Khas</h3>
+<p>Nama <b>khusus</b> bagi orang, tempat, hari, bulan, perayaan atau benda. Ditulis bermula dengan <b>huruf besar</b>.</p>
+<table><tr><th>Kata nama am</th><th>Kata nama khas</th></tr>
+<tr><td>budak</td><td>Ali, Siti, Kumar, Mei Ling</td></tr>
+<tr><td>bandar</td><td>Kuantan, Ipoh, Melaka</td></tr>
+<tr><td>hari</td><td>Isnin, Selasa, Sabtu</td></tr>
+<tr><td>bulan</td><td>Januari, Mac, Mei, Disember</td></tr>
+<tr><td>perayaan</td><td>Hari Raya, Tahun Baru Cina, Deepavali</td></tr>
+<tr><td>planet</td><td>Bumi, Marikh</td></tr>
+<tr><td>minuman (jenama)</td><td>Milo</td></tr></table>
+<div class="tip">💡 Kalau perkataan itu ditulis dengan huruf besar di TENGAH ayat, ia biasanya kata nama khas: "Kumar membeli kasut pada hari <b>Sabtu</b>."</div>`;
+
+NOTA.bm[1].ganti1 = `
+<h3>🙋 Kata Ganti Nama Diri</h3>
+<p>Perkataan yang <b>menggantikan nama orang</b>.</p>
+<table><tr><th>Siapa</th><th>Seorang</th><th>Ramai</th></tr>
+<tr><td>Diri sendiri (yang bercakap)</td><td><b>saya</b>, aku</td><td><b>kami</b> (tidak termasuk pendengar), <b>kita</b> (termasuk pendengar)</td></tr>
+<tr><td>Orang yang kita bercakap dengannya</td><td><b>kamu</b>, awak, anda</td><td>kamu semua</td></tr>
+<tr><td>Orang lain</td><td><b>dia</b>, beliau</td><td><b>mereka</b></td></tr></table>
+<h3>Contoh</h3>
+<ul><li>"Ali dan Abu bermain bola. <b>Mereka</b> gembira."</li>
+<li>"Kawan-kawan, mari <b>kita</b> bermain bersama!" (semua ikut)</li>
+<li>"Ali dan saya berjalan kaki. <b>Kami</b> pergi ke sekolah."</li></ul>
+<div class="tip">💡 <b>Kita</b> = saya + kamu (semua ikut). <b>Kami</b> = saya + orang lain (kamu tak ikut).</div>`;
+
+NOTA.bm[1].penjodoh1 = `
+<h3>🔢 Penjodoh Bilangan</h3>
+<p>Diletakkan <b>sebelum kata nama</b>: se + penjodoh → <b>seekor</b> kucing.</p>
+<table><tr><th>Penjodoh</th><th>Untuk</th><th>Contoh</th></tr>
+<tr><td><b>orang</b></td><td>manusia</td><td>seorang guru</td></tr>
+<tr><td><b>ekor</b></td><td>haiwan</td><td>seekor ayam</td></tr>
+<tr><td><b>buah</b></td><td>benda besar</td><td>sebuah rumah, sebuah kereta, sebuah basikal</td></tr>
+<tr><td><b>biji</b></td><td>benda kecil / bulat</td><td>sebiji epal, sebiji tembikai</td></tr>
+<tr><td><b>batang</b></td><td>benda panjang</td><td>sebatang pensel</td></tr>
+<tr><td><b>helai</b></td><td>benda nipis</td><td>sehelai kertas</td></tr>
+<tr><td><b>utas</b></td><td>tali, rantai</td><td>seutas tali</td></tr>
+<tr><td><b>kuntum</b></td><td>bunga</td><td>sekuntum bunga</td></tr>
+<tr><td><b>kaki</b></td><td>payung</td><td>sekaki payung</td></tr>
+<tr><td><b>bilah</b></td><td>pisau, parang</td><td>sebilah pisau</td></tr>
+<tr><td><b>pasang</b></td><td>benda berpasangan</td><td>sepasang kasut</td></tr></table>
+<div class="tip">💡 Tembikai besar tetapi tetap <b>sebiji</b> kerana buah bulat. Kasut = <b>sepasang</b> (dua sebelah).</div>`;
+
+NOTA.bm[1].kerja1 = `
+<h3>🏃 Kata Kerja</h3>
+<p>Kata kerja menunjukkan <b>perbuatan</b> — apa yang dibuat.</p>
+<table><tr><th>Siapa</th><th>Perbuatan</th></tr>
+<tr><td>Adik</td><td><b>melukis</b> gambar, <b>minum</b> susu</td></tr>
+<tr><td>Ayah</td><td><b>memandu</b> kereta</td></tr>
+<tr><td>Guru</td><td><b>menulis</b> di papan putih</td></tr>
+<tr><td>Ahli bomba</td><td><b>memadamkan</b> api</td></tr>
+<tr><td>Anjing</td><td><b>menyalak</b></td></tr>
+<tr><td>Abang</td><td><b>menendang</b> bola</td></tr></table>
+<h3>Padankan dengan benda</h3>
+<p>buku → <b>membaca</b> · nasi → <b>makan</b> · baju → <b>memakai</b> · pokok → <b>menyiram</b></p>
+<div class="tip">💡 Tanya: "Dia sedang <b>buat apa</b>?" Jawapannya ialah kata kerja (tidur, berlari, makan).</div>`;
+
+NOTA.bm[1].adj1 = `
+<h3>🌈 Kata Adjektif</h3>
+<p>Kata adjektif <b>menerangkan sifat</b> kata nama.</p>
+<table><tr><th>Jenis</th><th>Contoh</th></tr>
+<tr><td>Saiz / ukuran</td><td>besar, kecil, panjang, pendek</td></tr>
+<tr><td>Bentuk</td><td>bulat, segi empat, lonjong</td></tr>
+<tr><td>Warna</td><td>merah, biru, hijau</td></tr>
+<tr><td>Rasa</td><td>manis, masam, masin, pedas</td></tr>
+<tr><td>Suhu</td><td>panas, sejuk</td></tr>
+<tr><td>Perangai</td><td>rajin, baik, malas, sombong</td></tr></table>
+<h3>Lawan kata</h3>
+<p>panjang ↔ pendek · basah ↔ kering · kuat ↔ lemah · tua ↔ muda · gemuk ↔ kurus · bersih ↔ kotor</p>
+<div class="tip">💡 Tanya: "<b>Bagaimana</b> keadaannya?" — bilik itu <b>bersih</b>, ais krim itu <b>sejuk</b>. Itulah adjektif.</div>`;
+
+NOTA.bm[1].arah1 = `
+<h3>🧭 Kata Arah &amp; Kata Sendi</h3>
+<h3>Kata sendi nama</h3>
+<table><tr><th>Kata sendi</th><th>Guna untuk</th><th>Contoh</th></tr>
+<tr><td><b>di</b></td><td>tempat (berada)</td><td>Kami makan <b>di</b> kantin.</td></tr>
+<tr><td><b>ke</b></td><td>tempat (pergi)</td><td>Saya pergi <b>ke</b> sekolah.</td></tr>
+<tr><td><b>dari</b></td><td>tempat (asal)</td><td>Saya datang <b>dari</b> Melaka.</td></tr>
+<tr><td><b>kepada</b></td><td>orang (menerima)</td><td>Adik memberikan bunga <b>kepada</b> ibu.</td></tr>
+<tr><td><b>dengan</b></td><td>alat / bersama</td><td>Ayah memotong kayu <b>dengan</b> gergaji.</td></tr></table>
+<h3>Kata arah</h3>
+<p>atas ↔ bawah · depan ↔ belakang · kiri ↔ kanan · dalam ↔ luar</p>
+<h3>Arah mata angin</h3>
+<p>utara ↔ selatan · timur ↔ barat. Menghadap timur? Belakang kamu ialah <b>barat</b>.</p>
+<div class="tip">💡 "belajar <b>ke</b> sekolah" ❌ — kita belajar <b>di</b> sekolah, tetapi pergi <b>ke</b> sekolah.</div>`;
+
+NOTA.bm[1].ayat1 = `
+<h3>💬 Jenis Ayat &amp; Kata Tanya</h3>
+<table><tr><th>Jenis ayat</th><th>Tanda</th><th>Contoh</th></tr>
+<tr><td>Ayat penyata</td><td>.</td><td>Adik sedang tidur.</td></tr>
+<tr><td>Ayat tanya</td><td>?</td><td>Di manakah buku kamu?</td></tr>
+<tr><td>Ayat seruan</td><td>!</td><td>Aduh, sakitnya kaki saya!</td></tr>
+<tr><td>Ayat perintah</td><td>. / !</td><td>Sila duduk.</td></tr></table>
+<h3>Kata tanya</h3>
+<table><tr><th>Kata tanya</th><th>Tanya tentang</th></tr>
+<tr><td>apa</td><td>benda</td></tr>
+<tr><td>siapa</td><td>orang</td></tr>
+<tr><td>di mana</td><td>tempat</td></tr>
+<tr><td>bila</td><td>masa</td></tr>
+<tr><td>berapa</td><td>jumlah / umur</td></tr>
+<tr><td>bagaimana</td><td>cara</td></tr>
+<tr><td>mengapa</td><td>sebab</td></tr></table>
+<div class="tip">💡 Setiap ayat bermula dengan <b>huruf besar</b> dan berakhir dengan tanda baca. Susun ayat: Siapa + buat apa + di mana → "Ali pergi ke kedai."</div>`;
+
+// ---------- BM TAHUN 6 ----------
+NOTA.bm[6] = NOTA.bm[6] || {};
+NOTA.bm[6].pinjaman = `
+<h3>🌏 Imbuhan Pinjaman</h3>
+<p>Imbuhan yang berasal daripada bahasa lain (Sanskrit, Arab, Inggeris, Yunani).</p>
+<h3>Awalan pinjaman</h3>
+<table><tr><th>Awalan</th><th>Maksud · contoh</th></tr>
+<tr><td><b>anti-</b></td><td>menentang<br><i>antidadah, antibiotik</i></td></tr>
+<tr><td><b>pro-</b></td><td>menyokong<br><i>prokemajuan</i></td></tr>
+<tr><td><b>pra-</b></td><td>sebelum<br><i>prasekolah, pranatal</i></td></tr>
+<tr><td><b>pasca-</b></td><td>selepas<br><i>pascamerdeka</i></td></tr>
+<tr><td><b>eka- / dwi- / tri-</b></td><td>satu / dua / tiga<br><i>ekabahasa, dwibahasa, triatlon</i></td></tr>
+<tr><td><b>maha-</b></td><td>sangat / teragung<br><i>mahasiswa, mahaguru</i></td></tr>
+<tr><td><b>tuna-</b></td><td>tanpa / tiada<br><i>tunawisma, tunanetra</i></td></tr>
+<tr><td><b>tata-</b></td><td>peraturan / susunan<br><i>tatatertib, tatabahasa</i></td></tr></table>
+<h3>Akhiran pinjaman</h3>
+<p><b>-wan</b> / <b>-man</b> (lelaki): wartawan, seniman · <b>-wati</b> (perempuan): seniwati, peragawati</p>
+<div class="tip">💡 Imbuhan pinjaman ditulis <b>rapat</b> dengan kata dasar: "pra sekolah" ❌ → "<b>prasekolah</b>" ✅. Juru- (jurujual, jururawat) juga ditulis rapat.</div>`;
+
+NOTA.bm[6].songsang = `
+<h3>🔄 Ayat Susunan Biasa &amp; Songsang</h3>
+<table><tr><th>Susunan</th><th>Binaan</th><th>Contoh</th></tr>
+<tr><td>Biasa</td><td><b>Subjek + Predikat</b></td><td>Rumah itu | besar.</td></tr>
+<tr><td>Songsang</td><td><b>Predikat + Subjek</b></td><td>Besar | rumah itu.</td></tr></table>
+<h3>Bahagian yang boleh dikedepankan</h3>
+<ul><li>Adjektif: Merdu suara penyanyi itu.</li>
+<li>Keterangan cara: <b>Dengan pantas</b> pencuri itu melarikan diri.</li>
+<li>Keterangan tempat: <b>Di tepi pantailah</b> mereka berkelah.</li>
+<li>Pelaku (ayat pasif): <b>Ibulah</b> yang membuat kek itu.</li></ul>
+<h3>Partikel -lah</h3>
+<p>Digunakan untuk <b>menegaskan</b> bahagian yang dikedepankan: <i>Ibu<b>lah</b> yang…</i></p>
+<div class="tip">💡 Tukar balik? Cari <b>subjek</b> (siapa/apa yang diceritakan) dan letak di DEPAN: "Sungguh berani askar itu" → "<b>Askar itu</b> sungguh berani."</div>`;
+
+NOTA.bm[6].pasif6 = `
+<h3>🎬 Ayat Aktif &amp; Pasif (Lanjutan)</h3>
+<table><tr><th>Pelaku</th><th>Binaan · contoh</th></tr>
+<tr><td>Diri ketiga (dia, beliau, Ali, jawatankuasa)</td><td><b>di- + KK + oleh + pelaku</b><br><i>Lagu itu <b>dicipta oleh</b> beliau.</i></td></tr>
+<tr><td>Diri pertama (saya, kami, kita)</td><td><b>pelaku + KK dasar</b> (tanpa di-)<br><i>Masalah itu telah <b>kami bincangkan</b>.</i></td></tr>
+<tr><td>Diri kedua (kamu, anda)</td><td><b>pelaku + KK dasar</b><br><i>Tugasan ini hendaklah <b>anda siapkan</b>.</i></td></tr></table>
+<h3>Kata bantu</h3>
+<p>Kata bantu (telah, sudah, akan, sedang) diletakkan <b>sebelum</b> pelaku diri 1/2: "telah kami bincangkan" ✅ — "kami telah bincangkan" ❌</p>
+<h3>Pasif ter- dan ke-…-an</h3>
+<ul><li><b>ter-</b>: keadaan sudah berlaku / tidak sengaja — Pintu itu <b>tertutup</b>.</li>
+<li><b>ke-…-an</b>: kena atau mengalami — Rumahnya <b>kecurian</b>. Kami <b>kehujanan</b>.</li></ul>
+<div class="tip">💡 "dilaksanakan oleh saya" ❌ → "<b>saya laksanakan</b>" ✅. Tukar ke aktif: pelaku ke depan + me-: "Kakak <b>menggantung</b> lukisan itu."</div>`;
+
+NOTA.bm[6].salah = `
+<h3>🔍 Kesalahan Tatabahasa</h3>
+<table><tr><th>Salah ❌</th><th>Betul ✅</th><th>Sebab</th></tr>
+<tr><td>memberi buku <b>ke</b> Siti</td><td>memberi buku <b>kepada</b> Siti</td><td>kepada untuk orang</td></tr>
+<tr><td>pulang <b>daripada</b> Kuala Lumpur</td><td>pulang <b>dari</b> Kuala Lumpur</td><td>dari = tempat/masa; daripada = orang, punca, perbandingan</td></tr>
+<tr><td>bertolak <b>di</b> pukul 8</td><td>bertolak <b>pada</b> pukul 8</td><td>pada untuk masa</td></tr>
+<tr><td>Dia <b>tidak</b> guru</td><td>Dia <b>bukan</b> guru</td><td>bukan + kata nama; tidak + KK/adjektif</td></tr>
+<tr><td><b>telah sudah</b> pulang</td><td><b>telah</b> pulang</td><td>kata bantu sama maksud berganda</td></tr>
+<tr><td>membaca <b>pada sekarang</b></td><td>membaca <b>sekarang</b></td><td>kata sendi berlebihan</td></tr>
+<tr><td>Hadiah ini <b>adalah</b> untuk kamu</td><td>Hadiah ini untuk kamu</td><td>"adalah" tidak digunakan sebelum frasa sendi nama</td></tr>
+<tr><td>kawan-kawan saya <b>mereka</b> pergi</td><td>kawan-kawan saya pergi</td><td>kata ganti berlebihan</td></tr>
+<tr><td><b>para</b> guru-guru</td><td><b>para</b> guru</td><td>penanda jamak berganda</td></tr></table>
+<div class="tip">💡 Ejaan rapat: <b>bekerjasama</b>, <b>tanggungjawab</b>, <b>menjalankan</b>, <b>membanggakan</b>.</div>`;
+
+NOTA.bm[6].wacana = `
+<h3>🧷 Penanda Wacana</h3>
+<p>Perkataan yang <b>menghubungkan ayat atau perenggan</b> supaya karangan lancar.</p>
+<table><tr><th>Fungsi</th><th>Contoh</th></tr>
+<tr><td>Permulaan</td><td>Pertama sekali, Pada mulanya, Pertama</td></tr>
+<tr><td>Tambahan isi</td><td>Selain itu, Tambahan pula, Di samping itu, Seterusnya</td></tr>
+<tr><td>Contoh</td><td>Contohnya, Misalnya, seperti</td></tr>
+<tr><td>Sebab / akibat</td><td>Oleh itu, Oleh sebab itu, Justeru, Akibatnya, Lantaran itu</td></tr>
+<tr><td>Bertentangan</td><td>Namun, Walau bagaimanapun, Sebaliknya</td></tr>
+<tr><td>Urutan</td><td>Kemudian, Selepas itu, Akhirnya</td></tr>
+<tr><td>Penutup</td><td>Kesimpulannya, Sebagai rumusan, Konklusinya</td></tr></table>
+<div class="tip">💡 Baca dua ayat. Ayat kedua <b>berlawanan</b> → Namun/Sebaliknya. Ayat kedua <b>hasil</b> ayat pertama → Oleh itu/Akibatnya. Ayat kedua <b>tambah</b> idea → Selain itu.</div>`;
+
+NOTA.bm[6].makna = `
+<h3>📚 Kata Banyak Makna</h3>
+<p>Satu perkataan boleh ada <b>makna tersurat</b> (sebenar) dan <b>makna kiasan</b> (bergantung pada konteks).</p>
+<table><tr><th>Perkataan</th><th>Makna sebenar</th><th>Makna lain (konteks)</th></tr>
+<tr><td>panas</td><td>suhu tinggi</td><td><b>berita panas</b> = baharu, hangat diperkatakan</td></tr>
+<tr><td>kepala</td><td>bahagian badan</td><td><b>kepala kereta api</b> = bahagian hadapan</td></tr>
+<tr><td>tajam</td><td>pisau tajam</td><td><b>fikiran tajam</b> = bijak, cepat faham</td></tr>
+<tr><td>ringan</td><td>tidak berat</td><td><b>ringan mulut</b> = peramah, suka menegur</td></tr>
+<tr><td>patah</td><td>kaki patah</td><td><b>semangat patah</b> = hilang semangat</td></tr>
+<tr><td>dibuka</td><td>pintu dibuka</td><td><b>majlis dibuka</b> = dimulakan</td></tr>
+<tr><td>lautan</td><td>laut yang luas</td><td><b>lautan manusia</b> = sangat ramai</td></tr></table>
+<div class="tip">💡 Ganti perkataan itu dengan setiap pilihan jawapan dalam ayat. Pilihan yang paling logik ialah maknanya dalam konteks.</div>`;
+
+NOTA.bm[6].peri6 = `
+<h3>📜 Peribahasa &amp; Bidalan</h3>
+<table><tr><th>Peribahasa</th><th>Maksud</th></tr>
+<tr><td>Masuk kandang kambing mengembek, masuk kandang kerbau menguak</td><td>menyesuaikan diri dengan tempat baharu</td></tr>
+<tr><td>Terlajak perahu boleh diundur, terlajak kata buruk padahnya</td><td>berhati-hati ketika bercakap</td></tr>
+<tr><td>Harapkan pagar, pagar makan padi</td><td>orang yang diamanahkan pula yang khianat</td></tr>
+<tr><td>Kerana mulut badan binasa</td><td>susah akibat percakapan sendiri</td></tr>
+<tr><td>Sediakan payung sebelum hujan</td><td>berjaga-jaga sebelum sesuatu berlaku</td></tr>
+<tr><td>Bagai pungguk rindukan bulan</td><td>mengharapkan sesuatu yang mustahil</td></tr>
+<tr><td>Bagai kaca terhempas ke batu</td><td>sangat kecewa / sedih</td></tr>
+<tr><td>Duduk sama rendah, berdiri sama tinggi</td><td>sama taraf</td></tr>
+<tr><td>Kalau tidak dipecahkan ruyung, manakan dapat sagunya</td><td>kejayaan memerlukan usaha</td></tr>
+<tr><td>Rambut sama hitam, hati lain-lain</td><td>setiap orang berbeza pendapat</td></tr></table>
+<div class="tip">💡 Soalan situasi: cari <b>kata kunci</b> situasi (penjaga mencuri → pagar makan padi; fitnah → kerana mulut). Bina kad imbas 2 peribahasa sehari!</div>`;
+
+NOTA.bm[6].golongan = `
+<h3>🗂️ Ulang Kaji Golongan Kata</h3>
+<table><tr><th>Golongan</th><th>Contoh</th></tr>
+<tr><td><b>Kata nama</b> (am, khas, terbitan)</td><td>meja, Ipoh, kegembiraan</td></tr>
+<tr><td><b>Kata ganti nama diri</b></td><td>saya/kami (pertama), kamu/anda (kedua), dia/mereka/beliau (ketiga)</td></tr>
+<tr><td><b>Kata kerja transitif</b> (perlu objek)</td><td>Ayah <b>membeli</b> kambing.</td></tr>
+<tr><td><b>Kata kerja tak transitif</b></td><td>Adik <b>tidur</b>.</td></tr>
+<tr><td><b>Kata adjektif</b></td><td>tegas, adil, cantik</td></tr></table>
+<h3>Kata tugas</h3>
+<table><tr><th>Jenis</th><th>Contoh</th></tr>
+<tr><td>hubung</td><td>dan, tetapi, bahawa, kerana</td></tr>
+<tr><td>sendi nama</td><td>di, ke, dari, daripada, kepada, pada</td></tr>
+<tr><td>penguat</td><td>sangat, amat, paling, sekali</td></tr>
+<tr><td>penegas</td><td>-lah, -kah, pun, juga</td></tr>
+<tr><td>nafi</td><td>tidak, bukan</td></tr>
+<tr><td>tanya</td><td>siapakah, apakah, bilakah</td></tr>
+<tr><td>perintah</td><td>jangan, sila, tolong, jemput</td></tr>
+<tr><td>bilangan</td><td>tiga, lima puluh, beberapa, semua</td></tr>
+<tr><td>arah</td><td>atas, bawah, dalam, luar</td></tr>
+<tr><td>bantu</td><td>telah, sedang, akan, boleh, mesti</td></tr></table>
+<div class="tip">💡 Kata arah biasanya hadir selepas kata sendi: "di <b>bawah</b> kereta" → "bawah" ialah kata arah.</div>`;
+
+NOTA.bm[6].faham6 = `
+<h3>📖 Pemahaman Gaya UASA</h3>
+<h3>Jenis soalan</h3>
+<table><tr><th>Jenis</th><th>Cara menjawab</th></tr>
+<tr><td>Fakta / maklumat</td><td>cari terus dalam petikan (nama, nombor, tarikh)</td></tr>
+<tr><td>Kiraan daripada data</td><td>baca nombor dengan teliti; kira tambah/tolak/darab (cth. 6 kelas × 35 = 210)</td></tr>
+<tr><td>Sifat watak</td><td>lihat <b>tindakan</b> watak → gigih, jujur, prihatin</td></tr>
+<tr><td>Sebab / akibat</td><td>cari "kerana", "oleh itu", "akibatnya"</td></tr>
+<tr><td>Maksud ungkapan</td><td>fahami perbandingan (umpama, seperti)</td></tr>
+<tr><td>Faedah / pengajaran</td><td>nyatakan kebaikan kepada diri, masyarakat, alam</td></tr></table>
+<h3>Tempoh masa</h3>
+<p>1–7 Mei = <b>7 hari</b> (kira termasuk hari pertama). 10 malam → 6 pagi = <b>8 jam</b>.</p>
+<div class="tip">💡 Jawab dalam <b>ayat lengkap</b> untuk soalan subjektif dan guna maklumat petikan — bukan pendapat sendiri, kecuali soalan meminta pendapat.</div>`;
+
+// ---------- SAINS TAHUN 6 ----------
+NOTA.sn[6].pulihara = `
+<h3>🌳 Pemeliharaan &amp; Pemuliharaan</h3>
+<ul><li><b>Pemeliharaan</b> = menjaga supaya tidak rosak / pupus. Contoh: taman negara, hutan simpan, undang-undang memburu.</li>
+<li><b>Pemuliharaan</b> = memulihkan semula yang sudah rosak. Contoh: menanam semula pokok, pusat penetasan penyu.</li></ul>
+<h3>Haiwan &amp; tumbuhan terancam di Malaysia</h3>
+<p>harimau Malaya, orang utan, penyu belimbing, gajah, tapir, bunga pakma (Rafflesia). <b>Pupus</b> = tiada lagi di dunia (cth. dinosaur).</p>
+<h3>Punca kepupusan</h3>
+<ul><li>pembalakan &amp; pembukaan tanah → hidupan liar hilang habitat</li>
+<li>pemburuan haram, pencemaran (plastik di laut), menangkap ikan dengan bahan letupan</li></ul>
+<h3>Usaha memulihara</h3>
+<ul><li><b>PERHILITAN</b> melindungi hidupan liar · pusat penetasan penyu</li>
+<li>tanam pokok di tebing sungai (elak hakisan) · amalan 3R · kuatkuasa undang-undang</li></ul>
+<div class="tip">💡 Semua hidupan saling bergantung: jika <b>lebah</b> pupus, banyak bunga tidak didebungakan → tanaman tidak berbuah → manusia dan haiwan lain terjejas.</div>`;
+
+NOTA.sn[6].daya = `
+<h3>💪 Daya, Geseran &amp; Tekanan Udara</h3>
+<p><b>Daya</b> ialah <b>tolakan</b> atau <b>tarikan</b>. Contoh: membuka laci = tarikan; memampatkan spring = tolakan.</p>
+<h3>Kesan daya</h3>
+<p>menggerakkan objek pegun · menghentikan / memperlahankan · mengubah arah · mengubah bentuk</p>
+<h3>Daya graviti</h3>
+<p>Menarik semua objek ke arah <b>pusat Bumi</b> — sebab objek jatuh ke bawah.</p>
+<h3>Geseran</h3>
+<table><tr><th>Permukaan</th><th>Geseran</th></tr>
+<tr><td>kasar</td><td>tinggi</td></tr>
+<tr><td>licin / berminyak</td><td>rendah</td></tr></table>
+<ul><li><b>Kebaikan:</b> berjalan tanpa tergelincir, brek basikal berfungsi, ahli gimnastik sapu serbuk.</li>
+<li><b>Keburukan:</b> tayar haus, menghasilkan haba, melambatkan pergerakan.</li>
+<li><b>Kurangkan:</b> minyak pelincir, galas bebola, bentuk larus, pakaian renang ketat.</li></ul>
+<h3>Tekanan udara</h3>
+<p>Udara menekan ke semua arah. Botol kemek apabila udara di dalam disedut keluar kerana <b>tekanan udara di luar lebih tinggi</b>. Tekanan udara di puncak gunung <b>lebih rendah</b>.</p>
+<div class="tip">💡 Eksperimen: <b>dimanipulasi</b> = yang kita ubah (jenis permukaan); <b>bergerak balas</b> = yang diukur (daya diperlukan); <b>dimalarkan</b> = yang dikekalkan (objek sama).</div>`;
+
+NOTA.sn[6].laju = `
+<h3>🏎️ Laju</h3>
+<p><b>Laju</b> = jarak yang dilalui dalam satu unit masa.</p>
+<div class="tip" style="text-align:center;font-size:17px"><b>Laju = Jarak ÷ Masa</b></div>
+<table><tr><th>Cari</th><th>Formula</th><th>Unit</th></tr>
+<tr><td>Laju</td><td>jarak ÷ masa</td><td>m/s, km/j</td></tr>
+<tr><td>Jarak</td><td>laju × masa</td><td>m, km</td></tr>
+<tr><td>Masa</td><td>jarak ÷ laju</td><td>s, j</td></tr></table>
+<h3>Contoh</h3>
+<ul><li>60 m dalam 12 s → 60 ÷ 12 = <b>5 m/s</b></li>
+<li>45 km dalam 30 minit (½ jam) → 45 ÷ 0.5 = <b>90 km/j</b></li>
+<li>90 km dalam 1 jam 30 minit (1.5 jam) → 90 ÷ 1.5 = <b>60 km/j</b></li>
+<li>10 m setiap saat selama 6 s → 10 × 6 = <b>60 m</b></li></ul>
+<h3>Banding laju</h3>
+<p>Jarak sama → yang ambil <b>masa paling singkat</b> paling laju. Objek pegun → laju <b>sifar</b>.</p>
+<div class="tip">💡 Masa dalam minit? Tukar ke jam dulu: 30 min = 0.5 j, 15 min = 0.25 j, 1 j 30 min = 1.5 j. Alat ukur masa larian: <b>jam randik</b>.</div>`;
+
+NOTA.sn[6].awet = `
+<h3>🥫 Teknologi Pengawetan Makanan</h3>
+<p>Makanan rosak kerana <b>mikroorganisma</b> (bakteria, kulat) membiak. Mereka perlukan <b>air, nutrien, suhu sesuai</b> dan udara.</p>
+<h3>Ciri makanan rosak</h3>
+<p>berbau busuk, berlendir, berkulat, berubah warna dan rasa.</p>
+<h3>Kaedah pengawetan</h3>
+<table><tr><th>Kaedah</th><th>Prinsip · contoh</th></tr>
+<tr><td><b>Pengeringan</b></td><td>buang air<br><i>ikan kering, kismis</i></td></tr>
+<tr><td><b>Penggaraman</b></td><td>garam serap air<br><i>telur masin, ikan masin</i></td></tr>
+<tr><td><b>Penggulaan</b></td><td>gula pekat<br><i>manisan mangga, jem</i></td></tr>
+<tr><td><b>Penjerukan</b></td><td>cuka (berasid)<br><i>jeruk betik</i></td></tr>
+<tr><td><b>Penyejukbekuan</b></td><td>suhu rendah<br><i>daging, ayam beku</i></td></tr>
+<tr><td><b>Pempasteuran</b></td><td>panas ±72 °C, sejuk cepat<br><i>susu segar berpaket</i></td></tr>
+<tr><td><b>UHT</b></td><td>suhu sangat tinggi + bungkus kedap<br><i>susu kotak</i></td></tr>
+<tr><td><b>Pengetinan</b></td><td>panas + kedap udara<br><i>sardin, buah dalam tin</i></td></tr>
+<tr><td><b>Pengasapan</b></td><td>asap + haba<br><i>ikan salai</i></td></tr></table>
+<div class="tip">💡 Sentiasa semak <b>tarikh luput</b>. Makanan yang sudah dinyahbeku jangan dibekukan semula berulang kali — mikroorganisma sempat membiak.</div>`;
+
+NOTA.sn[6].buangan = `
+<h3>♻️ Bahan Buangan</h3>
+<ul><li><b>Terbiodegradasi</b> — boleh diurai oleh mikroorganisma: sisa makanan, kulit buah, daun, kertas.</li>
+<li><b>Tidak terbiodegradasi</b> — tidak mudah diurai: plastik, kaca, tin, getah.</li>
+<li><b>Toksik</b> — berbahaya: bateri, racun serangga, lampu pendarfluor (mengandungi merkuri).</li></ul>
+<h3>Amalan 3R</h3>
+<p><b>Kurangkan</b> (reduce) · <b>Guna semula</b> (reuse) · <b>Kitar semula</b> (recycle)</p>
+<h3>Tong kitar semula</h3>
+<table><tr><th>Warna</th><th>Bahan</th></tr>
+<tr><td>🔵 Biru</td><td>kertas</td></tr>
+<tr><td>🟤 Coklat</td><td>kaca</td></tr>
+<tr><td>🟠 Oren</td><td>plastik &amp; tin aluminium</td></tr></table>
+<h3>Pengurusan</h3>
+<p>Sisa sayur &amp; makanan → <b>baja kompos</b> (menyuburkan tanah). Sampah lain → tapak pelupusan sampah. Sisa toksik → dilupuskan oleh <b>pihak bertauliah</b>.</p>
+<div class="tip">💡 Soalan data: kurangkan sampah yang <b>peratusnya paling besar</b> dulu — itu langkah paling berkesan.</div>`;
+
+NOTA.sn[6].gerhana = `
+<h3>🌑 Gerhana</h3>
+<p>Gerhana berlaku kerana <b>cahaya bergerak lurus</b> dan dihalang oleh objek legap (Bumi atau Bulan), membentuk bayang-bayang.</p>
+<table><tr><th></th><th>Gerhana Matahari</th><th>Gerhana Bulan</th></tr>
+<tr><td>Susunan</td><td>Matahari – <b>Bulan</b> – Bumi</td><td>Matahari – <b>Bumi</b> – Bulan</td></tr>
+<tr><td>Bayang-bayang</td><td>Bulan jatuh ke atas Bumi</td><td>Bumi jatuh ke atas Bulan</td></tr>
+<tr><td>Fasa Bulan</td><td>anak bulan</td><td><b>purnama</b></td></tr>
+<tr><td>Waktu dilihat</td><td>siang</td><td>malam</td></tr></table>
+<h3>Umbra &amp; penumbra</h3>
+<ul><li><b>Umbra</b> — bayang-bayang paling gelap → gerhana <b>penuh</b>.</li>
+<li><b>Penumbra</b> — bayang-bayang separa gelap → gerhana <b>separa</b>.</li></ul>
+<p>Semasa gerhana Bulan penuh, Bulan kelihatan <b>kemerahan</b> kerana cahaya Matahari dibiaskan oleh atmosfera Bumi.</p>
+<div class="tip">💡 JANGAN lihat gerhana Matahari dengan mata kasar — boleh merosakkan <b>retina</b>. Guna kaca mata penapis khas atau kaedah lubang jarum.</div>`;
+
+NOTA.sn[6].galaksi = `
+<h3>🌌 Galaksi</h3>
+<p><b>Galaksi</b> = kumpulan berjuta-juta (bahkan berbilion) <b>bintang, gas dan debu</b>. Alam semesta mengandungi berbilion-bilion galaksi.</p>
+<h3>Bima Sakti</h3>
+<p>Galaksi kita. Sistem Suria terletak di dalamnya. Pada malam gelap, ia kelihatan seperti <b>jalur cahaya putih</b> di langit.</p>
+<h3>Saiz: kecil → besar</h3>
+<p>Bumi → Sistem Suria → Bima Sakti → Alam semesta</p>
+<h3>Bintang</h3>
+<ul><li>Memancarkan <b>cahaya dan haba sendiri</b> (Matahari ialah bintang).</li>
+<li>Kelihatan berkelip kerana cahayanya <b>dibiaskan oleh atmosfera Bumi</b>.</li>
+<li>Jarak bintang diukur dalam <b>tahun cahaya</b>.</li>
+<li>Buruj: kumpulan bintang membentuk corak — buruj <b>Belantik (Orion)</b> digunakan petani dahulu untuk menentukan musim menanam padi.</li></ul>
+<h3>Teknologi angkasa</h3>
+<p>Teleskop angkasa (imej jelas tanpa gangguan atmosfera) · satelit kaji cuaca · Angkasawan pertama Malaysia: <b>Dato' Dr. Sheikh Muszaphar Shukor</b> (2007).</p>
+<div class="tip">💡 "Bintang kejora" yang terang sebenarnya planet <b>Zuhrah</b>, bukan bintang. Planet terbesar: <b>Musytari</b>.</div>`;
+
+NOTA.sn[6].stabil = `
+<h3>🏗️ Kestabilan &amp; Kekuatan</h3>
+<h3>Kestabilan</h3>
+<p>Objek stabil = tidak mudah terbalik. Bergantung pada:</p>
+<table><tr><th>Faktor</th><th>Lebih stabil jika</th><th>Contoh</th></tr>
+<tr><td>Luas tapak</td><td>tapak <b>lebih luas</b></td><td>kaki kerusi bayi mengembang ke luar, tapak lampu jalan</td></tr>
+<tr><td>Ketinggian pusat graviti</td><td>pusat graviti <b>lebih rendah</b></td><td>buku berat di rak bawah</td></tr></table>
+<p><b>Pusat graviti</b> = titik di mana seluruh berat objek seolah-olah tertumpu. Lori dengan muatan tinggi di atas mudah terbalik (pusat graviti tinggi).</p>
+<h3>Kekuatan</h3>
+<p>Bergantung pada <b>jenis bahan</b> dan <b>bentuk</b> struktur.</p>
+<ul><li>Bahan kuat: konkrit bertetulang, keluli (jambatan, tiang); aluminium (ringan tetapi kuat — rangka basikal).</li>
+<li>Bentuk: kertas dilipat beralun / berbentuk silinder atau segi tiga lebih kuat daripada kertas rata.</li></ul>
+<div class="tip">💡 Ingat formula stabil: <b>tapak LUAS + pusat graviti RENDAH</b>. Rumah tradisional Melayu bertiang untuk elak banjir dan binatang buas.</div>`;
+
+NOTA.sn[6].teknologi = `
+<h3>💡 Teknologi</h3>
+<p>Teknologi ialah aplikasi pengetahuan sains untuk <b>memudahkan kehidupan</b> — menjimatkan masa dan tenaga.</p>
+<h3>Perkembangan teknologi</h3>
+<table><tr><th>Bidang</th><th>Dahulu</th><th>Kini</th></tr>
+<tr><td>Komunikasi</td><td>surat, telegram</td><td>e-mel, aplikasi pesanan, panggilan video</td></tr>
+<tr><td>Pengangkutan</td><td>kereta lembu, sampan</td><td>kereta api laju, kapal terbang</td></tr>
+<tr><td>Pertanian</td><td>tangan, kerbau</td><td>traktor, pengairan automatik, dron</td></tr>
+<tr><td>Keselamatan</td><td>—</td><td>pengesan asap, kamera litar tertutup</td></tr>
+<tr><td>Maklumat diri</td><td>kad kertas</td><td>MyKad (simpan maklumat dalam <b>cip</b>)</td></tr></table>
+<h3>Tenaga boleh diperbaharui</h3>
+<p>suria, angin, air (hidroelektrik), biojisim — <b>tidak akan habis</b>.</p>
+<h3>Kesan buruk &amp; cara mengatasi</h3>
+<ul><li>Gajet berlebihan → masalah mata, kurang bersenam · Internet → jenayah siber, berita palsu</li>
+<li>Guna <b>teknologi hijau</b>: lampu LED, panel solar · urus sisa elektronik dengan betul</li></ul>
+<div class="tip">💡 Mesej "menang hadiah" yang minta kata laluan = penipuan. <b>Abaikan</b> dan beritahu ibu bapa atau guru. Jangan kongsi kata laluan!</div>`;
+
 </script>
 <script>
 (() => {

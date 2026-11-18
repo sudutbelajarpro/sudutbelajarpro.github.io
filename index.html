@@ -19066,11 +19066,11 @@ function premium(s, y, t, rank) {
       <tr><td>Ramalan UASA, Graf &amp; Rajah (D4–6)</td><td>—</td><td>✅</td></tr>
       <tr><td>Laporan penuh ibu bapa</td><td>Asas</td><td>✅</td></tr>
       <tr><td>Hadiah juara musim</td><td>—</td><td>✅</td></tr>
-      <tr><td>Sedia ke Tahun 1 (prasekolah)</td><td>10 permainan</td><td>30 · Pakej D1</td></tr>
+      <tr><td>Sedia ke Tahun 1 (prasekolah)</td><td>14 permainan</td><td>50 · Pakej D1</td></tr>
     </tbody></table>
     <div class="bonuskotak"><span class="pitab">🎁 BONUS</span>
       <div style="font-family:var(--fd);font-size:20px;font-weight:700;margin-top:4px">Pakej Darjah 1 + <span style="color:#e8590c">Sedia ke Tahun 1</span></div>
-      <div style="font-size:14px;color:var(--ink);margin-top:4px">Beli <b>Pakej Darjah 1</b>, dapat <b>PERCUMA</b> semua <b>30 permainan prasekolah</b> (huruf, nombor, sains, perasaan &amp; kreatif) untuk anak 5–6 tahun. Sesuai untuk anak masuk Tahun 1 pada Januari 2027. <a href="#sedia" style="font-weight:700">Cuba 10 permainan percuma →</a></div>
+      <div style="font-size:14px;color:var(--ink);margin-top:4px">Beli <b>Pakej Darjah 1</b>, dapat <b>PERCUMA</b> semua <b>50 permainan prasekolah</b> (huruf, nombor, sains, perasaan &amp; kreatif) untuk anak 5–6 tahun. Sesuai untuk anak masuk Tahun 1 pada Januari 2027. <a href="#sedia" style="font-weight:700">Cuba 14 permainan percuma →</a></div>
     </div>
     <h2 class="pm-h" id="pm-pakej">Pilih pakej</h2>
     ${hargaAwal('2bulan') || hargaAwal('setahun') ? `<div class="pm-naik"><span class="pm-naikt">⏰ TAWARAN HARGA AWAL · TERHAD</span>
@@ -19093,7 +19093,7 @@ function premium(s, y, t, rank) {
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
           <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}${i === 1 ? ' + 🎁 BONUS' : ''}</option>`).join('')}</select>
-          <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (30 permainan prasekolah)</span></span>
+          <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (50 permainan prasekolah)</span></span>
         </div>
         <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Cuti sekolah? Pilih darjah tahun depan untuk bersedia, atau darjah semasa untuk ulang kaji.</div>
         ${REF.buka() ? (REF.sah() ? `<div class="pk-ref" id="pkref">🎁 Kod rakan <b>${esc(REF.sah())}</b> digunakan — ${['2bulan', 'setahun'].some(x => REF.diskaun(x)) ? ['2bulan', 'setahun'].filter(x => REF.diskaun(x)).map(x => `jimat <b>RM${REF.diskaun(x)}</b> (${NAMA_PELAN[x]})`).join(' · ') : 'harga awal sekarang sudah paling rendah'}. <button type="button" class="pk-refx" id="pkrefx" aria-label="Buang kod rakan">✕</button></div>` : `<details class="pk-refd" id="pkref"><summary>🎁 Ada kod rakan?</summary><div style="display:flex;gap:8px;margin-top:8px"><input id="refin" placeholder="cth AINA27" maxlength="12" autocomplete="off" style="flex:1;min-width:0;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase"><button type="button" class="btn sec" id="refguna" style="padding:9px 16px">Guna</button></div><div id="refmsg" style="font-size:13px;margin-top:6px;color:var(--muted)"></div></details>`) : ''}
@@ -19271,7 +19271,7 @@ function faq() {
     ${Q('Adakah selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan nama glamour pilihan anak, bukan nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p>`)}
     ${Q('Terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. Kod 6 angka dihantar ke emel ibu bapa (sah 30 minit).</p>`)}
     ${Q('Perlu muat turun app?', `<p>Tidak. Buka <b>sudutbelajarpro.com</b> di mana-mana peranti dan <a href="#pasang">tambah ke skrin utama</a>. Untuk tablet anak, guna <b>📲 Hantar ke peranti anak</b> di halaman Akaun.</p>`)}
-    ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 30 permainan untuk anak 5–6 tahun, 10 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
+    ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 50 permainan untuk anak 5–6 tahun, 14 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
     ${Q('Bila ranking bermula semula?', `<p>Setiap musim ${tt('musim_bulan')} bulan, bermula ${tarikhPenuh(tt('musim_mula'))}. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
     ${k && k.kod ? Q('Apa itu kod kempen ' + esc(k.kod) + '?', `<p>${k.had ? k.had + ' pengguna terawal' : 'Pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Sekali bagi setiap profil.</p>`) : ''}
     ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>WhatsApp: <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">0${WA_NUM.slice(2, 4)}-${WA_NUM.slice(4)}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
@@ -19693,7 +19693,7 @@ function home(y, scroll) {
         <div class="tile t1" aria-hidden="true">7</div><div class="tile t2" aria-hidden="true">÷</div><div class="tile t4" aria-hidden="true">💎</div>
       </div>
     </section>
-    <a class="sediakad" href="#sedia"><span class="sk-ic">🎒</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 30 permainan huruf, nombor, sains &amp; kreatif · <u>10 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
+    <a class="sediakad" href="#sedia"><span class="sk-ic">🎒</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 50 permainan huruf, nombor, sains &amp; kreatif · <u>14 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
     <section class="blk" id="pilih">
       <div class="sh"><div><h2>Pilih darjah</h2><p>Kemudian pilih subjek untuk mula berlatih.</p></div></div>
       <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="l">Darjah ${i}</span></button>`).join('')}</div>
@@ -20279,7 +20279,7 @@ const PRA = (() => {
       SUARA.cakap(G.cakap); denyut();
     },
     betul(el, kata) {
-      if (G.kunci) return; G.kunci = true; if (!G.silapIni) G.tepat++;
+      if (G.kunci) return; try { ganjaran(el); } catch (e) {} G.kunci = true; if (!G.silapIni) G.tepat++;
       if (el) { el.classList.add('ok'); el.classList.add('pr-lonjak'); kilau(el); }
       SND.play('betul'); try { maskot('gembira'); } catch (e) {}
       SUARA.cakap(kata || pick(PUJI));
@@ -20616,7 +20616,7 @@ const PRA = (() => {
   const KPG = '<span class="pr-kpg" aria-label="kepompong"></span>';
   const lbl = (e, t) => `<span class="e">${e}</span>${t}`;
   // pilihan berlabel (emoji + teks); kembalikan html
-  const pilihanLbl = (ops, cls) => `<div class="pr-pil">${ops.map((o, i) => `<button class="pr-o lbl ${cls || ''}" data-i="${i}">${lbl(o[0], o[1])}</button>`).join('')}</div>`;
+  const pilihanLbl = (ops, cls) => { const panjang = ops.some(o => String(o[1]).replace(/<[^>]+>/g, '').length > 15); const k = panjang ? ' pr-pil-baris' : ops.length === 4 ? ' pr-pil-4' : ''; return `<div class="pr-pil${k}">${ops.map((o, i) => `<button class="pr-o lbl ${cls || ''}" data-i="${i}">${lbl(o[0], o[1])}</button>`).join('')}</div>`; };
 
   // ---------- HUTAN SAINS ----------
   const KITAR = [
@@ -20742,7 +20742,7 @@ const PRA = (() => {
       main(R) {
         const t = (R.dahB = R.dahB || ambil(BAYANG, 8))[R.i]; const ops = kocok([t, ...ambil(BAYANG.filter(x => x !== t), 2)]);
         api.soal('Ini bayang apa?', 'Lihat bayang ini. Ini bayang apa?');
-        api.pentas().innerHTML = `<div class="pr-bayang" id="prbyg">${t[1]}</div>${pilihanLbl(ops.map(x => [x[1], x[0]]))}`;
+        api.pentas().innerHTML = `<div class="pr-gbr pr-bayang" id="prbyg">${t[1]}</div>${pilihanLbl(ops.map(x => [x[1], x[0]]))}`;
         ikatPilihan(ops.indexOf(t), `Betul! Itu bayang ${t[0]}.`);
         api.pentas().querySelectorAll('.pr-o').forEach(b => { const a = b.onclick; b.onclick = () => { if (!api.kunci && ops[+b.dataset.i] === t) { const y = $('#prbyg'); if (y) { y.style.transition = 'filter .6s'; y.style.filter = 'none'; } } a(); }; });
       } },
@@ -20786,16 +20786,336 @@ const PRA = (() => {
       } },
   ];
 
-  // 10 permainan percuma; selebihnya dibuka oleh Pakej Darjah 1 (BONUS) atau Premium lama semua darjah
-  const PERCUMA = ['belon', 'keretaapi', 'telur', 'surih', 'ikan', 'rama', 'menara', 'roket', 'timbul', 'ingat'];
+  // ================= 18 Nov 2026 (2): +20 permainan — setiap zon 10 =================
+  const CSS3 = `
+.pr-neraca{position:relative;width:300px;height:170px}
+.pr-neraca .tiang{position:absolute;left:50%;bottom:0;width:14px;height:110px;margin-left:-7px;background:linear-gradient(#a18cd1,#7c6cff);border-radius:8px}
+.pr-neraca .tapak{position:absolute;left:50%;bottom:0;width:90px;height:14px;margin-left:-45px;background:#7c6cff;border-radius:10px}
+.pr-neraca .rasuk{position:absolute;left:20px;right:20px;top:52px;height:10px;background:#5b4bdb;border-radius:8px;transition:transform 1s cubic-bezier(.3,1.4,.5,1);transform-origin:50% 50%}
+.pr-neraca .rasuk.kiri{transform:rotate(-14deg)}.pr-neraca .rasuk.kanan{transform:rotate(14deg)}
+.pr-neraca .pan{position:absolute;top:-62px;width:96px;height:62px;display:flex;align-items:flex-end;justify-content:center;font-size:52px;line-height:1;transition:transform 1s cubic-bezier(.3,1.4,.5,1)}
+.pr-neraca .pan::after{content:'';position:absolute;bottom:-6px;left:4px;right:4px;height:8px;background:#ffd166;border-radius:0 0 40px 40px}
+.pr-neraca .pan.l{left:-18px}.pr-neraca .pan.r{right:-18px}
+.pr-neraca .rasuk.kiri .pan{transform:rotate(14deg)}.pr-neraca .rasuk.kanan .pan{transform:rotate(-14deg)}
+.pr-magnet{display:flex;align-items:center;gap:30px;justify-content:center;min-height:120px}
+.pr-magnet .m{font-size:76px;line-height:1;transform:rotate(-90deg)}
+.pr-magnet .b{font-size:66px;line-height:1;transition:transform .7s cubic-bezier(.5,-0.4,.6,1.4)}
+.pr-magnet .b.tarik{transform:translateX(-58px) rotate(-12deg)}
+.pr-magnet .b.tolak{animation:prgoyang .5s}
+.pr-tempat{position:relative;width:230px;height:220px;margin:0 auto}
+.pr-tempat .bk{position:absolute;left:50%;top:50%;font-size:96px;line-height:1;transform:translate(-50%,-50%)}
+.pr-tempat .hw{position:absolute;font-size:52px;line-height:1;transform:translate(-50%,-50%)}
+.pr-tong{display:inline-block;width:46px;height:52px;border-radius:6px 6px 12px 12px;position:relative;box-shadow:inset -6px -6px 0 rgba(0,0,0,.15)}
+.pr-tong::before{content:'';position:absolute;left:-5px;right:-5px;top:-8px;height:10px;border-radius:6px;background:inherit;filter:brightness(.85)}
+.pr-o.lbl .pr-tong{margin-bottom:6px}
+.pr-baris{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:54px;line-height:1;background:#f4f2ff;border-radius:22px;padding:16px 14px;min-height:88px;align-items:center}
+.pr-baris span{display:inline-flex;width:62px;height:62px;align-items:center;justify-content:center;background:#fff;border-radius:16px;box-shadow:0 4px 0 #e3defa}
+.pr-baris span.lubang{background:transparent;border:3px dashed #a99bff;box-shadow:none;color:#a99bff;font-family:var(--fd);font-size:30px;font-weight:700}
+.pr-baris.tutup span{font-size:0}.pr-baris.tutup span::after{content:'❓';font-size:34px}
+.pr-nota-kecil{font-family:var(--fb);font-size:14px;font-weight:600;color:var(--muted);text-align:center;margin:0}
+@media (max-width:400px){.pr-baris{font-size:44px;gap:6px}.pr-baris span{width:52px;height:52px}.pr-neraca{width:270px}}
+`;
+  function gaya3() { if (document.getElementById('pracss3')) return; const s = document.createElement('style'); s.id = 'pracss3'; s.textContent = CSS3; document.head.appendChild(s); }
+  // data pusingan: ambil set rawak sekali bagi setiap permainan, ulang jika data kurang
+  const pusingData = (R, data) => { R.dah = R.dah || kocok(data); return R.dah[R.i % R.dah.length]; };
+  // tiga pilihan: jawapan + 2 pengganggu daripada kolam
+  const tigaPil = (jwp, kolam) => kocok([jwp, ...ambil(kolam.filter(x => x !== jwp), 2)]);
+  // permainan pilih berlabel (emoji + teks) yang ringkas
+  function pilihLbl(gambar, ops, betulIdx, kata) { api.pentas().innerHTML = gambar + pilihanLbl(ops); ikatPilihan(betulIdx, kata); }
+  // permainan susun urutan (guna semula gaya .pr-kitar)
+  function susunSiri(langkah, soal, cakap, akhir) {
+    let lk = 1; api.soal(soal, cakap);
+    api.pentas().innerHTML = `<div class="pr-kitar">${langkah.map((s, i) => `${i ? '<span class="ar">➜</span>' : ''}<span class="tp${i === 0 ? ' isi' : ''}" data-s="${i}">${i === 0 ? s[0] : '?'}</span>`).join('')}</div>
+      <div class="pr-pil">${kocok(langkah.map((_, i) => i).slice(1)).map(i => `<button class="pr-o lbl" data-c="${i}">${lbl(langkah[i][0], langkah[i][1])}</button>`).join('')}</div>`;
+    api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+      if (api.kunci || b.disabled) return;
+      if (+b.dataset.c === lk) {
+        const tp = api.pentas().querySelector(`.tp[data-s="${lk}"]`); tp.innerHTML = langkah[lk][0]; tp.classList.add('isi');
+        b.disabled = true; b.style.visibility = 'hidden'; nada('pop'); SUARA.cakap(langkah[lk][1]); lk++;
+        if (lk === langkah.length) api.betul(null, akhir);
+      } else api.salah(b);
+    });
+  }
+
+  // ---------- HUTAN SAINS (+7) ----------
+  const DERIA = { mata: ['👀', 'Mata'], telinga: ['👂', 'Telinga'], hidung: ['👃', 'Hidung'], lidah: ['👅', 'Lidah'], kulit: ['✋', 'Kulit'] };
+  const DERIA_B = [
+    ['🌸', 'menghidu bunga', 'hidung'], ['🔔', 'mendengar loceng', 'telinga'], ['🌈', 'melihat pelangi', 'mata'], ['🍭', 'merasa gula-gula yang manis', 'lidah'],
+    ['🧊', 'merasa ais yang sejuk di tangan', 'kulit'], ['🥁', 'mendengar bunyi gendang', 'telinga'], ['🍋', 'merasa lemon yang masam', 'lidah'], ['📖', 'melihat gambar dalam buku', 'mata'],
+    ['🍞', 'menghidu roti yang baru dibakar', 'hidung'], ['🧸', 'menyentuh bulu patung yang lembut', 'kulit'],
+  ];
+  const CUACA = [
+    ['🌧️', 'Hari ini hujan. Apa kita bawa?', ['☂️', 'Payung'], [['🕶️', 'Cermin mata hitam'], ['🍦', 'Aiskrim']]],
+    ['☀️', 'Hari ini panas terik. Apa kita pakai?', ['🧢', 'Topi'], [['🧥', 'Baju sejuk'], ['🧣', 'Selendang tebal']]],
+    ['❄️', 'Cuaca sangat sejuk. Apa kita pakai?', ['🧥', 'Baju sejuk'], [['🍦', 'Aiskrim'], ['🕶️', 'Cermin mata hitam']]],
+    ['⛈️', 'Ada ribut petir. Apa kita buat?', ['🏠', 'Duduk dalam rumah'], [['⚽', 'Main bola di padang'], ['🏊', 'Berenang di sungai']]],
+    ['🌫️', 'Udara berjerebu. Apa kita buat?', ['😷', 'Pakai pelitup muka'], [['🏃', 'Berlari lama di luar'], ['🔥', 'Bakar sampah']]],
+    ['🥵', 'Badan rasa panas dan dahaga. Apa kita buat?', ['💧', 'Minum air'], [['🧥', 'Pakai baju sejuk'], ['🍟', 'Makan kerepek masin']]],
+  ];
+  const MAKAN_H = [['🐰', 'arnab', '🥕', 'lobak merah'], ['🐒', 'monyet', '🍌', 'pisang'], ['🐄', 'lembu', '🌿', 'rumput'], ['🐱', 'kucing', '🐟', 'ikan'],
+    ['🐼', 'panda', '🎋', 'buluh'], ['🐝', 'lebah', '🌸', 'bunga'], ['🐶', 'anjing', '🦴', 'tulang'], ['🐔', 'ayam', '🌽', 'jagung'], ['🐭', 'tikus', '🧀', 'keju']];
+  const HIDUP = [['🌳', 'pokok', 1], ['🐟', 'ikan', 1], ['🐦', 'burung', 1], ['🌻', 'bunga matahari', 1], ['🐛', 'ulat', 1], ['👶', 'bayi', 1], ['🍄', 'cendawan', 1], ['🐜', 'semut', 1],
+    ['🛋️', 'sofa', 0], ['🚗', 'kereta', 0], ['⚽', 'bola', 0], ['📱', 'telefon', 0], ['🧸', 'patung beruang', 0], ['🤖', 'robot', 0], ['✏️', 'pensel', 0], ['⏰', 'jam loceng', 0]];
+  const BERAT = [[['🐘', 'gajah'], ['🐭', 'tikus']], [['🍉', 'tembikai'], ['🍒', 'buah ceri']], [['🚚', 'lori'], ['🚲', 'basikal']], [['🐻', 'beruang'], ['🐝', 'lebah']],
+    [['🎃', 'labu'], ['🍓', 'strawberi']], [['📚', 'timbunan buku'], ['✏️', 'pensel']], [['🐄', 'lembu'], ['🐤', 'anak ayam']], [['🎒', 'beg sekolah penuh'], ['🎈', 'belon']]];
+  const BUNYI = [['🐄', 'lembu', 'Mooo'], ['🐱', 'kucing', 'Meow meow'], ['🐶', 'anjing', 'Guk guk'], ['🐓', 'ayam jantan', 'Kukuruyuk'], ['🦆', 'itik', 'Kuek kuek'],
+    ['🐐', 'kambing', 'Mbekk'], ['🐝', 'lebah', 'Bzzzz'], ['🐍', 'ular', 'Sssss'], ['🦁', 'singa', 'Aummm']];
+  const MAGNET = [['🔩', 'skru besi', 1], ['📎', 'klip kertas', 1], ['🔑', 'kunci besi', 1], ['🥄', 'sudu besi', 1], ['🔧', 'sepana', 1], ['⛓️', 'rantai besi', 1],
+    ['📄', 'kertas', 0], ['🍎', 'epal', 0], ['🧸', 'patung kain', 0], ['✏️', 'pensel kayu', 0], ['🍃', 'daun', 0], ['🎈', 'belon', 0]];
+  SAINS.push(
+    { id: 'deria', ic: '👃', nama: 'Deria Saya', d: 'Mata, telinga, hidung, lidah, kulit', pelekat: '🦔',
+      main(R) {
+        const [e, t, k] = pusingData(R, DERIA_B); const ops = tigaPil(k, Object.keys(DERIA));
+        api.soal(`Kita guna apa untuk <span class="h">${t}</span>?`, `Kita guna apa untuk ${t}?`);
+        pilihLbl(`<div class="pr-gbr">${e}</div>`, ops.map(x => DERIA[x]), ops.indexOf(k), `Betul! Kita guna ${DERIA[k][1].toLowerCase()}.`);
+      } },
+    { id: 'cuaca', ic: '🌦️', nama: 'Cuaca Hari Ini', d: 'Apa kita bawa & buat?', pelekat: '🐸',
+      main(R) {
+        const [e, s, b, sl] = pusingData(R, CUACA); const ops = kocok([b, ...sl]);
+        api.soal(s, s);
+        pilihLbl(`<div class="pr-gbr">${e}</div>`, ops, ops.indexOf(b), `Betul! ${b[1]}.`);
+      } },
+    { id: 'makanan', ic: '🥕', nama: 'Makanan Haiwan', d: 'Haiwan ini makan apa?', pelekat: '🐋',
+      main(R) {
+        const h = pusingData(R, MAKAN_H); const ops = tigaPil(h, MAKAN_H);
+        api.soal(`<span class="h">${h[1]}</span> suka makan apa?`, `${h[1]} suka makan apa?`);
+        pilihLbl(`<div class="pr-gbr">${h[0]}</div>`, ops.map(x => [x[2], x[3]]), ops.indexOf(h), `Betul! ${h[1]} makan ${h[3]}.`);
+      } },
+    { id: 'hidup', ic: '🌱', nama: 'Hidup atau Bukan?', d: 'Benda hidup & bukan hidup', pelekat: '🦈',
+      main(R) {
+        const [e, nm, hd] = pusingData(R, HIDUP);
+        api.soal(`<span class="h">${nm}</span> benda hidup atau bukan?`, `${nm}. Benda hidup atau bukan hidup?`);
+        api.pentas().innerHTML = `<div class="pr-gbr">${e}</div>
+          <div class="pr-pil"><button class="pr-o lbl besar" data-t="1" style="background:#ebfbee">${lbl('🌱', 'Benda hidup')}</button><button class="pr-o lbl besar" data-t="0" style="background:#f1f3f5">${lbl('🧱', 'Bukan hidup')}</button></div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => { if (api.kunci) return; +b.dataset.t === hd ? api.betul(b, hd ? `Betul! ${nm} benda hidup. Ia membesar.` : `Betul! ${nm} bukan benda hidup.`) : api.salah(b); });
+      } },
+    { id: 'berat', ic: '⚖️', nama: 'Berat atau Ringan', d: 'Lihat neraca senget', pelekat: '🐊',
+      main(R) {
+        const [b, r] = pusingData(R, BERAT); const tanyaBerat = R.i % 2 === 0; const kiriBerat = !!rnd(2);
+        const kiri = kiriBerat ? b : r, kanan = kiriBerat ? r : b; const jwp = tanyaBerat ? b : r; const ops = [kiri, kanan];
+        api.soal(`Mana lebih <span class="h">${tanyaBerat ? 'berat' : 'ringan'}</span>?`, `Mana lebih ${tanyaBerat ? 'berat' : 'ringan'}? ${kiri[1]} atau ${kanan[1]}?`);
+        api.pentas().innerHTML = `<div class="pr-neraca"><div class="tapak"></div><div class="tiang"></div><div class="rasuk" id="prrasuk"><span class="pan l">${kiri[0]}</span><span class="pan r">${kanan[0]}</span></div></div>${pilihanLbl(ops.map(x => [x[0], x[1]]))}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(btn => btn.onclick = () => {
+          if (api.kunci) return;
+          if (ops[+btn.dataset.i] === jwp) { const rs = $('#prrasuk'); if (rs) rs.classList.add(kiriBerat ? 'kiri' : 'kanan'); api.betul(btn, `Betul! ${b[1]} lebih berat, ${r[1]} lebih ringan.`); }
+          else api.salah(btn);
+        });
+      } },
+    { id: 'bunyi', ic: '🔔', nama: 'Bunyi Siapa?', d: 'Teka haiwan ikut bunyinya', pelekat: '🐓',
+      main(R) {
+        const h = pusingData(R, BUNYI); const ops = tigaPil(h, BUNYI);
+        api.soal(`Siapa berbunyi <span class="h">“${h[2]}”</span>?`, `${h[2]}! ${h[2]}! Siapa berbunyi begini?`);
+        pilihLbl('<div class="pr-gbr">🎵</div>', ops.map(x => [x[0], x[1]]), ops.indexOf(h), `Betul! ${h[1]} berbunyi ${h[2]}.`);
+      } },
+    { id: 'magnet', ic: '🧲', nama: 'Magnet Ajaib', d: 'Melekat atau tidak?', pelekat: '🤖',
+      main(R) {
+        const [e, nm, mk] = pusingData(R, MAGNET);
+        api.soal(`Adakah magnet menarik <span class="h">${nm}</span>?`, `Adakah magnet menarik ${nm}?`);
+        api.pentas().innerHTML = `<div class="pr-magnet"><span class="m">🧲</span><span class="b" id="prbenda">${e}</span></div>
+          <div class="pr-pil"><button class="pr-o lbl besar" data-t="1">${lbl('🧲', 'Melekat')}</button><button class="pr-o lbl besar" data-t="0">${lbl('🚫', 'Tidak melekat')}</button></div>`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => b.onclick = () => {
+          if (api.kunci) return;
+          if (+b.dataset.t === mk) { const o = $('#prbenda'); if (o) o.classList.add(mk ? 'tarik' : 'tolak'); nada(mk ? 'lompat' : 'tut'); api.betul(b, mk ? `Betul! Magnet menarik benda besi seperti ${nm}.` : `Betul! Magnet tidak menarik ${nm}.`); }
+          else api.salah(b);
+        });
+      } },
+  );
+
+  // ---------- KAMPUNG CERIA (+7) ----------
+  const ADAB = [
+    ['🎁', 'Kawan beri kamu hadiah.', ['😊', 'Terima kasih'], [['😝', 'Ejek dia'], ['🙈', 'Buat tak tahu']]],
+    ['💥', 'Kamu terlanggar kawan sampai dia jatuh.', ['🙇', 'Minta maaf'], [['😆', 'Ketawa'], ['🏃', 'Lari']]],
+    ['🌅', 'Kamu jumpa cikgu pada waktu pagi.', ['👋', 'Selamat pagi, cikgu'], [['🙉', 'Buat tak dengar'], ['😛', 'Jelir lidah']]],
+    ['✏️', 'Kamu mahu guna pensel kawan.', ['🙋', 'Boleh saya pinjam?'], [['✊', 'Rampas sahaja'], ['😭', 'Menangis']]],
+    ['🍽️', 'Sebelum makan bersama keluarga.', ['🧼', 'Basuh tangan dulu'], [['🎮', 'Main permainan'], ['🦶', 'Letak kaki atas meja']]],
+    ['👵', 'Nenek bawa beg yang berat.', ['🤝', 'Tolong bawakan'], [['📱', 'Terus main telefon'], ['🙄', 'Buat tak nampak']]],
+    ['🗑️', 'Ada sampah di lantai kelas.', ['🚮', 'Kutip dan buang dalam tong'], [['🦶', 'Sepak ke bawah meja'], ['🙈', 'Biarkan sahaja']]],
+  ];
+  const ANGKUT_K = { darat: ['🛣️', 'Darat'], air: ['🌊', 'Air'], udara: ['☁️', 'Udara'] };
+  const ANGKUT = [['🚗', 'kereta', 'darat'], ['🚌', 'bas', 'darat'], ['🚂', 'kereta api', 'darat'], ['🚲', 'basikal', 'darat'], ['🏍️', 'motosikal', 'darat'],
+    ['🚢', 'kapal', 'air'], ['⛵', 'perahu layar', 'air'], ['🚤', 'bot laju', 'air'], ['🛶', 'kanu', 'air'], ['✈️', 'kapal terbang', 'udara'], ['🚁', 'helikopter', 'udara'], ['🎈', 'belon udara', 'udara']];
+  const TEMPAT = [['🤒', 'Bila demam, kita pergi ke…', '🏥', 'Klinik'], ['📕', 'Mahu pinjam buku cerita, pergi ke…', '📚', 'Perpustakaan'], ['🔥', 'Rumah terbakar! Panggil…', '🚒', 'Balai bomba'],
+    ['✉️', 'Mahu hantar surat, pergi ke…', '📮', 'Pejabat pos'], ['🥬', 'Mahu beli sayur dan ikan, pergi ke…', '🛒', 'Pasar'], ['🔤', 'Belajar membaca dan menulis di…', '🏫', 'Sekolah'],
+    ['🧒', 'Mahu bermain buaian bersama kawan, pergi ke…', '🎠', 'Taman permainan'], ['🆘', 'Perlukan bantuan polis, pergi ke…', '🚓', 'Balai polis']];
+  const RUTIN = [
+    { n: 'rutin pagi', s: [['⏰', 'bangun tidur'], ['🚿', 'mandi'], ['🍳', 'sarapan'], ['🎒', 'pergi ke sekolah']] },
+    { n: 'cara basuh tangan', s: [['💧', 'basahkan tangan'], ['🧼', 'sapu sabun'], ['👐', 'gosok tangan'], ['🧻', 'lap sampai kering']] },
+    { n: 'cara tanam pokok', s: [['🕳️', 'gali lubang'], ['🌰', 'masukkan biji benih'], ['💧', 'siram air'], ['🌱', 'pokok tumbuh']] },
+    { n: 'rutin malam', s: [['🍽️', 'makan malam'], ['🛁', 'mandi'], ['📖', 'baca buku cerita'], ['🛌', 'tidur']] },
+    { n: 'cara pakai kasut', s: [['🧦', 'pakai stoking'], ['👟', 'sarung kasut'], ['🎀', 'ikat tali'], ['🚶', 'mula berjalan']] },
+  ];
+  const TONG = { biru: ['#2f80ed', 'Tong biru', 'kertas'], oren: ['#f2994a', 'Tong oren', 'plastik & tin'], coklat: ['#8d5a2b', 'Tong coklat', 'kaca'] };
+  const KITAR_S = [['📰', 'surat khabar lama', 'biru'], ['📦', 'kotak kertas', 'biru'], ['📄', 'kertas latihan terpakai', 'biru'],
+    ['🥤', 'cawan minuman plastik', 'oren'], ['🛍️', 'beg plastik', 'oren'], ['🥫', 'tin minuman', 'oren'], ['🧴', 'botol syampu plastik', 'oren'],
+    ['🥛', 'gelas kaca', 'coklat'], ['🍯', 'balang kaca', 'coklat']];
+  const KELUARGA = [['Ayah kepada ayah kita dipanggil…', '👴', 'Atuk'], ['Ibu kepada ibu kita dipanggil…', '👵', 'Nenek'], ['Adik lelaki ayah kita dipanggil…', '👨', 'Pak cik'],
+    ['Kakak kepada ibu kita dipanggil…', '👩', 'Mak cik'], ['Anak kepada pak cik kita dipanggil…', '🧒', 'Sepupu'], ['Bayi yang baru lahir selepas kita dipanggil…', '👶', 'Adik']];
+  const KERJA_R = [['menyapu lantai', '🧹', 'Penyapu'], ['membasuh pinggan', '🧽', 'Span & sabun'], ['menjemur baju', '🧺', 'Bakul baju'], ['membuang sampah', '🗑️', 'Tong sampah'],
+    ['menyiram pokok bunga', '💧', 'Air'], ['menyusun buku', '📚', 'Rak buku'], ['mengemas mainan', '📦', 'Kotak mainan']];
+  KAMPUNG.push(
+    { id: 'adab', ic: '🙋', nama: 'Adab Si Comel', d: 'Apa yang patut kita buat?', pelekat: '🐫',
+      main(R) {
+        const [e, t, b, sl] = pusingData(R, ADAB); const ops = kocok([b, ...sl]);
+        api.soal('Apa patut kamu buat?', `${t} Apa patut kamu buat?`);
+        pilihLbl(`<div class="pr-adegan" style="padding:10px 16px"><span class="e" style="font-size:54px">${e}</span><p>${t}</p></div>`, ops, ops.indexOf(b), `Bagus! ${b[1]}.`);
+      } },
+    { id: 'angkut', ic: '🚢', nama: 'Darat, Air, Udara', d: 'Kenderaan bergerak di mana?', pelekat: '🦏',
+      main(R) {
+        const [e, nm, k] = pusingData(R, ANGKUT); const ks = ['darat', 'air', 'udara'];
+        api.soal(`<span class="h">${nm}</span> bergerak di mana?`, `${nm} bergerak di mana? Darat, air atau udara?`);
+        pilihLbl(`<div class="pr-gbr">${e}</div>`, ks.map(x => ANGKUT_K[x]), ks.indexOf(k), `Betul! ${nm} bergerak di ${k}.`);
+      } },
+    { id: 'tempat', ic: '🏥', nama: 'Tempat di Kampung', d: 'Ke mana kita pergi?', pelekat: '🐕',
+      main(R) {
+        const t = pusingData(R, TEMPAT); const ops = tigaPil(t, TEMPAT);
+        api.soal(t[1], t[1]);
+        pilihLbl(`<div class="pr-gbr">${t[0]}</div>`, ops.map(x => [x[2], x[3]]), ops.indexOf(t), `Betul! ${t[3]}.`);
+      } },
+    { id: 'rutin', ic: '⏰', nama: 'Susun Rutin', d: 'Apa buat dahulu, apa kemudian?', pelekat: '🐆',
+      main(R) { const K = pusingData(R, RUTIN); susunSiri(K.s, `Susun <span class="h">${K.n}</span>. Apa seterusnya?`, `Mari susun ${K.n}. Mula dengan ${K.s[0][1]}. Apa seterusnya?`, `Hebat! ${K.s.map(x => x[1]).join(', ')}.`); } },
+    { id: 'kitar', ic: '♻️', nama: 'Kitar Semula', d: 'Masuk tong warna apa?', pelekat: '🐠',
+      main(R) {
+        const [e, nm, k] = pusingData(R, KITAR_S); const ks = ['biru', 'oren', 'coklat'];
+        api.soal(`<span class="h">${nm}</span> masuk tong mana?`, `${nm} masuk tong kitar semula yang mana?`);
+        api.pentas().innerHTML = `<div class="pr-gbr">${e}</div><div class="pr-pil">${ks.map((x, i) => `<button class="pr-o lbl" data-i="${i}"><span class="pr-tong" style="background:${TONG[x][0]}"></span>${TONG[x][1]}<small style="font-size:13px;font-weight:600;color:var(--muted)">${TONG[x][2]}</small></button>`).join('')}</div>`;
+        ikatPilihan(ks.indexOf(k), `Betul! ${nm} masuk ${TONG[k][1].toLowerCase()}, untuk ${TONG[k][2]}.`);
+      } },
+    { id: 'keluarga', ic: '👪', nama: 'Keluarga Saya', d: 'Atuk, nenek, pak cik, sepupu', pelekat: '🦘',
+      main(R) {
+        const t = pusingData(R, KELUARGA); const ops = tigaPil(t, KELUARGA);
+        api.soal(t[0], t[0]);
+        pilihLbl('<div class="pr-gbr">🏡</div>', ops.map(x => [x[1], x[2]]), ops.indexOf(t), `Betul! ${t[2]}.`);
+      } },
+    { id: 'kerjarumah', ic: '🧹', nama: 'Bantu Ibu Ayah', d: 'Guna apa untuk kerja rumah?', pelekat: '🐿️',
+      main(R) {
+        const t = pusingData(R, KERJA_R); const ops = tigaPil(t, KERJA_R);
+        api.soal(`Mahu tolong <span class="h">${t[0]}</span>. Guna apa?`, `Mahu tolong ${t[0]}. Guna apa?`);
+        pilihLbl('<div class="pr-gbr">🏠</div>', ops.map(x => [x[1], x[2]]), ops.indexOf(t), `Betul! Guna ${t[2].toLowerCase()}.`);
+      } },
+  );
+
+  // ---------- STUDIO KREATIF (+6) ----------
+  const KUMP = { buah: ['🍎', '🍌', '🍇', '🍓', '🍍', '🍉'], haiwan: ['🐶', '🐱', '🐰', '🐻', '🐸', '🐯'], kenderaan: ['🚗', '🚌', '🚲', '✈️', '🚢', '🚂'],
+    pakaian: ['👕', '👖', '👗', '🧦', '🧢', '👟'], 'alat tulis': ['✏️', '📏', '✂️', '🖍️', '📐', '📒'] };
+  const WARNA_B = [['🍌', 'pisang', 'kuning'], ['🍃', 'daun', 'hijau'], ['🍅', 'tomato', 'merah'], ['🍆', 'terung', 'ungu'], ['🍊', 'oren', 'oren'], ['🐘', 'gajah', 'kelabu'],
+    ['🍫', 'coklat', 'coklat'], ['🦷', 'gigi yang bersih', 'putih'], ['🌸', 'bunga sakura', 'merah jambu'], ['🌊', 'air laut', 'biru']];
+  const KEDUDUKAN = { atas: ['⬆️', 'Atas'], bawah: ['⬇️', 'Bawah'], dalam: ['📥', 'Dalam'], sebelah: ['➡️', 'Sebelah'] };
+  const POS = { atas: [115, 28], bawah: [115, 196], dalam: [115, 104], sebelah: [205, 120] };
+  const ALAT_SENI = [['mewarna gambar', '🖍️', 'Krayon'], ['memotong kertas', '✂️', 'Gunting'], ['mengecat gambar', '🖌️', 'Berus cat'], ['melukis garis lurus', '📏', 'Pembaris'],
+    ['menampal gambar', '🧴', 'Gam'], ['menjahit kain', '🧵', 'Benang & jarum'], ['mencampur warna cat', '🎨', 'Palet']];
+  KREATIF.push(
+    { id: 'lain', ic: '🔍', nama: 'Mana Lain?', d: 'Cari yang tidak sama kumpulan', pelekat: '🦓',
+      main(R) {
+        const [ka, kb] = ambil(Object.keys(KUMP), 2); const tiga = ambil(KUMP[ka], 3); const asing = pick(KUMP[kb]); const ops = kocok([...tiga, asing]);
+        api.soal('Mana satu <span class="h">tidak sama</span> kumpulan?', 'Lihat semua gambar. Mana satu tidak sama kumpulan?');
+        api.pentas().innerHTML = `<div class="pr-gbr">🕵️</div>${pilihan(ops, 0, null, 'besar')}`;
+        api.pentas().querySelectorAll('.pr-o').forEach(b => { b.style.fontSize = '54px'; b.style.minWidth = '96px'; b.style.height = '96px'; });
+        ikatPilihan(ops.indexOf(asing), `Betul! Yang lain semuanya ${ka}.`);
+      } },
+    { id: 'muzik', ic: '🎵', nama: 'Telinga Muzik', d: 'Tinggi, rendah, kuat, perlahan', pelekat: '🦗',
+      main(R) {
+        const jenis = R.i % 2 === 0 ? 'tinggi' : 'kuat'; const ya = !!rnd(2);
+        const A = jenis === 'tinggi' ? [['🐦', 'Tinggi'], ['🐘', 'Rendah']] : [['🦁', 'Kuat'], ['🐭', 'Perlahan']];
+        const main = () => { try { if (!SND.ctx()) return; const f = jenis === 'tinggi' ? (ya ? [988, 1175, 1319] : [131, 147, 165]) : [440, 523, 659]; const v = jenis === 'kuat' ? (ya ? .3 : .025) : .14; f.forEach((x, i) => SND.tone(x, i * .32, .28, v, 'triangle')); } catch (e) {} };
+        api.soal(jenis === 'tinggi' ? 'Dengar! Bunyi ini <span class="h">tinggi</span> atau <span class="h">rendah</span>?' : 'Dengar! Bunyi ini <span class="h">kuat</span> atau <span class="h">perlahan</span>?',
+          jenis === 'tinggi' ? 'Dengar bunyi ini. Tinggi atau rendah?' : 'Dengar bunyi ini. Kuat atau perlahan?');
+        api.pentas().innerHTML = `<button class="pr-btn utama" id="prmain" style="font-size:22px">🔊 Main bunyi</button>
+          ${SND.on ? '' : '<p class="pr-nota-kecil">Bunyi dimatikan. Hidupkan butang bunyi di atas.</p>'}${pilihanLbl(A, 'besar')}`;
+        $('#prmain').onclick = main; later(main, 1800);
+        ikatPilihan(ya ? 0 : 1, `Betul! Bunyi itu ${A[ya ? 0 : 1][1].toLowerCase()}.`);
+      } },
+    { id: 'warnabenda', ic: '🍆', nama: 'Warna Benda', d: 'Benda ini warna apa?', pelekat: '🦚',
+      main(R) {
+        const [e, nm, w] = pusingData(R, WARNA_B); const ops = tigaPil(w, [...new Set(WARNA_B.map(x => x[2]))]);
+        api.soal(`<span class="h">${nm}</span> berwarna apa?`, `${nm} berwarna apa?`);
+        api.pentas().innerHTML = `<div class="pr-gbr">${e}</div><div class="pr-pil">${ops.map((x, i) => `<button class="pr-o lbl" data-i="${i}">${cat(x)}${x}</button>`).join('')}</div>`;
+        ikatPilihan(ops.indexOf(w), `Betul! ${nm} berwarna ${w}.`);
+      } },
+    { id: 'kedudukan', ic: '📦', nama: 'Di Mana Ia?', d: 'Atas, bawah, dalam, sebelah', pelekat: '🐈',
+      main(R) {
+        const hw = pick([['🐱', 'kucing'], ['🐶', 'anak anjing'], ['🐰', 'arnab'], ['🐤', 'anak ayam']]); const bk = pick([['📦', 'kotak'], ['🧺', 'bakul']]);
+        const ks = Object.keys(KEDUDUKAN); const k = (R.dahK2 = R.dahK2 || kocok(ks).concat(kocok(ks)))[R.i]; const [x, y] = POS[k];
+        api.soal(`Di mana <span class="h">${hw[1]}</span>?`, `Di mana ${hw[1]}? Atas, bawah, dalam atau sebelah ${bk[1]}?`);
+        api.pentas().innerHTML = `<div class="pr-tempat"><span class="bk">${bk[0]}</span><span class="hw" style="left:${x}px;top:${y}px;${k === 'dalam' ? 'font-size:46px;z-index:2' : ''}">${hw[0]}</span></div>${pilihanLbl(ks.map(z => KEDUDUKAN[z]))}`;
+        ikatPilihan(ks.indexOf(k), `Betul! ${hw[1]} di ${k} ${bk[1]}.`);
+      } },
+    { id: 'hilang', ic: '🧠', nama: 'Apa Hilang?', d: 'Ingat, kemudian cari yang hilang', pelekat: '🐲',
+      main(R) {
+        const k = R.i < 3 ? 4 : 5; const ems = ambil(KATA.filter(x => !['awan', 'hati', 'hujan', 'lampu', 'api', 'daun', 'duit', 'matahari', 'bulan', 'ombak', 'susu'].includes(x[0])).map(x => x[1]), k + 2); const papar = ems.slice(0, k); const hilang = pick(papar);
+        api.soal('Ingat semua gambar ini!', 'Lihat dan ingat semua gambar ini.');
+        api.pentas().innerHTML = `<div class="pr-baris" id="prbaris">${papar.map(e => `<span>${e}</span>`).join('')}</div><p class="pr-nota-kecil" id="prkira" style="margin-top:10px">⏳</p>`;
+        later(() => { const b = $('#prbaris'); if (b) b.classList.add('tutup'); }, 3200);
+        later(() => {
+          const b = $('#prbaris'); if (!b) return; b.classList.remove('tutup');
+          b.innerHTML = papar.map(e => e === hilang ? '<span class="lubang">?</span>' : `<span>${e}</span>`).join('');
+          const ops = kocok([hilang, ...ems.slice(k)]);
+          api.soal('Apa yang <span class="h">hilang</span>?', 'Satu gambar sudah hilang. Apa yang hilang?');
+          const kr = $('#prkira'); if (kr) kr.remove();
+          api.pentas().insertAdjacentHTML('beforeend', pilihan(ops));
+          api.pentas().querySelectorAll('.pr-o').forEach(btn => { btn.style.fontSize = '50px'; btn.onclick = () => { if (api.kunci) return; if (ops[+btn.dataset.i] === hilang) { const l = b.querySelector('.lubang'); if (l) { l.className = ''; l.textContent = hilang; } api.betul(btn, 'Betul! Ingatan kamu hebat!'); } else api.salah(btn); }; });
+        }, 4000);
+      } },
+    { id: 'alatseni', ic: '🖌️', nama: 'Alat Seni', d: 'Guna alat apa untuk berkarya?', pelekat: '🦖',
+      main(R) {
+        const t = pusingData(R, ALAT_SENI); const ops = tigaPil(t, ALAT_SENI);
+        api.soal(`Mahu <span class="h">${t[0]}</span>. Guna apa?`, `Mahu ${t[0]}. Guna apa?`);
+        pilihLbl('<div class="pr-gbr">🖼️</div>', ops.map(x => [x[1], x[2]]), ops.indexOf(t), `Betul! Guna ${t[2].toLowerCase()}.`);
+      } },
+  );
+
+  // ---------- pentas bertema & ganjaran seragam (gaya Pulau Huruf) untuk zon Sains/Kampung/Kreatif ----------
+  const CSS4 = `
+.pr-tema{position:relative;width:100%;border-radius:22px;padding:18px 10px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;overflow:hidden;min-height:170px}
+.pr-tema>*{position:relative;z-index:1}
+.pr-tema::after{content:'';position:absolute;left:0;right:0;bottom:0;height:20px;z-index:0}
+.pr-tema::before{position:absolute;z-index:0;font-size:26px;opacity:.55;top:10px;right:14px;animation:prapung 4s ease-in-out infinite}
+.pr-tema.t-sains{background:linear-gradient(#e3fafc,#ebfbee 70%)}.pr-tema.t-sains::after{background:repeating-linear-gradient(90deg,#8ce99a 0 14px,#69db7c 14px 28px);border-radius:0 0 22px 22px}.pr-tema.t-sains::before{content:'☁️'}
+.pr-tema.t-kampung{background:linear-gradient(#fff4e6,#fff9db 70%)}.pr-tema.t-kampung::after{background:repeating-linear-gradient(90deg,#ffd8a8 0 14px,#ffc078 14px 28px)}.pr-tema.t-kampung::before{content:'🌤️'}
+.pr-tema.t-kreatif{background:linear-gradient(#f3f0ff,#fff0f6 70%)}.pr-tema.t-kreatif::after{background:repeating-linear-gradient(90deg,#d0bfff 0 14px,#fcc2d7 14px 28px)}.pr-tema.t-kreatif::before{content:'✨'}
+.pr-tema .pr-gbr{animation:prapung 3s ease-in-out infinite}
+.pr-tema .pr-gbr.pr-lonjak,.pr-tema .pr-adegan .e.pr-lonjak{animation:prlonjak .55s}
+.pr-tema .pr-tempat.pr-lonjak{animation:prlonjak .55s}
+.pr-tema .pr-adegan{background:rgba(255,255,255,.8);box-shadow:0 4px 0 rgba(0,0,0,.05)}
+.pr-slot{min-width:150px;min-height:48px;padding:6px 16px;border-radius:16px;border:3px dashed rgba(91,75,219,.35);background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--fd);font-weight:700;font-size:24px;color:#a99bff}
+.pr-slot.isi{border:3px solid #51cf66;background:#fff;color:var(--ink);font-size:20px;animation:prbintang .5s cubic-bezier(.3,1.6,.6,1);box-shadow:0 5px 0 #b2f2bb}
+.pr-slot .e{font-size:30px;line-height:1}.pr-slot small{display:none}
+.pr-slot .pr-cat,.pr-slot .pr-tong{width:28px;height:28px;margin:0}
+.pr-pil-baris{flex-direction:column;align-items:stretch;width:100%;max-width:340px;gap:10px}
+.pr-pil-baris .pr-o.lbl{flex-direction:row;justify-content:flex-start;gap:12px;min-height:64px;font-size:18px;text-align:left;padding:8px 16px}
+.pr-pil-baris .pr-o.lbl .e{font-size:34px}
+.pr-pil-4{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:300px}
+.pr-pil-4 .pr-o.lbl{width:100%}
+.pr-slot .e{font-size:30px}
+`;
+  function temakan() {
+    const Z = ZON[G.z]; if (!Z || !Z.tema) return;
+    if (!document.getElementById('pracss4')) { const s = document.createElement('style'); s.id = 'pracss4'; s.textContent = CSS4; document.head.appendChild(s); }
+    const p = api.pentas(); if (!p || p.querySelector('.pr-tema')) return;
+    const anak = [...p.children]; const ip = anak.findIndex(c => c.classList.contains('pr-pil'));
+    const vis = (ip < 0 ? anak : anak.slice(0, ip)).filter(c => c.tagName !== 'BUTTON' || c.id);
+    if (!vis.length) return;
+    const w = document.createElement('div'); w.className = 'pr-tema t-' + G.z; p.insertBefore(w, vis[0]); vis.forEach(c => w.appendChild(c));
+    if (w.querySelector('.pr-gbr') && p.querySelector('.pr-pil .pr-o.lbl')) w.insertAdjacentHTML('beforeend', '<div class="pr-slot" id="prslot">?</div>');
+  }
+  function ganjaran(el) {
+    const Z = G && ZON[G.z]; if (!Z || !Z.tema) return;
+    const w = document.querySelector('#prpentas .pr-tema'); const g = w && w.querySelector('.pr-gbr, .pr-adegan .e, .pr-tempat');
+    if (g) { g.classList.remove('pr-lonjak'); void g.offsetWidth; g.classList.add('pr-lonjak'); kilau(g, Z.tema); }
+    else if (w && !el) kilau(w, Z.tema);
+    const s = document.getElementById('prslot'); if (s && el) { s.innerHTML = el.innerHTML; s.classList.add('isi'); }
+    nada('pop');
+  }
+
+  // 14 permainan percuma; selebihnya dibuka oleh Pakej Darjah 1 (BONUS) atau Premium lama semua darjah
+  const PERCUMA = ['belon', 'keretaapi', 'telur', 'surih', 'ikan', 'rama', 'menara', 'roket', 'timbul', 'ingat', 'bunyi', 'selamat', 'adab', 'hilang'];
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
     nombor: { nama: 'Taman Nombor', ic: '🎡', sub: 'Kira, bentuk & susun nombor', w: 'linear-gradient(135deg,#4f7cff,#22c1c3)', games: NOMBOR },
-    sains: { nama: 'Hutan Sains', ic: '🌳', sub: 'Haiwan, air & kitaran hidup', w: 'linear-gradient(135deg,#20bf6b,#0fb9b1)', games: SAINS },
-    kampung: { nama: 'Kampung Ceria', ic: '🏡', sub: 'Perasaan, keselamatan & kerjaya', w: 'linear-gradient(135deg,#fa8231,#f7b731)', games: KAMPUNG },
-    kreatif: { nama: 'Studio Kreatif', ic: '🎨', sub: 'Bayang, ingatan, corak & warna', w: 'linear-gradient(135deg,#8854d0,#d980fa)', games: KREATIF },
+    sains: { nama: 'Hutan Sains', ic: '🌳', sub: 'Haiwan, air & kitaran hidup', w: 'linear-gradient(135deg,#20bf6b,#0fb9b1)', games: SAINS, tema: '🍃' },
+    kampung: { nama: 'Kampung Ceria', ic: '🏡', sub: 'Perasaan, keselamatan & kerjaya', w: 'linear-gradient(135deg,#fa8231,#f7b731)', games: KAMPUNG, tema: '💛' },
+    kreatif: { nama: 'Studio Kreatif', ic: '🎨', sub: 'Bayang, ingatan, corak & warna', w: 'linear-gradient(135deg,#8854d0,#d980fa)', games: KREATIF, tema: '🎨' },
   };
   const semuaGame = () => Object.entries(ZON).flatMap(([k, z]) => z.games.map(g => [k, g]));
 
@@ -20811,7 +21131,7 @@ const PRA = (() => {
         <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
       <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${z.ic}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
       <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
-      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 30 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">10 permainan PERCUMA · 20 lagi sebagai BONUS</b>Semua 30 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
+      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
       <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
       <div style="text-align:center;margin-top:14px">${suaraBtn()}</div>
@@ -20824,7 +21144,7 @@ const PRA = (() => {
   function zon(z) {
     const Z = ZON[z]; const s = ST.get();
     app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${Z.ic} ${Z.nama}</h2>${suaraBtn()}</div>
-      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 30 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
     app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
@@ -20833,7 +21153,7 @@ const PRA = (() => {
       <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
       <div class="pr-pintu"><div class="ic">🔒</div><h2>Permainan ini berkunci</h2>
         <p style="font-family:var(--fb);font-size:17px;font-weight:600;margin:0">Minta ayah atau ibu buka ya! 😊</p>
-        <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 30 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
+        <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 50 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
         <button class="pr-btn utama pr-tahan" id="prtahan"><i></i><span style="position:relative">👨‍👩‍👧 Ibu bapa: tekan &amp; tahan</span></button>
         <div style="margin-top:14px"><button class="pr-btn" onclick="location.hash='#sedia/${z}'">🎮 Main permainan percuma</button></div>
       </div></div></div>`;
@@ -20867,6 +21187,7 @@ const PRA = (() => {
     try { maskot('fikir'); } catch (e) {}
     const p = api.pentas(); if (!p) return; p.innerHTML = '';
     G.g.main(G);
+    try { temakan(); } catch (e) {}
   }
   function tamat() {
     const bt = G.salah === 0 ? 3 : G.salah <= 3 ? 2 : 1;
@@ -20886,7 +21207,7 @@ const PRA = (() => {
   }
 
   function route(h) {
-    gaya(); gaya2(); TOK++; SUARA.henti(); G = null;
+    gaya(); gaya2(); gaya3(); TOK++; SUARA.henti(); G = null;
     const p = h.split('/');
     if (p.length === 1) return hab();
     if (p[1] === 'pelekat') return album();

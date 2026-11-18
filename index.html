@@ -681,6 +681,37 @@ footer p+p{margin-top:6px}
 .features.empat{grid-template-columns:repeat(4,1fr)}
 @media (max-width:860px){.features.empat{grid-template-columns:1fr 1fr;gap:12px}.features.empat .feat{padding:16px}.features.empat .feat h3{font-size:18px}.features.empat .feat p{font-size:13.5px}.features.empat .feat h3 small{display:block;margin:3px 0 0}}
 .features.empat .feat h3 small{white-space:nowrap}
+/* --- logo desktop: lencana lebih besar, maskot dizum, rapat dengan teks (telefon tidak berubah) --- */
+@media (min-width:861px){
+  :root{--hdr:82px}
+  .logo{gap:5px}
+  .top .wrap{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px}
+  .top .nav{display:contents}
+  .navgrp{grid-column:2;justify-self:center;display:flex;align-items:center;gap:2px;padding:5px;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px -14px rgba(46,32,140,.35)}
+  .navgrp a.nl{height:40px;border-radius:13px;padding:0 16px}
+  .navgrp a.nl:hover{background:#f4f1ff}
+  .navgrp a.nl.on{background:linear-gradient(135deg,var(--brand),#7b5cff);color:#fff;box-shadow:0 8px 16px -10px var(--brand)}
+  .nav a.hide-s{display:inline-flex}
+  .nsep{display:none}
+  .navkanan{grid-column:3;justify-self:end;display:flex;align-items:center;gap:6px}
+  .installbtn{white-space:nowrap}
+  .nav a.akaunbtn{width:auto;padding:0 14px 0 11px;gap:7px;display:inline-flex;align-items:center;white-space:nowrap}
+  .nav a.akaunbtn .akl{font-size:14.5px;font-weight:700}
+  .nav a.akaunbtn .ik{width:20px;height:20px}
+  .inquiz .navgrp{display:none}
+  .lencana{box-shadow:0 6px 16px -8px rgba(91,75,219,.55)}
+  .lencana{width:64px;height:64px;padding:2.5px}
+  .lencana img,.logo .lencana img{transform:none}
+  .jn{font-size:24px}
+  .jt{font-size:13px;margin-top:2px}
+}
+@media (min-width:861px) and (max-width:980px){.navgrp a.nl .ik{display:none}.navgrp a.nl{padding:0 11px !important}.navkanan{gap:4px}}
+@media (min-width:861px) and (max-width:1100px){
+  .installbtn{width:42px;padding:0;justify-content:center}
+  .installbtn .lbl{display:none}
+  .navgrp a.nl{padding:0 12px}
+  .top .wrap{gap:10px}
+}
 .tpplus{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-top:18px}
 .tpk{position:relative;overflow:hidden;border-radius:24px;padding:24px 24px 22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
 .tpk h3{font-size:22px;margin-bottom:12px}
@@ -703,9 +734,10 @@ footer p+p{margin-top:6px}
 @keyframes hero-gambar{0%{opacity:0;transform:translateY(24px) scale(.96)}100%{opacity:1;transform:none}}
 /* --- bar app bawah (telefon) --- */
 .tabbar{display:none}
+.navkanan{display:flex;align-items:center;gap:inherit}
 @media (max-width:860px){
   :root{--hdr:66px}
-  .nav a.nl,.nsep,.top .nav a.akaunbtn{display:none}
+  .nav a.nl,.nsep,.top .nav a.akaunbtn,.navgrp{display:none}
   .lencana{width:48px;height:48px}
   .jn{font-size:21px}.jt{font-size:12px}
   .sndbtn{width:40px;height:40px;border-radius:13px}
@@ -733,6 +765,7 @@ footer p+p{margin-top:6px}
 .logo .lencana,.inquiz .top .logo .lencana{display:block}
 .logo .jenama{display:flex}.inquiz .top .logo .jenama{display:none}
 .logo .lc,.inquiz .top .logo .lc{display:block}
+.logo .lc picture{display:block;width:100%;height:100%}
 .logo .jn{display:inline}.logo .jenama .jt{display:block}
 .jt,.jn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:440px){.logo{gap:10px}.jt{font-size:11px}.jn{font-size:20px}.nav{gap:5px}}
@@ -743,8 +776,8 @@ footer p+p{margin-top:6px}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
-  <a class="logo" href="#" aria-label="Sudut Belajar, laman utama"><span class="lencana"><span class="lc"><img src="icon-192.png" alt="" width="52" height="52"></span></span><span class="jenama"><span class="jn">Sudut Belajar</span><span class="jt">Prasekolah hingga Darjah 6</span></span></a>
-  <nav class="nav" aria-label="Menu utama"><a href="#pilih" class="nl" data-nav="darjah"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" class="nl" data-nav="ranking"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span class="lbl">Ranking</span></a><a href="#ibubapa" class="nl hide-s" data-nav="ibubapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a><span class="nsep" aria-hidden="true"></span><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false"><svg class="ik muzik" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.6V6.3l10-2.3v11.6"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/></svg></button><button class="sndbtn" id="sndbtn" type="button"><svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4"/></svg></button><a href="#akaun" class="akaunbtn" id="akaunbtn" data-nav="akaun" aria-label="Akaun ibu bapa" title="Akaun ibu bapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg></a><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.8" width="11" height="18.4" rx="2.6"/><path d="M12 7.2v6.6M9.3 11.2 12 13.9l2.7-2.7"/><path d="M10.5 18h3"/></svg><span class="lbl">Pasang app</span></button></nav>
+  <a class="logo" href="#" aria-label="Sudut Belajar, laman utama"><span class="lencana"><span class="lc"><picture><source media="(min-width:861px)" srcset="aset/logo-maskot.webp"><img src="icon-192.png" alt="" width="52" height="52"></picture></span></span><span class="jenama"><span class="jn">Sudut Belajar</span><span class="jt">Prasekolah hingga Darjah 6</span></span></a>
+  <nav class="nav" aria-label="Menu utama"><span class="navgrp"><a href="#pilih" class="nl" data-nav="darjah"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" class="nl" data-nav="ranking"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span class="lbl">Ranking</span></a><a href="#ibubapa" class="nl hide-s" data-nav="ibubapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a></span><span class="nsep" aria-hidden="true"></span><span class="navkanan"><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false"><svg class="ik muzik" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.6V6.3l10-2.3v11.6"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/></svg></button><button class="sndbtn" id="sndbtn" type="button"><svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4"/></svg></button><a href="#akaun" class="akaunbtn" id="akaunbtn" data-nav="akaun" aria-label="Akaun ibu bapa" title="Akaun ibu bapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg><span class="akl">Log masuk</span></a><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.8" width="11" height="18.4" rx="2.6"/><path d="M12 7.2v6.6M9.3 11.2 12 13.9l2.7-2.7"/><path d="M10.5 18h3"/></svg><span class="lbl">Pasang app</span></button></span></nav>
 </div></header>
 <main id="app"></main>
 <nav class="tabbar" id="tabbar" aria-label="Menu app"><a href="#" data-tab="0"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 9.8V19a1.5 1.5 0 0 0 1.5 1.5h3.2v-5.2h3.6v5.2H17a1.5 1.5 0 0 0 1.5-1.5V9.8"/></svg><span>Utama</span></a><a href="#pilih" data-tab="1"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" data-tab="2"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span>Ranking</span></a><a href="#ibubapa" data-tab="3"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a><a href="#akaun" class="akaunbtn" data-tab="4"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg><span>Akaun</span></a><i class="tabpenanda" aria-hidden="true"></i></nav>
@@ -19123,7 +19156,7 @@ const AKAUN = {
   get() { try { return JSON.parse(localStorage.getItem('sb.akaun') || 'null'); } catch (e) { return null; } },
   set(a) { try { if (a) localStorage.setItem('sb.akaun', JSON.stringify(a)); else localStorage.removeItem('sb.akaun'); } catch (e) {} butangAkaun(); }
 };
-function butangAkaun() { document.querySelectorAll('.akaunbtn').forEach(b => b.classList.toggle('masuk', !!AKAUN.get())); }
+function butangAkaun() { const ada = !!AKAUN.get(); document.querySelectorAll('.akaunbtn').forEach(b => b.classList.toggle('masuk', ada)); const l = document.querySelector('#akaunbtn .akl'); if (l) l.textContent = ada ? 'Akaun' : 'Log masuk'; }
 function profilDari(a) { return { nick: a.nick, pin: a.pin ? String(a.pin) : '', akaun: a.akaun === 0 ? 0 : 1, darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
 // Kemajuan disimpan ikut profil: tukar profil = simpan DB profil lama, muat DB profil baharu.
 // Profil pertama di peranti mewarisi kemajuan tanpa nama (sama seperti daftar biasa).

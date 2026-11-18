@@ -275,6 +275,10 @@ section.blk{padding:44px 0}
 .af-berjaya .e{font-size:54px}
 .af-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
 @media (max-width:560px){.af-g{grid-template-columns:1fr}}
+.pk-ref{background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px;position:relative;padding-right:38px}
+.pk-refx{position:absolute;right:8px;top:8px;border:0;background:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;color:#555}
+.pk-refd{margin-top:10px;background:#fbfaff;border:1.5px dashed var(--line);border-radius:12px;padding:9px 12px}
+.pk-refd summary{cursor:pointer;font-weight:700;font-size:14px}
 .af-feat{position:relative;border:1.5px solid transparent!important;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--brand),#ff5c8a) border-box!important}
 .af-tag{background:#fff3e0;color:#e65100;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:800;vertical-align:middle}
 @media (max-width:640px){.af-langkah{grid-template-columns:1fr 1fr}.af-faedah{grid-template-columns:1fr}.af-hero h1{font-size:28px}.af-hero{padding:28px 20px 22px}}
@@ -17870,7 +17874,7 @@ function mergeAwan(data) {
 // Semua masa dalam ms epoch; "awal_tamat" 23:59 waktu Malaysia.
 const TETAPAN_LALAI = { harga_2bulan_awal: 30, harga_2bulan: 45, harga_2bulan_awal_tamat: Date.UTC(2026, 11, 7, 15, 59), hari_2bulan: 60,
   harga_setahun_awal: 129, harga_setahun: 149, harga_setahun_awal_tamat: Date.UTC(2026, 11, 31, 15, 59), hari_setahun: 365,
-  musim_mula: Date.UTC(2026, 10, 30, 16, 0), musim_bulan: 3 };
+  musim_mula: Date.UTC(2026, 10, 30, 16, 0), musim_bulan: 3, aff_buka: 0, aff_diskaun_2bulan: 5, aff_diskaun_setahun: 10 };
 const KEMPEN_LALAI = { kod: 'LANCAR100', hari: 14, had: 100, digunakan: 0, mula: Date.UTC(2026, 10, 30, 16, 0), tamat: Date.UTC(2026, 11, 14, 16, 0) };
 let TT = (function () { try { const x = JSON.parse(localStorage.getItem('sb.tetapan') || 'null'); return x && x.t ? x : null; } catch (e) { return null; } })();
 const tt = k => (TT && TT.t && TT.t[k] !== undefined && TT.t[k] !== null && TT.t[k] !== '') ? TT.t[k] : TETAPAN_LALAI[k];
@@ -17893,10 +17897,27 @@ async function muatTetapan() {
     const baru = { t: r.t, kempen: r.kempen || null, masa: Date.now() };
     const berubah = JSON.stringify([baru.t, baru.kempen]) !== JSON.stringify(TT ? [TT.t, TT.kempen] : null);
     TT = baru; try { localStorage.setItem('sb.tetapan', JSON.stringify(TT)); } catch (e) {}
+    const rf = REF.get(); if (REF.buka() && rf && rf.s !== 1) { await REF.semak(rf.k); if (/^#premium/.test(location.hash)) berubah || route(); }
     const ae = document.activeElement;
     if (berubah && /^#premium/.test(location.hash) && !(ae && /INPUT|SELECT|TEXTAREA/.test(ae.tagName))) route();
   } catch (e) {}
 }
+// ---------------- KOD RAKAN (Program Affiliate) — aktif hanya bila tetapan aff_buka = 1 ----------------
+const REF = {
+  get() { try { const x = JSON.parse(localStorage.getItem('sb.ref') || 'null'); return x && x.k && Date.now() - x.t < 30 * 864e5 ? x : null; } catch (e) { return null; } },
+  set(k, s) { try { localStorage.setItem('sb.ref', JSON.stringify({ k: k, t: Date.now(), s: s ? 1 : 0 })); } catch (e) {} },
+  buang() { try { localStorage.removeItem('sb.ref'); } catch (e) {} },
+  bersih: k => String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12),
+  buka: () => +tt('aff_buka') === 1,
+  sah() { const x = REF.get(); return REF.buka() && x && x.s === 1 ? x.k : ''; },
+  diskaun(pl) { return (REF.sah() && !hargaAwal(pl)) ? (+tt('aff_diskaun_' + pl) || 0) : 0; },
+  async semak(k) {
+    k = REF.bersih(k); if (k.length < 3 || !apiOK()) return { ok: 0 };
+    try { const r = await apiGet({ a: 'aff_kod', kod: k }); if (r && r.ok && r.sah) REF.set(r.kod, 1); else if (r && r.ok && !r.tutup) REF.buang(); return r || { ok: 0 }; } catch (e) { return { ok: 0 }; }
+  }
+};
+(function () { try { const q = new URLSearchParams(location.search), k = REF.bersih(q.get('ref')); if (k.length >= 3) { REF.set(k, 0); q.delete('ref'); const qs = q.toString(); history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } } catch (e) {} })();
+function hargaBayar(pl) { return Math.max(1, hargaRM(pl) - REF.diskaun(pl)); }
 const hariLagi_ = pl => Math.max(1, Math.ceil((+tt('harga_' + pl + '_awal_tamat') - Date.now()) / 864e5));
 const lainPl_ = pl => pl === 'setahun' ? '2bulan' : 'setahun';
 function nTopikPm_() { return [SB, EN, SN, BM].reduce((n, E) => n + Object.values(E.CUR).reduce((a, t) => a + t.filter(x => x !== 'campuran').length, 0), 0); }
@@ -17906,7 +17927,7 @@ function premium(s, y, t, rank) {
   const pd = +y || +(P && P.pakej) || +(P && P.darjah) || 1;
   const lain = P && P.premium && +P.pakej && y && +P.pakej !== +y;
   let pelan = (function () { try { return localStorage.getItem('sb.pelan') === 'setahun' ? 'setahun' : '2bulan'; } catch (e) { return '2bulan'; } })();
-  const waURL = (d, pl) => 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya nak beli Pakej Premium Darjah ' + d + (+d === 1 ? ' (+ Bonus Sedia ke Tahun 1)' : '') + ' Sudut Belajar — ' + NAMA_PELAN[pl] + ' (RM' + hargaRM(pl) + '). Nama samaran anak saya: ' + (P ? P.nick : ''));
+  const waURL = (d, pl) => 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya nak beli Pakej Premium Darjah ' + d + (+d === 1 ? ' (+ Bonus Sedia ke Tahun 1)' : '') + ' Sudut Belajar — ' + NAMA_PELAN[pl] + ' (RM' + hargaBayar(pl) + '). Nama samaran anak saya: ' + (P ? P.nick : '') + (REF.sah() ? '. Kod rakan: ' + REF.sah() + (REF.diskaun(pl) ? ' (jimat RM' + REF.diskaun(pl) + ')' : '') : ''));
   const K = kempenT();
   const kadPelan = pl => {
     const rm = hargaRM(pl), awal = hargaAwal(pl), hari = +tt('hari_' + pl), biasa = +tt('harga_' + pl);
@@ -17979,9 +18000,10 @@ function premium(s, y, t, rank) {
           <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (20 permainan prasekolah)</span></span>
         </div>
         <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Cuti sekolah? Pilih darjah tahun depan untuk bersedia, atau darjah semasa untuk ulang kaji.</div>
+        ${REF.buka() ? (REF.sah() ? `<div class="pk-ref" id="pkref">🎁 Kod rakan <b>${esc(REF.sah())}</b> digunakan — ${['2bulan', 'setahun'].some(x => REF.diskaun(x)) ? ['2bulan', 'setahun'].filter(x => REF.diskaun(x)).map(x => `jimat <b>RM${REF.diskaun(x)}</b> (${NAMA_PELAN[x]})`).join(' · ') : 'harga awal sekarang sudah paling rendah'}. <button type="button" class="pk-refx" id="pkrefx" aria-label="Buang kod rakan">✕</button></div>` : `<details class="pk-refd" id="pkref"><summary>🎁 Ada kod rakan?</summary><div style="display:flex;gap:8px;margin-top:8px"><input id="refin" placeholder="cth AINA27" maxlength="12" autocomplete="off" style="flex:1;min-width:0;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase"><button type="button" class="btn sec" id="refguna" style="padding:9px 16px">Guna</button></div><div id="refmsg" style="font-size:13px;margin-top:6px;color:var(--muted)"></div></details>`) : ''}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <a class="btn pri" id="pkwa" href="${waURL(pd, pelan)}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl">${NAMA_PELAN[pelan]} RM${hargaRM(pelan)}</b></span></a>
-        <a class="btn sec" id="pkwa2" href="${waURL(pd, lainPl_(pelan))}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl2">${NAMA_PELAN[lainPl_(pelan)]} RM${hargaRM(lainPl_(pelan))}</b></span></a>
+        <a class="btn pri" id="pkwa" href="${waURL(pd, pelan)}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl">${NAMA_PELAN[pelan]} RM${hargaBayar(pelan)}</b></span></a>
+        <a class="btn sec" id="pkwa2" href="${waURL(pd, lainPl_(pelan))}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl2">${NAMA_PELAN[lainPl_(pelan)]} RM${hargaBayar(lainPl_(pelan))}</b></span></a>
       </div></div></div>
       <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta untuk darjah yang dipilih:
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
@@ -18001,8 +18023,14 @@ function premium(s, y, t, rank) {
   </section>`;
   const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
-  const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; $('#pkwa').href = waURL(d, pelan); $('#pkwapl').textContent = NAMA_PELAN[pelan] + ' RM' + hargaRM(pelan); const l = lainPl_(pelan); $('#pkwa2').href = waURL(d, l); $('#pkwapl2').textContent = NAMA_PELAN[l] + ' RM' + hargaRM(l); };
+  const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; $('#pkwa').href = waURL(d, pelan); $('#pkwapl').textContent = NAMA_PELAN[pelan] + ' RM' + hargaBayar(pelan); const l = lainPl_(pelan); $('#pkwa2').href = waURL(d, l); $('#pkwapl2').textContent = NAMA_PELAN[l] + ' RM' + hargaBayar(l); };
   $('#pkdarjah').onchange = segar;
+  const rx = $('#pkrefx'); if (rx) rx.onclick = () => { REF.buang(); route(); };
+  const rg = $('#refguna'); if (rg) rg.onclick = async () => {
+    const k = REF.bersih($('#refin').value), m = $('#refmsg'); if (k.length < 3) { m.textContent = '⚠️ Masukkan kod rakan yang betul.'; return; }
+    rg.disabled = true; m.textContent = 'Menyemak…'; const r = await REF.semak(k); rg.disabled = false;
+    if (r && r.sah) { toast('🎁 Kod rakan ' + r.kod + ' digunakan'); route(); } else m.textContent = r && r.ok ? '⚠️ Kod rakan tidak sah.' : '⚠️ Tiada sambungan. Cuba lagi.';
+  };
   app.querySelectorAll('.pelan').forEach(b => b.onclick = () => {
     pelan = b.dataset.pelan; try { localStorage.setItem('sb.pelan', pelan); } catch (e) {}
     app.querySelectorAll('.pelan').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });

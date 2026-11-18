@@ -20069,6 +20069,8 @@ const PRA = (() => {
     },
     ada() { return this.ok && !!(this.v || this.pilih()); },
     henti() { try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} },
+    // masih bercakap? (dipakai supaya pusingan seterusnya tidak memotong pujian)
+    sibuk() { try { return !!(this.ok && this.on && (speechSynthesis.speaking || speechSynthesis.pending)); } catch (e) { return false; } },
     cakap(t) {
       if (!this.ok || !this.on || !t) return;
       try {
@@ -20284,7 +20286,10 @@ const PRA = (() => {
       SND.play('betul'); try { maskot('gembira'); } catch (e) {}
       SUARA.cakap(kata || pick(PUJI));
       const d = $('#prjejak'); if (d && d.children[G.i]) { d.children[G.i].className = 'ok'; }
-      later(() => { G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); }, 1500);
+      // tunggu sekurang-kurangnya 1.5 s, kemudian tunggu suara pujian habis (had 8 s jika pelayar tersangkut)
+      const mula = Date.now();
+      const maju = () => { if (SUARA.sibuk() && Date.now() - mula < 8000) return later(maju, 150); G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); };
+      later(maju, 1500);
     },
     salah(el) {
       G.salah++; G.silapIni = true; SND.play('salah'); try { maskot('simpati'); } catch (e) {}
@@ -21021,7 +21026,7 @@ const PRA = (() => {
           jenis === 'tinggi' ? 'Dengar bunyi ini. Tinggi atau rendah?' : 'Dengar bunyi ini. Kuat atau perlahan?');
         api.pentas().innerHTML = `<button class="pr-btn utama" id="prmain" style="font-size:22px">🔊 Main bunyi</button>
           ${SND.on ? '' : '<p class="pr-nota-kecil">Bunyi dimatikan. Hidupkan butang bunyi di atas.</p>'}${pilihanLbl(A, 'besar')}`;
-        $('#prmain').onclick = main; later(main, 1800);
+        $('#prmain').onclick = main; { const t0 = Date.now(); const tunggu = () => (SUARA.sibuk() && Date.now() - t0 < 7000) ? later(tunggu, 150) : main(); later(tunggu, 600); }
         ikatPilihan(ya ? 0 : 1, `Betul! Bunyi itu ${A[ya ? 0 : 1][1].toLowerCase()}.`);
       } },
     { id: 'warnabenda', ic: '🍆', nama: 'Warna Benda', d: 'Benda ini warna apa?', pelekat: '🦚',

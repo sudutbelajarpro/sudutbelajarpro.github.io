@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sudut Belajar — Darjah 1 hingga 6</title>
-<meta name="description" content="Latihan interaktif untuk murid sekolah rendah, Darjah 1 hingga 6. Tahap Perajurit percuma, tanpa iklan. Akaun ibu bapa untuk semua anak; ranking papar nama glamour sahaja.">
+<title>Sudut Belajar — Prasekolah hingga Darjah 6</title>
+<meta name="description" content="Latihan interaktif untuk kanak-kanak prasekolah dan murid sekolah rendah, Prasekolah hingga Darjah 6. Tahap Perajurit percuma, tanpa iklan. Akaun ibu bapa untuk semua anak; ranking papar nama glamour sahaja.">
 <meta name="theme-color" content="#5b4bdb">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sudut Belajar">
-<meta property="og:title" content="Sudut Belajar — Latihan Interaktif Darjah 1 hingga 6">
-<meta property="og:description" content="Matematik, Sains, Bahasa Melayu &amp; English untuk murid sekolah rendah. Tahap Perajurit percuma, tanpa iklan.">
+<meta property="og:title" content="Sudut Belajar — Latihan Interaktif Prasekolah hingga Darjah 6">
+<meta property="og:description" content="Permainan Sedia ke Tahun 1 untuk prasekolah, serta Matematik, Sains, Bahasa Melayu &amp; English untuk murid sekolah rendah. Tahap Perajurit percuma, tanpa iklan.">
 <meta property="og:url" content="http://sudutbelajarpro.com/">
 <meta property="og:image" content="http://sudutbelajarpro.com/aset/og-sudutbelajar.jpg">
 <meta property="og:image:width" content="1200">
@@ -618,15 +618,136 @@ footer p+p{margin-top:6px}
 .ds-kunci>.ds-tutup{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:8px}
 .ds-kosong{text-align:center;padding:26px 18px;color:var(--muted)}
 .ds-kosong .e{font-size:54px}
+
+/* ================= REKA BENTUK 2026: header, logo, ikon, bar app, gerakan ================= */
+:root{--gold:#ffc94d;--hdr:76px;--tab:68px;--ease-pop:cubic-bezier(.34,1.56,.5,1);--ease-out:cubic-bezier(.22,.9,.3,1)}
+.ik{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.top{background:rgba(250,248,255,.82);border-bottom:1px solid rgba(91,75,219,.10)}
+.top .wrap{height:var(--hdr);gap:12px}
+.logo{gap:12px;font-size:inherit;min-width:0}
+.lencana{position:relative;flex:none;width:56px;height:56px;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,var(--gold),#ff9f43,var(--accent),var(--brand2),var(--gold));box-shadow:0 8px 20px -8px rgba(91,75,219,.55)}
+.logo .lc{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;border:2.5px solid #fff;background:#fff}
+.lencana img,.logo .lencana img{width:100%;height:100%;border-radius:0;box-shadow:none;object-fit:cover;transform:scale(1.55);transform-origin:50% 64%}
+.logo:hover .lencana{transform:rotate(-6deg) scale(1.04)}
+.lencana{transition:transform .35s var(--ease-pop)}
+.jenama{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.jn{font-family:var(--fd);font-weight:700;font-size:23px;letter-spacing:-.01em;color:var(--ink)}
+.jt{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:3px}
+.nav{align-items:center;gap:4px}
+.nav a.nl{display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 14px;font-size:15px;font-weight:700;color:var(--muted);border-radius:14px;transition:background .2s,color .2s}
+.nav a.nl .ik{width:20px;height:20px}
+.nav a.nl:hover{background:#fff;color:var(--ink)}
+.nav a.nl.on{background:#efeaff;color:var(--brand)}
+.nsep{width:1px;height:26px;background:var(--line);margin:0 6px}
+.sndbtn,.nav a.akaunbtn{display:inline-grid;place-items:center;width:42px;height:42px;padding:0;border-radius:14px;background:#fff;border:1px solid var(--line);color:var(--brand);font-size:0;transition:transform .2s var(--ease-pop),background .2s,border-color .2s,opacity .2s}
+.sndbtn:hover,.nav a.akaunbtn:hover{transform:translateY(-2px);border-color:var(--brand2);background:#fff}
+.sndbtn:active,.nav a.akaunbtn:active{transform:scale(.9)}
+.sndbtn.off{opacity:1;color:#a7a3c7;background:#f7f5ff}
+.nav a.akaunbtn.masuk{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff}
+#muzikbtn:not(.off) .ik{animation:not-goyang 2.4s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes not-goyang{0%,100%{transform:rotate(0) translateY(0)}25%{transform:rotate(-9deg) translateY(-1px)}75%{transform:rotate(7deg) translateY(-1px)}}
+.sndbtn.beralun .w1{animation:alun .7s var(--ease-out) both}
+.sndbtn.beralun .w2{animation:alun .7s .12s var(--ease-out) both}
+@keyframes alun{0%{opacity:0;transform:translateX(-3px)}100%{opacity:1;transform:none}}
+.installbtn{display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 16px;margin-left:4px;border-radius:14px;font-size:14.5px;background:linear-gradient(135deg,var(--brand),#7b5cff);box-shadow:0 10px 20px -10px var(--brand)}
+.installbtn[hidden]{display:none}
+.installbtn .ik{width:20px;height:20px}
+:focus-visible{outline:3px solid var(--brand2);outline-offset:2px}
+/* --- logo masuk: satu kali semasa laman dibuka --- */
+.lencana{animation:lencana-masuk .8s .05s var(--ease-pop) both}
+.jenama{animation:jenama-masuk .6s .25s var(--ease-out) both}
+@keyframes lencana-masuk{0%{opacity:0;transform:scale(.4) rotate(-20deg)}100%{opacity:1;transform:none}}
+@keyframes jenama-masuk{0%{opacity:0;transform:translateX(-8px)}100%{opacity:1;transform:none}}
+/* --- hero: satu urutan masuk sahaja (render pertama) --- */
+.hero.intro > div:first-child > *{animation:hero-naik .7s var(--ease-out) both}
+.hero.intro > div:first-child > *:nth-child(1){animation-delay:.15s}
+.hero.intro > div:first-child > *:nth-child(2){animation-delay:.25s}
+.hero.intro > div:first-child > *:nth-child(3){animation-delay:.38s}
+.hero.intro > div:first-child > *:nth-child(4){animation-delay:.48s}
+.hero.intro > div:first-child > *:nth-child(n+5){animation-delay:.58s}
+.hero h1{font-size:clamp(34px,4.5vw,54px);letter-spacing:-.02em}
+.hero .lead .hl{color:var(--ink);font-weight:700;padding:0 .18em;margin:0 -.05em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;background-repeat:no-repeat;background-size:100% 100%;background-image:linear-gradient(104deg,transparent .2em,var(--hlc) .2em,var(--hlc) calc(100% - .15em),transparent calc(100% - .15em));background-position:0 60%;background-size:100% 72%;white-space:nowrap}
+.hero .lead .hl-a{--hlc:#ffc9dc}
+.hero .lead .hl-b{--hlc:#ffe17a}
+.hero .lead .hl-c{--hlc:#b4ebd2}
+.hero .lead .rkw{color:var(--rw);font-weight:800}
+.hero.intro .lead .hl{animation:sorot .7s var(--ease-out) both}
+.hero.intro .lead .hl-a{animation-delay:.75s}.hero.intro .lead .hl-b{animation-delay:.95s}.hero.intro .lead .hl-c{animation-delay:1.15s}
+@keyframes sorot{0%{background-size:0% 72%}100%{background-size:100% 72%}}
+@media (prefers-reduced-motion:reduce){.hero.intro .lead .hl{animation:none}}
+
+/* --- Empat tahap: kembara & UASA --- */
+.tp-lead{max-width:760px}
+.features.empat{grid-template-columns:repeat(4,1fr)}
+@media (max-width:860px){.features.empat{grid-template-columns:1fr 1fr;gap:12px}.features.empat .feat{padding:16px}.features.empat .feat h3{font-size:18px}.features.empat .feat p{font-size:13.5px}.features.empat .feat h3 small{display:block;margin:3px 0 0}}
+.features.empat .feat h3 small{white-space:nowrap}
+.tpplus{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-top:18px}
+.tpk{position:relative;overflow:hidden;border-radius:24px;padding:24px 24px 22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.tpk h3{font-size:22px;margin-bottom:12px}
+.tpk p{color:var(--muted);font-size:15.5px}
+.tpk ul{list-style:none;margin-top:14px;display:grid;gap:8px}
+.tpk li{position:relative;padding-left:28px;font-weight:600;font-size:15px}
+.tpk li::before{content:'';position:absolute;left:0;top:.2em;width:18px;height:18px;border-radius:50%;background:var(--tick,#20bf6b) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat}
+.tpk-kem{background:linear-gradient(160deg,#ecfff6 0%,#eaf6ff 55%,#f3efff 100%)}
+.tpk-jalan{position:relative;display:flex;justify-content:space-between;margin:6px 0 16px;padding:0 4px}
+.tpk-jalan::before{content:'';position:absolute;left:34px;right:34px;top:28px;border-top:3px dashed #9fd8c0}
+.tpk-jalan span{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--fd);font-weight:700;font-size:15px}
+.tpk-jalan i{font-style:normal;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#fff;font-size:28px;box-shadow:0 8px 18px -10px rgba(16,120,80,.6);border:3px solid #fff}
+.tpk-jalan span:nth-child(1) i{background:#d9f7e8}.tpk-jalan span:nth-child(2) i{background:#d8efff}.tpk-jalan span:nth-child(3) i{background:#ece6ff}
+.tpk-uasa{background:linear-gradient(160deg,#fff7e6 0%,#fff0f5 100%);--tick:#f08c00}
+.tpk-uasa::after{content:'🔮';position:absolute;right:-6px;top:-10px;font-size:92px;opacity:.12;transform:rotate(12deg)}
+.tpk-sub{font-weight:700;color:#b25e00 !important;font-size:13.5px !important;margin:-6px 0 10px}
+@media (max-width:860px){.tpplus{grid-template-columns:1fr}.tpk{padding:20px}.tpk h3{font-size:20px}.tpk-jalan i{width:52px;height:52px;font-size:25px}.tpk-jalan::before{top:25px}}
+.hero.intro .art{animation:hero-gambar .9s .3s var(--ease-out) both}
+@keyframes hero-naik{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:none}}
+@keyframes hero-gambar{0%{opacity:0;transform:translateY(24px) scale(.96)}100%{opacity:1;transform:none}}
+/* --- bar app bawah (telefon) --- */
+.tabbar{display:none}
+@media (max-width:860px){
+  :root{--hdr:66px}
+  .nav a.nl,.nsep,.top .nav a.akaunbtn{display:none}
+  .lencana{width:48px;height:48px}
+  .jn{font-size:21px}.jt{font-size:12px}
+  .sndbtn{width:40px;height:40px;border-radius:13px}
+  .installbtn{width:40px;height:40px;padding:0;justify-content:center;margin-left:2px}
+  .installbtn .lbl{display:none}
+  body{padding-bottom:calc(var(--tab) + 10px + env(safe-area-inset-bottom))}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;z-index:60;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));height:var(--tab);padding:6px;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.6) blur(16px);-webkit-backdrop-filter:saturate(1.6) blur(16px);border:1px solid rgba(91,75,219,.12);border-radius:24px;box-shadow:0 14px 34px -14px rgba(46,32,140,.45)}
+  .tabbar a{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:#8a86ad;font-size:11.5px;font-weight:700;border-radius:18px;-webkit-tap-highlight-color:transparent;transition:color .25s}
+  .tabbar a .ik{width:23px;height:23px;transition:transform .3s var(--ease-pop)}
+  .tabbar a:active .ik{transform:scale(.82)}
+  .tabbar a.on{color:var(--brand)}
+  .tabbar a.on .ik{animation:tab-lompat .45s var(--ease-pop)}
+  .tabbar a.akaunbtn.masuk .ik{color:var(--accent)}
+  .tabpenanda{position:absolute;z-index:0;top:6px;bottom:6px;left:6px;width:calc((100% - 12px) / 5);border-radius:18px;background:#efeaff;transform:translateX(calc(var(--i,0) * 100%));transition:transform .45s var(--ease-pop),opacity .2s}
+  .tabbar.tiada .tabpenanda{opacity:0}
+  .inquiz .tabbar,.main-pra .tabbar{display:none}
+  .main-pra{padding-bottom:0}
+  .inquiz{padding-bottom:0}
+  .toast{bottom:calc(var(--tab) + 22px + env(safe-area-inset-bottom))}
+  .inquiz .toast{bottom:24px}
+}
+@keyframes tab-lompat{0%{transform:translateY(0)}40%{transform:translateY(-5px) scale(1.08)}100%{transform:none}}
+
+.inquiz .top .jenama .jt{display:none}
+.logo .lencana,.inquiz .top .logo .lencana{display:block}
+.logo .jenama{display:flex}.inquiz .top .logo .jenama{display:none}
+.logo .lc,.inquiz .top .logo .lc{display:block}
+.logo .jn{display:inline}.logo .jenama .jt{display:block}
+.jt,.jn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:440px){.logo{gap:10px}.jt{font-size:11px}.jn{font-size:20px}.nav{gap:5px}}
+@media (max-width:380px){.logo .jenama .jt{display:none}.jn{font-size:19px}.lencana{width:44px;height:44px}.sndbtn,.installbtn{width:38px;height:38px}}
+@media (prefers-reduced-motion:reduce){.lencana,.jenama,.hero.intro > div:first-child > *,.hero.intro .art,#muzikbtn:not(.off) .ik,.sndbtn.beralun .w1,.sndbtn.beralun .w2,.tabbar a.on .ik{animation:none}.tabpenanda,.lencana{transition:none}}
 </style>
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
-  <a class="logo" href="#"><img src="icon-192.png" alt="" width="38" height="38"><span>Sudut Belajar</span></a>
-  <nav class="nav"><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app">📲<span class="lbl"> Pasang app</span></button><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false">🎵</button><button class="sndbtn" id="sndbtn" type="button">🔊</button><a href="#pilih" class="hide-xs">Darjah</a><a href="#akaun" class="akaunbtn" id="akaunbtn" aria-label="Akaun ibu bapa" title="Akaun ibu bapa">👤</a><a href="#ranking">🏆<span class="lbl"> Ranking</span></a><a href="#ibubapa" class="hide-s">Ibu Bapa</a></nav>
+  <a class="logo" href="#" aria-label="Sudut Belajar, laman utama"><span class="lencana"><span class="lc"><img src="icon-192.png" alt="" width="52" height="52"></span></span><span class="jenama"><span class="jn">Sudut Belajar</span><span class="jt">Prasekolah hingga Darjah 6</span></span></a>
+  <nav class="nav" aria-label="Menu utama"><a href="#pilih" class="nl" data-nav="darjah"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" class="nl" data-nav="ranking"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span class="lbl">Ranking</span></a><a href="#ibubapa" class="nl hide-s" data-nav="ibubapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a><span class="nsep" aria-hidden="true"></span><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false"><svg class="ik muzik" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.6V6.3l10-2.3v11.6"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/></svg></button><button class="sndbtn" id="sndbtn" type="button"><svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4"/></svg></button><a href="#akaun" class="akaunbtn" id="akaunbtn" data-nav="akaun" aria-label="Akaun ibu bapa" title="Akaun ibu bapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg></a><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.8" width="11" height="18.4" rx="2.6"/><path d="M12 7.2v6.6M9.3 11.2 12 13.9l2.7-2.7"/><path d="M10.5 18h3"/></svg><span class="lbl">Pasang app</span></button></nav>
 </div></header>
 <main id="app"></main>
+<nav class="tabbar" id="tabbar" aria-label="Menu app"><a href="#" data-tab="0"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 9.8V19a1.5 1.5 0 0 0 1.5 1.5h3.2v-5.2h3.6v5.2H17a1.5 1.5 0 0 0 1.5-1.5V9.8"/></svg><span>Utama</span></a><a href="#pilih" data-tab="1"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" data-tab="2"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span>Ranking</span></a><a href="#ibubapa" data-tab="3"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a><a href="#akaun" class="akaunbtn" data-tab="4"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg><span>Akaun</span></a><i class="tabpenanda" aria-hidden="true"></i></nav>
 <div class="toast" id="toast"></div>
 <script>
 // ===== SB ENGINE (Matematik Darjah 1–6) =====
@@ -18598,9 +18719,10 @@ function butangMuzik() {
   b.setAttribute('aria-label', MUZIK.on ? 'Muzik latar: hidup. Tekan untuk tutup' : 'Muzik latar: tutup. Tekan untuk hidupkan');
   b.title = b.getAttribute('aria-label');
 }
+const IK_SND_ON = '<svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4"/></svg>', IK_SND_OFF = '<svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path d="m16 9.6 4.8 4.8M20.8 9.6 16 14.4"/></svg>';
 function butangBunyi() {
   const b = document.getElementById('sndbtn'); if (!b) return;
-  b.textContent = SND.on ? '🔊' : '🔇';
+  b.innerHTML = SND.on ? IK_SND_ON : IK_SND_OFF;
   b.setAttribute('aria-label', SND.on ? 'Bunyi: hidup. Tekan untuk senyapkan' : 'Bunyi: senyap. Tekan untuk hidupkan');
   b.title = b.getAttribute('aria-label');
 }
@@ -19001,7 +19123,7 @@ const AKAUN = {
   get() { try { return JSON.parse(localStorage.getItem('sb.akaun') || 'null'); } catch (e) { return null; } },
   set(a) { try { if (a) localStorage.setItem('sb.akaun', JSON.stringify(a)); else localStorage.removeItem('sb.akaun'); } catch (e) {} butangAkaun(); }
 };
-function butangAkaun() { const b = document.getElementById('akaunbtn'); if (b) b.classList.toggle('masuk', !!AKAUN.get()); }
+function butangAkaun() { document.querySelectorAll('.akaunbtn').forEach(b => b.classList.toggle('masuk', !!AKAUN.get())); }
 function profilDari(a) { return { nick: a.nick, pin: a.pin ? String(a.pin) : '', akaun: a.akaun === 0 ? 0 : 1, darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
 // Kemajuan disimpan ikut profil: tukar profil = simpan DB profil lama, muat DB profil baharu.
 // Profil pertama di peranti mewarisi kemajuan tanpa nama (sama seperti daftar biasa).
@@ -19135,7 +19257,7 @@ function affiliate() {
     <div class="af-hero">
       <span class="af-eye">⏳ AKAN DIBUKA KEMUDIAN</span>
       <h1>Kongsi ilmu, <span>raih ganjaran.</span></h1>
-      <p>Sertai Program Affiliate Sudut Belajar. Kongsikan platform latihan Darjah 1–6 ini dengan keluarga dan kenalan, dan terima komisen bagi setiap langganan Premium yang anda rujuk.</p>
+      <p>Sertai Program Affiliate Sudut Belajar. Kongsikan platform latihan Prasekolah hingga Darjah 6 ini dengan keluarga dan kenalan, dan terima komisen bagi setiap langganan Premium yang anda rujuk.</p>
       <a class="af-cta" href="#affiliate" id="affke">✍️ Daftar minat sekarang</a>
       <span class="af-nota">Percuma untuk sertai · Kami hubungi anda sebaik program dibuka</span>
       <div class="af-pil"><div><b>💰</b>Komisen setiap langganan</div><div><b>🎁</b>Harga istimewa untuk rakan anda</div><div><b>📅</b>Bayaran setiap bulan</div></div>
@@ -19524,11 +19646,11 @@ function home(y, scroll) {
   const nTopics = nTopikPm_();
   app.innerHTML = `
   <div class="wrap">
-    <section class="hero">
+    <section class="hero${(window.__sbIntro = (window.__sbIntro || 0) + 1) === 1 ? ' intro' : ''}">
       <div>
         <span class="pill"><b>●</b> Mula percuma · Tanpa iklan · 300,000+ soalan menanti anda</span>
-        <h1>Belajar jadi <span class="grad">seronok</span>,<br><span style="white-space:nowrap">Darjah 1 hingga 6</span></h1>
-        <p class="lead">Latihan interaktif ikut topik sekolah rendah. Naik tahap dari <b>Perajurit</b> ke <b>Hulubalang</b>, <b>Panglima</b> hingga <b>Laksamana</b>, dan kumpul bintang!</p>
+        <h1>Belajar jadi <span class="grad">seronok</span>,<br>Prasekolah hingga Darjah&nbsp;6</h1>
+        <p class="lead"><span class="hl hl-a">Permainan huruf &amp; nombor</span> untuk prasekolah, dan <span class="hl hl-b">latihan interaktif</span> ikut topik sekolah rendah. Naik tahap dari <b class="rkw" style="--rw:#2e7d32">Perajurit</b> ke <b class="rkw" style="--rw:#1e4fbf">Hulubalang</b>, <b class="rkw" style="--rw:#6a1b9a">Panglima</b> hingga <b class="rkw" style="--rw:#8e1b2e">Laksamana</b>, dan <span class="hl hl-c">kumpul bintang!</span></p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#mula">Daftar percuma · Pakej</a></div>
         <a href="#sedia" style="display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px 7px 8px;border-radius:999px;background:#fff;border:2px solid #ffc2d6;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px"><span style="background:linear-gradient(135deg,#ff5c8a,#ff9a3c);color:#fff;border-radius:999px;padding:2px 9px;font-size:11px;letter-spacing:.5px">BAHARU</span><span style="white-space:nowrap">🎒 Sedia ke Tahun 1 →</span></a>
         <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>4</b>Tahap</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>${JUM_SOALAN.teks}</b>Soalan</div>`}</div>
@@ -19548,8 +19670,22 @@ function home(y, scroll) {
       <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
       <div id="homelb" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 18px;margin-bottom:12px">Memuatkan juara…</div>
       <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
-      <div class="sh"><div><h2>Empat tahap pendekar</h2><p>Setiap topik ada 4 tahap: mula sebagai Perajurit (percuma), naik ke Hulubalang, Panglima dan Laksamana.</p></div></div>
-      <div class="features">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${rkImg(r)}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
+      <div class="sh"><div><h2>Empat tahap pendekar</h2><p class="tp-lead">Setiap topik ada 4 tahap. Anak mula sebagai <b>Perajurit</b> (percuma), kemudian naik ke <b>Hulubalang</b>, <b>Panglima</b> dan <b>Laksamana</b>. Soalan bermula dengan asas dan makin mencabar hingga ke aras KBAT, selari dengan Tahap Penguasaan (TP1 hingga TP6) di sekolah.</p></div></div>
+      <div class="features empat">${RANKS.map(r => `<div class="feat rankfeat" style="--r1:${r.c1};--r2:${r.c2}"><div class="e">${rkImg(r)}</div><h3>${r.nama} <small>${r.tp}</small></h3><p>${r.d}</p></div>`).join('')}</div>
+      <div class="tpplus">
+        <div class="tpk tpk-kem">
+          <h3>Setiap tahap ada 3 set kembara</h3>
+          <div class="tpk-jalan" aria-label="Rimba, kemudian Lautan, kemudian Puncak"><span><i>🌴</i>Rimba</span><span><i>🌊</i>Lautan</span><span><i>⛰️</i>Puncak</span></div>
+          <p>Setiap set ada 10 soalan. Tamat Rimba, anak terus mendaki ke Lautan dan Puncak dengan soalan baharu, bukan soalan sama berulang. Kedudukan disimpan, jadi esok anak sambung di tempat dia berhenti.</p>
+          <ul><li>Latihan berperingkat yang terasa macam pengembaraan</li><li>Lebih banyak soalan dikuasai bagi setiap topik</li><li>Ada untuk semua tahap, termasuk Perajurit percuma</li></ul>
+        </div>
+        <div class="tpk tpk-uasa">
+          <h3>Set soalan contoh gaya UASA</h3>
+          <p class="tpk-sub">Ramalan UASA · Darjah 4 hingga 6 · Premium</p>
+          <p>Set latihan yang meniru format UASA untuk Bahasa Melayu, English, Matematik dan Sains, termasuk Graf &amp; Rajah (Matematik Bahagian B) serta Data &amp; Radas (Sains Bahagian C).</p>
+          <ul><li>Anak biasa dengan format soalan sebelum peperiksaan sebenar</li><li>Kenal pasti topik lemah lebih awal</li><li>Lebih yakin dan tenang pada hari UASA</li></ul>
+        </div>
+      </div>
     </section>
     <section class="blk" id="ibubapa">
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
@@ -20666,6 +20802,18 @@ route = function () { _route0(); homeLB(); MUZIK.main(); };
   } catch (e) {}
 })();
 window.addEventListener('hashchange', route);
+// ---- menu aktif (bar atas & bar bawah app) ----
+function navAktif() {
+  const h = location.hash;
+  const i = /^#?$/.test(h) ? 0 : /^#(pilih|d[1-6])/.test(h) ? 1 : /^#ranking/.test(h) ? 2 : /^#(ibubapa|premium|mula|faq|privasi|affiliate)/.test(h) ? 3 : /^#akaun/.test(h) ? 4 : -1;
+  document.body.classList.toggle('main-pra', /^#sedia\/[^/]+\/[^/]+/.test(h));
+  const tb = document.getElementById('tabbar');
+  if (tb) { tb.style.setProperty('--i', Math.max(i, 0)); tb.classList.toggle('tiada', i < 0); tb.querySelectorAll('a').forEach(a => { const on = +a.dataset.tab === i; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); }); }
+  const k = ['', 'darjah', 'ranking', 'ibubapa', 'akaun'][i] || '#';
+  document.querySelectorAll('.top [data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === k));
+}
+window.addEventListener('hashchange', navAktif);
+navAktif();
 muatTetapan();
 butangAkaun();
 // ---- butang bunyi ----
@@ -20673,7 +20821,7 @@ butangAkaun();
   const b = document.getElementById('sndbtn');
   if (!b) return;
   butangBunyi();
-  b.onclick = () => { SND.set(!SND.on); butangBunyi(); if (SND.on) SND.play('bintang'); };
+  b.onclick = () => { SND.set(!SND.on); butangBunyi(); if (SND.on) { SND.play('bintang'); b.classList.remove('beralun'); void b.offsetWidth; b.classList.add('beralun'); } };
 })();
 // ---- butang muzik ----
 (function () {

@@ -1,7 +1,7 @@
 {
-  "name": "Sudut Belajar — Darjah 1 hingga 6",
+  "name": "Sudut Belajar — Prasekolah hingga Darjah 6",
   "short_name": "Sudut Belajar",
-  "description": "Latihan interaktif percuma untuk murid sekolah rendah. Tanpa iklan, tanpa daftar.",
+  "description": "Latihan interaktif Prasekolah hingga Darjah 6 ikut silibus KSSR: BM, English, Matematik dan Sains.",
   "lang": "ms",
   "start_url": "./",
   "scope": "./",

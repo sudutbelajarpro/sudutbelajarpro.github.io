@@ -6,7 +6,7 @@
 //  3. HTML sentiasa internet-dahulu; hanya ikon/font guna cache-dahulu.
 const CACHE = 'sb-v3';
 const HALAMAN = './index.html';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

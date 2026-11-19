@@ -596,6 +596,17 @@ footer p+p{margin-top:6px}
 .sediakad{display:flex;align-items:center;gap:14px;margin:6px 0 26px;padding:16px 18px;border-radius:24px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#ff6fa5,#ff9a3c 55%,#ffd23f);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s}
 .sediakad:hover{transform:translateY(-2px)}
 .sediakad .sk-ic{font-size:48px;line-height:1;animation:float 3s ease-in-out infinite}
+.i3{display:block;width:100%;height:100%;overflow:visible}
+.sub .ic{background:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}.sub .ic{width:72px;height:72px}.sub .ic .i3{width:94%;height:94%;filter:drop-shadow(0 5px 4px rgba(20,10,60,.28))}
+.feat .e.e3{background:none;width:72px;height:72px;margin:-6px 0 8px -6px}.feat .e3 .i3{filter:drop-shadow(0 6px 5px rgba(40,20,90,.18))}
+.sk-ic .i3{width:58px;height:58px;filter:drop-shadow(0 6px 5px rgba(120,30,10,.25))}
+.tile.t4{background:#fff}.t4 .i3{width:72%;height:72%}
+#juaratajuk .i3,#lbtajuk .i3{display:inline-block;width:1.25em;height:1.25em;vertical-align:-.22em;margin-right:6px}
+#homelb .i3,#lb .i3{width:38px;height:38px;margin:-4px auto}
+.rk-piala .i3{width:46px;height:46px}
+@media (max-width:640px){.sub .ic{width:60px;height:60px}.feat .e.e3{width:64px;height:64px}}
+.band h1 .bic{align-self:center;width:1.25em;height:1.25em;display:inline-block}.band h1 .bic .i3{filter:drop-shadow(0 5px 4px rgba(0,0,0,.25))}
+
 .sediakad .sk-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:14px;font-weight:600}
 .sediakad .sk-t b{font-family:var(--fd);font-size:22px;line-height:1.15}
 .sediakad .sk-baru{align-self:flex-start;background:#fff;color:#e8590c;font-size:11px;font-weight:800;letter-spacing:1px;border-radius:999px;padding:2px 9px}
@@ -19697,7 +19708,7 @@ function ranking() {
   setTheme({ g1: '#e0a500', g2: '#ffd34d' });
   app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:760px">
     <a class="crumb" href="#pilih">← Utama</a>
-    <h1 style="margin:10px 0 2px" id="lbtajuk">🏆 Ranking</h1>
+    <h1 style="margin:10px 0 2px" id="lbtajuk">${IKON3D.piala()}Ranking</h1>
     <div id="lbinfo" class="lead" style="margin:0 0 14px;font-size:15.5px">Kumpul mata setiap jawapan betul — rank lebih tinggi, lebih banyak mata.</div>
     <div class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px" id="profbox"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="lbfilter"></div>
@@ -19712,7 +19723,7 @@ function ranking() {
         <button class="btn pri" id="psimpan" style="padding:8px 14px;font-size:14px">💾 Simpan progress ke awan</button>
         <button class="btn sec" id="psambung" style="padding:8px 14px;font-size:14px">📥 Sambung dari awan</button>
       </div><div id="pmsg" style="font-size:13.5px;margin-top:8px;color:var(--muted)"></div>`
-    : `<div class="rk-ajak"><div class="rk-piala" aria-hidden="true"><span>🏆</span></div><div><b>Sertai Ranking</b><p>Minta ibu atau ayah log masuk di <span class="rk-tab">👤 Akaun</span> dan tambah profil kamu dengan nama glamour.</p></div></div>`;
+    : `<div class="rk-ajak"><div class="rk-piala" aria-hidden="true"><span>${IKON3D.piala()}</span></div><div><b>Sertai Ranking</b><p>Minta ibu atau ayah log masuk di <span class="rk-tab">👤 Akaun</span> dan tambah profil kamu dengan nama glamour.</p></div></div>`;
     if (P2) {
       $('#ptukar').onclick = () => { PLAYER.set(null); localStorage.removeItem('sb.player'); prof(); };
       $('#psimpan').onclick = async () => { $('#pmsg').textContent = 'Menyimpan…'; try { const r = await apiPost({ a: 'simpan', nick: P2.nick, pin: P2.pin, darjah: P2.darjah, sekolah: P2.sekolah || '', data: JSON.stringify({ stars: DB.stars, streak: DB.streak, best: DB.best }) }); $('#pmsg').textContent = r.ok ? '✅ Progress disimpan ke awan!' : '⚠️ ' + (r.err || 'Gagal'); } catch (e) { $('#pmsg').textContent = '⚠️ Tiada sambungan internet'; } };
@@ -19731,12 +19742,12 @@ function ranking() {
       if (!r.ok) throw 0;
       MUSIM.info = r.musim || null;
       const M = r.musim, kini = r.kini || Date.now();
-      $('#lbtajuk').textContent = M ? '🏆 Ranking ' + M.nama : '🏆 Ranking Bulanan';
+      $('#lbtajuk').innerHTML = IKON3D.piala() + (M ? 'Ranking ' + esc(M.nama) : 'Ranking Bulanan');
       $('#lbinfo').innerHTML = M
         ? `<b>${tarikhPenuh(M.mula)} – ${tarikhPenuh(M.tamat)}</b> · tamat dalam <b>${Math.max(0, Math.ceil((M.tamat - kini) / 864e5))} hari</b><br>🎁 <b>Hadiah misteri</b> untuk pemain <b>👑 Premium</b> dengan mata tertinggi pada akhir musim. Papan bermula semula setiap musim.`
         : `Ranking bulan ini (pra-musim). <b>Musim 1 bermula 1 Disember</b> — semua bermula dari kosong, dan pemain 👑 Premium tertinggi pada akhir musim menang <b>hadiah misteri</b> 🎁.`;
       const calon = !fD && M ? r.top.findIndex(x => x[4]) : -1;
-      const med = ['🥇', '🥈', '🥉'];
+      const med = [IKON3D.pingat(1), IKON3D.pingat(2), IKON3D.pingat(3)];
       $('#lb').innerHTML = r.top.length ? r.top.map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);${P && x[0].toLowerCase() === P.nick.toLowerCase() ? 'background:#fff8e1;border-radius:8px' : ''}">
         <b style="width:36px;text-align:center">${med[i] || (i + 1)}</b><span style="flex:1;min-width:0"><span style="font-weight:600">${esc(x[0])}</span>${x[4] ? ' <span title="Premium" aria-label="Premium">👑</span>' : ''}${i === calon ? ' <span style="font-size:11px;font-weight:800;background:#1e7a46;color:#fff;border-radius:999px;padding:2px 8px;white-space:nowrap">CALON JUARA 🎁</span>' : ''}${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">D${x[1]}</span><b>${x[2]} mata</b></div>`).join('')
       : `<p style="padding:10px 0">Belum ada pemain ${M ? 'musim ini' : 'bulan ini'} — jadilah yang pertama! 🚀</p>`;
@@ -19794,17 +19805,17 @@ function home(y, scroll) {
       </div>
       <div class="art adagambar">
         <img class="heroimg" src="aset/hero-keluarga-1200.webp" srcset="aset/hero-keluarga-720.webp 720w, aset/hero-keluarga-1200.webp 1200w" sizes="(max-width:900px) 92vw, 520px" width="1200" height="670" fetchpriority="high" alt="Tiga murid sekolah rendah gembira belajar menggunakan Sudut Belajar di telefon, diperhatikan ibu bapa mereka">
-        <div class="tile t1" aria-hidden="true">7</div><div class="tile t2" aria-hidden="true">÷</div><div class="tile t4" aria-hidden="true">💎</div>
+        <div class="tile t1" aria-hidden="true">7</div><div class="tile t2" aria-hidden="true">÷</div><div class="tile t4" aria-hidden="true">${IKON3D.permata()}</div>
       </div>
     </section>
-    <a class="sediakad" href="#sedia"><span class="sk-ic">🎒</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 50 permainan huruf, nombor, sains &amp; kreatif · <u>14 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
+    <a class="sediakad" href="#sedia"><span class="sk-ic">${IKON3D.beg()}</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 50 permainan huruf, nombor, sains &amp; kreatif · <u>14 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
     <section class="blk" id="pilih">
       <div class="sh"><div><h2>Pilih darjah</h2><p>Kemudian pilih subjek untuk mula berlatih.</p></div></div>
       <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="l">Darjah ${i}</span></button>`).join('')}</div>
       <div class="subjects" id="subjects"></div>
     </section>
     <section class="blk">
-      <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">🏆 Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
+      <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">${IKON3D.piala()}Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
       <div id="homelb" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 18px;margin-bottom:12px">Memuatkan juara…</div>
       <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
       <div class="sh"><div><h2>Empat tahap pendekar</h2><p class="tp-lead">Setiap topik ada 4 tahap. Anak mula sebagai <b>Perajurit</b> (percuma), kemudian naik ke <b>Hulubalang</b>, <b>Panglima</b> dan <b>Laksamana</b>. Soalan bermula dengan asas dan makin mencabar hingga ke aras KBAT, ikut silibus semasa DSKP dan KSSR (Tahap Penguasaan TP1 hingga TP6).</p></div></div>
@@ -19827,11 +19838,11 @@ function home(y, scroll) {
     <section class="blk" id="ibubapa">
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
       <div class="features">
-        <div class="feat"><div class="e">🎲</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
-        <div class="feat"><div class="e">⭐</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
-        <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e">📱</div><h3>Letak di skrin telefon</h3><p>Buka Sudut Belajar terus dari ikon di skrin utama telefon atau tablet anak, macam app. <b style="color:var(--brand)">Lihat cara →</b></p></a>
-        <div class="feat"><div class="e">🧑‍🏫</div><h3>Ikut silibus sekolah</h3><p>Kandungan ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
-        <a class="feat af-feat" href="#affiliate" style="text-decoration:none;color:inherit"><div class="e">🤝</div><h3>Program Affiliate <small class="af-tag">AKAN DIBUKA</small></h3><p>Kongsi Sudut Belajar dan dapat komisen untuk setiap langganan yang anda rujuk. <b style="color:var(--brand)">Daftar minat →</b></p></a>
+        <div class="feat"><div class="e e3">${IKON3D.dadu()}</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
+        <div class="feat"><div class="e e3">${IKON3D.bintang()}</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
+        <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e e3">${IKON3D.telefon()}</div><h3>Letak di skrin telefon</h3><p>Buka Sudut Belajar terus dari ikon di skrin utama telefon atau tablet anak, macam app. <b style="color:var(--brand)">Lihat cara →</b></p></a>
+        <div class="feat"><div class="e e3">${IKON3D.silibus()}</div><h3>Ikut silibus sekolah</h3><p>Kandungan ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
+        <a class="feat af-feat" href="#affiliate" style="text-decoration:none;color:inherit"><div class="e e3">${IKON3D.syiling()}</div><h3>Program Affiliate <small class="af-tag">AKAN DIBUKA</small></h3><p>Kongsi Sudut Belajar dan dapat komisen untuk setiap langganan yang anda rujuk. <b style="color:var(--brand)">Daftar minat →</b></p></a>
       </div>
     </section>
   </div>
@@ -19849,9 +19860,9 @@ function renderSubjects(y) {
   box.innerHTML = SUBJ.map(s0 => {
     const s = (y === 1 && s0.d1) ? Object.assign({}, s0, s0.d1) : s0;
     const st = `--g1:${s.g1};--g2:${s.g2}`;
-    if (ENG[s.id] && ENG[s.id].years.includes(y)) { const p = progress(s.id, y); return `<a class="sub" style="${st}" href="#d${y}/${s.id}"><span class="tag">${topicsOf(s.id, y).length} topik</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">⭐ ${p.got} / ${p.max} bintang</div><div class="prog"><i style="width:${p.got / p.max * 100}%"></i></div></a>`; }
-    if (s.ext && s.ext[y]) return `<a class="sub" style="${st}" href="${s.ext[y]}"><span class="tag">Demo</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">Latihan Darjah ${y} →</div></a>`;
-    return `<button class="sub soon" style="${st}" data-soon="${s.nama}"><span class="tag">Akan datang</span><div class="ic">${s.ic}</div><h3>${s.nama}</h3><div class="meta">Sedang disediakan</div></button>`;
+    if (ENG[s.id] && ENG[s.id].years.includes(y)) { const p = progress(s.id, y); return `<a class="sub" style="${st}" href="#d${y}/${s.id}"><span class="tag">${topicsOf(s.id, y).length} topik</span><div class="ic">${ikonSubj(s0.id, y)}</div><h3>${s.nama}</h3><div class="meta">⭐ ${p.got} / ${p.max} bintang</div><div class="prog"><i style="width:${p.got / p.max * 100}%"></i></div></a>`; }
+    if (s.ext && s.ext[y]) return `<a class="sub" style="${st}" href="${s.ext[y]}"><span class="tag">Demo</span><div class="ic">${ikonSubj(s0.id, y)}</div><h3>${s.nama}</h3><div class="meta">Latihan Darjah ${y} →</div></a>`;
+    return `<button class="sub soon" style="${st}" data-soon="${s.nama}"><span class="tag">Akan datang</span><div class="ic">${ikonSubj(s0.id, y)}</div><h3>${s.nama}</h3><div class="meta">Sedang disediakan</div></button>`;
   }).join('');
   box.querySelectorAll('[data-soon]').forEach(b => b.onclick = () => toast(`${b.dataset.soon} Darjah ${y} sedang disediakan.`));
 }
@@ -19863,7 +19874,7 @@ function topics(s, y) {
   const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${E.ICON[t]}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
   app.innerHTML = `<div class="wrap pagein">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
-      <h1><span class="bic">${S.ic}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
+      <h1><span class="bic">${ikonSubj(s, y)}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
       ${y === 1 ? '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</div>' : ''}
       <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
@@ -20022,6 +20033,162 @@ function answer(x) {
 function next() { if (Q.i < Q.list.length - 1) { Q.i++; showQ(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else result(); }
 // ---------------- KEMBARA (3 set tetap setiap topik & tahap) ----------------
 // Ilustrasi 3D Kembara (SVG, tanpa fail luar) — medalion pemandangan Rimba → Lautan → Puncak, laluan bergerak (18 Nov)
+const IKON3D = (() => {
+  let n = 0;
+  const C30 = 0.8660254, S30 = 0.5;
+  const sv = (body, label) => `<svg class="i3" viewBox="0 0 100 100" aria-hidden="true"${label ? '' : ''}>${body}</svg>`;
+  const lg = (id, a, b, x2 = 0, y2 = 1) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`;
+  const bay = (cx = 50, cy = 92, rx = 30) => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${rx * 0.16}" fill="rgba(30,20,70,.22)"/>`;
+  // kiub isometrik: (x,y) = bucu atas; s = sisi
+  const kiub = (p, x, y, s, atas, kiri, kanan, hurufKiri, hurufKanan, warnaHuruf) => {
+    const a = s * C30, b = s * S30;
+    const pt = arr => arr.map(v => v.map(z => +z.toFixed(2)).join(',')).join(' ');
+    const top = [[x, y], [x + a, y + b], [x, y + 2 * b], [x - a, y + b]];
+    const L = [[x - a, y + b], [x, y + 2 * b], [x, y + 2 * b + s], [x - a, y + b + s]];
+    const R = [[x, y + 2 * b], [x + a, y + b], [x + a, y + b + s], [x, y + 2 * b + s]];
+    const fs = s * 0.62;
+    const teks = (m, t) => t ? `<text transform="${m}" x="${s / 2}" y="${s * 0.72}" text-anchor="middle" font-family="Baloo 2,Fredoka,Arial Rounded MT Bold,Arial,sans-serif" font-weight="800" font-size="${fs}" fill="${warnaHuruf}">${t}</text>` : '';
+    return `<g stroke-linejoin="round">
+      <polygon points="${pt(L)}" fill="${kiri}" stroke="${kiri}" stroke-width="2.4"/>
+      <polygon points="${pt(R)}" fill="${kanan}" stroke="${kanan}" stroke-width="2.4"/>
+      <polygon points="${pt(top)}" fill="${atas}" stroke="${atas}" stroke-width="2.4"/>
+      <polygon points="${pt([[x, y + 2 * b], [x + a, y + b], [x + a, y + b + 1.6], [x, y + 2 * b + 1.6]])}" fill="#fff" opacity=".35"/>
+      ${teks(`matrix(${C30},${S30},0,1,${(x - a).toFixed(2)},${(y + b).toFixed(2)})`, hurufKiri)}
+      ${teks(`matrix(${C30},${-S30},0,1,${x.toFixed(2)},${(y + 2 * b).toFixed(2)})`, hurufKanan)}
+    </g>`;
+  };
+  const blok = (p, set) => sv(`${bay(50, 91, 36)}
+    ${kiub(p, 30, 38, 22, set[0][0], set[0][1], set[0][2], set[0][3], '', '#fff')}
+    ${kiub(p, 70, 38, 22, set[1][0], set[1][1], set[1][2], '', set[1][3], '#fff')}
+    ${kiub(p, 50, 8, 24, set[2][0], set[2][1], set[2][2], set[2][3], set[2][4], '#fff')}`);
+
+  const f = {
+    mt: () => blok(++n, [
+      ['#ffd86b', '#f5a623', '#d9851a', '1'],
+      ['#8fe3ff', '#2fb3e8', '#1a8cc4', '3'],
+      ['#ff9ab8', '#ff5c8a', '#d93a69', '2', '+']]),
+    bi: () => blok(++n, [
+      ['#c8f59a', '#62c43b', '#3f9a26', 'A'],
+      ['#ffd0a0', '#ff8a3d', '#e0661c', 'C'],
+      ['#d3c4ff', '#8a6bff', '#6646e0', 'B', 'b']]),
+    bm: () => { const p = 'b' + (++n); return sv(`<defs>${lg(p + 'k', '#fff', '#f1e9dc')}${lg(p + 'c', '#ff7d4d', '#e04a22')}</defs>${bay(50, 88, 38)}
+      <path d="M8 66Q30 58 50 70Q70 58 92 66V76Q70 68 50 80Q30 68 8 76z" fill="url(#${p}c)"/>
+      <path d="M8 76Q30 68 50 80Q70 68 92 76v3Q70 71 50 83Q30 71 8 79z" fill="#b8361a"/>
+      <path d="M11 64Q30 56 50 67Q70 56 89 64V72Q70 64 50 76Q30 64 11 72z" fill="#e8ddc9"/>
+      <path d="M12 60Q30 52 50 63Q70 52 88 60V68Q70 60 50 72Q30 60 12 68z" fill="#f4ecdf"/>
+      <path d="M14 26Q32 18 50 30V68Q32 56 14 64z" fill="url(#${p}k)"/>
+      <path d="M86 26Q68 18 50 30V68Q68 56 86 64z" fill="#fbf7f0"/>
+      <path d="M50 30V68" stroke="#d8c8ae" stroke-width="2"/>
+      <path d="M44 31Q48 31 50 33V68Q48 66 44 65z" fill="#000" opacity=".06"/>
+      <g stroke="#c9b9a0" stroke-width="2.2" stroke-linecap="round" fill="none">
+        <path d="M20 34Q30 30 42 36"/><path d="M20 42Q30 38 42 44"/><path d="M20 50Q30 46 42 52"/>
+        <path d="M58 36Q70 30 80 34"/><path d="M58 44Q70 38 80 42"/><path d="M58 52Q70 46 74 47"/></g>
+      <path d="M70 18v22l5-4 5 4V20z" fill="#ffc83d"/><path d="M70 18h10v3H70z" fill="#e0a21a"/>
+      <path d="M16 28Q30 21 44 28" stroke="#fff" stroke-width="2" fill="none" opacity=".9" stroke-linecap="round"/>`); },
+    sn: () => { const p = 's' + (++n); return sv(`<defs>${lg(p + 'g', 'rgba(255,255,255,.95)', 'rgba(220,240,255,.75)', 1, 0)}${lg(p + 'a', '#7cf0a4', '#19b45a')}</defs>${bay(50, 92, 30)}
+      <path d="M40 10h20v4h-2v18l22 42q4 12-8 14H28q-12-2-8-14l22-42V14h-2z" fill="url(#${p}g)" stroke="#9cc7e6" stroke-width="2.4" stroke-linejoin="round"/>
+      <clipPath id="${p}c"><path d="M42 14h16v18l22 42q4 12-8 14H28q-12-2-8-14l22-42z"/></clipPath>
+      <g clip-path="url(#${p}c)"><path d="M10 58Q30 52 50 58T90 58V100H10z" fill="url(#${p}a)"/>
+        <ellipse cx="50" cy="58" rx="26" ry="4" fill="#b6ffd0" opacity=".8"/>
+        <circle cx="40" cy="74" r="4" fill="#fff" opacity=".7"/><circle cx="56" cy="68" r="2.6" fill="#fff" opacity=".7"/><circle cx="62" cy="80" r="3.2" fill="#fff" opacity=".6"/></g>
+      <rect x="38" y="6" width="24" height="8" rx="3" fill="#5b8def"/><rect x="38" y="6" width="24" height="3" rx="1.5" fill="#9cbcff"/>
+      <path d="M45 16v16L28 66" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".95"/>
+      <circle cx="66" cy="40" r="3" fill="#7cf0a4"/><circle cx="72" cy="30" r="2" fill="#7cf0a4"/><circle cx="64" cy="24" r="1.6" fill="#7cf0a4"/>`); },
+    alam: () => { const p = 'a' + (++n); return sv(`<defs>${lg(p + 't', '#a8743f', '#6e4521')}${lg(p + 'd', '#8ff07a', '#2fa84a')}${lg(p + 'e', '#b6f79a', '#46c25a')}</defs>${bay(50, 90, 36)}
+      <ellipse cx="50" cy="80" rx="36" ry="10" fill="#5a3818"/>
+      <ellipse cx="50" cy="76" rx="36" ry="11" fill="url(#${p}t)"/>
+      <ellipse cx="42" cy="72" rx="16" ry="3.5" fill="#fff" opacity=".18"/>
+      <path d="M50 76C50 62 49 52 52 40" stroke="#2f8f3a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M51 46C36 46 22 38 20 22C38 20 50 30 51 46z" fill="url(#${p}d)"/>
+      <path d="M51 46C40 40 30 32 24 25" stroke="#1f7a33" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M52 40C60 26 74 18 88 20C86 36 72 44 52 40z" fill="url(#${p}e)"/>
+      <path d="M52 40C64 34 74 28 84 22" stroke="#2a8f3c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M24 26Q30 26 36 30" stroke="#fff" stroke-width="2" fill="none" opacity=".7" stroke-linecap="round"/>
+      <path d="M62 27Q70 22 80 22" stroke="#fff" stroke-width="2" fill="none" opacity=".7" stroke-linecap="round"/>`); },
+    dadu: () => { const p = ++n; const s = 40, x = 50, y = 12, a = s * C30, b = s * S30;
+      const pip = (m, cx, cy) => `<circle transform="${m}" cx="${cx}" cy="${cy}" r="4.6" fill="#ff4d6d"/>`;
+      const mL = `matrix(${C30},${S30},0,1,${(x - a).toFixed(2)},${(y + b).toFixed(2)})`, mR = `matrix(${C30},${-S30},0,1,${x},${y + 2 * b})`, mT = `matrix(${C30},${S30},${-C30},${S30},${x},${y})`;
+      return sv(`${bay(50, 92, 34)}${kiub(p, x, y, s, '#ffffff', '#e6e4f2', '#cfcbe6', '', '', '')}
+      ${pip(mT, 20, 20)}
+      ${pip(mL, 11, 11)}${pip(mL, 29, 29)}
+      ${pip(mR, 10, 10)}${pip(mR, 30, 10)}${pip(mR, 10, 30)}${pip(mR, 30, 30)}`); },
+    bintang: () => { const p = 'st' + (++n); const cx = 50, cy = 46, R = 40, r = 17;
+      const P = [], Q = [];
+      for (let i = 0; i < 5; i++) { const t = -Math.PI / 2 + i * 2 * Math.PI / 5; P.push([cx + R * Math.cos(t), cy + R * Math.sin(t)]); const u = t + Math.PI / 5; Q.push([cx + r * Math.cos(u), cy + r * Math.sin(u)]); }
+      const f2 = v => v.map(z => z.toFixed(1)).join(',');
+      const star = (dy) => [...Array(5)].map((_, i) => f2([P[i][0], P[i][1] + dy]) + ' ' + f2([Q[i][0], Q[i][1] + dy])).join(' ');
+      let facet = '';
+      for (let i = 0; i < 5; i++) { const j = (i + 1) % 5;
+        facet += `<polygon points="${cx},${cy} ${f2(P[i])} ${f2(Q[i])}" fill="${i < 2 || i === 4 ? '#ffe680' : '#ffc61a'}"/>`;
+        facet += `<polygon points="${cx},${cy} ${f2(Q[i])} ${f2(P[j])}" fill="${i < 1 || i === 4 ? '#ffd23d' : '#f2a900'}"/>`; }
+      return sv(`${bay(50, 92, 30)}<polygon points="${star(7)}" fill="#c77f00" stroke="#c77f00" stroke-width="5" stroke-linejoin="round"/>
+        <polygon points="${star(0)}" fill="#ffd23d" stroke="#ffd23d" stroke-width="5" stroke-linejoin="round"/>${facet}
+        <circle cx="38" cy="30" r="3" fill="#fff" opacity=".85"/>`); },
+    telefon: () => { const p = 'tf' + (++n); return sv(`<defs>${lg(p + 's', '#7b5cff', '#3fd6c0', 1, 1)}</defs>${bay(50, 93, 26)}
+      <rect x="30" y="10" width="44" height="80" rx="11" fill="#2a2350"/>
+      <rect x="26" y="6" width="44" height="80" rx="11" fill="#4a3f8f"/>
+      <rect x="26" y="6" width="44" height="80" rx="11" fill="none" stroke="#7a6fd0" stroke-width="1.6"/>
+      <rect x="30" y="13" width="36" height="66" rx="6" fill="url(#${p}s)"/>
+      <rect x="42" y="9" width="12" height="3" rx="1.5" fill="#2a2350"/>
+      <g><rect x="34" y="20" width="12" height="12" rx="3.5" fill="#ffd23d"/><rect x="50" y="20" width="12" height="12" rx="3.5" fill="#ff5c8a"/>
+      <rect x="34" y="36" width="12" height="12" rx="3.5" fill="#fff"/><rect x="50" y="36" width="12" height="12" rx="3.5" fill="#7cf0a4"/></g>
+      <path d="M38 23.5h4v5h-4z" fill="#fff" opacity=".5"/>
+      <rect x="38" y="70" width="20" height="3" rx="1.5" fill="#fff" opacity=".8"/>
+      <path d="M32 16L60 16L32 60z" fill="#fff" opacity=".12"/>`); },
+    silibus: () => { const p = 'sl' + (++n); return sv(`<defs>${lg(p + 'p', '#ffffff', '#eef0fb')}${lg(p + 'm', '#e6ebf5', '#9aa6bf', 1, 0)}</defs>${bay(50, 93, 32)}
+      <rect x="22" y="14" width="58" height="76" rx="8" fill="#14715f"/>
+      <rect x="18" y="10" width="58" height="76" rx="8" fill="#1fae8f"/>
+      <rect x="25" y="20" width="44" height="60" rx="4" fill="url(#${p}p)"/>
+      <rect x="35" y="5" width="24" height="12" rx="4" fill="url(#${p}m)"/><rect x="43" y="7" width="8" height="4" rx="2" fill="#5d6a86"/>
+      <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M30 34l3 3 6-6" stroke="#1fae8f" stroke-width="3.2"/><path d="M44 34h18" stroke="#c9cee0" stroke-width="3"/>
+        <path d="M30 48l3 3 6-6" stroke="#1fae8f" stroke-width="3.2"/><path d="M44 48h18" stroke="#c9cee0" stroke-width="3"/>
+        <path d="M30 62l3 3 6-6" stroke="#ffb020" stroke-width="3.2"/><path d="M44 62h12" stroke="#c9cee0" stroke-width="3"/></g>
+      <path d="M21 14h50" stroke="#fff" stroke-width="2" opacity=".5" stroke-linecap="round"/>`); },
+    syiling: () => { const p = 'sy' + (++n);
+      const duit = (y, w) => `<ellipse cx="50" cy="${y + 7}" rx="${w}" ry="${w * 0.36}" fill="#b87400"/><rect x="${50 - w}" y="${y}" width="${2 * w}" height="7" fill="#d48f00"/><ellipse cx="50" cy="${y}" rx="${w}" ry="${w * 0.36}" fill="url(#${p}g)"/><ellipse cx="50" cy="${y}" rx="${w * 0.7}" ry="${w * 0.24}" fill="none" stroke="#e8a400" stroke-width="1.6"/>`;
+      return sv(`<defs>${lg(p + 'g', '#ffe680', '#ffbf1a')}${lg(p + 'h', '#ff8fb1', '#ff4d6d')}</defs>${bay(50, 90, 34)}
+        ${duit(72, 30)}${duit(62, 30)}${duit(52, 30)}
+        <text x="50" y="57" text-anchor="middle" font-family="Baloo 2,Fredoka,Arial,sans-serif" font-weight="800" font-size="12" fill="#c77f00" transform="scale(1 .62) translate(0 34)">RM</text>
+        <path d="M50 38C40 30 30 22 36 13C42 6 50 12 50 17C50 12 58 6 64 13C70 22 60 30 50 38z" fill="url(#${p}h)"/>
+        <path d="M40 15Q43 11 47 15" stroke="#fff" stroke-width="2" fill="none" opacity=".8" stroke-linecap="round"/>`); },
+    beg: () => { const p = 'bg' + (++n); return sv(`<defs>${lg(p + 'b', '#ff8a5c', '#ef4f3f')}${lg(p + 'k', '#ffcf4d', '#f5a000')}</defs>${bay(50, 93, 32)}
+      <path d="M36 22Q36 8 50 8Q64 8 64 22" stroke="#b8361a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <rect x="22" y="22" width="60" height="68" rx="16" fill="#b8361a"/>
+      <rect x="18" y="18" width="60" height="68" rx="16" fill="url(#${p}b)"/>
+      <path d="M18 40Q48 50 78 40V34Q78 18 62 18H34Q18 18 18 34z" fill="#ff6a4d"/>
+      <path d="M18 40Q48 50 78 40" stroke="#c63c22" stroke-width="2" fill="none"/>
+      <rect x="44" y="40" width="8" height="10" rx="2" fill="url(#${p}k)"/>
+      <rect x="28" y="56" width="40" height="24" rx="8" fill="url(#${p}k)"/><rect x="28" y="56" width="40" height="7" rx="3.5" fill="#ffe080"/>
+      <path d="M34 66h28" stroke="#d48f00" stroke-width="2" stroke-dasharray="3 3"/>
+      <path d="M24 30Q26 22 34 21" stroke="#fff" stroke-width="2.4" fill="none" opacity=".7" stroke-linecap="round"/>`); },
+    permata: () => { const p = 'pm' + (++n); return sv(`${bay(50, 92, 26)}
+      <polygon points="26,30 74,30 90,44 50,88 10,44" fill="#0f8f7a"/>
+      <polygon points="26,30 40,30 34,44 10,44" fill="#7ff5dc"/><polygon points="40,30 60,30 66,44 34,44" fill="#c4fff1"/>
+      <polygon points="60,30 74,30 90,44 66,44" fill="#3fd6b8"/>
+      <polygon points="10,44 34,44 50,88" fill="#2fc4a6"/><polygon points="34,44 66,44 50,88" fill="#5fe8cb"/><polygon points="66,44 90,44 50,88" fill="#139e86"/>
+      <path d="M32 34l-6 8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>`); },
+    piala: () => { const p = 'pl' + (++n); return sv(`<defs>${lg(p + 'g', '#ffe680', '#f2a900', 1, 0)}${lg(p + 'd', '#8a5a2b', '#5a3818')}</defs>${bay(50, 93, 28)}
+      <path d="M28 18H14q-2 18 18 24" stroke="#e0a000" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M72 18h14q2 18-18 24" stroke="#e0a000" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M26 12h48v14q0 22-24 28Q26 48 26 26z" fill="url(#${p}g)"/>
+      <ellipse cx="50" cy="12" rx="24" ry="4.5" fill="#fff0a8"/><ellipse cx="50" cy="12.5" rx="20" ry="3" fill="#e8a400"/>
+      <rect x="45" y="53" width="10" height="12" fill="#e0a000"/>
+      <path d="M36 70q0-6 14-6t14 6z" fill="#ffd23d"/>
+      <rect x="30" y="70" width="40" height="16" rx="3" fill="url(#${p}d)"/><rect x="38" y="74" width="24" height="7" rx="1.5" fill="#ffd23d"/>
+      <path d="M33 18q0 18 9 26" stroke="#fff" stroke-width="3" fill="none" opacity=".75" stroke-linecap="round"/>
+      <path d="M50 22l3 6 6.5 1-4.7 4.6 1.1 6.4L50 37l-5.9 3 1.1-6.4L40.5 29l6.5-1z" fill="#fff6c2"/>`); },
+    pingat: (k) => { const p = 'pg' + (++n); const W = [['#ffe680', '#f2a900', '#b87400'], ['#f4f6fb', '#b9c2d6', '#7d879e'], ['#ffc49a', '#d9773a', '#9a4a1a']][k - 1];
+      return sv(`<defs>${lg(p + 'g', W[0], W[1], 1, 1)}</defs>
+      <path d="M30 4h14l10 30H40z" fill="#5b8def"/><path d="M70 4H56L46 34h14z" fill="#ff5c8a"/>
+      <circle cx="50" cy="64" r="28" fill="${W[2]}"/><circle cx="50" cy="60" r="28" fill="url(#${p}g)"/>
+      <circle cx="50" cy="60" r="20" fill="none" stroke="${W[2]}" stroke-width="2" opacity=".55"/>
+      <text x="50" y="70" text-anchor="middle" font-family="Baloo 2,Fredoka,Arial,sans-serif" font-weight="800" font-size="28" fill="${W[2]}">${k}</text>
+      <path d="M30 50q4-10 14-14" stroke="#fff" stroke-width="3" fill="none" opacity=".8" stroke-linecap="round"/>`); },
+  };
+  return f;
+})();
+const ikonSubj = (id, y) => IKON3D[id === 'sn' && y === 1 ? 'alam' : id]();
 const KEM3D = (() => {
   const medal = (id, tebal, langit1, langit2, isi, nama) => `<span class="kj-hen"><svg viewBox="0 0 120 128" aria-hidden="true"><defs>
     <clipPath id="${id}c"><circle cx="60" cy="60" r="46"/></clipPath>
@@ -21517,8 +21684,8 @@ async function homeLB() {
   const el = document.getElementById('homelb'); if (!el || !apiOK()) { if (el) el.innerHTML = '<p style="padding:8px 0">Jadilah juara pertama bulan ini! 🚀</p>'; return; }
   try {
     const r = await apiGet({ a: 'top' });
-    if (r && r.ok) { MUSIM.info = r.musim || null; const tj = document.getElementById('juaratajuk'); if (tj && r.musim) tj.textContent = '🏆 Dewan Juara ' + r.musim.nama; }
-    const med = ['🥇', '🥈', '🥉', '4.', '5.'];
+    if (r && r.ok) { MUSIM.info = r.musim || null; const tj = document.getElementById('juaratajuk'); if (tj && r.musim) tj.innerHTML = IKON3D.piala() + 'Dewan Juara ' + esc(r.musim.nama); }
+    const med = [IKON3D.pingat(1), IKON3D.pingat(2), IKON3D.pingat(3), '4.', '5.'];
     el.innerHTML = (r.ok && r.top.length) ? r.top.slice(0, 5).map((x, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 2px;${i < 4 ? 'border-bottom:1px solid var(--line)' : ''}"><b style="width:34px;text-align:center">${med[i]}</b><span style="flex:1;min-width:0"><span style="font-weight:700">${esc(x[0])}</span>${x[3] ? `<br><span style="font-size:11.5px;color:var(--muted)">🏫 ${esc(x[3])}</span>` : ''}</span><span style="color:var(--muted);font-size:13px">Darjah ${x[1]}</span><b style="color:var(--g1)">${x[2]} mata</b></div>`).join('')
     : '<p style="padding:8px 0">Takhta juara masih kosong — rebut tempat pertama sekarang! 🚀</p>';
   } catch (e) { el.innerHTML = '<p style="padding:8px 0">Jadilah juara bulan ini! 🚀</p>'; }

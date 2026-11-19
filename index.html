@@ -18782,9 +18782,14 @@ const SND = {
 const MUZIK = {
   trek: { tenang: { src: 'aset/muzik-tenang.mp3', len: 2822400 / 44100 }, rancak: { src: 'aset/muzik-rancak.mp3', len: 2745216 / 44100 } },
   vol: 0.32, buf: {}, muat: {}, src: null, gain: null, mod: null, _tok: 0,
-  on: (function () { try { return localStorage.getItem('sb.muzik') === '1'; } catch (e) { return false; } })(),
+  on: (function () { try { return localStorage.getItem('sb.muzik') !== '0'; } catch (e) { return true; } })(),   // 19 Nov: LALAI HIDUP (boss); pengguna tutup sendiri, pilihan diingat
   set(v) { this.on = !!v; try { localStorage.setItem('sb.muzik', v ? '1' : '0'); } catch (e) {} if (v) this.main(); else this.henti(); },
-  modSemasa() { return /^#d[1-6]\/(mt|bi|sn|bm)/.test(location.hash) ? 'tenang' : 'rancak'; },
+  modSemasa() {
+    const h = location.hash;
+    if (/^#sedia\/[^/]+\/(muzik|bunyi)(\/|$)/.test(h)) return null;   // permainan dengar bunyi: senyap
+    return /^#(d[1-6]\/(mt|bi|sn|bm)|sedia)/.test(h) ? 'tenang' : 'rancak';
+  },
+  volSemasa() { return /^#sedia/.test(location.hash) ? 0.16 : this.vol; },   // prasekolah: lebih perlahan supaya suara soalan jelas
   ambil(m) {
     if (this.buf[m]) return Promise.resolve(this.buf[m]);
     if (!this.muat[m]) this.muat[m] = fetch(this.trek[m].src)
@@ -18797,8 +18802,10 @@ const MUZIK = {
     if (!this.on) return;
     const c = SND.ctx(); if (!c) return;
     const m = this.modSemasa();
-    if (this.mod === m) return;             // sudah bermain atau sedang dimuat
-    this.mod = m; const tok = ++this._tok;
+    if (!m) { if (this.mod) { this._tok++; this.pudar(); this.mod = null; } return; }
+    const v = this.volSemasa(), kunci = m + '@' + v;
+    if (this.mod === kunci) return;         // sudah bermain atau sedang dimuat
+    this.mod = kunci; const tok = ++this._tok;
     this.pudar();
     let b;
     try { b = await this.ambil(m); } catch (e) { this.muat[m] = null; if (tok === this._tok) this.mod = null; return; }
@@ -18807,7 +18814,7 @@ const MUZIK = {
     const mula = (b.duration - this.trek[m].len) > 0.015 ? 1105 / 44100 : 0;
     const s = c.createBufferSource(), g = c.createGain();
     s.buffer = b; s.loop = true; s.loopStart = mula; s.loopEnd = Math.min(b.duration, mula + this.trek[m].len);
-    g.gain.setValueAtTime(0.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(this.vol, c.currentTime + 1.5);
+    g.gain.setValueAtTime(0.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(v, c.currentTime + 1.5);
     s.connect(g); g.connect(c.destination); s.start(0, mula);
     this.src = s; this.gain = g;
   },
@@ -21376,7 +21383,7 @@ const PRA = (() => {
   return { route, henti: () => { TOK++; SUARA.henti(); }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, PERCUMA };
 })();
 
-try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k), hantarSkor: (...a) => hantarSkor(...a), apiPost: b => apiPost(b) } }); } catch (e) {}
+try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k), hantarSkor: (...a) => hantarSkor(...a), apiPost: b => apiPost(b), muzik: () => ({ on: MUZIK.on, mod: MUZIK.mod }) } }); } catch (e) {}
 function confetti() {
   const box = $('#res'), cols = ['#ff5c8a', '#ffb800', '#5b4bdb', '#20bf6b', '#2d98da'];
   for (let i = 0; i < 60; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length]; c.style.animationDelay = Math.random() * .8 + 's'; box.appendChild(c); setTimeout(() => c.remove(), 3600); }

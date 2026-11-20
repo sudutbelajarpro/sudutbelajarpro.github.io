@@ -278,6 +278,15 @@ section.blk{padding:44px 0}
 .af-berjaya .e{font-size:54px}
 .af-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
 @media (max-width:560px){.af-g{grid-template-columns:1fr}}
+.dn{margin-top:12px;background:linear-gradient(180deg,#fff4f8,#fff);border:2px solid #f9c2d3;border-radius:18px;padding:16px;text-align:center}
+.dn-amt span{display:block;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:1px}.dn-amt b{display:block;font-family:var(--fd);font-size:36px;color:#c2185b;line-height:1.15}.dn-amt em{font-style:normal;font-size:13.5px;font-weight:700;color:var(--ink)}
+.dn-qr{display:block;width:min(240px,70vw);height:auto;margin:12px auto 6px;border-radius:14px;box-shadow:0 10px 24px -14px rgba(194,24,91,.6)}
+.dn-nama{font-size:12.5px;color:var(--muted)}.dn-simpan{display:inline-flex;margin:10px auto 0;padding:9px 16px;font-size:14px}
+.dn-l{text-align:left;font-size:13.5px;margin:14px 0 10px;padding-left:20px}.dn-l li{margin-bottom:6px}
+.dn-lbl{display:block;text-align:left;font-weight:700;font-size:13.5px;margin-bottom:4px}
+#dnref{width:100%;box-sizing:border-box;padding:11px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700;letter-spacing:.5px}
+#dnhantar{width:100%;justify-content:center;margin-top:10px;padding:12px 18px;font-size:15px}
+.dn-msg{font-size:14px;margin-top:8px}.dn-msg.ok{background:#e8f5e9;border-radius:12px;padding:10px 12px;color:#1b5e20;text-align:left}.dn-nota{font-size:12.5px;color:var(--muted);margin:10px 0 0}
 .pk-ref{background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px;position:relative;padding-right:38px}
 .pk-refx{position:absolute;right:8px;top:8px;border:0;background:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;color:#555}
 .pk-refd{margin-top:10px;background:#fbfaff;border:1.5px dashed var(--line);border-radius:12px;padding:9px 12px}
@@ -18932,7 +18941,6 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 // ---------------- RANKING AWAN ----------------
 const API = 'https://script.google.com/macros/s/AKfycbx-tpE6ERhgTYG3gIZFZy6WoFXX23gJbqOiilSB9a7dat5_gc9RbpaWP-LQulVuVbuCNA/exec';
 const apiOK = () => API.indexOf('https') === 0;
-const WA_NUM = '60174515724'; // nombor WhatsApp jualan premium
 const PLAYER = { get() { try { return JSON.parse(localStorage.getItem('sb.player') || 'null'); } catch (e) { return null; } }, set(p) { try { localStorage.setItem('sb.player', JSON.stringify(p)); } catch (e) {} } };
 // Token peranti dipercayai (V13): peranti yang pernah log masuk tidak terkena sekatan cubaan PIN.
 const TOKP = {
@@ -19160,7 +19168,6 @@ function premium(s, y, t, rank) {
   const pd = +y || +(P && P.pakej) || +(P && P.darjah) || 1;
   const lain = P && P.premium && +P.pakej && y && +P.pakej !== +y;
   let pelan = (function () { try { return localStorage.getItem('sb.pelan') === 'setahun' ? 'setahun' : '2bulan'; } catch (e) { return '2bulan'; } })();
-  const waURL = (d, pl) => 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya nak beli Pakej Premium Darjah ' + d + (+d === 1 ? ' (+ Bonus Sedia ke Tahun 1)' : '') + ' Sudut Belajar — ' + NAMA_PELAN[pl] + ' (RM' + hargaBayar(pl) + '). Nama glamour anak saya: ' + (P ? P.nick : '') + (REF.sah() ? '. Kod rakan: ' + REF.sah() + (REF.diskaun(pl) ? ' (jimat RM' + REF.diskaun(pl) + ')' : '') : ''));
   const K = kempenT();
   const kadPelan = pl => {
     const rm = hargaRM(pl), awal = hargaAwal(pl), hari = +tt('hari_' + pl), biasa = +tt('harga_' + pl);
@@ -19227,16 +19234,29 @@ function premium(s, y, t, rank) {
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
       <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div>${P && P.akaun === 0 ? `⚠️ Profil <b>${esc(P.nick)}</b> belum dipautkan ke <b>akaun ibu bapa</b>. Premium memerlukan akaun ibu bapa (percuma) — <a href="${AKAUN.get() ? '#akaun' : '#akaun/daftar'}" style="font-weight:600">${AKAUN.get() ? 'pautkan profil ini' : 'daftar akaun & pautkan profil ini'}</a>.` : P ? `✅ Profil <b>${esc(P.nick)}</b> (Darjah ${P.darjah}) — kod akan ditebus untuk profil ini. <a href="${AKAUN.get() ? '#akaun' : '#ranking'}" style="font-weight:600">Tukar</a>` : `<b>Daftar / log masuk akaun ibu bapa</b> dan pilih profil anak — <a href="#akaun/daftar" style="font-weight:600">daftar percuma</a> atau <a href="#akaun" style="font-weight:600">log masuk</a>.`}</div></div>
-      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; dapatkan kod:</b>
+      <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; bayar:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
           <select id="pkdarjah" style="padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700">${[1,2,3,4,5,6].map(i => `<option value="${i}"${i === pd ? ' selected' : ''}>Pakej Darjah ${i}${i === 1 ? ' + 🎁 BONUS' : ''}</option>`).join('')}</select>
           <span style="flex:1;min-width:150px"><span id="pklabel" style="font-size:13px;color:var(--muted)">${LABEL_PAKEJ(pd)}</span><br><span class="bonuschip" id="pkbonus"${pd === 1 ? '' : ' hidden'}>🎁 BONUS: Sedia ke Tahun 1 (50 permainan prasekolah)</span></span>
         </div>
         <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Cuti sekolah? Pilih darjah tahun depan untuk bersedia, atau darjah semasa untuk ulang kaji.</div>
         ${REF.buka() ? (REF.sah() ? `<div class="pk-ref" id="pkref">🎁 Kod rakan <b>${esc(REF.sah())}</b> digunakan — ${['2bulan', 'setahun'].some(x => REF.diskaun(x)) ? ['2bulan', 'setahun'].filter(x => REF.diskaun(x)).map(x => `jimat <b>RM${REF.diskaun(x)}</b> (${NAMA_PELAN[x]})`).join(' · ') : 'harga awal sekarang sudah paling rendah'}. <button type="button" class="pk-refx" id="pkrefx" aria-label="Buang kod rakan">✕</button></div>` : `<details class="pk-refd" id="pkref"><summary>🎁 Ada kod rakan?</summary><div style="display:flex;gap:8px;margin-top:8px"><input id="refin" placeholder="cth AINA27" maxlength="12" autocomplete="off" style="flex:1;min-width:0;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase"><button type="button" class="btn sec" id="refguna" style="padding:9px 16px">Guna</button></div><div id="refmsg" style="font-size:13px;margin-top:6px;color:var(--muted)"></div></details>`) : ''}
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <a class="btn pri" id="pkwa" href="${waURL(pd, pelan)}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl">${NAMA_PELAN[pelan]} RM${hargaBayar(pelan)}</b></span></a>
-        <a class="btn sec" id="pkwa2" href="${waURL(pd, lainPl_(pelan))}" target="_blank" rel="noopener" style="flex:1 1 100%;justify-content:center;padding:12px 18px;font-size:15px"><span>💬 WhatsApp · <b id="pkwapl2">${NAMA_PELAN[lainPl_(pelan)]} RM${hargaBayar(lainPl_(pelan))}</b></span></a>
+        <div class="dn" id="dnbox">
+          <div class="dn-amt"><span>JUMLAH PERLU DIBAYAR</span><b id="dnamt">RM${hargaBayar(pelan)}</b><em id="dnpl">${NAMA_PELAN[pelan]} · Darjah ${pd}</em></div>
+          <img class="dn-qr" src="aset/duitnow-qr.png" width="312" height="342" alt="Kod QR DuitNow untuk bayaran Sudut Belajar" loading="lazy">
+          <div class="dn-nama">Nama penerima dalam app bank: <b>MOHD ZULHILMI</b></div>
+          <a class="btn sec dn-simpan" href="aset/duitnow-qr.png" download="QR-DuitNow-SudutBelajar.png">⬇️ Simpan gambar QR</a>
+          <ol class="dn-l">
+            <li>Buka app bank atau e-wallet, pilih <b>DuitNow QR / Imbas</b>. Guna telefon yang sama? Simpan QR dahulu, kemudian pilih gambar dari galeri.</li>
+            <li>Taip amaun <b id="dnamt2">RM${hargaBayar(pelan)}</b> tepat, kemudian bayar.</li>
+            <li>Isi <b>nombor rujukan</b> dari resit bank di bawah, kemudian tekan Hantar.</li>
+          </ol>
+          <label class="dn-lbl" for="dnref">No. rujukan transaksi</label>
+          <input id="dnref" placeholder="cth 26112014552300" maxlength="40" autocomplete="off">
+          <button type="button" class="btn pri" id="dnhantar">📨 Saya dah bayar · Hantar</button>
+          <div id="dnmsg" class="dn-msg" role="status"></div>
+          <p class="dn-nota">Kod Premium dan resit pembayaran dihantar ke emel akaun ibu bapa selepas bayaran disahkan, biasanya dalam masa 24 jam.</p>
+        </div>
       </div></div></div>
       <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta untuk darjah yang dipilih:
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
@@ -19256,7 +19276,21 @@ function premium(s, y, t, rank) {
   </section>`;
   const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
-  const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; $('#pkwa').href = waURL(d, pelan); $('#pkwapl').textContent = NAMA_PELAN[pelan] + ' RM' + hargaBayar(pelan); const l = lainPl_(pelan); $('#pkwa2').href = waURL(d, l); $('#pkwapl2').textContent = NAMA_PELAN[l] + ' RM' + hargaBayar(l); };
+  const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; const amt = 'RM' + hargaBayar(pelan); $('#dnamt').textContent = amt; $('#dnamt2').textContent = amt; $('#dnpl').textContent = NAMA_PELAN[pelan] + ' · Darjah ' + d; };
+  const dnh = $('#dnhantar'); if (dnh) dnh.onclick = async () => {
+    const m = $('#dnmsg'); m.className = 'dn-msg';
+    if (!P) { location.hash = AKAUN.get() ? '#akaun' : '#akaun/daftar'; toast(AKAUN.get() ? 'Pilih profil anak dulu, kemudian hantar pesanan 😊' : 'Daftar akaun ibu bapa dulu (percuma) 😊'); return; }
+    const ruj = $('#dnref').value.trim();
+    if (ruj.replace(/[^A-Za-z0-9]/g, '').length < 4) { m.textContent = '⚠️ Masukkan nombor rujukan dari resit bank.'; $('#dnref').focus(); return; }
+    dnh.disabled = true; m.textContent = 'Menghantar…';
+    try {
+      const r = await apiPost({ a: 'pesan_dn', nick: P.nick, pin: P.pin, darjah: P.darjah, pakej: +$('#pkdarjah').value, pelan, rujukan: ruj, ref: REF.sah() || '' });
+      if (r.ok) { m.className = 'dn-msg ok'; m.innerHTML = '✅ <b>Pesanan diterima</b> (' + esc(r.id) + '). Kami akan sahkan bayaran RM' + esc(r.amaun) + ' dan hantar kod Premium serta resit ke <b>' + esc(r.emel) + '</b>. Kemudian masukkan kod di langkah 3.'; $('#dnref').value = ''; }
+      else if (r.perluAkaun) { P.akaun = 0; PLAYER.set(P); m.innerHTML = '⚠️ Premium memerlukan <b>akaun ibu bapa</b> (percuma). <a href="' + (AKAUN.get() ? '#akaun' : '#akaun/daftar') + '" style="font-weight:700">Daftar / pautkan profil →</a>'; }
+      else m.textContent = '⚠️ ' + (r.err || 'Gagal. Cuba lagi.');
+    } catch (e) { m.textContent = '⚠️ Tiada sambungan internet. Cuba lagi.'; }
+    dnh.disabled = false;
+  };
   $('#pkdarjah').onchange = segar;
   const rx = $('#pkrefx'); if (rx) rx.onclick = () => { REF.buang(); route(); };
   const rg = $('#refguna'); if (rg) rg.onclick = async () => {
@@ -19397,11 +19431,11 @@ function faq() {
   app.innerHTML = `<section class="wrap pagein faq" style="padding:28px 20px 60px;max-width:680px">
     <a class="crumb" href="#pilih">← Utama</a>
     <h1 style="margin:10px 0 6px">Soalan Lazim</h1>
-    <p class="lead" style="margin:0 0 6px">Jawapan ringkas untuk ibu bapa. Tidak jumpa jawapan? <a href="mailto:${EMEL_HUB}">Emel</a> atau <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">WhatsApp</a> kami.</p>
+    <p class="lead" style="margin:0 0 6px">Jawapan ringkas untuk ibu bapa. Tidak jumpa jawapan? <a href="mailto:${EMEL_HUB}">Emel kami</a>.</p>
     <h2>Pakej &amp; bayaran</h2>
     ${Q('Apa beza Percuma dan Premium?', `<p><b>Percuma:</b> tahap Perajurit untuk semua darjah dan subjek, nota ulang kaji dan ranking. <b>Premium:</b> buka Hulubalang, Panglima dan Laksamana, Ramalan UASA (D4–6) dan laporan penuh ibu bapa, untuk semua subjek satu darjah.</p>`)}
     ${Q('Berapa harganya?', `<p><b>2 Bulan</b>: RM${hargaRM('2bulan')}${hargaAwal('2bulan') ? ` hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}` : ''}. <b>Setahun</b>: RM${hargaRM('setahun')}${hargaAwal('setahun') ? ` hingga ${tarikhBM(tt('harga_setahun_awal_tamat'))}, kemudian RM${tt('harga_setahun')}` : ''}. Satu pakej untuk seorang anak dan satu darjah (tidak boleh ditukar darjah). Tiada caj automatik.</p>`)}
-    ${Q('Bagaimana cara membayar?', `<p>Pilih pakej di halaman <a href="#premium">Premium</a> dan tekan <b>WhatsApp</b>. Selepas bayaran disahkan, kami hantar <b>kod premium</b> untuk dimasukkan di halaman yang sama. Perlu akaun ibu bapa (percuma).</p>`)}
+    ${Q('Bagaimana cara membayar?', `<p>Pilih pakej di halaman <a href="#premium">Premium</a>, imbas <b>QR DuitNow</b> dengan app bank atau e-wallet, kemudian isi nombor rujukan transaksi dan tekan <b>Hantar</b>. Selepas bayaran disahkan (biasanya dalam 24 jam), kami emel <b>kod premium dan resit pembayaran</b>. Masukkan kod di halaman yang sama. Perlu akaun ibu bapa (percuma).</p>`)}
     ${Q('Apa jadi bila Premium tamat?', `<p>Kami emel peringatan <b>14, 7 dan 1 hari</b> sebelum tamat. Selepas tamat, profil kembali ke Percuma; bintang dan kemajuan anak kekal. Tiada pulangan wang, jadi cuba Perajurit percuma dahulu.</p>`)}
     ${Q('Adakah kandungan ikut silibus sekolah?', `<p>Ya, ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p>`)}
     <h2>Akaun &amp; bantuan</h2>
@@ -19411,14 +19445,13 @@ function faq() {
     ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 50 permainan untuk anak 5–6 tahun, 14 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
     ${Q('Bila ranking bermula semula?', `<p>Setiap musim ${tt('musim_bulan')} bulan, bermula ${tarikhPenuh(tt('musim_mula'))}. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
     ${k && k.kod ? Q('Apa itu kod kempen ' + esc(k.kod) + '?', `<p>${k.had ? k.had + ' pengguna terawal' : 'Pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Sekali bagi setiap profil.</p>`) : ''}
-    ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>WhatsApp: <a href="https://wa.me/${WA_NUM}" target="_blank" rel="noopener">0${WA_NUM.slice(2, 4)}-${WA_NUM.slice(4)}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
+    ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
   </section>`;
   window.scrollTo(0, 0);
 }
 // ---------------- PROGRAM AFFILIATE (#affiliate) — AKAN DIBUKA ----------------
 function affiliate() {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
-  const wa = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent('Hai! Saya berminat dengan Program Affiliate Sudut Belajar. Tolong maklumkan saya bila ia dibuka. Nama saya: ');
   const L = (t, p) => `<div class="af-l"><h3>${t}</h3><p>${p}</p></div>`;
   const F = (i, t, p) => `<div class="af-f"><div class="i">${i}</div><div><h3>${t}</h3><p>${p}</p></div></div>`;
   const Q = (q, a) => `<details><summary>${q}</summary><p>${a}</p></details>`;
@@ -19457,7 +19490,7 @@ function affiliate() {
       <form id="afform" novalidate>
         <div class="af-g">
           <div class="p"><label for="afnama">Nama penuh *</label><input id="afnama" maxlength="60" autocomplete="name" required></div>
-          <div><label for="aftel">No. telefon (WhatsApp) *</label><input id="aftel" type="tel" inputmode="tel" maxlength="16" placeholder="012-345 6789" autocomplete="tel" required></div>
+          <div><label for="aftel">No. telefon *</label><input id="aftel" type="tel" inputmode="tel" maxlength="16" placeholder="012-345 6789" autocomplete="tel" required></div>
           <div><label for="afemel">Emel <i>(pilihan)</i></label><input id="afemel" type="email" maxlength="120" autocomplete="email"></div>
           <div><label for="afkat">Saya seorang… *</label><select id="afkat" required><option value="">— Pilih —</option>${['Ibu bapa', 'Pencipta kandungan', 'Penulis blog', 'Komuniti ibu bapa', 'Guru tuisyen', 'Lain-lain'].map(x => `<option>${x}</option>`).join('')}</select></div>
           <div><label for="afneg">Negeri</label><select id="afneg"><option value="">— Pilih —</option>${['Johor', 'Kedah', 'Kelantan', 'Melaka', 'Negeri Sembilan', 'Pahang', 'Perak', 'Perlis', 'Pulau Pinang', 'Sabah', 'Sarawak', 'Selangor', 'Terengganu', 'WP Kuala Lumpur', 'WP Labuan', 'WP Putrajaya', 'Luar negara'].map(x => `<option>${x}</option>`).join('')}</select></div>
@@ -19469,7 +19502,7 @@ function affiliate() {
         <button class="btn pri af-hantar" id="afbtn" type="submit">Hantar pendaftaran</button>
         <div class="af-ralat" id="afralat" role="alert"></div>
       </form>
-      <p class="af-lagi">Lebih suka berbual? <a id="affwa" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp kami</a></p>
+      <p class="af-lagi">Ada soalan? <a href="mailto:${EMEL_HUB}">Emel kami</a></p>
     </div>
     <p style="font-size:13px;color:var(--muted);margin-top:16px;text-align:center">Ada soalan? <a href="mailto:${EMEL_HUB}">Emel kami</a>. Kami membalas dalam tempoh 24 jam.</p>
   </section>`;

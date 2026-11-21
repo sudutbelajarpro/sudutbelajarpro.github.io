@@ -595,6 +595,7 @@ footer p+p{margin-top:6px}
 .qlabel .kemchip{background:linear-gradient(120deg,#20bf6b,#2d98da);color:#fff;font-weight:700}
 .kemban{display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 0 12px;padding:12px 16px;border-radius:18px;background:linear-gradient(120deg,#e8f8ef,#e3f2fd);border:2px dashed #20bf6b;font-size:17px;text-align:center;animation:kemmasuk .5s ease-out}
 .kemban span{font-size:13.5px;color:var(--muted)}
+.em3{display:inline-block;width:1.35em;height:1.35em;object-fit:contain;vertical-align:-.32em;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
 @keyframes kemmasuk{from{opacity:0;transform:translateY(-8px) scale(.96)}}
 .kemres{margin:14px auto 4px;max-width:480px;padding:12px 14px;border-radius:18px;background:linear-gradient(120deg,#e8f8ef,#e3f2fd);display:flex;flex-direction:column;gap:6px;align-items:center;font-size:15px}
 .kemres span{font-size:13px;color:var(--muted)}
@@ -835,41 +836,54 @@ footer p+p{margin-top:6px}
 }
 @media (max-width:340px){.pj-nama{padding:3px 5px}.pj-ah svg{width:12px;height:12px}}
 @media (prefers-reduced-motion:reduce){.pj-k{animation:none}}
-/* ---- Dewan Juara 3D ---- */
-.dj{position:relative;margin:0 0 14px;padding:22px 18px 16px;border-radius:26px;background:radial-gradient(120% 80% at 50% 0%,#fff7d6 0%,#fdf1ff 55%,#efe8ff 100%);border:1px solid color-mix(in srgb,#d4a017 30%,transparent);box-shadow:0 20px 40px -24px rgba(120,80,10,.45),inset 0 1px 0 #fff;overflow:hidden}
-.dj::before{content:"";position:absolute;left:50%;top:-40%;width:120%;height:90%;transform:translateX(-50%);background:conic-gradient(from 180deg at 50% 100%,transparent 0 10deg,rgba(255,206,84,.18) 10deg 20deg,transparent 20deg 34deg,rgba(255,206,84,.16) 34deg 44deg,transparent 44deg 58deg,rgba(255,206,84,.18) 58deg 68deg,transparent 68deg);pointer-events:none}
-.dj-podium{position:relative;display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:10px;max-width:560px;margin:0 auto}
-.dj-tm{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
-.dj-av{position:relative;display:grid;place-items:center;width:62px;height:62px;border-radius:50%;font:700 26px/1 var(--fd);color:#fff;background:linear-gradient(145deg,var(--a1),var(--a2));box-shadow:0 10px 18px -8px var(--a3),inset 0 3px 0 rgba(255,255,255,.4),inset 0 -4px 0 rgba(0,0,0,.15);border:3px solid #fff}
-.dj-1 .dj-av{width:78px;height:78px;font-size:32px;animation:djapung 3.2s ease-in-out infinite}
-.dj-pg{position:absolute;right:-12px;bottom:-8px;width:32px;height:32px}
-.dj-pg svg{width:100%;height:100%;display:block}
-.dj-1{--a1:#ffd54a;--a2:#e0a100;--a3:rgba(200,140,0,.7);--b1:#ffe07a;--b2:#e3a300;--b3:#b07800}
-.dj-2{--a1:#d7e0ec;--a2:#8d9bb0;--a3:rgba(90,105,130,.6);--b1:#eef2f8;--b2:#b2bdcc;--b3:#7f8ca0}
-.dj-3{--a1:#f0b27a;--a2:#b8662a;--a3:rgba(150,80,30,.6);--b1:#f6c79c;--b2:#cd7f3e;--b3:#9a5420}
-.dj-nm{margin-top:10px;max-width:100%;font:700 15px/1.2 var(--fd);color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dj-1 .dj-nm{font-size:17px}
-.dj-mt{margin-top:3px;font-weight:800;font-size:13px;color:#b45309}
-.dj-dj{margin-top:2px;max-width:100%;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dj-blok{position:relative;width:100%;margin-top:10px;border-radius:14px 14px 6px 6px;background:linear-gradient(180deg,var(--b1),var(--b2));box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -6px 0 var(--b3),0 14px 18px -12px rgba(60,40,10,.5);display:grid;place-items:center}
-.dj-blok span{font:700 30px/1 var(--fd);color:#fff;text-shadow:0 2px 0 var(--b3)}
-.dj-1 .dj-blok{height:96px}.dj-2 .dj-blok{height:70px}.dj-3 .dj-blok{height:54px}
-.dj-1 .dj-blok span{font-size:40px}
-.dj-tm.kos .dj-av{background:linear-gradient(145deg,#efeaff,#d9d0ff);color:#7c6bd8;border-style:dashed;border-color:#b9a9ff;box-shadow:none}
-.dj-tm.kos .dj-nm{color:#7c6bd8}.dj-tm.kos .dj-mt{color:var(--muted);font-weight:700}
-.dj-tm.kos .dj-blok{opacity:.55}
+/* ---- Dewan Juara 3D (aset gambar 3D dijana boss: latar, syiling, mahkota, daun, podium) ---- */
+.djp{position:relative;isolation:isolate;overflow:hidden;margin:0 0 14px;padding:22px 16px 20px;border-radius:30px;background:#7cc6ff url(aset/dj-latar-1600.webp) center/cover no-repeat;box-shadow:0 22px 40px -26px rgba(40,80,160,.55),inset 0 1px 0 rgba(255,255,255,.6)}
+.djp-h{position:relative;z-index:1;display:flex;align-items:center;gap:12px;max-width:780px;margin:0 auto 22px;padding:10px 22px 12px 12px;border-radius:999px;background:linear-gradient(180deg,#fffdf5,#fff1cc);border:3px solid #ffd25a;box-shadow:0 12px 22px -12px rgba(160,110,10,.65),inset 0 2px 0 #fff}
+.djp-hp{width:92px;height:auto;flex:none;margin:-22px -2px -18px -10px;filter:drop-shadow(0 6px 6px rgba(120,80,0,.35))}
+.djp-h h2{margin:0;font:700 clamp(22px,3.6vw,38px)/1.05 var(--fd);color:#1d2d7a;letter-spacing:-.01em}
+.djp-h h2 svg{display:none!important}
+.djp-h p{margin:5px 0 0;font-size:clamp(12.5px,1.6vw,15.5px);color:#2d2a50;line-height:1.35}
+.dj{position:relative;z-index:1;margin:0;padding:0;background:none;border:0;box-shadow:none;overflow:visible}
+.dj-podium{position:relative;display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:end;gap:6px;max-width:660px;margin:0 auto;padding:40px 4px 0}
+.dj-tm{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.dj-av{position:relative;z-index:2;display:grid;place-items:center;width:96px;height:96px;margin-bottom:-6px;font:700 46px/1 var(--fd);color:#fff;background:url(aset/dj-syiling1.webp) center/contain no-repeat;text-shadow:0 3px 0 var(--t),0 0 10px rgba(255,255,255,.35)}
+.dj-av b{transform:translateY(-3px)}
+.dj-1 .dj-av{width:122px;height:122px;font-size:60px}
+.dj-1{--t:#b07800}.dj-2{--t:#6f7f9c}.dj-3{--t:#8a4a1c}
+.dj-2 .dj-av{background-image:url(aset/dj-syiling2.webp)}.dj-3 .dj-av{background-image:url(aset/dj-syiling3.webp)}
+.dj-avw{position:relative;width:fit-content;margin:0 auto}
+.dj-1 .dj-avw{animation:djapung 3.2s ease-in-out infinite}
+.dj-daun{position:absolute;left:50%;top:50%;width:176px;height:auto;max-width:none;translate:-50% -46%;z-index:0;pointer-events:none}
+.dj-mahkota{position:absolute;left:50%;top:-46px;width:74px;height:auto;translate:-50% 0;z-index:3;pointer-events:none;filter:drop-shadow(0 4px 4px rgba(150,90,0,.35))}
+.dj-pg{position:absolute;right:-6px;bottom:2px;width:34px;height:34px;z-index:3}
+.dj-1 .dj-pg{width:40px;height:40px;right:-4px}
+.dj-kad{position:relative;z-index:3;width:calc(100% - 8px);margin:0 0 -18px;padding:8px 6px 10px;border-radius:16px;background:linear-gradient(180deg,#fff,#f5f7ff);box-shadow:0 10px 16px -10px rgba(30,30,110,.55);display:flex;flex-direction:column;align-items:center;min-width:0}
+.dj-nm{margin:0;max-width:100%;font:700 18px/1.15 var(--fd);color:#1d2d7a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dj-1 .dj-nm{font-size:22px}
+.dj-mt{margin-top:2px;font:700 17px/1.1 var(--fd);color:#e0251b}
+.dj-1 .dj-mt{font-size:20px}
+.dj-dj{margin-top:3px;max-width:100%;font-size:12px;color:#2d2a50;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dj-blok{display:block;width:100%;height:auto;position:relative;z-index:2;filter:drop-shadow(0 10px 8px rgba(40,30,110,.28))}
+.dj-2 .dj-blok,.dj-3 .dj-blok{width:92%}
+.dj-tm.kos .dj-av{filter:grayscale(.15) brightness(1.05);opacity:.9}
+.dj-tm.kos .dj-nm{color:#6a44f0}.dj-tm.kos .dj-mt{color:#5d5878;font-weight:600}
 @keyframes djapung{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.dj-senarai{position:relative;max-width:560px;margin:14px auto 0;display:grid;gap:8px}
-.dj-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;background:#fff;box-shadow:0 6px 14px -10px rgba(60,30,140,.45)}
-.dj-no{display:grid;place-items:center;width:28px;height:28px;flex:none;border-radius:50%;background:#efeaff;color:var(--brand);font:700 14px/1 var(--fd)}
+.dj-senarai{position:relative;z-index:1;max-width:700px;margin:10px auto 0;padding:8px;display:grid;gap:8px;border-radius:22px;background:linear-gradient(180deg,rgba(236,229,255,.92),rgba(214,201,255,.92));box-shadow:0 10px 20px -14px rgba(60,30,140,.6),inset 0 2px 0 rgba(255,255,255,.7)}
+.dj-row{display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:16px;background:#fff;box-shadow:0 6px 12px -8px rgba(60,30,140,.45)}
+.dj-no{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:50%;background:linear-gradient(180deg,#8f6bff,#6a44f0);color:#fff;font:700 17px/1 var(--fd);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 3px 6px -2px rgba(80,40,200,.5)}
 .dj-rn{flex:1;min-width:0;display:flex;flex-direction:column}
-.dj-rn span{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dj-rn small{font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dj-rd{font-size:12.5px;color:var(--muted);white-space:nowrap}
-.dj-rm{color:var(--brand);white-space:nowrap}
-.dj-msg{position:relative;margin:12px 0 0;text-align:center;font-weight:700;color:#5d5878}
-@media (max-width:400px){.dj{padding:18px 10px 14px}.dj-podium{gap:6px}.dj-av{width:52px;height:52px;font-size:22px}.dj-1 .dj-av{width:66px;height:66px;font-size:28px}.dj-pg{width:26px;height:26px;right:-9px}.dj-nm{font-size:13px}.dj-1 .dj-nm{font-size:15px}.dj-mt{font-size:12px}.dj-1 .dj-blok{height:80px}.dj-2 .dj-blok{height:58px}.dj-3 .dj-blok{height:44px}.dj-rd{display:none}}
-@media (prefers-reduced-motion:reduce){.dj-1 .dj-av{animation:none}}
+.dj-rn span{font:700 18px/1.2 var(--fd);color:#1d2d7a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dj-rn small{font-size:13px;color:#2d2a50;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dj-rd{font-size:13.5px;color:#2d2a50;white-space:nowrap}
+.dj-rm{font:700 21px/1 var(--fd);color:#6a44f0;white-space:nowrap}
+.dj-msg{position:relative;z-index:1;margin:14px auto 0;max-width:460px;padding:8px 14px;border-radius:14px;background:rgba(255,255,255,.9);text-align:center;font-weight:700;color:#2d2a50}
+@media (max-width:600px){.djp{padding:16px 10px 14px;border-radius:24px;background-image:url(aset/dj-latar-900.webp)}.djp-h{border-radius:22px;padding:8px 12px 10px 6px;margin-bottom:16px}.djp-hp{width:64px;margin:-12px -4px -10px -4px}
+ .dj-podium{padding:34px 0 0;gap:3px}.dj-av{width:62px;height:62px;font-size:28px}.dj-1 .dj-av{width:80px;height:80px;font-size:38px}
+ .dj-mahkota{width:50px;top:-32px}.dj-daun{width:116px}.dj-pg{width:24px;height:24px;right:-5px;bottom:0}.dj-1 .dj-pg{width:28px;height:28px}
+ .dj-kad{width:calc(100% - 2px);padding:6px 3px 8px;border-radius:12px;margin-bottom:-12px}.dj-nm{font-size:13.5px}.dj-1 .dj-nm{font-size:15px}.dj-mt{font-size:13px}.dj-1 .dj-mt{font-size:14.5px}.dj-dj{font-size:10px}
+ .dj-senarai{padding:6px;border-radius:16px}.dj-row{padding:8px 10px;gap:9px}.dj-no{width:28px;height:28px;font-size:14px}.dj-rn span{font-size:14.5px}.dj-rn small{font-size:11.5px}.dj-rd{font-size:11.5px}.dj-rm{font-size:15.5px}}
+@media (max-width:360px){.dj-rd{display:none}.dj-dj{display:none}}
+@media (prefers-reduced-motion:reduce){.dj-1 .dj-avw{animation:none}}
 .ibb{display:grid;grid-template-columns:1fr 1.25fr;align-items:center;gap:20px;margin:0 0 18px;padding:16px;border-radius:26px;background:linear-gradient(120deg,#f2ecff 0%,#e9e2ff 45%,#fbeef8 100%);box-shadow:0 18px 36px -24px rgba(91,75,219,.5),inset 0 1px 0 #fff;overflow:hidden}
 .ibb-t{padding:8px 4px 8px 14px}
 .ibb-t h3{margin:0;font:700 clamp(20px,2.3vw,28px)/1.22 var(--fd);color:#2a1660;text-wrap:balance}
@@ -19107,7 +19121,7 @@ function streakSemasa_() {
 function chipStreak_() {
   const n = streakSemasa_();
   if (!n) return '';
-  return `<span class="skchip" title="Hari berturut-turut">🔥 ${n}</span>`;
+  return `<span class="skchip" title="Hari berturut-turut">${ik3('api', '🔥')} ${n}</span>`;
 }
 const sk = (s, y, t, r) => `${s}.${y}.${t}.${r}`;
 const getStars = (s, y, t, r) => DB.stars[sk(s, y, t, r)] || 0;
@@ -19673,7 +19687,7 @@ function faq() {
     ${Q('Terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. Kod 6 angka dihantar ke emel ibu bapa (sah 30 minit).</p>`)}
     ${Q('Perlu muat turun app?', `<p>Tidak. Buka <b>sudutbelajarpro.com</b> di mana-mana peranti dan <a href="#pasang">tambah ke skrin utama</a>. Untuk tablet anak, guna <b>📲 Hantar ke peranti anak</b> di halaman Akaun.</p>`)}
     ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 50 permainan untuk anak 5–6 tahun, 14 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
-    ${Q('Bila ranking bermula semula?', `<p>Setiap musim ${tt('musim_bulan')} bulan, bermula ${tarikhPenuh(tt('musim_mula'))}. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
+    ${Q('Apa itu musim ranking? Berapa lama?', `<p><b>1 musim = ${tt('musim_bulan')} bulan.</b> Musim 1 bermula ${tarikhPenuh(tt('musim_mula'))} hingga ${tarikhPenuh((() => { const d = new Date(+tt('musim_mula') + 8 * 3600e3); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + (+tt('musim_bulan') || 3), d.getUTCDate()) - 8 * 3600e3 - 1; })())}. Setiap musim baharu, mata ranking semua pemain bermula semula dari kosong. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
     ${k && k.kod ? Q('Apa itu kod kempen ' + esc(k.kod) + '?', `<p>${k.had ? k.had + ' pengguna terawal' : 'Pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Sekali bagi setiap profil.</p>`) : ''}
     ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
   </section>`;
@@ -19791,7 +19805,7 @@ function akaun(mod) {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
   const A = AKAUN.get();
   const kepala = `<a class="crumb" href="#pilih">← Utama</a>
-    <h1 style="margin:10px 0 4px">👤 Akaun Ibu Bapa</h1>`;
+    <h1 style="margin:10px 0 4px"><img class="em3" src="aset/p3-q-rumah.webp" width="160" height="160" alt="" decoding="async"> Akaun Ibu Bapa</h1>`;
   if (!A) {
     mod = mod || 'masuk';
     const lupa = mod === 'lupa' || mod === 'kod';
@@ -20067,7 +20081,7 @@ function home(y, scroll) {
         <p class="lead"><span class="hl hl-a">Permainan huruf &amp; nombor</span> untuk prasekolah, dan <span class="hl hl-b">latihan interaktif</span> ikut topik sekolah rendah. Naik tahap dari <b class="rkw" style="--rw:#2e7d32">Perajurit</b> ke <b class="rkw" style="--rw:#1e4fbf">Hulubalang</b>, <b class="rkw" style="--rw:#6a1b9a">Panglima</b> hingga <b class="rkw" style="--rw:#8e1b2e">Laksamana</b>, dan <span class="hl hl-c">kumpul bintang!</span></p>
         <div class="cta"><a class="btn pri" href="#pilih">Mula belajar →</a><a class="btn sec" href="#mula">Daftar percuma · Pakej</a></div>
         <a href="#sedia" style="display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px 7px 8px;border-radius:999px;background:#fff;border:2px solid #ffc2d6;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px"><span style="background:linear-gradient(135deg,#ff5c8a,#ff9a3c);color:#fff;border-radius:999px;padding:2px 9px;font-size:11px;letter-spacing:.5px">BAHARU</span><span style="white-space:nowrap">🎒 Sedia ke Tahun 1 →</span></a>
-        <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>4</b>Tahap</div>${streakSemasa_() ? `<div class="skstat"><b>🔥 ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>${JUM_SOALAN.teks}</b>Soalan</div>`}</div>
+        <div class="stats"><div><b>${nTopics}</b>Topik</div><div><b>4</b>Tahap</div>${streakSemasa_() ? `<div class="skstat"><b>${ik3('api', '🔥')} ${streakSemasa_()}</b>Hari berturut</div>` : `<div><b>${JUM_SOALAN.teks}</b>Soalan</div>`}</div>
       </div>
       <div class="art adagambar">
         <img class="heroimg" src="aset/hero-keluarga2-1200.webp" srcset="aset/hero-keluarga2-720.webp 720w, aset/hero-keluarga2-1200.webp 1200w" sizes="(max-width:900px) 92vw, 520px" width="1200" height="675" fetchpriority="high" alt="Ibu bapa dan dua anak sekolah rendah gembira belajar bersama di komputer riba">
@@ -20083,8 +20097,10 @@ function home(y, scroll) {
       <div class="subjects" id="subjects"></div>
     </section>
     <section class="blk">
-      <div class="sh" id="juara-sec"><div><h2 id="juaratajuk">${IKON3D.piala()}Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
+      <div class="djp">
+      <div class="djp-h" id="juara-sec"><img class="djp-hp" src="aset/dj-piala.webp" width="320" height="286" alt="" decoding="async"><div><h2 id="juaratajuk">${IKON3D.piala()}Dewan Juara Bulan Ini</h2><p>Mereka sedang berlatih bersungguh-sungguh… adakah nama <b>KAMU</b> yang seterusnya bersinar di sini? 🌟</p></div></div>
       <div id="homelb" class="dj" aria-live="polite"><p class="dj-msg">Memuatkan juara…</p></div>
+      </div>
       <div style="text-align:center;margin-bottom:34px"><a class="btn pri" href="#ranking" style="padding:11px 24px">⚡ Jom kumpul mata &amp; cabar mereka!</a></div>
       <div class="sh"><div><h2>Empat tahap pendekar</h2><p class="tp-lead">Setiap topik ada 4 tahap. Anak mula sebagai <b>Perajurit</b> (percuma), kemudian naik ke <b>Hulubalang</b>, <b>Panglima</b> dan <b>Laksamana</b>. Soalan bermula dengan asas dan makin mencabar hingga ke aras KBAT, ikut silibus semasa DSKP dan KSSR (Tahap Penguasaan TP1 hingga TP6).</p></div></div>
       <div class="pj">
@@ -20177,7 +20193,7 @@ function notaPage(s, y, t) {
   const body = NOTA[s][y][t];
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}/${t}">← Kembali</a>
-      <h1>📖 Nota: ${ikT(E.ICON[t], 1)} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
+      <h1><img class="em3" src="aset/p3-d3.webp" width="160" height="160" alt="" decoding="async"> Nota: ${ikT(E.ICON[t], 1)} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
     <div class="nota card" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;max-width:760px;line-height:1.7">${body}</div>
     <div style="text-align:center;margin:22px 0 50px"><a class="btn pri" href="#d${y}/${s}/${t}" style="padding:13px 26px;font-size:16px">✅ Dah faham? Jom cuba kuiz!</a></div>
   </div>`;
@@ -20517,7 +20533,10 @@ const KEM3D = (() => {
   const lal = `<svg class="kj-lal" viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true"><path class="kj-bayang" vector-effect="non-scaling-stroke" d="M2 30C30 4 70 4 98 30"/><path class="kj-garis" vector-effect="non-scaling-stroke" d="M2 30C30 4 70 4 98 30"/><path class="kj-titik" vector-effect="non-scaling-stroke" pathLength="100" d="M2 30C30 4 70 4 98 30"/></svg>`;
   return { rimba, lautan, puncak, lal };
 })();
-const KEM = [{ ic: '🌴', n: 'Rimba' }, { ic: '🌊', n: 'Lautan' }, { ic: '⛰️', n: 'Puncak' }];
+// Ikon 3D tambahan: tambah kunci ke IKX bila fail aset/p3-x-<kunci>.webp sudah dimuat naik
+const IKX = new Set(['api', 'sasaran', 'bagus', 'kuat', 'tunas', 'mentol', 'bintang', 'kunci', 'pelekat']);
+const ik3 = (k, e) => IKX.has(k) ? `<img class="em3" src="aset/p3-x-${k}.webp" width="160" height="160" alt="" decoding="async">` : e;
+const KEM = [{ ic: '<img class="em3" src="aset/p3-pm-pulau.webp" width="160" height="160" alt="" decoding="async">', n: 'Rimba' }, { ic: '<img class="em3" src="aset/p3-pm-laut.webp" width="160" height="160" alt="" decoding="async">', n: 'Lautan' }, { ic: '<img class="em3" src="aset/p3-pm-gunung.webp" width="160" height="160" alt="" decoding="async">', n: 'Puncak' }];
 try { localStorage.removeItem('sb.lihat'); } catch (e) {} // sistem lama (sejarah dalam peranti sahaja)
 const cincang_ = x => { let h = 5381; for (let i = 0; i < x.length; i++) h = (h * 33 + x.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
 function benih_(str) { let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; } let a = h >>> 0; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -20564,7 +20583,7 @@ function result() {
   store.set(DB);
   const SK = catatStreak_();
   const mataEl = 'cloudmsg';
-  const head = st === 3 ? 'Hebat sekali! 🏆' : st === 2 ? 'Bagus! 👍' : st === 1 ? 'Boleh lagi! 💪' : 'Jom cuba lagi! 🌱';
+  const head = st === 3 ? 'Hebat sekali! <img class="em3" src="aset/p3-d5.webp" width="160" height="160" alt="">' : st === 2 ? 'Bagus! ' + ik3('bagus', '👍') : st === 1 ? 'Boleh lagi! ' + ik3('kuat', '💪') : 'Jom cuba lagi! ' + ik3('tunas', '🌱');
   const ni = RANKS.findIndex(r => r.id === rank), nextR = RANKS[ni + 1];
   const up = st >= 2 && nextR ? `<a class="btn rkbtn" style="--r1:${nextR.c1};--r2:${nextR.c2}" href="#d${y}/${s}/${t}/${nextR.id}">${nextR.ic} Cuba ${nextR.nama} →</a>` : '';
   $('#bar').style.width = '100%';
@@ -20574,10 +20593,10 @@ function result() {
     <div class="rkchip big" style="--r1:${R.c1};--r2:${R.c2}">${rkImg(R, 'tahapmini')}${R.nama}</div>
     <div class="bigstars">${[1, 2, 3].map(i => `<span>★</span>`).join('')}</div>
     <h2>${head}</h2><div class="score">Kamu jawab betul <b>${sc}</b> daripada <b>${n}</b> soalan · ${t === 'campuran' ? E.mix : E.NAMES[t]}</div>
-    ${rekodBaru && bestLama ? `<div class="rekod">🎯 Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
-    ${SK.naik ? `<div class="skbar"><b>🔥 ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">🛡️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">🔥 ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
-    ${KI && KI.ns === 3 ? `<div class="kemres"><div class="kemjejak besar">${KEM.map((m, i) => `<span class="${i <= KI.set ? 'siap' : ''}">${m.ic} ${m.n}${i <= KI.set ? ' ✓' : ''}</span>`).join('')}</div><b>${KI.set < 2 ? `${KEM[KI.set].ic} ${KEM[KI.set].n} selesai! Seterusnya: ${KEM[KI.set + 1].ic} ${KEM[KI.set + 1].n} — 10 soalan baharu` : `⛰️ Puncak ditawan! Kembara ke-${KI.kitaran + 1} tamat 🏆`}</b>${KI.set === 2 ? '<span>Main lagi untuk mulakan kembara baharu dari 🌴 Rimba.</span>' : ''}</div>` : ''}
-    <div class="row">${up}<button class="btn pri" id="again">${KI && KI.ns === 3 ? (KI.set < 2 ? `${KEM[KI.set + 1].ic} Teruskan ke ${KEM[KI.set + 1].n}` : '🌴 Kembara baharu') : '🔁 Main lagi'}</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
+    ${rekodBaru && bestLama ? `<div class="rekod">${ik3('sasaran', '🎯')} Rekod baharu! Sebelum ini ${bestLama}/${n}</div>` : (DB.best[kunciBest] ? `<div class="rekod sejuk">Terbaik kamu: ${DB.best[kunciBest]}/${n}</div>` : '')}
+    ${SK.naik ? `<div class="skbar"><b>${ik3('api', '🔥')} ${SK.n} hari berturut-turut!</b>${SK.perisaiGuna ? `<span class="sksm">🛡️ Perisai digunakan — streak kamu selamat</span>` : ''}${SK.rekod && SK.n > 1 ? `<span class="sksm">Rekod streak terbaik kamu!</span>` : ''}</div>` : (streakSemasa_() ? `<div class="skbar sejuk">${ik3('api', '🔥')} ${streakSemasa_()} hari berturut-turut · sudah dikira hari ini</div>` : '')}
+    ${KI && KI.ns === 3 ? `<div class="kemres"><div class="kemjejak besar">${KEM.map((m, i) => `<span class="${i <= KI.set ? 'siap' : ''}">${m.ic} ${m.n}${i <= KI.set ? ' ✓' : ''}</span>`).join('')}</div><b>${KI.set < 2 ? `${KEM[KI.set].ic} ${KEM[KI.set].n} selesai! Seterusnya: ${KEM[KI.set + 1].ic} ${KEM[KI.set + 1].n} — 10 soalan baharu` : `${KEM[2].ic} Puncak ditawan! Kembara ke-${KI.kitaran + 1} tamat 🏆`}</b>${KI.set === 2 ? `<span>Main lagi untuk mulakan kembara baharu dari ${KEM[0].ic} Rimba.</span>` : ''}</div>` : ''}
+    <div class="row">${up}<button class="btn pri" id="again">${KI && KI.ns === 3 ? (KI.set < 2 ? `${KEM[KI.set + 1].ic} Teruskan ke ${KEM[KI.set + 1].n}` : `${KEM[0].ic} Kembara baharu`) : '🔁 Main lagi'}</button><a class="btn sec" href="#d${y}/${s}">Pilih topik lain</a></div>
     <div id="cloudmsg" style="margin-top:10px;font-size:14px"></div>
     ${Q.wrong.length ? `<div class="review"><h3>Semak semula (${Q.wrong.length})</h3>${Q.wrong.map(w => `<div class="rv"><div class="rq">${rf(w.q.q)}</div><div class="ra"><s>${rf(w.pick)}</s>✔ ${rf(w.q.ans)}</div></div>`).join('')}</div>` : ''}
   </div>`;
@@ -20690,7 +20709,19 @@ const PRA = (() => {
   const CSS = `
 .pr{max-width:760px;margin:0 auto;padding:14px 14px 40px;font-family:var(--fd);animation:pagein .35s both}
 .pr *{-webkit-tap-highlight-color:transparent}
-.pr-hero{border-radius:28px;padding:22px 20px;color:#fff;background:linear-gradient(135deg,#ff7eb3,#ff9a3c 45%,#ffd23f);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.pr-hero{border-radius:28px;padding:24px 20px 26px;min-height:150px;color:#fff;background:radial-gradient(120% 90% at 0% 0%,rgba(255,255,255,.35),transparent 55%),linear-gradient(135deg,#ff7eb3,#ff9a3c 45%,#ffd23f);position:relative;overflow:hidden;box-shadow:0 8px 0 #e0731f,0 20px 28px -14px rgba(200,90,20,.6),inset 0 2px 0 rgba(255,255,255,.5);margin-bottom:8px}
+.pr-hero h1,.pr-hero p{position:relative;z-index:1;max-width:calc(100% - 196px)}
+.pr-h3{position:absolute;display:block;filter:drop-shadow(0 8px 10px rgba(120,40,0,.35));animation:prapung 6s ease-in-out infinite}
+.pr-h3 img{display:block;width:100%;height:auto}
+.pr-h3.a1{width:96px;right:18px;top:12px;transform:rotate(8deg)}
+.pr-h3.a2{width:70px;right:110px;bottom:8px;animation-delay:-2s}
+.pr-h3.a3{width:64px;right:16px;bottom:-4px;animation-delay:-4s}
+.pr-kil{position:absolute;font-style:normal;color:#fff;opacity:.9;line-height:1;animation:pjkelip2 2.6s ease-in-out infinite}
+.pr-kil.k1{right:132px;top:16px;font-size:18px}.pr-kil.k2{left:46%;bottom:14px;font-size:12px;animation-delay:1s}
+@keyframes pjkelip2{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(.6);opacity:.5}}
+@media (max-width:420px){.pr-h3.a1{width:80px;right:10px}.pr-h3.a2{width:56px;right:86px;bottom:10px}.pr-h3.a3{width:52px;right:10px}.pr-kil.k1{right:96px}.pr-hero h1,.pr-hero p{max-width:calc(100% - 150px)}}
+@media (max-width:360px){.pr-h3.a2{display:none}.pr-hero h1,.pr-hero p{max-width:calc(100% - 96px)}.pr-kil.k2{display:none}}
+@media (prefers-reduced-motion:reduce){.pr-h3,.pr-kil{animation:none}}
 .pr-hero h1{font-size:30px;margin:0 0 4px;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.12)}
 .pr-hero p{margin:0;font-family:var(--fb);font-weight:600;opacity:.95}
 .pr-hero .pr-awan{position:absolute;font-size:46px;opacity:.9;animation:prapung 6s ease-in-out infinite}
@@ -20721,6 +20752,9 @@ const PRA = (() => {
 .pr-gk b{display:block;font-size:17px;margin-top:4px;color:var(--ink)}
 .pr-gk small{display:block;font-family:var(--fb);font-size:12px;color:var(--muted);margin-top:2px;min-height:30px}
 .pr-gk .bt{font-size:18px;letter-spacing:2px;margin-top:4px;display:block}
+.pr-bin{width:22px;height:22px;object-fit:contain;vertical-align:-4px;margin:0 1px}
+.pr-gk .kc .pr-i3.k{width:14px;height:14px;vertical-align:-2px}
+.pr-pintu .ic .pr-i3{width:110px;height:110px}
 .pr-main{background:#fff;border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
 .pr-kepala{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--zw,linear-gradient(135deg,#7c6cff,#a78bfa));color:#fff}
 .pr-kepala .x{background:rgba(255,255,255,.25);color:#fff;box-shadow:none;padding:8px 12px}
@@ -20737,6 +20771,7 @@ const PRA = (() => {
 .pr-dengar{border:0;width:52px;height:52px;border-radius:50%;font-size:24px;background:#eef0ff;cursor:pointer;flex:0 0 auto;box-shadow:0 4px 0 #d6d9ff}
 .pr-dengar:active{transform:translateY(3px);box-shadow:0 1px 0 #d6d9ff}
 .pr-dengar.cakap{animation:prdenyut .8s ease-in-out infinite}
+.pr-dengar img{width:34px;height:34px;object-fit:contain;display:block;margin:auto;pointer-events:none}
 @keyframes prdenyut{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 .pr-pentas{position:relative;min-height:330px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;overflow:hidden}
 .pr-pil{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
@@ -21813,7 +21848,7 @@ const PRA = (() => {
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
   // ikon 3D (gambar jana AI, dipotong dari grid) — jika tiada, guna emoji
-  const IKP = new Set(['pm-bonus', 'g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
+  const IKP = new Set(['x-kunci', 'x-bintang', 'x-pelekat', 'pm-bonus', 'g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
   const ikP = (k, emoji, kecil) => IKP.has(k) ? `<img class="pr-i3${kecil ? ' k' : ''}" src="aset/p3-${k}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : emoji;
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
@@ -21825,17 +21860,18 @@ const PRA = (() => {
   const semuaGame = () => Object.entries(ZON).flatMap(([k, z]) => z.games.map(g => [k, g]));
 
   // ---------- halaman ----------
-  const bintangTeks = n => '⭐'.repeat(n) + '<span style="opacity:.25">' + '⭐'.repeat(3 - n) + '</span>';
+  const bin1 = () => IKP.has('x-bintang') ? '<img class="pr-bin" src="aset/p3-x-bintang.webp" width="160" height="160" alt="">' : '⭐';
+  const bintangTeks = n => `<span class="pr-bins" role="img" aria-label="${n} daripada 3 bintang">${bin1().repeat(n)}<span style="opacity:.25">${bin1().repeat(3 - n)}</span></span>`;
   function suaraBtn() { return `<button class="pr-btn" id="prsuara" title="Suara pembaca">${SUARA.on ? '🗣️ Suara' : '🔇 Suara'}</button>`; }
   function ikatSuara() { const b = $('#prsuara'); if (b) b.onclick = () => { SUARA.set(!SUARA.on); b.innerHTML = SUARA.on ? '🗣️ Suara' : '🔇 Suara'; if (SUARA.on) SUARA.cakap('Suara dihidupkan.'); }; }
 
   function hab() {
     const s = ST.get(); const kira = z => ZON[z].games.filter(g => s.g[g.id]).length;
     app.innerHTML = `<div class="pr">
-      <div class="pr-hero"><span class="pr-awan" style="right:14px;top:8px">🎒</span><span class="pr-awan" style="right:70px;bottom:6px;font-size:32px;animation-delay:-2s">✏️</span>
-        <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
+      <div class="pr-hero"><span class="pr-h3 a1" aria-hidden="true"><img src="aset/p3-d1.webp" width="160" height="160" alt=""></span><span class="pr-h3 a2" aria-hidden="true"><img src="aset/p3-d2.webp" width="160" height="160" alt=""></span><span class="pr-h3 a3" aria-hidden="true"><img src="aset/p3-d3.webp" width="160" height="160" alt=""></span><i class="pr-kil k1" aria-hidden="true">✦</i><i class="pr-kil k2" aria-hidden="true">✦</i>
+        <h1>Sedia ke<br>Tahun 1</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
       <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${ikP('zon-' + k, z.ic)}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
-      <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
+      <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">${ikP('x-pelekat', '📒')}</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
       ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
       <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
@@ -21849,14 +21885,14 @@ const PRA = (() => {
   function zon(z) {
     const Z = ZON[z]; const s = ST.get();
     app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${ikP('zon-' + z, Z.ic, 1)} ${Z.nama}</h2>${suaraBtn()}</div>
-      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : `<span class="kc">${ikP('x-kunci', '🔒', 1)}</span>`}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
     app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
   function pintu(z, g) {
     app.innerHTML = `<div class="pr"><div class="pr-main" style="--zw:${ZON[z].w}">
       <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${ikP('g-' + g.id, g.ic, 1)}<span class="pr-nm"> ${g.nama}</span></b></div>
-      <div class="pr-pintu"><div class="ic">🔒</div><h2>Permainan ini berkunci</h2>
+      <div class="pr-pintu"><div class="ic">${ikP('x-kunci', '🔒')}</div><h2>Permainan ini berkunci</h2>
         <p style="font-family:var(--fb);font-size:17px;font-weight:600;margin:0">Minta ayah atau ibu buka ya! 😊</p>
         <div class="pr-bonus" style="text-align:left"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 50 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
         <button class="pr-btn utama pr-tahan" id="prtahan"><i></i><span style="position:relative">👨‍👩‍👧 Ibu bapa: tekan &amp; tahan</span></button>
@@ -21871,7 +21907,7 @@ const PRA = (() => {
   }
   function album() {
     const s = ST.get();
-    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>📒 Buku Pelekat</h2></div>
+    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${ikP('x-pelekat', '📒', 1)} Buku Pelekat</h2></div>
       <p class="pr-kira" style="margin:0 0 12px">Habiskan permainan untuk dapat pelekat. Kumpul semua ${semuaGame().length}!</p>
       <div class="pr-album">${semuaGame().map(([, g]) => s.p.includes(g.id) ? `<div>${g.pelekat}<small>${g.nama}</small></div>` : `<div class="tiada">?<small>${g.nama}</small></div>`).join('')}</div></div>`;
   }
@@ -21880,7 +21916,7 @@ const PRA = (() => {
     G = { z, g, i: 0, n: g.n || 6, salah: 0, kunci: false, cakap: '', mula: Date.now(), tepat: 0, silapIni: false };
     app.innerHTML = `<div class="pr"><div class="pr-main" style="--zw:${ZON[z].w}">
       <div class="pr-kepala"><button class="pr-btn x" id="prkeluar" aria-label="Keluar">✖</button><div class="pr-jejak" id="prjejak">${Array.from({ length: G.n }, () => '<i></i>').join('')}</div><b style="font-size:14px;white-space:nowrap">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
-      <div class="pr-soal"><div class="m">${maskotHTML('kecil')}</div><div class="pr-teks" id="prteks"></div><button class="pr-dengar" id="prdengar" aria-label="Dengar semula">🔊</button></div>
+      <div class="pr-soal"><div class="m">${maskotHTML('kecil')}</div><div class="pr-teks" id="prteks"></div><button class="pr-dengar" id="prdengar" aria-label="Dengar semula"><img src="aset/p3-pm-suara.webp" width="160" height="160" alt=""></button></div>
       <div class="pr-pentas" id="prpentas"></div></div></div>`;
     $('#prkeluar').onclick = () => { location.hash = '#sedia/' + z; };
     $('#prdengar').onclick = () => { if (!SUARA.on) { SUARA.set(true); } api.ulangCakap(); if (!SUARA.ok) toast('Telefon ini tiada suara pembaca. Ibu bapa, bacakan arahan ya 😊'); };
@@ -22010,7 +22046,7 @@ function prestasi(idx) {
       : `<div class="ds-m" style="grid-column:span 3;display:flex;align-items:center;gap:12px"><span style="font-size:30px">🔒</span><span style="font-size:13.5px"><strong>Masa belajar, soalan dijawab &amp; ketepatan</strong> dibuka untuk ahli Premium. <a href="#premium" style="font-weight:700">Lihat pakej →</a></span></div>`}
     </div>
     ${kunci(`<div class="ds-kad"><h3>⏱️ Minit belajar setiap hari</h3><div class="ds-bar">${K.minggu.map((x, j) => `<div><b style="color:var(--ink);font-size:12px">${x.min || ''}</b><span class="${x.min ? '' : 'kosong'}" style="height:${x.min ? Math.max(8, Math.round(x.min / mx * 90)) : 4}px;animation-delay:${j * .06}s"></span>${HR[x.d.getDay()]}</div>`).join('')}</div></div>`, 'Carta masa belajar harian')}
-    <div class="ds-kad"><h3>🔥 Ketekunan 8 minggu</h3><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="ds-kal">${K.kal.map(m => `<i class="${m < 0 ? '' : m >= 20 ? 'l3' : m >= 8 ? 'l2' : m > 0 ? 'l1' : ''}"${m < 0 ? ' style="visibility:hidden"' : ''}></i>`).join('')}</div><div style="font-size:13px;color:var(--muted);line-height:1.7">Setiap petak = satu hari.<br>Lebih gelap = lebih lama belajar.<br>Lajur = minggu (Isnin di atas).</div></div></div>
+    <div class="ds-kad"><h3>${ik3('api', '🔥')} Ketekunan 8 minggu</h3><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="ds-kal">${K.kal.map(m => `<i class="${m < 0 ? '' : m >= 20 ? 'l3' : m >= 8 ? 'l2' : m > 0 ? 'l1' : ''}"${m < 0 ? ' style="visibility:hidden"' : ''}></i>`).join('')}</div><div style="font-size:13px;color:var(--muted);line-height:1.7">Setiap petak = satu hari.<br>Lebih gelap = lebih lama belajar.<br>Lajur = minggu (Isnin di atas).</div></div></div>
     ${kunci(`<div class="ds-kad"><h3>🎯 Penguasaan ikut subjek</h3>${subs.length ? subs.map((s, j) => { const o = K.sub[s], pc = Math.round(o.betul / o.soalan * 100), [n, ic, w] = NAMA_SUBJ_DS[s]; return `<div class="ds-sub"><span class="n">${ic} ${n}</span><span class="tr"><i style="width:${pc}%;background:${w};animation-delay:${j * .1}s"></i></span><span class="p">${pc}% · ${o.mahir}/${o.topik} mahir</span></div>`; }).join('') : '<p style="color:var(--muted);margin:0">Belum ada topik dicuba.</p>'}<p style="font-size:12px;color:var(--muted);margin:10px 0 0">Mahir = sekurang-kurangnya 10 soalan dengan 80% betul.</p></div>`, 'Penguasaan topik ikut subjek')}
     ${kunci(`<div class="ds-kad" style="border-color:#ffd8a8"><h3>🆘 Perlu bantuan</h3>${lemah.length ? lemah.map(x => baris(x, '#c2410c')).join('') : '<p style="color:var(--muted);margin:0">Tiada topik lemah dikesan. 👍 (Dikira selepas sekurang-kurangnya 10 soalan bagi satu topik.)</p>'}</div>
     <div class="ds-kad" style="border-color:#b2f2bb"><h3>🌟 Paling mahir</h3>${kuat.length ? kuat.map(x => baris(x, 'var(--ok)')).join('') : '<p style="color:var(--muted);margin:0">Belum ada topik mencapai 80% dengan 10 soalan.</p>'}</div>`, 'Topik lemah & topik paling mahir')}
@@ -22068,8 +22104,11 @@ async function homeLB() {
 }
 // Dewan Juara 3D: podium 1–3 (susunan 2·1·3) + baris 4–5; tempat kosong = "Tempat kamu!"
 function djHTML(T, kosong) {
-  const tm = i => { const x = T[i]; if (!x) return `<div class="dj-tm dj-${i + 1} kos"><div class="dj-av">?</div><b class="dj-nm">Tempat kamu!</b><span class="dj-mt">Kumpul mata</span><div class="dj-blok"><span>${i + 1}</span></div></div>`;
-    const nm = String(x[0] || ''); return `<div class="dj-tm dj-${i + 1}"><div class="dj-av">${esc(nm.trim().charAt(0).toUpperCase() || '?')}<span class="dj-pg">${IKON3D.pingat(i + 1)}</span></div><b class="dj-nm">${esc(nm)}</b><span class="dj-mt">${x[2]} mata</span><span class="dj-dj">Darjah ${x[1]}${x[3] ? ' · ' + esc(x[3]) : ''}</span><div class="dj-blok"><span>${i + 1}</span></div></div>`; };
+  const kad = (a, b, c) => `<div class="dj-kad"><b class="dj-nm">${a}</b><span class="dj-mt">${b}</span>${c ? `<span class="dj-dj">${c}</span>` : ''}</div>`;
+  const blok = i => `<img class="dj-blok" src="aset/dj-blok${i + 1}.webp" width="360" height="300" alt="" decoding="async">`;
+  const hias = i => i === 0 ? '<img class="dj-daun" src="aset/dj-daun.webp" width="320" height="272" alt="" decoding="async"><img class="dj-mahkota" src="aset/dj-mahkota.webp" width="320" height="270" alt="" decoding="async">' : '';
+  const tm = i => { const x = T[i]; if (!x) return `<div class="dj-tm dj-${i + 1} kos"><div class="dj-avw"><div class="dj-av"><b>?</b></div></div>${kad('Tempat kamu!', 'Kumpul mata', '')}${blok(i)}</div>`;
+    const nm = String(x[0] || ''); return `<div class="dj-tm dj-${i + 1}"><div class="dj-avw">${hias(i)}<div class="dj-av"><b>${esc(nm.trim().charAt(0).toUpperCase() || '?')}</b><span class="dj-pg">${IKON3D.pingat(i + 1)}</span></div></div>${kad(esc(nm), x[2] + ' mata', 'Darjah ' + x[1] + (x[3] ? ' · ' + esc(x[3]) : ''))}${blok(i)}</div>`; };
   const baris = T.slice(3).map((x, k) => `<div class="dj-row"><b class="dj-no">${k + 4}</b><span class="dj-rn"><span>${esc(x[0])}</span>${x[3] ? `<small>🏫 ${esc(x[3])}</small>` : ''}</span><span class="dj-rd">Darjah ${x[1]}</span><b class="dj-rm">${x[2]} mata</b></div>`).join('');
   return `<div class="dj-podium">${tm(1)}${tm(0)}${tm(2)}</div>${baris ? `<div class="dj-senarai">${baris}</div>` : ''}${T.length ? '' : `<p class="dj-msg">${kosong}</p>`}`;
 }

@@ -877,6 +877,23 @@ footer p+p{margin-top:6px}
 .ibb-c{display:block;width:150px;height:30px;margin-top:10px}
 .ibb-i{display:block;width:100%;height:auto;border-radius:20px;box-shadow:0 14px 26px -16px rgba(40,20,100,.55)}
 @media (max-width:720px){.ibb{grid-template-columns:1fr;gap:10px;padding:10px}.ibb-i{order:-1;border-radius:18px}.ibb-t{padding:4px 8px 8px}.ibb-t h3{font-size:clamp(19px,5.4vw,24px)}}
+.yrp{position:relative;padding:22px 18px 20px;border-radius:28px;background:linear-gradient(160deg,#fff8e6 0%,#fff3f8 60%,#f6efff 100%);border:1px solid #f6e3b8;box-shadow:0 18px 36px -24px rgba(170,110,20,.45),inset 0 1px 0 #fff}
+.yrp-h{justify-content:center;text-align:center;margin-bottom:16px}
+.yrp .pj-k.k1{left:18px;top:18px}.yrp .pj-k.k3{right:18px;top:16px}
+.years .yr{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;min-width:0;min-height:112px;padding:10px 12px 11px 14px;text-align:left;border:0;border-radius:22px;background:linear-gradient(165deg,var(--y1),var(--y2));box-shadow:0 7px 0 var(--y3),0 16px 20px -10px color-mix(in srgb,var(--y3) 70%,transparent),inset 0 2px 0 rgba(255,255,255,.45);transition:transform .15s,box-shadow .15s;cursor:pointer}
+.years .yr:hover{transform:translateY(-3px)}
+.years .yr:active{transform:translateY(5px);box-shadow:0 2px 0 var(--y3),0 6px 10px -6px color-mix(in srgb,var(--y3) 70%,transparent),inset 0 2px 0 rgba(255,255,255,.45)}
+.years .yr .n{position:relative;z-index:1;font-size:52px;color:#fff;text-shadow:0 3px 0 var(--y3),0 6px 10px rgba(0,0,0,.18)}
+.years .yr .yr-ic{position:absolute;top:6px;right:6px;width:58px;height:58px;display:grid;place-items:center;font-size:40px;line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.2))}
+.years .yr .yr-ic img{width:100%;height:100%;object-fit:contain}
+.years .yr .l{position:relative;z-index:1;font:700 15px/1.1 var(--fd);color:#fff;text-shadow:0 1px 0 var(--y3);white-space:nowrap}
+.years .yr .yr-go{position:absolute;right:9px;bottom:9px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.3);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.years .yr.on{outline:3px solid #fff;outline-offset:-3px;box-shadow:0 0 0 4px var(--y2),0 7px 0 4px var(--y3),0 18px 24px -10px color-mix(in srgb,var(--y3) 80%,transparent)}
+.years .yr.on::after{background:var(--y2);bottom:-20px}
+.years .yr:focus-visible{outline:3px solid #2a1660;outline-offset:3px}
+@media (max-width:560px){.yrp{padding:18px 12px 18px}.years{gap:12px 10px}.years .yr{min-height:96px;padding:8px 8px 9px 11px;border-radius:18px}.years .yr .n{font-size:42px}.years .yr .yr-ic{width:42px;height:42px;font-size:28px;top:5px;right:4px}.years .yr .l{font-size:13px}.years .yr .yr-go{width:18px;height:18px;right:6px;bottom:8px}.years .yr .yr-go svg{width:11px;height:11px}}
+@media (max-width:380px){.years .yr .yr-go{display:none}.years .yr .l{font-size:12.5px}}
+@media (max-width:340px){.years{gap:10px 8px}.years .yr{padding:7px 6px 8px 9px}.years .yr .n{font-size:36px}.years .yr .yr-ic{width:34px;height:34px;font-size:23px}.years .yr .l{font-size:11.5px}}
 .features.empat{grid-template-columns:repeat(4,1fr)}
 @media (max-width:860px){.features.empat{grid-template-columns:1fr 1fr;gap:12px}.features.empat .feat{padding:16px}.features.empat .feat h3{font-size:18px}.features.empat .feat p{font-size:13.5px}.features.empat .feat h3 small{display:block;margin:3px 0 0}}
 .features.empat .feat h3 small{white-space:nowrap}
@@ -18815,6 +18832,10 @@ NOTA.sn[6].teknologi = `
 const $ = s => document.querySelector(s);
 const app = $('#app');
 const YC = ['', 'var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)', 'var(--c5)', 'var(--c6)'];
+// Petak darjah 3D: [atas, bawah, bayang tebal]; ikon 3D aset/p3-d<N>.webp bila ada (IKD), jika tiada emoji
+const YG = ['', ['#ff7a8a', '#f2385a', '#c21d43'], ['#ffb14a', '#ff7a1a', '#cf5600'], ['#ffd84a', '#f7b500', '#c98a00'], ['#5fe08a', '#1fb35a', '#12823f'], ['#5cb8ff', '#2a7fff', '#1a58c4'], ['#b48cff', '#7b4dff', '#5631c9']];
+const IKD = [1, 2, 3, 4, 5, 6];
+const ikD = i => IKD.includes(i) ? `<img src="aset/p3-d${i}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : ['', '🎒', '✏️', '📚', '🌍', '🏆', '🎓'][i];
 // ---- enjin subjek ----
 const ENG = {
   mt: { gen: (y, t, r) => SB.gen(y, t, r), CUR: SB.CUR, NAMES: SB.NAMES, ICON: SB.ICON, DESC: SB.DESC, years: [1, 2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
@@ -20055,8 +20076,10 @@ function home(y, scroll) {
     </section>
     <a class="sediakad" href="#sedia"><span class="sk-ic">${IKON3D.beg()}</span><span class="sk-t"><span class="sk-baru">BAHARU · PRASEKOLAH</span><b>Sedia ke Tahun 1 🌈</b><span>Anak 5–6 tahun · 50 permainan huruf, nombor, sains &amp; kreatif · <u>14 PERCUMA</u></span></span><span class="sk-go">Jom main →</span></a>
     <section class="blk" id="pilih">
-      <div class="sh"><div><h2>Pilih darjah</h2><p>Kemudian pilih subjek untuk mula berlatih.</p></div></div>
-      <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="l">Darjah ${i}</span></button>`).join('')}</div>
+      <div class="yrp"><i class="pj-k k1" aria-hidden="true">✦</i><i class="pj-k k3" aria-hidden="true">✦</i>
+      <div class="sh yrp-h"><div><h2>Pilih darjah</h2><p>Kemudian pilih subjek untuk mula berlatih.</p></div></div>
+      <div class="years">${[1, 2, 3, 4, 5, 6].map(i => `<button class="yr ${i === y ? 'on' : ''}" style="--yc:${YC[i]};--y1:${YG[i][0]};--y2:${YG[i][1]};--y3:${YG[i][2]}" data-y="${i}" aria-pressed="${i === y}"><span class="n">${i}</span><span class="yr-ic" aria-hidden="true">${ikD(i)}</span><span class="l">Darjah ${i}</span><span class="yr-go" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join('')}</div>
+      </div>
       <div class="subjects" id="subjects"></div>
     </section>
     <section class="blk">

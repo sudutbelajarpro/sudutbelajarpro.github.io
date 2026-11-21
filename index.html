@@ -303,6 +303,9 @@ section.blk{padding:44px 0}
 .pm-vidbox video{display:block;width:100%;height:100%;object-fit:cover}
 .pm-vidbtn{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;background:rgba(59,31,120,.82);color:#fff;font-size:30px;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:opacity .2s}
 .pm-vidbox.main .pm-vidbtn{opacity:0;pointer-events:none}
+.pm-vidbunyi{position:absolute;right:10px;bottom:10px;border:0;border-radius:99px;padding:9px 14px;background:rgba(59,31,120,.88);color:#fff;font:700 14px/1 inherit;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.pm-vidbunyi[aria-pressed="true"]{background:rgba(255,255,255,.92);color:#3b1f78}
+.pm-vidbunyi:focus-visible{outline:3px solid #ffce54;outline-offset:2px}
 .pm-vidnota{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
 .agp{background:#fff;border:1.5px solid #f1e6ff;border-radius:26px;padding:22px 18px 20px;margin:4px 0 22px;box-shadow:0 10px 28px rgba(80,50,160,.10)}
 .agp .tag{display:inline-block;margin:0 0 6px;padding:6px 14px;border-radius:99px;background:#fff3e3;color:#b85c00;font-size:12.5px;font-weight:800}
@@ -429,6 +432,7 @@ details.alipat summary{font-weight:700;cursor:pointer}
 .sub.soon{filter:saturate(.6);opacity:.82}
 .sub.soon:hover{transform:none}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ti .it3{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 4px 4px rgba(40,20,90,.18))}.it3.k{display:inline-block;width:1.25em;height:1.25em;vertical-align:-.22em;object-fit:contain}
 .pandu-m{position:absolute;z-index:9000;pointer-events:none;height:96px;width:auto;filter:drop-shadow(0 8px 10px rgba(40,20,90,.28));animation:pandugoyang 1.4s ease-in-out infinite}
 @keyframes pandugoyang{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .pandu-sasar{position:relative;z-index:2;box-shadow:0 0 0 4px #ffd54f,0 0 0 9px rgba(255,213,79,.45)!important;border-radius:16px;animation:pandunadi 1.6s ease-in-out infinite}
@@ -473,21 +477,22 @@ footer p+p{margin-top:6px}
 .yrs-mini a{text-decoration:none;font-weight:700;font-size:14px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.18)}
 .yrs-mini a.on{background:#fff;color:var(--g1)}
 .topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding-bottom:40px}
-.tp{background:#fff;border-radius:20px;padding:18px;display:flex;gap:14px;align-items:center;text-align:left;box-shadow:var(--shadow);border:2px solid transparent;transition:transform .15s,border-color .15s;text-decoration:none}
+.tp{background:linear-gradient(180deg,#fff 0%,#fff 55%,color-mix(in srgb,var(--g1) 5%,#fff) 100%);border-radius:20px;padding:16px 18px;display:flex;gap:14px;align-items:center;text-align:left;box-shadow:0 6px 0 color-mix(in srgb,var(--g1) 20%,#e9e5fb),0 16px 24px -14px rgba(40,20,90,.38);border:2px solid color-mix(in srgb,var(--g1) 12%,#fff);transition:transform .15s,border-color .15s,box-shadow .15s;text-decoration:none;min-width:0}
 .tp:hover{transform:translateY(-3px);border-color:var(--g2)}
-.tp:active{transform:scale(.975)}
+.tp:active{transform:translateY(4px);box-shadow:0 2px 0 color-mix(in srgb,var(--g1) 20%,#e9e5fb),0 6px 12px -8px rgba(40,20,90,.35)}
 .sub:active{transform:scale(.97)}
 .tp .ti{transition:transform .25s cubic-bezier(.34,1.5,.64,1)}
 .tp:hover .ti,.tp:active .ti{transform:scale(1.14) rotate(-7deg)}
 .sub .ic{transition:transform .25s cubic-bezier(.34,1.5,.64,1)}
 .sub:hover .ic,.sub:active .ic{transform:scale(1.1) rotate(-6deg)}
-.tp .ti{font-size:28px;width:56px;height:56px;flex:none;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,var(--g1) 12%,#fff)}
+.tp .ti{font-size:30px;width:64px;height:64px;flex:none;border-radius:18px;display:grid;place-items:center;padding:4px;background:radial-gradient(circle at 35% 28%,#fff 0%,color-mix(in srgb,var(--g1) 14%,#fff) 70%);box-shadow:inset 0 -4px 0 color-mix(in srgb,var(--g1) 16%,#fff),inset 0 2px 0 #fff}
+.tp>div:last-child{min-width:0}.tp h3{overflow-wrap:anywhere}
 .tp h3{font-size:17.5px;font-family:var(--fb);font-weight:800}
 .tp .d{font-size:13px;color:var(--muted)}
 .stars{color:#ffb800;font-size:15px;letter-spacing:2px;margin-top:2px}
 .stars .off{color:#dcd8f2}
-.tp.mix{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff}
-.tp.mix .ti{background:rgba(255,255,255,.22)}
+.tp.mix{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-color:transparent;box-shadow:0 6px 0 color-mix(in srgb,var(--g1) 70%,#000),0 16px 24px -14px rgba(40,20,90,.45)}
+.tp.mix .ti{background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.55),rgba(255,255,255,.18) 70%);box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
 .tp.mix .d{color:rgba(255,255,255,.9)}
 
 /* quiz */
@@ -569,6 +574,7 @@ footer p+p{margin-top:6px}
 .emo{font-size:72px;line-height:1.1;margin-top:12px}
 .passage{font-family:var(--fb);font-weight:500;font-size:16px;line-height:1.7;text-align:left;background:#fffbea;border:2px dashed #f1d77a;border-radius:18px;padding:16px 18px;margin-bottom:16px;color:#3b3413}
 .rpills{display:flex;gap:6px;margin-top:6px}
+.rpills{flex-wrap:wrap;row-gap:4px}@media (max-width:360px){.rpills{gap:4px!important}.rp{padding:3px 6px!important;font-size:11px!important}.tp{padding:14px 14px!important;gap:12px!important}.tp .ti{width:56px!important;height:56px!important}}
 .rp{display:inline-flex;align-items:center;gap:3px;font-size:12px;padding:3px 8px;border-radius:999px;background:#f1effa;color:var(--muted);font-weight:800;filter:grayscale(1);opacity:.75}
 .rp.got{filter:none;opacity:1;background:color-mix(in srgb,var(--r1) 14%,#fff);color:var(--r1)}
 .tp.mix .rp{background:rgba(255,255,255,.22);color:#fff;filter:none;opacity:.9}
@@ -895,6 +901,9 @@ footer p+p{margin-top:6px}
 @media (max-width:440px){.jn{font-size:23px}.jt{font-size:11.5px}}
 @media (max-width:400px){.jt{font-size:10.8px}}
 @media (max-width:380px){.jn{font-size:20.5px}.logo{gap:8px}}
+.logo .jenama .jt{color:var(--brand);font-weight:800;letter-spacing:.03em}
+@media (max-width:380px){.logo .jenama .jt{display:block;font-size:10.5px;margin-top:1px}}
+@media (max-width:340px){.logo .jenama .jt{font-size:9.5px}}
 @media (max-width:340px){.jn{font-size:17px}.logo{gap:6px}.lencana{width:38px;height:38px}.sndbtn,.installbtn{width:34px;height:34px}.top .nav{gap:4px}}
 @media (min-width:861px){.jn{font-size:31px}.jt{font-size:13.5px;margin-top:1px}}
 </style>
@@ -902,7 +911,7 @@ footer p+p{margin-top:6px}
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <header class="top"><div class="wrap">
-  <a class="logo" href="#" aria-label="Sudut Belajar, laman utama"><span class="lencana"><span class="lc"><img src="aset/logo-muka.webp" alt="" width="64" height="64"></span></span><span class="jenama"><span class="jn">Sudut Belajar</span><span class="jt">Prasekolah hingga Darjah 6</span></span></a>
+  <a class="logo" href="#" aria-label="Sudut Belajar, laman utama"><span class="lencana"><span class="lc"><img src="aset/logo-muka.webp" alt="" width="64" height="64"></span></span><span class="jenama"><span class="jn">Sudut Belajar</span><span class="jt">Latih. Kuasai. Maju.</span></span></a>
   <nav class="nav" aria-label="Menu utama"><span class="navgrp"><a href="#pilih" class="nl" data-nav="darjah"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10 5 7.2 4.5 4 4.8v13.4c3.2-.3 6 .2 8 1.8 2-1.6 4.8-2.1 8-1.8V4.8c-3.2-.3-6 .2-8 1.8Z"/><path d="M12 6.6V20"/></svg><span>Darjah</span></a><a href="#ranking" class="nl" data-nav="ranking"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5h8v5a4 4 0 0 1-8 0Z"/><path d="M8 6.5H5.2a.7.7 0 0 0-.7.7c0 2.4 1.6 4 3.8 4.3M16 6.5h2.8a.7.7 0 0 1 .7.7c0 2.4-1.6 4-3.8 4.3"/><path d="M12 13.5V17"/><path d="M8.5 20.5h7l-.8-3.5H9.3Z"/></svg><span class="lbl">Ranking</span></a><a href="#ibubapa" class="nl hide-s" data-nav="ibubapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13a5.4 5.4 0 0 1 4 1.7"/><circle cx="17" cy="11.2" r="2.3"/><path d="M13.6 20v-.6a3.4 3.4 0 0 1 6.8 0v.6"/></svg><span>Ibu Bapa</span></a></span><span class="nsep" aria-hidden="true"></span><span class="navkanan"><button class="sndbtn off" id="muzikbtn" type="button" aria-pressed="false"><svg class="ik muzik" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.6V6.3l10-2.3v11.6"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/></svg></button><button class="sndbtn" id="sndbtn" type="button"><svg class="ik bunyi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4Z"/><path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="w2" d="M18.2 6.8a7.5 7.5 0 0 1 0 10.4"/></svg></button><a href="#akaun" class="akaunbtn" id="akaunbtn" data-nav="akaun" aria-label="Akaun ibu bapa" title="Akaun ibu bapa"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="10" r="3"/><path d="M6.7 18.2a6.1 6.1 0 0 1 10.6 0"/></svg><span class="akl">Log masuk</span></a><button class="installbtn" id="install" hidden aria-label="Pasang app di skrin telefon" title="Pasang app"><svg class="ik" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.8" width="11" height="18.4" rx="2.6"/><path d="M12 7.2v6.6M9.3 11.2 12 13.9l2.7-2.7"/><path d="M10.5 18h3"/></svg><span class="lbl">Pasang app</span></button></span></nav>
 </div></header>
 <main id="app"></main>
@@ -18893,6 +18902,7 @@ const MUZIK = {
   },
   async main() {
     if (!this.on) return;
+    { const vv = document.getElementById('pmvid'); if (vv && !vv.muted && !vv.paused) { if (this.mod) this.henti(); return; } }   // video promosi bersuara: muzik latar diam
     const c = SND.ctx(); if (!c) return;
     const m = this.modSemasa();
     if (!m) { if (this.mod) { this._tok++; this.pudar(); this.mod = null; } return; }
@@ -19003,6 +19013,9 @@ const rf = s => String(s).replace(/\{(\d+) (\d+)\/(\d+)\}/g, '<span class="mixed
 const starsHTML = n => '<span class="stars">' + [1, 2, 3].map(i => i <= n ? '★' : '<span class="off">★</span>').join('') + '</span>';
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); };
 const subjBy = id => SUBJ.find(s => s.id === id);
+// ikon 3D topik (dijana AI, dipadan ikut emoji topik) — jika tiada gambar, kekal emoji
+const IKT = {"🔢": "p3-t01-1", "➕": "p3-t01-2", "➖": "p3-t01-3", "✖️": "p3-t01-4", "➗": "p3-t01-5", "🍕": "p3-t01-6", "🧮": "p3-t01-7", "💯": "p3-t01-8", "💰": "p3-t01-9", "⏰": "p3-t02-1", "📏": "p3-t02-2", "🔷": "p3-t02-3", "📐": "p3-t02-4", "⚖️": "p3-t02-5", "🎯": "p3-t02-6", "🔤": "p3-t02-7", "✍️": "p3-t02-8", "🅰️": "p3-t02-9", "👯": "p3-t03-1", "🙋": "p3-t03-2", "📦": "p3-t03-3", "💪": "p3-t03-4", "🔁": "p3-t03-5", "▶️": "p3-t03-6", "❓": "p3-t03-7", "↔️": "p3-t03-8", "⏪": "p3-t03-9", "🕰️": "p3-t04-1", "🧺": "p3-t04-2", "🔗": "p3-t04-3", "🎞️": "p3-t04-4", "🚦": "p3-t04-5", "🏃": "p3-t04-6", "🫵": "p3-t04-7", "✅": "p3-t04-8", "👉": "p3-t04-9", "🌧️": "p3-t05-1", "🌀": "p3-t05-2", "📖": "p3-t05-3", "🧩": "p3-t05-4", "📝": "p3-t05-5", "🎨": "p3-t05-6", "🌈": "p3-t05-7", "💬": "p3-t05-8", "🧭": "p3-t05-9", "✏️": "p3-t06-1", "👤": "p3-t06-2", "👥": "p3-t06-3", "🗂️": "p3-t06-4", "🪢": "p3-t06-5", "🎬": "p3-t06-6", "📛": "p3-t06-7", "🧱": "p3-t06-8", "🎭": "p3-t06-9", "🏷️": "p3-t07-1", "🔖": "p3-t07-2", "🗣️": "p3-t07-3", "📜": "p3-t07-4", "🌐": "p3-t07-5", "🚫": "p3-t07-6", "🔀": "p3-t07-7", "⚙️": "p3-t07-8", "💧": "p3-t07-9", "🛠️": "p3-t08-1", "🧪": "p3-t08-2", "🥫": "p3-t08-3", "🌿": "p3-t08-4", "👪": "p3-t08-5", "♻️": "p3-t08-6", "🌙": "p3-t08-7", "🌍": "p3-t08-8", "🔦": "p3-t08-9", "🥣": "p3-t09-1", "🫃": "p3-t09-2", "👃": "p3-t09-3", "🔌": "p3-t09-4", "🌌": "p3-t09-5", "🌑": "p3-t09-6", "🏋️": "p3-t09-7", "🦷": "p3-t09-8", "🌡️": "p3-t09-9", "🐣": "p3-t10-1", "🐄": "p3-t10-2", "🐟": "p3-t10-3", "🌱": "p3-t10-4", "🐝": "p3-t10-5", "🧊": "p3-t10-6", "🔩": "p3-t10-7", "🐢": "p3-t10-8", "🏎️": "p3-t10-9", "🧲": "p3-t11-1", "🍚": "p3-t11-2", "👶": "p3-t11-3", "🦠": "p3-t11-4", "🫁": "p3-t11-5", "🌳": "p3-t11-6", "🦴": "p3-t11-7", "🧠": "p3-t11-8", "🪐": "p3-t11-9", "🦁": "p3-t12-1", "🏗️": "p3-t12-2", "⚡": "p3-t12-3", "🌻": "p3-t12-4", "🌵": "p3-t12-5", "🔍": "p3-t12-6", "💦": "p3-t12-7", "🏛️": "p3-t12-8", "🔮": "p3-pm-ramalan", "📊": "p3-pm-prestasi", "🔊": "p3-pm-suara", "💡": "p3-q-tip", "⚠️": "p3-q-amaran", "💻": "p3-q-komputer", "🔬": "p3-t08-2", "🕵️": "p3-t12-6", "📈": "p3-pm-prestasi", "👋": "p3-t13-1", "🏫": "p3-t13-2", "🪁": "p3-t13-3", "🐱": "p3-t13-4", "🥪": "p3-t13-5", "📅": "p3-t13-6", "🏠": "p3-t13-7", "👕": "p3-t13-8", "🤖": "p3-t13-9", "🏖️": "p3-t14-1", "🏡": "p3-t14-2", "🔡": "p3-t14-3", "🚸": "p3-t14-4"};
+const ikT = (e, k) => IKT[e] ? `<img class="it3${k ? ' k' : ''}" src="aset/${IKT[e]}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : (e || '');
 const setTheme = s => { document.documentElement.style.setProperty('--g1', s.g1); document.documentElement.style.setProperty('--g2', s.g2); };
 const topicsOf = (s, y) => ENG[s].CUR[y] || [];
 function progress(s, y) { const T = topicsOf(s, y).concat('campuran'); let got = 0; T.forEach(t => RANKS.forEach(r => got += getStars(s, y, t, r.id))); return { got, max: T.length * 9 }; }
@@ -19262,9 +19275,9 @@ function premium(s, y, t, rank) {
       <div class="pm-angka"><div><b>${JUM_SOALAN.teks}</b>soalan berbeza</div><div><b>${nTopikPm_()}</b>topik</div><div><b>4</b>subjek</div><div><b>D1–6</b>darjah</div></div>
     </header>
     <section class="pm-vid" aria-label="Video kenapa Premium">
-      <h2 class="pm-h">Kenapa Premium? Tonton 1 minit</h2>
-      <div class="pm-vidbox" id="pmvidbox"><video id="pmvid" src="aset/promo-premium-v1.mp4" poster="aset/promo-premium-v1.jpg" muted playsinline loop preload="none" width="720" height="900" aria-label="Video promosi Sudut Belajar Premium"></video><button type="button" class="pm-vidbtn" id="pmvidbtn" aria-label="Main video">▶</button></div>
-      <p class="pm-vidnota">Tekan video untuk jeda atau main semula.</p>
+      <h2 class="pm-h">Kenapa Premium? Tonton video ini</h2>
+      <div class="pm-vidbox" id="pmvidbox"><video id="pmvid" src="aset/promo-premium-v2.mp4" poster="aset/promo-premium-v2.jpg" muted playsinline loop preload="none" width="720" height="900" aria-label="Video promosi Sudut Belajar Premium"></video><button type="button" class="pm-vidbtn" id="pmvidbtn" aria-label="Main video">▶</button><button type="button" class="pm-vidbunyi" id="pmvidbunyi" aria-pressed="false">🔇 Tekan untuk dengar suara</button></div>
+      <p class="pm-vidnota">Tekan 🔇 untuk dengar suara. Tekan video untuk jeda atau main semula.</p>
     </section>
     <h2 class="pm-h">Tiga tahap yang dibuka</h2>
     <div class="pm-kem"><b>Setiap tahap, 3 kembara berbeza</b><div class="pm-kemr"><span><img class="pm-i3" src="aset/p3-pm-pulau.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Rimba</span><i>→</i><span><img class="pm-i3" src="aset/p3-pm-laut.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Lautan</span><i>→</i><span><img class="pm-i3" src="aset/p3-pm-gunung.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Puncak</span></div><p>Habis satu set, anak teruskan ke set seterusnya dengan soalan baharu, bukan soalan sama berulang. Kedudukan disimpan di awan.</p></div>
@@ -19362,6 +19375,10 @@ function premium(s, y, t, rank) {
     let jedaSendiri = false;
     const tog = () => { if (v.paused) { jedaSendiri = false; main(); } else { jedaSendiri = true; v.pause(); } };
     btn.onclick = tog; v.onclick = tog;
+    const bb = $('#pmvidbunyi'); const lbB = () => { const on = !v.muted; bb.setAttribute('aria-pressed', on); bb.textContent = on ? '🔊 Bunyi hidup' : '🔇 Tekan untuk dengar suara'; };
+    if (bb) bb.onclick = e => { e.stopPropagation(); if (v.muted) { v.muted = false; try { v.currentTime = 0; } catch (x) {} jedaSendiri = false; main(); } else v.muted = true; lbB(); };
+    const latar = () => { if (!v.muted && !v.paused) MUZIK.henti(); else MUZIK.main(); };
+    ['play', 'pause', 'volumechange'].forEach(ev => v.addEventListener(ev, latar));
     if (auto && 'IntersectionObserver' in window) { const io = new IntersectionObserver(es => es.forEach(en => { if (!document.body.contains(v)) { io.disconnect(); return; } if (en.isIntersecting && en.intersectionRatio >= .5) { if (!jedaSendiri) main(); } else if (!v.paused) v.pause(); }), { threshold: [0, .5] }); io.observe(v); }
   })();
   const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
@@ -20017,14 +20034,14 @@ function renderSubjects(y) {
 function rankPills(s, y, t) { return `<div class="rpills">${RANKS_UNTUK(t).map(r => { const n = getStars(s, y, t, r.id); return `<span class="rp ${n ? 'got' : ''}" style="--r1:${r.c1}" title="${r.nama}">${r.ic}<b>${n}</b></span>`; }).join('')}</div>`; }
 function topics(s, y) {
   const S = subjBy(s), E = ENG[s]; setTheme(S); const p = progress(s, y);
-  const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${E.ICON[t]}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
+  const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${ikT(E.ICON[t])}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
   app.innerHTML = `<div class="wrap pagein">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
       <h1><span class="bic">${ikonSubj(s, y)}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
       ${y === 1 ? '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</div>' : ''}
       <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
-    <div class="topics">${tiles}<a class="tp mix" href="#d${y}/${s}/campuran"><div class="ti">${E.ICON.campuran}</div><div><h3>${E.mix}</h3><div class="d">${E.mixd}</div>${rankPills(s, y, 'campuran')}</div></a></div>
+    <div class="topics">${tiles}<a class="tp mix" href="#d${y}/${s}/campuran"><div class="ti">${ikT(E.ICON.campuran)}</div><div><h3>${E.mix}</h3><div class="d">${E.mixd}</div>${rankPills(s, y, 'campuran')}</div></a></div>
   </div>`;
   window.scrollTo(0, 0);
 }
@@ -20034,7 +20051,7 @@ function ranks(s, y, t) {
   const S = subjBy(s), E = ENG[s]; setTheme(S);
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
-      <h1>${E.ICON[t]} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih tahap kamu</div></div>
+      <h1>${ikT(E.ICON[t], 1)} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih tahap kamu</div></div>
     ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
     <div class="ranks">${RANKS_UNTUK(t).map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !pakejOK(y) ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
       <div class="rkic">${rkImg(r)}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700;white-space:nowrap;display:inline-block">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p>${r.prem && !pakejOK(y) ? '' : kemJejak(s, y, t, r.id)}</div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
@@ -20047,7 +20064,7 @@ function notaPage(s, y, t) {
   const body = NOTA[s][y][t];
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}/${t}">← Kembali</a>
-      <h1>📖 Nota: ${E.ICON[t]} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
+      <h1>📖 Nota: ${ikT(E.ICON[t], 1)} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
     <div class="nota card" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;max-width:760px;line-height:1.7">${body}</div>
     <div style="text-align:center;margin:22px 0 50px"><a class="btn pri" href="#d${y}/${s}/${t}" style="padding:13px 26px;font-size:16px">✅ Dah faham? Jom cuba kuiz!</a></div>
   </div>`;

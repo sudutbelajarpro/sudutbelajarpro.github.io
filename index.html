@@ -19140,7 +19140,7 @@ function progress(s, y) { const T = topicsOf(s, y).concat('campuran'); let got =
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 // ---------------- RANKING AWAN ----------------
-const API = 'https://script.google.com/macros/s/AKfycbx-tpE6ERhgTYG3gIZFZy6WoFXX23gJbqOiilSB9a7dat5_gc9RbpaWP-LQulVuVbuCNA/exec';
+const API = 'https://script.google.com/macros/s/AKfycbzZMYE9GORmgNwRsUWlnvlFdTMjHt-EUXjbnL9Wz1wm4i0SDEwTmRA2YQAFOxdjXUt7nQ/exec';
 const apiOK = () => API.indexOf('https') === 0;
 const PLAYER = { get() { try { return JSON.parse(localStorage.getItem('sb.player') || 'null'); } catch (e) { return null; } }, set(p) { try { localStorage.setItem('sb.player', JSON.stringify(p)); } catch (e) {} } };
 // Token peranti dipercayai (V13): peranti yang pernah log masuk tidak terkena sekatan cubaan PIN.

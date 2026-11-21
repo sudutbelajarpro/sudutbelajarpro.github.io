@@ -297,7 +297,31 @@ section.blk{padding:44px 0}
 @media (max-width:380px){.af-langkah{grid-template-columns:1fr}.af-pil{grid-template-columns:1fr}.af-pil div{display:flex;align-items:center;gap:10px;text-align:left}.af-pil b{margin:0;font-size:20px}}
 .pm-hero{background:radial-gradient(120% 90% at 50% 0%,#fff6d6 0%,#fffdf6 60%,#fff 100%);border:1.5px solid #f3e2a8;border-radius:24px;padding:28px 22px 22px;margin:8px 0 26px;box-shadow:0 18px 40px -28px #b8860b}
 .pm-eye{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.5px;color:#8a6400;background:#fff;border:1.5px solid #f0d78c;border-radius:999px;padding:5px 12px}
-.pm-hero h1{font-size:clamp(26px,5.4vw,38px);line-height:1.15;margin:14px 0 10px}
+.pm-hero h1{font-size:clamp(26px,5.4vw,38px);line-height:1.15;margin:14px 0 10px;text-wrap:balance}
+.pm-vid{margin:0 0 26px}
+.pm-vidbox{position:relative;max-width:420px;margin:0 auto;border-radius:24px;overflow:hidden;background:#f3edff;box-shadow:0 14px 34px rgba(80,50,160,.18);aspect-ratio:4/5}
+.pm-vidbox video{display:block;width:100%;height:100%;object-fit:cover}
+.pm-vidbtn{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;border:0;background:rgba(59,31,120,.82);color:#fff;font-size:30px;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:opacity .2s}
+.pm-vidbox.main .pm-vidbtn{opacity:0;pointer-events:none}
+.pm-vidnota{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
+.agp{background:#fff;border:1.5px solid #f1e6ff;border-radius:26px;padding:22px 18px 20px;margin:4px 0 22px;box-shadow:0 10px 28px rgba(80,50,160,.10)}
+.agp .tag{display:inline-block;margin:0 0 6px;padding:6px 14px;border-radius:99px;background:#fff3e3;color:#b85c00;font-size:12.5px;font-weight:800}
+.agp h2{text-wrap:balance;margin:4px 0 4px;font-size:clamp(22px,5vw,28px);line-height:1.2;font-weight:900;color:#3b1f78}
+.agp .ayam{display:block;width:min(300px,78vw);height:auto;margin:6px auto 0;animation:agpapung 3.8s ease-in-out infinite}
+@keyframes agpapung{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+.agp .sama{display:inline-flex;align-items:center;gap:8px;margin:8px 0;padding:9px 18px;border-radius:99px;background:linear-gradient(135deg,#7b5cff,#5a36d6);color:#fff;font-weight:900;font-size:15px;box-shadow:0 6px 14px rgba(90,54,214,.3)}
+.agp .sama b{font-size:20px}
+.agp .p{margin:0 0 12px;font-size:14px;color:#5d5878;line-height:1.5}
+.agp .t1{text-wrap:balance;margin:14px 0 2px;font-size:19px;font-weight:900;color:var(--ink)}.agp .t1 em{font-style:normal;color:#ff7a1a}
+.agp .hg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.agp .hk{border-radius:18px;padding:12px 8px;background:#faf8ff;border:2px solid #ece6ff}.agp .hk.on{border-color:#7b5cff;background:#f4efff}
+.agp .hk b{display:block;font-size:13px;color:#6b6585;font-weight:800}.agp .hk .rm{display:block;font-size:26px;font-weight:900;color:#3b1f78;margin:2px 0}
+.agp .hk span{display:block;font-size:12.5px;color:#5d5878}
+.agp .hk i{display:inline-block;margin-top:5px;font-style:normal;font-size:12px;font-weight:800;color:#0e8a55;background:#e3f8ee;border-radius:99px;padding:2px 9px}
+.agp .janji{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0;padding:10px 12px;border-radius:18px;background:#effbf4}
+.agp .janji img{width:58px;height:auto;flex:none}.agp .janji p{margin:0;text-align:left;font-size:14px;font-weight:900;color:#0b6b3e;line-height:1.35}
+.agp .kecil{margin:8px 0 0;font-size:12px;color:#8a84a3;font-style:italic}
+@media (prefers-reduced-motion:reduce){.agp .ayam{animation:none}}
 .pm-hero h1 span{background:linear-gradient(90deg,#b8860b,#e0a800);-webkit-background-clip:text;background-clip:text;color:transparent}
 .pm-hero .lead{max-width:520px;margin:0 auto 16px}
 .pm-angka{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
@@ -317,10 +341,10 @@ section.blk{padding:44px 0}
 .pm-tp{font-size:11.5px;font-weight:800;color:var(--c1);background:#f4f4f8;border-radius:999px;padding:2px 7px;margin-left:4px}
 .pm-x{font-size:12px;font-weight:800;color:#1e7a46}
 .pm-ciri{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
-.pm-ciri div{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px}
-.pm-ciri span{font-size:26px;display:block;margin-bottom:4px}
+.pm-ciri div{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center}
+.pm-ciri span{font-size:26px;line-height:1;grid-row:span 1}
 .pm-ciri b{font-size:15px}
-.pm-ciri p{margin:4px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+.pm-ciri p{grid-column:1/-1;margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
 .pm-banding{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1.5px solid var(--line);border-radius:16px;overflow:hidden;font-size:13.5px;margin-bottom:18px}
 .pm-banding th,.pm-banding td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center}
 .pm-banding td:first-child,.pm-banding th:first-child{text-align:left;padding-left:14px}
@@ -19207,12 +19231,17 @@ function premium(s, y, t, rank) {
     ${s ? `<a class="crumb" href="#d${y}/${s}/${t}">← Kembali</a>` : '<a class="crumb" href="#pilih">← Utama</a>'}
     <header class="pm-hero">
       <span class="pm-eye">👑 SUDUT BELAJAR PREMIUM</span>
-      <h1>Dari asas ke <span>gaya UASA</span>.<br>Semua subjek, satu darjah.</h1>
+      <h1>Dari asas ke <span>gaya UASA</span>.<br>4 subjek utama,<br>satu darjah.</h1>
       <p class="lead">Buka tiga tahap mencabar untuk <b>Matematik, Bahasa Melayu, English dan Sains</b>. Anak berlatih soalan aplikasi, KBAT dan jawapan taip sendiri, seperti dalam peperiksaan.</p>
       <a class="btn pri" href="#pm-pakej" id="pmke" style="justify-content:center">Lihat pakej · dari RM${hargaRM('2bulan')}</a>
       ${hargaAwal('2bulan') ? `<div class="pm-awal">⏰ Harga awal RM${hargaRM('2bulan')} hingga <b>${tarikhBM(tt('harga_2bulan_awal_tamat'))}</b>, kemudian naik ke RM${tt('harga_2bulan')}</div>` : ''}
       <div class="pm-angka"><div><b>${JUM_SOALAN.teks}</b>soalan berbeza</div><div><b>${nTopikPm_()}</b>topik</div><div><b>4</b>subjek</div><div><b>D1–6</b>darjah</div></div>
     </header>
+    <section class="pm-vid" aria-label="Video kenapa Premium">
+      <h2 class="pm-h">Kenapa Premium? Tonton 1 minit</h2>
+      <div class="pm-vidbox" id="pmvidbox"><video id="pmvid" src="aset/promo-premium-v1.mp4" poster="aset/promo-premium-v1.jpg" muted playsinline loop preload="none" width="720" height="900" aria-label="Video promosi Sudut Belajar Premium"></video><button type="button" class="pm-vidbtn" id="pmvidbtn" aria-label="Main video">▶</button></div>
+      <p class="pm-vidnota">Tekan video untuk jeda atau main semula.</p>
+    </section>
     <h2 class="pm-h">Tiga tahap yang dibuka</h2>
     <div class="pm-kem"><b>Setiap tahap, 3 kembara berbeza</b><div class="pm-kemr"><span>🌴<br>Rimba</span><i>→</i><span>🌊<br>Lautan</span><i>→</i><span>⛰️<br>Puncak</span></div><p>Habis satu set, anak teruskan ke set seterusnya dengan soalan baharu, bukan soalan sama berulang. Kedudukan disimpan di awan.</p></div>
     <div class="pm-tahap">${RANKS.filter(r => r.prem).map((r, i) => `<div class="pm-tk" style="--c1:${r.c1};--c2:${r.c2}">${rkImg(r, 'pm-img')}<div><b>${r.ic} ${r.nama}</b> <span class="pm-tp">${r.tp}</span><p>${r.d}</p><span class="pm-x">Mata ranking ×${i + 2}</span></div></div>`).join('')}</div>
@@ -19235,15 +19264,21 @@ function premium(s, y, t, rank) {
       <tr><td>Sedia ke Tahun 1 (prasekolah)</td><td>14 permainan</td><td>50 · Pakej D1</td></tr>
     </tbody></table>
     <div class="bonuskotak"><span class="pitab">🎁 BONUS</span>
-      <div style="font-family:var(--fd);font-size:20px;font-weight:700;margin-top:4px">Pakej Darjah 1 + <span style="color:#e8590c">Sedia ke Tahun 1</span></div>
+      <div style="font-family:var(--fd);font-size:20px;font-weight:700;margin-top:4px">Pakej Darjah 1 + <span style="color:#e8590c;white-space:nowrap">Sedia ke Tahun 1</span></div>
       <div style="font-size:14px;color:var(--ink);margin-top:4px">Beli <b>Pakej Darjah 1</b>, dapat <b>PERCUMA</b> semua <b>50 permainan prasekolah</b> (huruf, nombor, sains, perasaan &amp; kreatif) untuk anak 5–6 tahun. Sesuai untuk anak masuk Tahun 1 pada Januari 2027. <a href="#sedia" style="font-weight:700">Cuba 14 permainan percuma →</a></div>
     </div>
+    ${(() => `<section class="agp" aria-label="Harga Premium">
+      <span class="tag">🍗 Kira-kira mudah</span>
+      <h2>Sebulan belajar,<br>harga sepinggan<br>ayam gepuk.</h2>
+      <img class="ayam" src="aset/ayam-gepuk.webp" width="440" height="399" alt="Sepinggan nasi ayam gepuk" loading="lazy">
+      <div class="sama">≈ <b>30 hari</b> latihan Premium</div>
+      <p class="p">Sekali lunch ayam gepuk, habis dalam 15 minit.<br>Harga yang sama, anak dapat <b>sebulan penuh</b> latihan.</p>
+      <p class="t1">Satu harga. Satu darjah.<br><em>Semua tahap.</em></p>
+      <p class="p">Dari soalan asas hingga gaya UASA, untuk Matematik, Bahasa Melayu, English dan Sains. Sekali bayar, anak buka semuanya.</p>
+      <div class="janji"><img src="aset/perisai.webp" width="200" height="197" alt="" loading="lazy"><p>Tiada caj tersembunyi.<br>Tiada potongan automatik bulanan.</p></div>
+      <p class="kecil">Satu harga untuk seorang anak, satu darjah.</p>
+    </section>`)()}
     <h2 class="pm-h" id="pm-pakej">Pilih pakej</h2>
-    ${hargaAwal('2bulan') || hargaAwal('setahun') ? `<div class="pm-naik"><span class="pm-naikt">⏰ TAWARAN HARGA AWAL · TERHAD</span>
-      <b>Harga akan naik. Kunci harga rendah sekarang.</b>
-      <div class="pm-naikb">${['2bulan', 'setahun'].filter(hargaAwal).map(pl => `<div><span>${NAMA_PELAN[pl]}</span><b>RM${hargaRM(pl)}</b><s>RM${tt('harga_' + pl)}</s><em>naik selepas ${tarikhBM(tt('harga_' + pl + '_awal_tamat'))}${hariLagi_(pl) <= 14 ? ` · tinggal ${hariLagi_(pl)} hari` : ''}</em></div>`).join('')}</div>
-      <p>Lebih awal anak mula, lebih banyak masa berlatih sebelum UASA. Harga yang anda bayar hari ini kekal sepanjang tempoh pakej.</p>
-    </div>` : ''}
     ${lain ? `<div style="background:#fff3e0;border:2px solid #ffb74d;border-radius:16px;padding:14px 18px;margin-bottom:14px;font-size:14.5px;text-align:left">👑 Pakej kamu sekarang: <b>Darjah ${+P.pakej}</b>${P.tamat ? ' (sehingga ' + esc(P.tamat) + ')' : ''}. Rank premium <b>Darjah ${+y}</b> perlukan pakej Darjah ${+y} — boleh dibeli selepas pakej semasa tamat. Untuk adik-beradik, tambah profil setiap anak dalam akaun ibu bapa.</div>` : ''}
     ${kempenAktif() ? `<div style="background:linear-gradient(135deg,#e8f5e9,#fff);border:2px solid #43a047;border-radius:16px;padding:18px 20px;margin-bottom:14px">
       <div style="font-size:13px;font-weight:800;letter-spacing:1px;color:#2e7d32">🎉 KEMPEN PELANCARAN — ${K.had ? K.had + ' TEMPAT PERCUMA' : 'AKSES PERCUMA'}</div>
@@ -19252,9 +19287,9 @@ function premium(s, y, t, rank) {
       ${K.had ? `<div style="font-size:13px;font-weight:700;color:#2e7d32;margin-top:6px">Tinggal ${Math.max(0, K.had - (K.digunakan | 0))} daripada ${K.had} tempat</div>` : ''}
     </div>` : ''}
     <div class="pelanpilih" role="group" aria-label="Pilih pakej">${kadPelan('2bulan')}${kadPelan('setahun')}</div>
-    <p style="font-size:13.5px;color:var(--muted);margin:0 0 14px">Latihan tahap UASA tanpa had — <b>semua subjek bagi satu darjah</b> pilihan kamu. Tiada caj automatik; perbaharui bila tamat.</p>
+    <p style="font-size:13.5px;color:var(--muted);margin:0 0 14px">Harga yang anda bayar hari ini <b>kekal sepanjang tempoh pakej</b>. Perbaharui bila tamat.</p>
     <div class="card" style="background:#fff;border:2px solid #ffd54f;border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:left">
-      <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center">Cara dapatkan Premium — 3 langkah mudah</div>
+      <div style="font-weight:800;font-size:17px;margin-bottom:12px;text-align:center;text-wrap:balance">Cara dapatkan Premium:<br>3 langkah mudah</div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">1</b><div>${P && P.akaun === 0 ? `⚠️ Profil <b>${esc(P.nick)}</b> belum dipautkan ke <b>akaun ibu bapa</b>. Premium memerlukan akaun ibu bapa (percuma) — <a href="${AKAUN.get() ? '#akaun' : '#akaun/daftar'}" style="font-weight:600">${AKAUN.get() ? 'pautkan profil ini' : 'daftar akaun & pautkan profil ini'}</a>.` : P ? `✅ Profil <b>${esc(P.nick)}</b> (Darjah ${P.darjah}) — kod akan ditebus untuk profil ini. <a href="${AKAUN.get() ? '#akaun' : '#ranking'}" style="font-weight:600">Tukar</a>` : `<b>Daftar / log masuk akaun ibu bapa</b> dan pilih profil anak — <a href="#akaun/daftar" style="font-weight:600">daftar percuma</a> atau <a href="#akaun" style="font-weight:600">log masuk</a>.`}</div></div>
       <div style="display:flex;gap:10px;margin-bottom:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">2</b><div style="flex:1"><b>Pilih darjah pakej &amp; bayar:</b>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
@@ -19266,7 +19301,7 @@ function premium(s, y, t, rank) {
         <div class="dn" id="dnbox">
           <div class="dn-amt"><span>JUMLAH PERLU DIBAYAR</span><b id="dnamt">RM${hargaBayar(pelan)}</b><em id="dnpl">${NAMA_PELAN[pelan]} · Darjah ${pd}</em></div>
           <img class="dn-qr" src="aset/duitnow-qr.png" width="312" height="342" alt="Kod QR DuitNow untuk bayaran Sudut Belajar" loading="lazy">
-          <div class="dn-nama">Nama penerima dalam app bank: <b>MOHD ZULHILMI</b></div>
+          <div class="dn-nama">Nama penerima dalam app bank: <b style="white-space:nowrap">MOHD ZULHILMI</b></div>
           <a class="btn sec dn-simpan" href="aset/duitnow-qr.png" download="QR-DuitNow-SudutBelajar.png">⬇️ Simpan gambar QR</a>
           <ol class="dn-l">
             <li>Buka app bank atau e-wallet, pilih <b>DuitNow QR / Imbas</b>. Guna telefon yang sama? Simpan QR dahulu, kemudian pilih gambar dari galeri.</li>
@@ -19279,11 +19314,11 @@ function premium(s, y, t, rank) {
           <div id="dnmsg" class="dn-msg" role="status"></div>
           <p class="dn-nota">Kod Premium dan resit pembayaran dihantar ke emel akaun ibu bapa selepas bayaran disahkan, biasanya dalam masa 24 jam.</p>
         </div>
-      </div></div></div>
+      </div></div>
       <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta untuk darjah yang dipilih:
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
           <input id="kodin" placeholder="Kod premium / kempen" maxlength="16" style="flex:1;min-width:160px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase">
-          <button class="btn pri" id="tebus" style="padding:10px 20px">✨ Tebus Kod</button>
+          <button class="btn pri" id="tebus" style="padding:10px 20px;flex:1 1 100%;justify-content:center">✨ Tebus Kod</button>
         </div></div></div>
       <div style="text-align:center;margin-top:14px"><button class="btn sec" id="semak" style="padding:9px 18px;font-size:13.5px">🔄 Semak status Premium</button></div>
       <div id="premsg" style="font-size:14px;margin-top:10px;color:var(--muted);text-align:center"></div>
@@ -19296,6 +19331,15 @@ function premium(s, y, t, rank) {
       <p style="text-align:center;margin:10px 0 0;font-size:14px"><a href="#faq" style="font-weight:700">Semua soalan lazim →</a></p>
     </div>
   </section>`;
+  (() => { const v = $('#pmvid'), box = $('#pmvidbox'), btn = $('#pmvidbtn'); if (!v) return;
+    let auto = true; try { if (matchMedia('(prefers-reduced-motion:reduce)').matches || (navigator.connection && navigator.connection.saveData)) auto = false; } catch (e) {}
+    const main = () => { const p = v.play(); if (p && p.catch) p.catch(() => box.classList.remove('main')); };
+    v.addEventListener('play', () => box.classList.add('main')); v.addEventListener('pause', () => box.classList.remove('main'));
+    let jedaSendiri = false;
+    const tog = () => { if (v.paused) { jedaSendiri = false; main(); } else { jedaSendiri = true; v.pause(); } };
+    btn.onclick = tog; v.onclick = tog;
+    if (auto && 'IntersectionObserver' in window) { const io = new IntersectionObserver(es => es.forEach(en => { if (!document.body.contains(v)) { io.disconnect(); return; } if (en.isIntersecting && en.intersectionRatio >= .5) { if (!jedaSendiri) main(); } else if (!v.paused) v.pause(); }), { threshold: [0, .5] }); io.observe(v); }
+  })();
   const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
   const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; const amt = 'RM' + hargaBayar(pelan); $('#dnamt').textContent = amt; $('#dnamt2').textContent = amt; $('#dnpl').textContent = NAMA_PELAN[pelan] + ' · Darjah ' + d; };

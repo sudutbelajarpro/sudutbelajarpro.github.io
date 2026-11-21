@@ -49,6 +49,9 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // --- Video: biar browser uruskan sendiri (permintaan Range/206 — Safari perlukannya; jangan cache) ---
+  if (/\.(mp4|webm)$/i.test(url.pathname)) return;
+
   // --- Fail besar dalam aset/ (muzik, gambar): cache dahulu SAHAJA, jimat data murid.
   //     Nama fail mesti ditukar jika kandungannya berubah. ---
   if (url.pathname.includes('/aset/')) {

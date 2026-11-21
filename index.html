@@ -333,7 +333,7 @@ section.blk{padding:44px 0}
 .pm-kem>b{font-size:15.5px}
 .pm-kemr{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 6px}
 .pm-kemr span{background:#fff;border-radius:14px;padding:8px 0;width:82px;font-size:13px;font-weight:800;line-height:1.5;box-shadow:0 6px 14px -10px #2e7d32}
-.pm-kemr span::first-line{font-size:24px}.pm-kemr i{font-style:normal;color:var(--muted);font-weight:800}
+.pm-kemr .pm-i3{display:block;width:52px;height:52px;margin:0 auto 2px}.pm-kemr i{font-style:normal;color:var(--muted);font-weight:800}
 .pm-kem p{margin:6px 0 0;font-size:13px;color:var(--muted)}
 .pm-tahap{display:grid;gap:10px;text-align:left}
 .pm-tk{display:flex;gap:14px;align-items:center;background:#fff;border:1.5px solid var(--line);border-left:6px solid var(--c1);border-radius:16px;padding:12px 14px}
@@ -343,7 +343,7 @@ section.blk{padding:44px 0}
 .pm-x{font-size:12px;font-weight:800;color:#1e7a46}
 .pm-ciri{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
 .pm-ciri div{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px;display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center}
-.pm-ciri span{font-size:26px;line-height:1;grid-row:span 1}
+.pm-ciri span{font-size:26px;line-height:1;grid-row:span 1}.pm-ciri .pm-i3{display:block;width:48px;height:48px}
 .pm-ciri b{font-size:15px}
 .pm-ciri p{grid-column:1/-1;margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
 .pm-banding{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1.5px solid var(--line);border-radius:16px;overflow:hidden;font-size:13.5px;margin-bottom:18px}
@@ -429,6 +429,16 @@ details.alipat summary{font-weight:700;cursor:pointer}
 .sub.soon{filter:saturate(.6);opacity:.82}
 .sub.soon:hover{transform:none}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ps-hero{display:flex;gap:14px;align-items:center;margin:10px 0 16px}.ps-hero .ps-i3{width:84px;height:84px;flex:none}.ps-hero h1{margin:0 0 4px;font-size:clamp(22px,5.6vw,30px);text-wrap:balance}.ps-hero .lead{margin:0}
+.ps-i3{display:block;object-fit:contain;filter:drop-shadow(0 6px 6px rgba(40,20,90,.16))}
+.ps-kad{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:14px}
+.ps-kep{display:flex;gap:12px;align-items:center;margin-bottom:10px}.ps-kep .ps-i3{width:58px;height:58px;flex:none}.ps-kep h2{margin:0;font-size:19px}.ps-kep small{color:var(--muted);font-size:13px;font-weight:600}
+.ps-kad ol{margin:0;padding-left:22px;line-height:1.7}.ps-kad li{margin-bottom:4px}.ps-kad i{color:var(--muted);font-style:normal;font-size:.92em}
+.ps-b{display:inline-block;min-width:1.6em;text-align:center;padding:0 6px;border:1.5px solid var(--line);border-radius:8px;background:#f6f4fe;font-weight:800;line-height:1.5}
+.ps-nota{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#f6f4fe;font-size:13.5px;color:var(--ink)}
+.ps-amaran{display:flex;gap:12px;align-items:center;margin:0 0 14px;padding:14px 16px;border-radius:16px;background:#fff8e1;border:2px solid #ffc107;font-size:14.5px;line-height:1.55}.ps-amaran .ps-i3{width:52px;height:52px;flex:none}
+.ps-lain{margin:4px 0 14px}.ps-lain summary{cursor:pointer;font-weight:800;color:var(--brand);padding:10px 0;font-size:15px}
+.ps-tip{display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13.5px;color:var(--muted)}.ps-tip .ps-i3{width:44px;height:44px;flex:none}.ps-tip p{margin:0}
 .feat{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
 .feat .e{font-size:30px;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--bg);margin-bottom:14px}
 .feat h3{font-size:20px;margin-bottom:6px}
@@ -19244,15 +19254,15 @@ function premium(s, y, t, rank) {
       <p class="pm-vidnota">Tekan video untuk jeda atau main semula.</p>
     </section>
     <h2 class="pm-h">Tiga tahap yang dibuka</h2>
-    <div class="pm-kem"><b>Setiap tahap, 3 kembara berbeza</b><div class="pm-kemr"><span>🌴<br>Rimba</span><i>→</i><span>🌊<br>Lautan</span><i>→</i><span>⛰️<br>Puncak</span></div><p>Habis satu set, anak teruskan ke set seterusnya dengan soalan baharu, bukan soalan sama berulang. Kedudukan disimpan di awan.</p></div>
+    <div class="pm-kem"><b>Setiap tahap, 3 kembara berbeza</b><div class="pm-kemr"><span><img class="pm-i3" src="aset/p3-pm-pulau.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Rimba</span><i>→</i><span><img class="pm-i3" src="aset/p3-pm-laut.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Lautan</span><i>→</i><span><img class="pm-i3" src="aset/p3-pm-gunung.webp" width="160" height="160" alt="" loading="lazy" decoding="async">Puncak</span></div><p>Habis satu set, anak teruskan ke set seterusnya dengan soalan baharu, bukan soalan sama berulang. Kedudukan disimpan di awan.</p></div>
     <div class="pm-tahap">${RANKS.filter(r => r.prem).map((r, i) => `<div class="pm-tk" style="--c1:${r.c1};--c2:${r.c2}">${rkImg(r, 'pm-img')}<div><b>${r.ic} ${r.nama}</b> <span class="pm-tp">${r.tp}</span><p>${r.d}</p><span class="pm-x">Mata ranking ×${i + 2}</span></div></div>`).join('')}</div>
     <h2 class="pm-h">Lebih daripada sekadar soalan</h2>
     <div class="pm-ciri">
-      <div><span>🔮</span><b>Ramalan UASA</b><p>Darjah 4–6: soalan setara UASA untuk 4 subjek, termasuk Graf &amp; Rajah (Matematik Bahagian B) dan Data &amp; Radas (Sains Bahagian C).</p></div>
-      <div><span>📊</span><b>Laporan ibu bapa</b><p>Minit belajar harian, penguasaan setiap subjek, topik yang perlu bantuan dan cadangan setiap minggu.</p></div>
-      <div><span>🔊</span><b>Suara untuk Reading</b><p>Petikan English dibacakan, ayat diserlahkan semasa dibaca. Laju boleh dilaraskan.</p></div>
-      <div><span>🏆</span><b>Hadiah juara musim</b><p>Mata ranking ×2 hingga ×4. Pemain Premium teratas setiap musim menerima hadiah misteri 🎁.</p></div>
-      <div><span>☁️</span><b>Semua peranti</b><p>Premium ikut profil anak. Log masuk di telefon, tablet atau komputer, kemajuan tetap sama.</p></div>
+      <div><span><img class="pm-i3" src="aset/p3-pm-ramalan.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span><b>Ramalan UASA</b><p>Darjah 4–6: soalan setara UASA untuk 4 subjek, termasuk Graf &amp; Rajah (Matematik Bahagian B) dan Data &amp; Radas (Sains Bahagian C).</p></div>
+      <div><span><img class="pm-i3" src="aset/p3-pm-prestasi.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span><b>Laporan ibu bapa</b><p>Minit belajar harian, penguasaan setiap subjek, topik yang perlu bantuan dan cadangan setiap minggu.</p></div>
+      <div><span><img class="pm-i3" src="aset/p3-pm-suara.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span><b>Suara untuk Reading</b><p>Petikan English dibacakan, ayat diserlahkan semasa dibaca. Laju boleh dilaraskan.</p></div>
+      <div><span><img class="pm-i3" src="aset/p3-pm-ranking.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span><b>Hadiah juara musim</b><p>Mata ranking ×2 hingga ×4. Pemain Premium teratas setiap musim menerima hadiah misteri 🎁.</p></div>
+      <div><span><img class="pm-i3" src="aset/p3-pm-awan.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span><b>Semua peranti</b><p>Premium ikut profil anak. Log masuk di telefon, tablet atau komputer, kemajuan tetap sama.</p></div>
     </div>
     <h2 class="pm-h">Percuma vs Premium</h2>
     <table class="pm-banding"><thead><tr><th></th><th>Percuma</th><th>👑 Premium</th></tr></thead><tbody>
@@ -19447,19 +19457,38 @@ async function sambung(kod) {
 function pasang() {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
   const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1), android = /android/i.test(ua);
+  const dalamApp = /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview/i.test(ua);
   const dahPasang = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-  const langkah = (id, tajuk, ikon, l) => `<section class="kad" id="${id}" style="background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px"><h2 style="margin:0 0 10px;font-size:19px">${ikon} ${tajuk}</h2><ol style="margin:0;padding-left:22px;line-height:1.7">${l.map(x => `<li>${x}</li>`).join('')}</ol></section>`;
-  const A = langkah('pandroid', 'Telefon / tablet Android', '🤖', ['Buka <b>sudutbelajarpro.com</b> dalam <b>Chrome</b>.', 'Tekan butang <b>⋮</b> (tiga titik) di bucu atas kanan.', 'Pilih <b>"Tambah ke skrin utama"</b> atau <b>"Pasang aplikasi"</b>.', 'Tekan <b>Tambah</b>. Ikon Sudut Belajar akan muncul di skrin utama.']);
-  const I = langkah('pios', 'iPhone / iPad', '🍎', ['Buka <b>sudutbelajarpro.com</b> dalam <b>Safari</b> (bukan Chrome).', 'Tekan butang <b>Kongsi</b> (petak dengan anak panah ke atas ⬆️) di bawah skrin.', 'Skrol ke bawah dan pilih <b>"Tambah ke Skrin Utama"</b>.', 'Tekan <b>Tambah</b> di bucu atas kanan.']);
+  const ik = f => `<img class="ps-i3" src="aset/p3-q-${f}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">`;
+  const kad = (id, ikon, tajuk, sub, l, nota) => `<section class="ps-kad" id="${id}"><div class="ps-kep">${ik(ikon)}<div><h2>${tajuk}</h2><small>${sub}</small></div></div><ol>${l.map(x => `<li>${x}</li>`).join('')}</ol>${nota ? `<p class="ps-nota">${nota}</p>` : ''}</section>`;
+  const A = kad('pandroid', 'android', 'Telefon / tablet Android', 'Guna Chrome', [
+    'Buka <b>sudutbelajarpro.com</b> dalam <b>Chrome</b>.',
+    'Tekan butang <b class="ps-b">⋮</b> (tiga titik) di bucu atas kanan.',
+    'Pilih <b>Tambah ke skrin utama</b> <i>(Add to Home screen)</i>.',
+    'Pilih <b>Pasang</b> <i>(Install)</i> dan sahkan. Ikon Sudut Belajar akan muncul di skrin utama.'],
+    'Lebih mudah: jika butang <b>📲 Pasang sekarang</b> keluar di atas, tekan itu sahaja.');
+  const I = kad('pios', 'iphone', 'iPhone / iPad', 'Guna Safari atau Chrome', [
+    'Buka <b>sudutbelajarpro.com</b> dalam <b>Safari</b> atau <b>Chrome</b>.',
+    '<b>Safari:</b> tekan <b class="ps-b">⋯</b> (tiga titik) di sebelah bar alamat, kemudian <b>Kongsi</b> <i>(Share)</i>. Pada iOS lama, tekan terus butang <b class="ps-b">Kongsi ⬆️</b> di bawah skrin.<br><b>Chrome:</b> tekan butang <b class="ps-b">Kongsi ⬆️</b> di bar alamat.',
+    'Skrol ke bawah dan pilih <b>Tambah ke Skrin Utama</b> <i>(Add to Home Screen)</i>.',
+    'Jika ada suis <b>Buka sebagai Apl Web</b> <i>(Open as Web App)</i>, biarkan ia hidup. Tekan <b>Tambah</b> <i>(Add)</i>.'],
+    'Tiada dalam senarai? Skrol ke paling bawah, tekan <b>Edit Tindakan</b> <i>(Edit Actions)</i> dan tambah <b>Tambah ke Skrin Utama</b>.');
+  const K = kad('pkomputer', 'komputer', 'Komputer / laptop', 'Guna Chrome atau Edge', [
+    'Buka <b>sudutbelajarpro.com</b> dalam <b>Chrome</b> atau <b>Edge</b>.',
+    'Klik ikon <b>Pasang</b> <i>(Install)</i> di hujung kanan bar alamat, jika ada.',
+    'Jika tiada: <b>Chrome</b> ⋮ → <b>Hantar, simpan dan kongsi</b> <i>(Cast, save and share)</i> → <b>Pasang Sudut Belajar</b> <i>(Install Sudut Belajar)</i>.<br><b>Edge</b> ⋯ → <b>Apl</b> <i>(Apps)</i> → <b>Pasang Sudut Belajar</b> <i>(Install Sudut Belajar)</i>.',
+    'Klik <b>Pasang</b> <i>(Install)</i>. Sudut Belajar dibuka dalam tetingkap sendiri dan ikonnya ada di desktop.']);
+  const utama = ios ? I : android ? A : K, lain = ios ? A + K : android ? I + K : A + I;
   app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:620px">
     <a class="crumb" href="#pilih">← Utama</a>
-    <h1 style="margin:10px 0 6px">📱 Letak Sudut Belajar di skrin telefon</h1>
-    <p class="lead" style="margin:0 0 16px">Tak perlu muat turun dari Play Store atau App Store. Tambah ikon ke skrin utama dan anak boleh buka terus, macam app.</p>
+    <div class="ps-hero">${ik('pasang')}<div><h1>Letak Sudut Belajar di skrin telefon</h1><p class="lead">Tak perlu muat turun dari Play Store atau App Store. Pasang ikon di skrin utama dan anak boleh buka terus dengan satu tekan.</p></div></div>
     ${dahPasang ? '<div class="akaunbox" style="border-color:#43a047;background:#e8f5e9;margin-bottom:14px">✅ Sudut Belajar sudah ada di skrin utama peranti ini.</div>' : ''}
-    <div id="ppasang" ${deferred ? '' : 'hidden'} style="margin-bottom:14px"><button class="btn pri" id="ppasangbtn" style="width:100%;justify-content:center">📲 Pasang sekarang</button></div>
-    ${ios ? I + A : A + I}
-    <section class="kad" style="background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px"><h2 style="margin:0 0 10px;font-size:19px">💻 Komputer</h2><p style="margin:0">Buka dalam <b>Chrome</b> atau <b>Edge</b>, kemudian tandakan laman ini (Ctrl+D) supaya mudah dibuka semula.</p></section>
-    <p style="font-size:13px;color:var(--muted)">💡 Ikon ini membuka laman Sudut Belajar, jadi <b>sambungan internet diperlukan</b>. Kemajuan anak disimpan ke awan apabila log masuk melalui akaun ibu bapa. Untuk tablet anak sendiri, ibu bapa boleh guna <b>📲 Hantar ke peranti anak</b> di halaman <a href="#akaun">Akaun</a> supaya anak terus log masuk.</p>
+    ${dalamApp && !dahPasang ? `<div class="ps-amaran">${ik('amaran')}<div><b>Anda sedang membuka laman ini dalam aplikasi Facebook, Instagram atau TikTok.</b> Pilihan pasang tiada di sini. Tekan <b class="ps-b">⋯</b> di bucu atas, pilih <b>Buka dalam pelayar</b> <i>(Open in browser)</i>, kemudian ikut langkah di bawah.</div></div>` : ''}
+    <div id="ppasang" ${deferred ? '' : 'hidden'} style="margin-bottom:14px"><button class="btn pri" id="ppasangbtn" style="width:100%;justify-content:center;padding:14px 20px;font-size:17px">📲 Pasang sekarang</button></div>
+    ${utama}
+    <details class="ps-lain"><summary>Peranti lain</summary>${lain}</details>
+    <div class="ps-tip">${ik('wifi')}<p>Ikon ini membuka laman Sudut Belajar, jadi <b>sambungan internet diperlukan</b>. Kemajuan anak disimpan ke awan apabila log masuk melalui akaun ibu bapa.</p></div>
+    <div class="ps-tip">${ik('tablet')}<p>Untuk tablet anak sendiri, ibu bapa boleh guna <b>📲 Hantar ke peranti anak</b> di halaman <a href="#akaun">Akaun</a> supaya anak terus log masuk.</p></div>
   </section>`;
   const b = $('#ppasangbtn');
   if (b) b.onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; ib.hidden = true; $('#ppasang').hidden = true; };
@@ -19504,7 +19533,7 @@ function faq() {
     ${Q('Berapa harganya?', `<p><b>2 Bulan</b>: RM${hargaRM('2bulan')}${hargaAwal('2bulan') ? ` hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}` : ''}. <b>Setahun</b>: RM${hargaRM('setahun')}${hargaAwal('setahun') ? ` hingga ${tarikhBM(tt('harga_setahun_awal_tamat'))}, kemudian RM${tt('harga_setahun')}` : ''}. Satu pakej untuk seorang anak dan satu darjah (tidak boleh ditukar darjah). Tiada caj automatik.</p>`)}
     ${Q('Bagaimana cara membayar?', `<p>Pilih pakej di halaman <a href="#premium">Premium</a>, imbas <b>QR DuitNow</b> dengan app bank atau e-wallet, kemudian isi nombor rujukan transaksi dan tekan <b>Hantar</b>. Selepas bayaran disahkan (biasanya dalam 24 jam), kami emel <b>kod premium dan resit pembayaran</b>. Masukkan kod di halaman yang sama. Perlu akaun ibu bapa (percuma).</p>`)}
     ${Q('Apa jadi bila Premium tamat?', `<p>Kami emel peringatan <b>14, 7 dan 1 hari</b> sebelum tamat. Selepas tamat, profil kembali ke Percuma; bintang dan kemajuan anak kekal. Tiada pulangan wang, jadi cuba Perajurit percuma dahulu.</p>`)}
-    ${Q('Adakah kandungan ikut silibus sekolah?', `<p>Ya, ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p>`)}
+    ${Q('Adakah kandungan ikut silibus sekolah?', `<p>Ya, ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</p>`)}
     <h2>Akaun &amp; bantuan</h2>
     ${Q('Adakah selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan nama glamour pilihan anak, bukan nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p>`)}
     ${Q('Terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. Kod 6 angka dihantar ke emel ibu bapa (sah 30 minit).</p>`)}
@@ -19941,11 +19970,12 @@ function home(y, scroll) {
     <section class="blk" id="ibubapa">
       <div class="sh"><div><h2>Untuk ibu bapa</h2><p>Dibina supaya anak boleh belajar sendiri dengan selamat.</p></div></div>
       <div class="features">
-        <div class="feat"><div class="e e3">${IKON3D.dadu()}</div><h3>Soalan tak berulang</h3><p>Setiap pusingan menjana 10 soalan baharu. Anak tak boleh hafal jawapan.</p></div>
-        <div class="feat"><div class="e e3">${IKON3D.bintang()}</div><h3>Kemajuan tersimpan</h3><p>Bintang disimpan dalam peranti secara automatik, dan ke awan bila anak log masuk. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi) — tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
-        <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e e3">${IKON3D.telefon()}</div><h3>Letak di skrin telefon</h3><p>Buka Sudut Belajar terus dari ikon di skrin utama telefon atau tablet anak, macam app. <b style="color:var(--brand)">Lihat cara →</b></p></a>
-        <div class="feat"><div class="e e3">${IKON3D.silibus()}</div><h3>Ikut silibus sekolah</h3><p>Kandungan ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</p></div>
-        <a class="feat af-feat" href="#affiliate" style="text-decoration:none;color:inherit"><div class="e e3">${IKON3D.syiling()}</div><h3>Program Affiliate <small class="af-tag">AKAN DIBUKA</small></h3><p>Kongsi Sudut Belajar dan dapat komisen untuk setiap langganan yang anda rujuk. <b style="color:var(--brand)">Daftar minat →</b></p></a>
+        <a class="feat" href="${AKAUN.get() ? '#akaun' : '#akaun/daftar'}" style="text-decoration:none;color:inherit"><div class="e e3"><img class="i3" src="aset/p3-q-rumah.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></div><h3>Satu akaun, ramai anak</h3><p>Daftar akaun ibu bapa percuma dan tambah profil setiap anak. Kemajuan disimpan di awan, boleh sambung di telefon, tablet atau komputer. <b style="color:var(--brand)">${AKAUN.get() ? 'Buka akaun' : 'Daftar percuma'} →</b></p></a>
+        <a class="feat" href="#prestasi" style="text-decoration:none;color:inherit"><div class="e e3"><img class="i3" src="aset/p3-pm-prestasi.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></div><h3>Pantau prestasi anak</h3><p>Lihat minit belajar, subjek kuat dan lemah, serta topik yang perlu bantuan. Asas percuma, laporan penuh untuk Premium. <b style="color:var(--brand)">Lihat prestasi →</b></p></a>
+        <div class="feat"><div class="e e3">${IKON3D.dadu()}</div><h3>Soalan sentiasa bertukar</h3><p>Soalan disusun secara rawak setiap kali bermain, jadi anak perlu faham konsep, bukan hafal jawapan.</p></div>
+        <div class="feat"><div class="e e3"><img class="i3" src="aset/perisai.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></div><h3>Selamat untuk anak</h3><p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya papar <b>nama glamour, darjah, mata</b> dan nama sekolah (jika diisi), tiada nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p></div>
+        <div class="feat"><div class="e e3">${IKON3D.silibus()}</div><h3>Ikut silibus sekolah</h3><p>Kandungan ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar.</p></div>
+        <a class="feat" href="#pasang" style="text-decoration:none;color:inherit"><div class="e e3"><img class="i3" src="aset/p3-q-pasang.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></div><h3>Letak di skrin telefon</h3><p>Pasang ikon Sudut Belajar di skrin utama telefon, tablet atau komputer. Anak buka terus dengan satu tekan. <b style="color:var(--brand)">Lihat cara →</b></p></a>
       </div>
     </section>
   </div>
@@ -19978,7 +20008,7 @@ function topics(s, y) {
   app.innerHTML = `<div class="wrap pagein">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
       <h1><span class="bic">${ikonSubj(s, y)}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
-      ${y === 1 ? '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini mengikut Kurikulum Persekolahan 2027.</div>' : ''}
+      ${y === 1 ? '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</div>' : ''}
       <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
     <div class="topics">${tiles}<a class="tp mix" href="#d${y}/${s}/campuran"><div class="ti">${E.ICON.campuran}</div><div><h3>${E.mix}</h3><div class="d">${E.mixd}</div>${rankPills(s, y, 'campuran')}</div></a></div>
@@ -20670,7 +20700,7 @@ const PRA = (() => {
 .pr-gk .kc{position:absolute;top:8px;right:8px;background:#ffd54f;color:#5d4037;border-radius:999px;font-size:11px;font-weight:800;padding:2px 8px;font-family:var(--fb)}
 .pr-gk .pc{position:absolute;top:8px;left:8px;background:#d3f9d8;color:#2b8a3e;border-radius:999px;font-size:11px;font-weight:800;padding:2px 8px;font-family:var(--fb)}
 .pr-bonus{display:flex;align-items:center;gap:12px;margin-top:14px;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,#fff4e6,#ffe8f1);border:2.5px dashed #ff6fa5;text-decoration:none;color:var(--ink);font-family:var(--fb);font-size:14px}
-.pr-bonus .ic{font-size:36px}
+.pr-bonus .ic{font-size:36px;flex:none}.pr-bonus .ic .pr-i3{width:58px;height:58px}
 .pr-bonus b.t{font-family:var(--fd);font-size:17px;display:block;color:#e8590c}
 .pr-pintu{text-align:center;padding:30px 18px 34px}
 .pr-pintu .ic{font-size:84px;animation:prapung 3s ease-in-out infinite}
@@ -21640,7 +21670,7 @@ const PRA = (() => {
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
   // ikon 3D (gambar jana AI, dipotong dari grid) — jika tiada, guna emoji
-  const IKP = new Set(['g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
+  const IKP = new Set(['pm-bonus', 'g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
   const ikP = (k, emoji, kecil) => IKP.has(k) ? `<img class="pr-i3${kecil ? ' k' : ''}" src="aset/p3-${k}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : emoji;
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
@@ -21663,7 +21693,7 @@ const PRA = (() => {
         <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
       <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${ikP('zon-' + k, z.ic)}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
       <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
-      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
+      ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
       <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
       <div style="text-align:center;margin-top:14px">${suaraBtn()}</div>
@@ -21676,7 +21706,7 @@ const PRA = (() => {
   function zon(z) {
     const Z = ZON[z]; const s = ST.get();
     app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${ikP('zon-' + z, Z.ic, 1)} ${Z.nama}</h2>${suaraBtn()}</div>
-      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
     app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
@@ -21685,7 +21715,7 @@ const PRA = (() => {
       <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${ikP('g-' + g.id, g.ic, 1)}<span class="pr-nm"> ${g.nama}</span></b></div>
       <div class="pr-pintu"><div class="ic">🔒</div><h2>Permainan ini berkunci</h2>
         <p style="font-family:var(--fb);font-size:17px;font-weight:600;margin:0">Minta ayah atau ibu buka ya! 😊</p>
-        <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 50 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
+        <div class="pr-bonus" style="text-align:left"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 50 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>
         <button class="pr-btn utama pr-tahan" id="prtahan"><i></i><span style="position:relative">👨‍👩‍👧 Ibu bapa: tekan &amp; tahan</span></button>
         <div style="margin-top:14px"><button class="pr-btn" onclick="location.hash='#sedia/${z}'">🎮 Main permainan percuma</button></div>
       </div></div></div>`;

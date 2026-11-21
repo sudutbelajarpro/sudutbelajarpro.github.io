@@ -20542,6 +20542,9 @@ const PRA = (() => {
 .pr-gk{border:0;border-radius:22px;padding:14px 10px;background:#fff;cursor:pointer;font-family:var(--fd);box-shadow:0 6px 0 var(--line);text-align:center;transition:transform .12s}
 .pr-gk:active{transform:translateY(4px);box-shadow:0 2px 0 var(--line)}
 .pr-gk .ic{font-size:46px;display:block;line-height:1.15}
+.pr-i3{display:block;width:70px;height:70px;margin:0 auto 2px;filter:drop-shadow(0 6px 5px rgba(60,30,10,.18))}
+.pr-zk .pr-i3{width:78px;height:78px}
+.pr-i3.k{display:inline-block;width:1.45em;height:1.45em;vertical-align:-.38em;margin:0 2px 0 0;filter:none}
 .pr-gk b{display:block;font-size:17px;margin-top:4px;color:var(--ink)}
 .pr-gk small{display:block;font-family:var(--fb);font-size:12px;color:var(--muted);margin-top:2px;min-height:30px}
 .pr-gk .bt{font-size:18px;letter-spacing:2px;margin-top:4px;display:block}
@@ -21636,6 +21639,9 @@ const PRA = (() => {
   const PERCUMA = ['belon', 'keretaapi', 'telur', 'surih', 'ikan', 'rama', 'menara', 'roket', 'timbul', 'ingat', 'bunyi', 'selamat', 'adab', 'hilang'];
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
+  // ikon 3D (gambar jana AI, dipotong dari grid) — jika tiada, guna emoji
+  const IKP = new Set(['g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
+  const ikP = (k, emoji, kecil) => IKP.has(k) ? `<img class="pr-i3${kecil ? ' k' : ''}" src="aset/p3-${k}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : emoji;
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
     nombor: { nama: 'Taman Nombor', ic: '🎡', sub: 'Kira, bentuk & susun nombor', w: 'linear-gradient(135deg,#4f7cff,#22c1c3)', games: NOMBOR },
@@ -21655,7 +21661,7 @@ const PRA = (() => {
     app.innerHTML = `<div class="pr">
       <div class="pr-hero"><span class="pr-awan" style="right:14px;top:8px">🎒</span><span class="pr-awan" style="right:70px;bottom:6px;font-size:32px;animation-delay:-2s">✏️</span>
         <h1>Sedia ke<br>Tahun 1 🌈</h1><p>Belajar sambil bermain · umur 5–6 tahun</p></div>
-      <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${z.ic}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
+      <div class="pr-zon">${Object.entries(ZON).map(([k, z]) => `<button class="pr-zk" data-z="${k}" style="background:${z.w}"><span class="ic">${ikP('zon-' + k, z.ic)}</span><b>${z.nama}</b><span>${z.sub}</span><div class="bar"><i style="width:${Math.round(kira(k) / z.games.length * 100)}%"></i></div><span style="font-size:12.5px">${kira(k)} / ${z.games.length} permainan selesai</span></button>`).join('')}</div>
       <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">📒</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length} pelekat dikumpul</span></span></button></div>
       ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
@@ -21669,14 +21675,14 @@ const PRA = (() => {
   }
   function zon(z) {
     const Z = ZON[z]; const s = ST.get();
-    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${Z.ic} ${Z.nama}</h2>${suaraBtn()}</div>
-      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${g.ic}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
+    app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia'">⬅️</button><h2>${ikP('zon-' + z, Z.ic, 1)} ${Z.nama}</h2>${suaraBtn()}</div>
+      <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : '<span class="kc">🔒</span>'}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">🎁</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
     app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
   function pintu(z, g) {
     app.innerHTML = `<div class="pr"><div class="pr-main" style="--zw:${ZON[z].w}">
-      <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${g.ic}<span class="pr-nm"> ${g.nama}</span></b></div>
+      <div class="pr-kepala"><button class="pr-btn x" onclick="location.hash='#sedia/${z}'" aria-label="Kembali">✖</button><div class="pr-jejak"></div><b style="font-size:14px">${ikP('g-' + g.id, g.ic, 1)}<span class="pr-nm"> ${g.nama}</span></b></div>
       <div class="pr-pintu"><div class="ic">🔒</div><h2>Permainan ini berkunci</h2>
         <p style="font-family:var(--fb);font-size:17px;font-weight:600;margin:0">Minta ayah atau ibu buka ya! 😊</p>
         <div class="pr-bonus" style="text-align:left"><span class="ic">🎁</span><span><b class="t">BONUS dalam Pakej Darjah 1</b>Semua 50 permainan Sedia ke Tahun 1 dibuka <b>tanpa caj tambahan</b> bila ibu bapa beli Pakej Darjah 1.</span></div>

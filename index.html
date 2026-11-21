@@ -19500,7 +19500,8 @@ function premium(s, y, t, rank) {
     ['play', 'pause', 'volumechange'].forEach(ev => v.addEventListener(ev, latar));
     if (auto && 'IntersectionObserver' in window) { const io = new IntersectionObserver(es => es.forEach(en => { if (!document.body.contains(v)) { io.disconnect(); return; } if (en.isIntersecting && en.intersectionRatio >= .5) { if (!jedaSendiri) main(); } else if (!v.paused) v.pause(); }), { threshold: [0, .5] }); io.observe(v); }
   })();
-  const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  PIXEL.lihat();
+  const pmke = $('#pmke'); if (pmke) pmke.onclick = e => { e.preventDefault(); PIXEL.pakej(); const t = $('#pm-pakej'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const msg = x => { const m = $('#premsg'); if (m) m.textContent = x; };
   const segar = () => { const d = +$('#pkdarjah').value; $('#pklabel').textContent = LABEL_PAKEJ(d); $('#pkbonus').hidden = d !== 1; const amt = 'RM' + hargaBayar(pelan); $('#dnamt').textContent = amt; $('#dnamt2').textContent = amt; $('#dnpl').textContent = NAMA_PELAN[pelan] + ' · Darjah ' + d; };
   const dnh = $('#dnhantar'); if (dnh) dnh.onclick = async () => {
@@ -19511,7 +19512,7 @@ function premium(s, y, t, rank) {
     dnh.disabled = true; m.textContent = 'Menghantar…';
     try {
       const r = await apiPost({ a: 'pesan_dn', nick: P.nick, pin: P.pin, darjah: P.darjah, pakej: +$('#pkdarjah').value, pelan, rujukan: ruj, ref: REF.sah() || '' });
-      if (r.ok) { m.className = 'dn-msg ok'; m.innerHTML = '✅ <b>Pesanan diterima</b> (' + esc(r.id) + '). Kami akan sahkan bayaran RM' + esc(r.amaun) + ' dan hantar kod Premium serta resit ke <b>' + esc(r.emel) + '</b>. Kemudian masukkan kod di langkah 3.'; $('#dnref').value = ''; }
+      if (r.ok) { PIXEL.pesanan(r.amaun); m.className = 'dn-msg ok'; m.innerHTML = '✅ <b>Pesanan diterima</b> (' + esc(r.id) + '). Kami akan sahkan bayaran RM' + esc(r.amaun) + ' dan hantar kod Premium serta resit ke <b>' + esc(r.emel) + '</b>. Kemudian masukkan kod di langkah 3.'; $('#dnref').value = ''; }
       else if (r.perluAkaun) { P.akaun = 0; PLAYER.set(P); m.innerHTML = '⚠️ Premium memerlukan <b>akaun ibu bapa</b> (percuma). <a href="' + (AKAUN.get() ? '#akaun' : '#akaun/daftar') + '" style="font-weight:700">Daftar / pautkan profil →</a>'; }
       else m.textContent = '⚠️ ' + (r.err || 'Gagal. Cuba lagi.');
     } catch (e) { m.textContent = '⚠️ Tiada sambungan internet. Cuba lagi.'; }
@@ -19553,6 +19554,32 @@ const AKAUN = {
   get() { try { return JSON.parse(localStorage.getItem('sb.akaun') || 'null'); } catch (e) { return null; } },
   set(a) { try { if (a) localStorage.setItem('sb.akaun', JSON.stringify(a)); else localStorage.removeItem('sb.akaun'); } catch (e) {} butangAkaun(); }
 };
+// ===== Meta Pixel (22 Nov 2026) — HANYA paparan jualan, HANYA tindakan dewasa. =====
+// Syarat Meta: tiada data daripada kanak-kanak bawah 13. Jadi skrip dimuat malas dan hanya bila:
+//  (a) pelawat datang dari iklan Meta (fbclid / utm_source fb|ig|meta) — ViewContent, InitiateCheckout, Lead; atau
+//  (b) ibu bapa menghantar pesanan DuitNow (perlukan rujukan bank = tindakan dewasa) — Lead sahaja.
+// Tidak pernah menyala semasa latihan, permainan, ranking atau profil anak. Hanya nama peristiwa + nilai RM dihantar.
+const PIXEL = (() => {
+  const ID = '2059662131364937'; let siap = false, dahLihat = '';
+  window.addEventListener('hashchange', () => { dahLihat = ''; });
+  const dariIklan = () => { try { const q = new URLSearchParams(location.search); if (q.get('fbclid') || /^(fb|ig|meta|facebook|instagram|threads)/i.test(q.get('utm_source') || '')) sessionStorage.setItem('sb.iklan', '1'); return sessionStorage.getItem('sb.iklan') === '1'; } catch (e) { return false; } };
+  dariIklan();
+  const muat = () => {
+    if (siap) return true;
+    try {
+      !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('set', 'autoConfig', false, ID); fbq('init', ID); siap = true;
+    } catch (e) {}
+    return siap;
+  };
+  const hantar = (ev, d) => { try { if (muat()) fbq('track', ev, d || {}); } catch (e) {} };
+  return {
+    iklan: dariIklan,
+    lihat() { if (dariIklan() && dahLihat !== location.hash) { dahLihat = location.hash; hantar('ViewContent', { content_category: 'premium' }); } },
+    pakej() { if (dariIklan()) hantar('InitiateCheckout'); },
+    pesanan(rm) { if (dariIklan() || AKAUN.get()) hantar('Lead', { value: +rm || 0, currency: 'MYR' }); }
+  };
+})();
 function butangAkaun() { const ada = !!AKAUN.get(); document.querySelectorAll('.akaunbtn').forEach(b => b.classList.toggle('masuk', ada)); const l = document.querySelector('#akaunbtn .akl'); if (l) l.textContent = ada ? 'Akaun' : 'Log masuk'; }
 function profilDari(a) { return { nick: a.nick, pin: a.pin ? String(a.pin) : '', akaun: a.akaun === 0 ? 0 : 1, darjah: +a.darjah || 1, premium: a.premium ? 1 : 0, tamat: a.tamat || '', pakej: +a.pakej || 0, sekolah: a.sekolah || '' }; }
 // Kemajuan disimpan ikut profil: tukar profil = simpan DB profil lama, muat DB profil baharu.
@@ -19781,12 +19808,12 @@ function privasi() {
   app.innerHTML = `<section class="wrap pagein notis" style="padding:28px 20px 60px;max-width:680px">
     <a class="crumb" href="#pilih">← Utama</a>
     <h1 style="margin:10px 0 6px">Notis Privasi</h1>
-    <p class="lead" style="margin:0">Ringkasan cara Sudut Belajar mengumpul dan menggunakan data. Dikemas kini 18 November 2026.</p>
+    <p class="lead" style="margin:0">Ringkasan cara Sudut Belajar mengumpul dan menggunakan data. Dikemas kini 22 November 2026.</p>
     <h2>Data yang kami simpan</h2>
     <ul>
       <li><b>Akaun ibu bapa:</b> alamat emel dan kata laluan. Kata laluan disimpan dalam bentuk <b>hash bergaram</b> — kami sendiri tidak dapat melihatnya.</li>
       <li><b>Profil anak:</b> nama glamour (bukan nama sebenar), darjah, nama sekolah (pilihan), bintang, mata, rekod kuiz dan status Premium.</li>
-      <li><b>Dalam peranti:</b> kemajuan dan tetapan disimpan dalam storan pelayar (localStorage) supaya laman berfungsi tanpa internet.</li>
+      <li><b>Dalam peranti:</b> kemajuan dan tetapan disimpan dalam storan pelayar (localStorage) supaya kemajuan tidak hilang jika sambungan terputus seketika.</li>
       <li><b>Pendaftaran minat Program Affiliate (dewasa sahaja):</b> nama, nombor telefon, emel (pilihan), kategori, negeri, pautan media sosial dan catatan yang anda isi. Digunakan <b>hanya</b> untuk menghubungi anda tentang Program Affiliate dan tidak dipaparkan kepada umum. Minta pemadaman bila-bila masa melalui emel kami.</li>
     </ul>
     <h2>Untuk apa data digunakan</h2>
@@ -19794,7 +19821,17 @@ function privasi() {
     <h2>Apa yang dipaparkan kepada umum</h2>
     <p>Ranking hanya memaparkan <b>nama glamour, darjah, mata, nama sekolah (jika diisi) dan tanda Premium 👑</b>. Emel ibu bapa tidak pernah dipaparkan. Jangan gunakan nama sebenar anak sebagai nama glamour.</p>
     <h2>Perkongsian &amp; penyimpanan</h2>
-    <p>Kami <b>tidak menjual</b> data dan tiada iklan. Data disimpan dalam perkhidmatan Google (Google Sheets dan Apps Script) yang diurus oleh Sudut Belajar. Bayaran dalam talian, apabila tersedia, diproses oleh penyedia pembayaran (ToyyibPay) — kami tidak menyimpan butiran kad atau akaun bank.</p>
+    <p>Kami <b>tidak menjual</b> data dan <b>tiada iklan dipaparkan dalam laman</b>. Data disimpan dalam perkhidmatan Google (Google Sheets dan Apps Script) yang diurus oleh Sudut Belajar. Bayaran Premium dibuat melalui <b>DuitNow QR</b> dari aplikasi bank anda sendiri — kami hanya menerima nombor rujukan bayaran dan tidak pernah menerima butiran kad atau akaun bank.</p>
+    <h2>Meta Pixel (pengukuran iklan)</h2>
+    <p>Kami mengiklankan Sudut Belajar kepada <b>ibu bapa</b> di Facebook dan Instagram. Untuk mengukur sama ada iklan itu berkesan, kami menggunakan Meta Pixel — kod kecil daripada Meta Platforms.</p>
+    <ul>
+      <li><b>Bila ia menyala:</b> hanya apabila anda tiba di laman ini <b>dengan menekan iklan kami di Facebook/Instagram</b>, atau apabila ibu bapa <b>menghantar pesanan bayaran Premium</b>. Ia hanya dimuat pada halaman Premium.</li>
+      <li><b>Bila ia tidak menyala:</b> semasa latihan, kuiz, permainan Prasekolah, ranking, nota atau profil anak. Bagi pelawat yang tidak datang dari iklan, hanya penghantaran pesanan Premium oleh ibu bapa yang dikira.</li>
+      <li><b>Apa yang dihantar kepada Meta:</b> jenis tindakan (melihat halaman Premium, menekan "Lihat pakej", menghantar pesanan), nilai pesanan dalam RM, alamat halaman jualan yang dibuka, serta maklumat teknikal pelayar yang Meta kumpul secara automatik (seperti alamat IP dan kuki <code>_fbp</code>).</li>
+      <li><b>Apa yang TIDAK pernah dihantar:</b> nama glamour, darjah anak, markah, mata ranking, nama sekolah, emel atau kata laluan.</li>
+      <li><b>Cara menyekatnya:</b> sekat kuki pihak ketiga atau guna mod peribadi pelayar, pasang penyekat penjejak, atau urus tetapan iklan di Facebook/Instagram (Tetapan → Pilihan iklan). Laman tetap berfungsi sepenuhnya.</li>
+    </ul>
+    <p>Meta memproses data ini di bawah dasar privasinya sendiri.</p>
     <h2>Hak anda</h2>
     <p>Ibu bapa boleh meminta salinan, pembetulan atau pemadaman data akaun dan profil anak dengan menghubungi kami di <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a>. Kami membalas dalam tempoh 24 jam.</p>
     <h2>Kanak-kanak</h2>

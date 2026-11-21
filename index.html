@@ -312,7 +312,7 @@ section.blk{padding:44px 0}
 .agp .sama{display:inline-flex;align-items:center;gap:8px;margin:8px 0;padding:9px 18px;border-radius:99px;background:linear-gradient(135deg,#7b5cff,#5a36d6);color:#fff;font-weight:900;font-size:15px;box-shadow:0 6px 14px rgba(90,54,214,.3)}
 .agp .sama b{font-size:20px}
 .agp .p{margin:0 0 12px;font-size:14px;color:#5d5878;line-height:1.5}
-.agp .t1{text-wrap:balance;margin:14px 0 2px;font-size:19px;font-weight:900;color:var(--ink)}.agp .t1 em{font-style:normal;color:#ff7a1a}
+.agp .t1{white-space:nowrap;margin:14px 0 2px;font-size:clamp(13px,4.05vw,19px);font-weight:900;color:var(--ink)}.agp .t1 em{font-style:normal;color:#ff7a1a}
 .agp .hg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
 .agp .hk{border-radius:18px;padding:12px 8px;background:#faf8ff;border:2px solid #ece6ff}.agp .hk.on{border-color:#7b5cff;background:#f4efff}
 .agp .hk b{display:block;font-size:13px;color:#6b6585;font-weight:800}.agp .hk .rm{display:block;font-size:26px;font-weight:900;color:#3b1f78;margin:2px 0}
@@ -322,6 +322,7 @@ section.blk{padding:44px 0}
 .agp .janji img{width:58px;height:auto;flex:none}.agp .janji p{margin:0;text-align:left;font-size:14px;font-weight:900;color:#0b6b3e;line-height:1.35}
 .agp .kecil{margin:8px 0 0;font-size:12px;color:#8a84a3;font-style:italic}
 @media (prefers-reduced-motion:reduce){.agp .ayam{animation:none}}
+@media (max-width:340px){.agp .t1{white-space:normal;text-wrap:balance}}
 .pm-hero h1 span{background:linear-gradient(90deg,#b8860b,#e0a800);-webkit-background-clip:text;background-clip:text;color:transparent}
 .pm-hero .lead{max-width:520px;margin:0 auto 16px}
 .pm-angka{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
@@ -19269,11 +19270,11 @@ function premium(s, y, t, rank) {
     </div>
     ${(() => `<section class="agp" aria-label="Harga Premium">
       <span class="tag">🍗 Kira-kira mudah</span>
-      <h2>Sebulan belajar,<br>harga sepinggan<br>ayam gepuk.</h2>
+      <h2>Sebulan belajar<br>= harga sepinggan<br>ayam gepuk</h2>
       <img class="ayam" src="aset/ayam-gepuk.webp" width="440" height="399" alt="Sepinggan nasi ayam gepuk" loading="lazy">
       <div class="sama">≈ <b>30 hari</b> latihan Premium</div>
       <p class="p">Sekali lunch ayam gepuk, habis dalam 15 minit.<br>Harga yang sama, anak dapat <b>sebulan penuh</b> latihan.</p>
-      <p class="t1">Satu harga. Satu darjah.<br><em>Semua tahap.</em></p>
+      <p class="t1">Satu harga. Satu darjah. <em>Semua tahap.</em></p>
       <p class="p">Dari soalan asas hingga gaya UASA, untuk Matematik, Bahasa Melayu, English dan Sains. Sekali bayar, anak buka semuanya.</p>
       <div class="janji"><img src="aset/perisai.webp" width="200" height="197" alt="" loading="lazy"><p>Tiada caj tersembunyi.<br>Tiada potongan automatik bulanan.</p></div>
       <p class="kecil">Satu harga untuk seorang anak, satu darjah.</p>

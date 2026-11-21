@@ -429,6 +429,19 @@ details.alipat summary{font-weight:700;cursor:pointer}
 .sub.soon{filter:saturate(.6);opacity:.82}
 .sub.soon:hover{transform:none}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pandu-m{position:absolute;z-index:9000;pointer-events:none;height:96px;width:auto;filter:drop-shadow(0 8px 10px rgba(40,20,90,.28));animation:pandugoyang 1.4s ease-in-out infinite}
+@keyframes pandugoyang{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.pandu-sasar{position:relative;z-index:2;box-shadow:0 0 0 4px #ffd54f,0 0 0 9px rgba(255,213,79,.45)!important;border-radius:16px;animation:pandunadi 1.6s ease-in-out infinite}
+@keyframes pandunadi{0%,100%{box-shadow:0 0 0 4px #ffd54f,0 0 0 9px rgba(255,213,79,.45)}50%{box-shadow:0 0 0 4px #ffd54f,0 0 0 16px rgba(255,213,79,0)}}
+.pandu-b{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:9001;max-width:460px;margin:0 auto;background:#fff;border:2.5px solid #ffd54f;border-radius:20px;padding:14px 16px 12px;box-shadow:0 18px 40px -14px rgba(40,20,90,.45);font-size:15.5px;line-height:1.5;color:var(--ink);animation:pandumasuk .35s ease-out}
+@keyframes pandumasuk{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.pandu-b small{display:block;font-size:12px;font-weight:800;color:#b7791f;margin-bottom:3px}
+.pandu-b .pb-t{font-weight:700}
+.pandu-b .pb-r{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:10px}
+.pandu-b .pb-ok{background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 18px;font:inherit;font-weight:800;cursor:pointer}
+.pandu-b .pb-x{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px 2px}
+@media (min-width:900px){.pandu-b{bottom:24px;left:auto;right:24px}}
+@media (prefers-reduced-motion:reduce){.pandu-m,.pandu-sasar,.pandu-b{animation:none}}
 .ps-hero{display:flex;gap:14px;align-items:center;margin:10px 0 16px}.ps-hero .ps-i3{width:84px;height:84px;flex:none}.ps-hero h1{margin:0 0 4px;font-size:clamp(22px,5.6vw,30px);text-wrap:balance}.ps-hero .lead{margin:0}
 .ps-i3{display:block;object-fit:contain;filter:drop-shadow(0 6px 6px rgba(40,20,90,.16))}
 .ps-kad{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:14px}
@@ -19979,7 +19992,7 @@ function home(y, scroll) {
       </div>
     </section>
   </div>
-  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Kandungan ikut silibus semasa DSKP dan KSSR.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#pilih" data-pandu-ulang>Tunjuk cara guna</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Kandungan ikut silibus semasa DSKP dan KSSR.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -21953,6 +21966,68 @@ window.addEventListener('hashchange', navAktif);
 navAktif();
 muatTetapan();
 butangAkaun();
+// ---- maskot pemandu: tunjuk langkah seterusnya kepada pengguna baharu ----
+const PANDU = (() => {
+  const K = 'sb.pandu';
+  const baca = () => { try { return JSON.parse(localStorage.getItem(K) || '{}') || {}; } catch (e) { return {}; } };
+  const tulis = o => { try { localStorage.setItem(K, JSON.stringify(o)); } catch (e) {} };
+  let semasa = null, jam = null;
+  const tutup = () => {
+    if (jam) { clearInterval(jam); jam = null; }
+    document.querySelectorAll('.pandu-m,.pandu-b').forEach(e => e.remove());
+    document.querySelectorAll('.pandu-sasar').forEach(e => e.classList.remove('pandu-sasar'));
+    semasa = null;
+  };
+  const siap = k => { const o = baca(); o.d = o.d || {}; o.d[k] = 1; tulis(o); };
+  const letak = () => {
+    if (!semasa) return;
+    const { el, m } = semasa; if (!el.isConnected) return tutup();
+    const r = el.getBoundingClientRect(), sx = scrollX, sy = scrollY, h = 96;
+    const wKi = h * 219 / 330, wKa = h * 214 / 330, wB = h * 182 / 330, cy = r.top + Math.min(r.height / 2, 36);
+    const set = (src, x, y) => { if (!m.src.endsWith(src)) m.src = 'aset/' + src; m.style.left = (x + sx) + 'px'; m.style.top = (y + sy) + 'px'; };
+    if (r.right + wKi + 8 <= innerWidth) set('maskot-kiri.webp', r.right + 2, cy - h * 0.323);
+    else if (r.left - wKa - 8 >= 0) set('maskot-kanan.webp', r.left - wKa - 2, cy - h * 0.312);
+    else set('maskot-bawah.webp', Math.max(4, Math.min(r.right - wB * 0.69 - 10 - wB * 0.31, innerWidth - wB - 4)), r.top + 2 - h * 0.54);
+  };
+  const tunjuk = (k, el, teks, no) => {
+    tutup();
+    const m = document.createElement('img'); m.className = 'pandu-m'; m.alt = ''; m.setAttribute('aria-hidden', 'true'); m.width = 53; m.height = 96;
+    const b = document.createElement('div'); b.className = 'pandu-b'; b.setAttribute('role', 'status');
+    b.innerHTML = `<small>🧭 Panduan · langkah ${no} daripada 4</small><div class="pb-t">${teks}</div><div class="pb-r"><button type="button" class="pb-x">Langkau panduan</button><button type="button" class="pb-ok">Faham!</button></div>`;
+    document.body.append(m, b); el.classList.add('pandu-sasar');
+    semasa = { k, el, m };
+    b.querySelector('.pb-ok').onclick = () => { siap(k); tutup(); };
+    b.querySelector('.pb-x').onclick = () => { const o = baca(); o.off = 1; tulis(o); tutup(); };
+    const dlm = el.getBoundingClientRect(); if (dlm.top < 90 || dlm.bottom > innerHeight - 200) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    letak(); jam = setInterval(letak, 400);
+  };
+  const cuba = () => {
+    tutup();
+    const o = baca(), d = o.d || {}; if (o.off) return;
+    if (document.querySelector('.qtop')) return;
+    const nota = document.querySelector('a.btn.pri[href$="/nota"]'), rk = document.querySelector('.ranks .rk');
+    if (rk) { if (!d.tahap) tunjuk('tahap', nota || rk, nota ? 'Mula dengan <b>baca nota</b> dulu. Lepas tu jawab kuiz tahap <b>Perajurit</b>.' : 'Mula di tahap <b>Perajurit</b>. Dapat bintang, tahap seterusnya akan terbuka.', 4); return; }
+    const tp = document.querySelector('.topics .tp'); if (tp) { if (!d.topik) tunjuk('topik', tp, 'Pilih <b>topik</b> yang nak belajar. Tak pasti? Pilih <b>Campuran</b> di hujung senarai.', 3); return; }
+    const yrs = document.querySelector('.years');
+    if (yrs) {
+      if (!d.darjah) {
+        const P = PLAYER.get(), dj = P && +P.darjah, b = dj && document.querySelector(`.yr[data-y="${dj}"]`);
+        tunjuk('darjah', b || yrs, b ? `${esc(P.nick)} di <b>Darjah ${dj}</b>? Tekan <b>Darjah ${dj}</b> di sini.` : 'Mula di sini! Tekan <b>darjah anak anda</b>. Pastikan darjah betul, sebab soalan ikut silibus setiap darjah.', 1);
+      } else if (!d.subjek) { const sb = document.querySelector('#subjects .sub'); if (sb) tunjuk('subjek', sb, 'Bagus! Sekarang pilih <b>subjek</b> yang nak belajar.', 2); }
+      return;
+    }
+  };
+  let t = null; const jadual = ms => { clearTimeout(t); t = setTimeout(cuba, ms); };
+  document.addEventListener('click', e => {
+    if (semasa && semasa.el.contains(e.target)) { siap(semasa.k); tutup(); }
+    if (e.target.closest && e.target.closest('.yr')) jadual(500);
+    const u = e.target.closest && e.target.closest('[data-pandu-ulang]'); if (u) { tulis({}); jadual(700); }
+  }, true);
+  window.addEventListener('hashchange', () => { tutup(); jadual(800); });
+  addEventListener('resize', letak);
+  jadual(/^#?$/.test(location.hash) ? 1800 : 1000);
+  return { cuba, tutup };
+})();
 // ---- butang bunyi ----
 (function () {
   const b = document.getElementById('sndbtn');

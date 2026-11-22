@@ -54,6 +54,7 @@ a{color:inherit}
 .nota th{background:#f6f4ff}
 .nota .tip{background:#fff8e1;border:1.5px solid #ffd54f;border-radius:12px;padding:10px 14px;margin:12px 0;font-size:14.5px}
 .nota .svgbox{text-align:center;margin:14px 0}
+.nota .info3d img{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:1/1;margin:12px auto 16px;border-radius:18px;box-shadow:0 6px 18px rgba(60,40,120,.12)}
 .nota ul{padding-left:22px}
 /* top bar */
 .top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);background:rgba(246,244,255,.75);border-bottom:1px solid rgba(91,75,219,.08)}
@@ -9247,8 +9248,479 @@ for (const y in ADD) for (const t in ADD[y]) { const v = ADD[y][t]; if (typeof v
 // <<< TAMBAHAN SN
 // Penyiasatan Saintifik D4–D6 (Jabatan Kandungan 17 Nov 2026) — sumber: src/sn_siasat.js
 for (const y of [4, 5, 6]) D[y].siasat = [SIASAT[y].nama, '🕵️', SIASAT[y].item];
+// >>> ALAM DAN MANUSIA TAHUN 1 (KP2027) — 7 tajuk, 455 soalan, ditulis sendiri oleh Sudut Belajar (22 Nov 2026). Ganti topik Sains D1 lama dalam ORDER[1].
+D[1].amdiri = ["Kenali Diri & Keluargaku", "👥", [
+ ["e","Kita melihat dengan …","mata","telinga","hidung","lidah"],
+ ["e","Deria rasa menggunakan …","lidah","kulit","mata","telinga"],
+ ["e","Kulit membantu kita merasa …","sentuhan","bau","bunyi","warna"],
+ ["e","Yang manakah ahli keluarga terdekat?","Nenek","Jiran","Penjual kedai","Pemandu bas"],
+ ["e","Sejak bayi, badan kita menjadi semakin …","tinggi dan besar","kecil dan pendek","sama sahaja","ringan"],
+ ["e","Ciri yang boleh diwarisi daripada ibu bapa ialah …","jenis rambut","baju sekolah","nama kawan","warna beg"],
+ ["e","Kita merasa makanan masin dengan …","lidah","telinga","mata","kulit"],
+ ["e","Kita menghidu bunga dengan …","hidung","mulut","tangan","kaki"],
+ ["e","Kita mendengar muzik dengan …","telinga","hidung","lidah","mata"],
+ ["e","Kita membaca buku menggunakan …","mata","telinga","lidah","hidung"],
+ ["e","Bahagian tubuh yang digunakan untuk berjalan ialah …","kaki","telinga","hidung","mata"],
+ ["e","Bahagian tubuh yang digunakan untuk memegang pensel ialah …","tangan","kaki","telinga","hidung"],
+ ["e","Deria penglihatan menggunakan …","mata","kulit","lidah","hidung"],
+ ["e","Deria pendengaran menggunakan …","telinga","mata","kulit","lidah"],
+ ["e","Deria bau menggunakan …","hidung","telinga","lidah","kulit"],
+ ["e","Deria sentuhan menggunakan …","kulit","mata","telinga","hidung"],
+ ["e","Ais terasa … apabila disentuh.","sejuk","manis","bising","wangi"],
+ ["e","Limau terasa …","masam","masin","pahit","tawar"],
+ ["e","Sejak bayi, kaki kita menjadi semakin …","panjang","pendek","kecil","hilang"],
+ ["e","Bapa kepada ibu kita dipanggil …","datuk","abang","pak cik","adik"],
+ ["e","Anak perempuan yang lebih tua daripada kita dipanggil …","kakak","adik","nenek","ibu"],
+ ["e","Anak yang lebih muda daripada kita dipanggil …","adik","abang","kakak","datuk"],
+ ["e","Yang manakah ciri yang diwarisi?","Warna mata","Kasut","Jam tangan","Topi"],
+ ["e","Kad ucapan untuk ibu ialah tanda …","kasih sayang","marah","takut","bosan"],
+ ["e","Permukaan kertas pasir terasa …","kasar","licin","basah","manis"],
+ ["e","Permukaan cermin terasa …","licin","kasar","berduri","berbulu"],
+ ["e","Kita mendengar bunyi loceng menggunakan deria …","pendengaran","rasa","bau","sentuhan"],
+ ["e","Apabila membesar, saiz tapak kasut kita menjadi …","lebih besar","lebih kecil","sama","hilang"],
+ ["e","Ucapan \"terima kasih, ibu\" menunjukkan kita …","menghargai ibu","marah ibu","takut ibu","tidak peduli"],
+ ["e","Siapakah ahli keluarga terdekat kita?","Abang","Doktor","Posmen","Polis"],
+ ["l","Ali menutup mata dan menghidu sesuatu yang berbau wangi. Deria apakah yang Ali gunakan?","Deria bau","Deria rasa","Deria penglihatan","Deria pendengaran"],
+ ["l","Siti mahu tahu sama ada kain itu lembut atau kasar. Apakah yang patut Siti lakukan?","Sentuh kain itu","Hidu kain itu","Dengar kain itu","Rasa kain itu"],
+ ["l","Tapak tangan Amin lebih besar daripada tapak tangan Mei Ling. Apakah sikap yang betul?","Hormat, setiap orang membesar berbeza","Ejek Mei Ling","Suruh Mei Ling makan banyak","Tidak mahu berkawan"],
+ ["l","Rambut Kavin kerinting seperti rambut datuknya. Ini menunjukkan Kavin …","mewarisi ciri daripada datuk","meniru datuk","memotong rambut","menukar rambut"],
+ ["l","Cara terbaik menunjukkan kasih sayang kepada ibu ialah …","membantu ibu mengemas rumah","meminta mainan baharu","bermain sepanjang hari","tidur awal tanpa memberitahu"],
+ ["l","Ah Meng tidak dapat melihat papan putih dengan jelas. Bahagian tubuh manakah yang perlu diperiksa?","Mata","Telinga","Hidung","Kaki"],
+ ["l","Raju menutup hidung kerana bau sampah. Deria apakah yang terganggu?","Deria bau","Deria penglihatan","Deria rasa","Deria pendengaran"],
+ ["l","Dua biji bola sama warna dan sama saiz. Bagaimana Aisyah boleh tahu yang mana lebih lembut?","Picit kedua-duanya","Lihat sahaja","Hidu kedua-duanya","Dengar kedua-duanya"],
+ ["l","Baju raya tahun lepas sudah ketat untuk Hafiz. Mengapa?","Badan Hafiz sudah membesar","Baju itu terlalu baharu","Hafiz memakai kasut","Baju itu berwarna merah"],
+ ["l","Mata Lily berwarna perang seperti mata ibunya. Ciri ini dipanggil ciri yang …","diwarisi","dibeli","dipinjam","dilukis"],
+ ["l","Nenek sakit dan duduk di rumah. Cara terbaik menunjukkan kasih sayang ialah …","menemani dan menolong nenek","bermain telefon jauh dari nenek","membuat bising","tidak menegur nenek"],
+ ["l","Kawan kamu lebih rendah daripada kamu. Apakah yang patut kamu katakan?","Kita semua membesar dengan cara berbeza","Kamu kecil sangat!","Kamu tak boleh main","Kamu kena tinggi"],
+ ["l","Danial mahu tahu sama ada sup itu masin. Deria manakah yang paling sesuai?","Deria rasa","Deria bau","Deria penglihatan","Deria pendengaran"],
+ ["l","Dengan mata tertutup, Sarah dapat meneka bunyi kucing. Deria apakah yang digunakan?","Deria pendengaran","Deria sentuhan","Deria rasa","Deria bau"],
+ ["l","Kakak membuat penanda buku untuk ayah. Apakah tujuannya?","Tanda penghargaan kepada ayah","Untuk dijual","Untuk dibuang","Untuk mengejek ayah"],
+ ["l","Yang manakah BUKAN ciri yang diwarisi daripada ibu bapa?","Potongan rambut","Warna kulit","Warna mata","Jenis rambut"],
+ ["l","Antara berikut, yang manakah menggunakan deria sentuhan?","Merasa kain itu lembut","Mendengar burung berkicau","Melihat pelangi","Menghidu roti"],
+ ["l","Gambar bayi Ali kecil, tetapi sekarang Ali tinggi. Apakah perubahan yang berlaku?","Ali bertambah tinggi dan besar","Ali menjadi bayi semula","Ali tidak berubah","Ali menjadi kecil"],
+ ["l","Adik menangis kerana jatuh. Apakah cara menunjukkan kasih sayang?","Memujuk dan membantu adik","Mentertawakan adik","Meninggalkan adik","Memarahi adik"],
+ ["l","Pisang yang sudah masak terasa manis. Deria manakah yang memberitahu kita?","Deria rasa","Deria pendengaran","Deria sentuhan","Deria penglihatan"],
+ ["m","Kita mendengar bunyi dengan ___.","telinga",""],
+ ["m","Kita menghidu bau dengan ___.","hidung",""],
+ ["m","Ada ___ deria pada manusia.","lima","5"],
+ ["m","Ibu kepada bapa kita dipanggil ___.","nenek","opah|tok"],
+ ["m","Gula terasa ___ di lidah.","manis",""],
+ ["m","Kita melihat dengan ___.","mata",""],
+ ["m","Kita merasa dengan ___.","lidah",""],
+ ["m","Kulit membantu kita merasa ___.","sentuhan","sentuh"],
+ ["m","Bapa kepada ibu kita dipanggil ___.","datuk","atuk|tok"],
+ ["m","Limau terasa ___.","masam",""],
+ ["m","Permukaan batu bata terasa ___.","kasar",""],
+ ["m","Semakin membesar, badan kita semakin ___.","tinggi","besar"],
+ ["m","Kad ucapan ialah tanda ___ sayang.","kasih",""],
+ ["m","Anak lelaki yang lebih tua daripada kita dipanggil ___.","abang",""],
+ ["m","Warna mata boleh ___ daripada ibu bapa.","diwarisi","warisi|mewarisi"]
+]];
+D[1].amsihat = ["Badan Cergas, Hati Ceria", "💪", [
+ ["e","Kita menggosok gigi supaya …","gigi tidak rosak","rambut panjang","badan tinggi","mata terang"],
+ ["e","Kita memotong kuku supaya …","kuman tidak bersembunyi","kuku cantik berwarna","tangan kuat","boleh menulis laju"],
+ ["e","Hidangan pertama pada waktu pagi dipanggil …","sarapan","makan malam","makan tengah hari","minum petang"],
+ ["e","Ada berapa hidangan makan utama sehari?","Tiga","Satu","Lima","Sepuluh"],
+ ["e","Tidur yang cukup membuat badan …","segar dan bertenaga","letih","sakit","lemah"],
+ ["e","Semasa menulis, kita perlu duduk …","tegak","bongkok","baring","senget"],
+ ["e","Kita perlu mencuci tangan sebelum …","makan","tidur","menyanyi","berlari"],
+ ["e","Gigi perlu digosok sekurang-kurangnya …","dua kali sehari","sekali seminggu","sekali sebulan","tidak perlu"],
+ ["e","Hidangan pada waktu tengah hari dipanggil makan …","tengah hari","malam","pagi","petang"],
+ ["e","Makanan memberi kita …","tenaga","kesedihan","penyakit","kotoran"],
+ ["e","Yang manakah amalan sihat?","Bersenam","Tidur lewat","Tidak mandi","Makan gula-gula sahaja"],
+ ["e","Kita mencuci tangan dengan air dan …","sabun","pasir","minyak","gula"],
+ ["e","Kuku yang panjang boleh menyimpan …","kuman","wang","ubat","makanan"],
+ ["e","Mandi membantu mengelakkan penyakit …","kulit","gigi","mata","telinga"],
+ ["e","Sarapan dimakan pada waktu …","pagi","malam","tengah malam","petang"],
+ ["e","Melangkau sarapan boleh menyebabkan kita …","letih dan lesu","kuat","ceria","pandai"],
+ ["e","Kita berdiri tegak semasa menyanyi lagu …","Negaraku","hari jadi","kanak-kanak","raya"],
+ ["e","Tidur yang cukup membantu emosi kita …","gembira","marah","sedih","bosan"],
+ ["e","Yang manakah makanan sihat untuk sarapan?","Roti dan telur","Kerepek","Gula-gula","Air bergas"],
+ ["e","Selepas menggunakan tandas, kita perlu …","mencuci tangan","tidur","makan","berlari"],
+ ["e","Postur yang betul semasa duduk ialah …","belakang tegak","badan bongkok","kaki di atas meja","baring"],
+ ["e","Bermain di luar rumah membuatkan badan …","cergas","lemah","sakit","malas"],
+ ["e","Alat untuk menggosok gigi ialah …","berus gigi","sikat","sudu","pensel"],
+ ["e","Alat untuk memotong kuku ialah …","pemotong kuku","pisau dapur","gunting kain","gergaji"],
+ ["e","Kita perlu tidur awal supaya …","bangun segar","mengantuk di kelas","lewat ke sekolah","letih"],
+ ["e","Alat perkusi yang diketuk ialah …","kayu tik tok","seruling","gitar","biola"],
+ ["e","Makan malam dimakan pada waktu …","malam","pagi","tengah hari","subuh"],
+ ["e","Kita mandi sekurang-kurangnya …","dua kali sehari","sekali seminggu","sebulan sekali","tidak perlu"],
+ ["e","Membawa beg yang terlalu berat boleh menyakitkan …","belakang","gigi","rambut","kuku"],
+ ["e","Air kosong baik untuk …","kesihatan badan","merosakkan gigi","membuat kita sakit","membuat kita letih"],
+ ["l","Danish tidak bersarapan. Di sekolah dia berasa letih. Mengapa?","Badannya tiada tenaga","Dia terlalu kenyang","Bajunya kotor","Kasutnya besar"],
+ ["l","Pensel Aina jatuh ke lantai. Cara yang betul untuk mengambilnya ialah …","bengkokkan lutut","bongkokkan belakang dengan kaki lurus","tendang pensel","biarkan sahaja"],
+ ["l","Apakah yang patut dilakukan sebelum makan?","Cuci tangan dengan sabun","Bermain tanah","Menonton TV","Memakai kasut"],
+ ["l","Mulut Rizal berbau. Apakah tabiat yang perlu Rizal amalkan?","Gosok gigi pagi dan malam","Makan gula-gula","Tidur lewat","Minum air sejuk sahaja"],
+ ["l","Menu manakah paling sesuai untuk sarapan?","Roti, telur dan susu","Gula-gula dan air berkarbonat","Kerepek sahaja","Ais krim"],
+ ["l","Selepas bermain di padang, Faris mahu makan. Apakah yang perlu dilakukan dahulu?","Cuci tangan dengan sabun","Terus makan","Lap tangan pada baju","Tidur dahulu"],
+ ["l","Wei Jie tidur pukul 12 malam. Pagi esok dia mengantuk di kelas. Apakah nasihat terbaik?","Tidur lebih awal","Minum air bergas","Tidak ke sekolah","Bermain telefon"],
+ ["l","Gigi Amira berlubang. Tabiat manakah yang mungkin menjadi punca?","Makan gula-gula tanpa menggosok gigi","Minum air kosong","Makan sayur","Tidur awal"],
+ ["l","Menu makan tengah hari manakah paling seimbang?","Nasi, ikan dan sayur","Kerepek dan air bergas","Gula-gula sahaja","Ais krim dan coklat"],
+ ["l","Ibu menulis menu: roti bakar, telur dan susu. Menu ini sesuai untuk …","sarapan","makan malam sahaja","minum tengah malam","jamuan hari jadi"],
+ ["l","Kenapa kita membengkokkan lutut semasa mengangkat beg dari lantai?","Supaya belakang tidak sakit","Supaya beg ringan","Supaya cepat","Supaya kasut bersih"],
+ ["l","Kuku Kumar panjang dan kotor. Apakah yang patut dilakukan?","Potong dan bersihkan kuku","Biarkan sahaja","Gigit kuku","Cat kuku"],
+ ["l","Selepas bersin, Nadia patut …","mencuci tangan","bersalam dengan kawan","memegang makanan kawan","menggosok mata"],
+ ["l","Hakim tidak mandi selepas bersukan. Apakah yang mungkin berlaku?","Badan berbau dan kulit gatal","Badan menjadi wangi","Badan menjadi tinggi","Tiada apa-apa"],
+ ["l","Murid duduk membongkok semasa menulis setiap hari. Apakah kesannya?","Sakit belakang","Tulisan cantik","Badan tinggi","Mata bertambah terang"],
+ ["l","Yang manakah cara mencuci tangan yang betul?","Gosok semua bahagian tangan dengan sabun, kemudian bilas","Celup jari dalam air sahaja","Lap tangan pada seluar","Tiup tangan"],
+ ["l","Mengapa tidur dan rehat penting untuk murid?","Badan segar dan bertenaga","Supaya boleh bermain sepanjang malam","Supaya tidak perlu makan","Supaya tidak perlu mandi"],
+ ["l","Aiman bermain permainan video sepanjang petang. Aktiviti apakah yang lebih sihat?","Bermain bola di padang","Menonton TV sehingga malam","Tidur sepanjang hari","Makan kerepek"],
+ ["l","Ali hanya minum air bergas setiap hari. Nasihat terbaik untuknya ialah …","Minum lebih banyak air kosong","Tambah lagi air bergas","Tidak perlu minum","Minum air bergas sebelum tidur"],
+ ["l","Guru meminta murid memainkan detik lagu dengan alat perkusi. Alat manakah sesuai?","Kastanet","Seruling","Piano","Biola"],
+ ["m","Kita mandi supaya kulit ___.","bersih","sihat"],
+ ["m","Makanan memberi kita ___.","tenaga",""],
+ ["m","Kita menggosok gigi dengan berus gigi dan ___.","ubat gigi","ubat"],
+ ["m","Hidangan pada waktu malam dipanggil makan ___.","malam",""],
+ ["m","Semasa menyanyi lagu Negaraku, kita berdiri ___.","tegak",""],
+ ["m","Kita mencuci tangan dengan air dan ___.","sabun",""],
+ ["m","Hidangan pada waktu pagi dipanggil ___.","sarapan","sarapan pagi"],
+ ["m","Ada ___ hidangan makan utama dalam sehari.","tiga","3"],
+ ["m","Kita memotong ___ supaya kuman tidak bersembunyi.","kuku",""],
+ ["m","Semasa menulis, kita duduk ___.","tegak",""],
+ ["m","Kita perlu tidur yang ___ supaya badan segar.","cukup","secukupnya"],
+ ["m","Bersenam membuatkan badan ___.","cergas","sihat|kuat"],
+ ["m","Gigi yang tidak digosok boleh ___.","rosak","berlubang"],
+ ["m","Kita menggosok gigi menggunakan berus ___.","gigi",""],
+ ["m","Makan tengah hari dimakan pada waktu ___ hari.","tengah",""]
+]];
+D[1].amselamat = ["Bijak Jaga Keselamatan", "🚸", [
+ ["e","Yang manakah situasi selamat?","Melintas di lintasan pejalan kaki","Berlari di tangga","Bermain pisau","Berjalan seorang diri di tempat gelap"],
+ ["e","Yang manakah situasi TIDAK selamat?","Bermain gunting","Membaca buku","Menonton TV bersama keluarga","Bermain di padang dengan guru"],
+ ["e","Maklumat yang TIDAK boleh diberi kepada orang yang tidak dikenali ialah …","alamat rumah","warna kegemaran","nama sekolah kawan","nama kartun kegemaran"],
+ ["e","Pasukan yang memadam kebakaran ialah …","bomba","polis","tentera","doktor"],
+ ["e","Pasukan yang melindungi negara ialah …","tentera","bomba","jururawat","posmen"],
+ ["e","Kalau seseorang menyentuh kita dan kita tidak suka, kita katakan …","TIDAK","Terima kasih","Lagi","Tak apa"],
+ ["e","Kita melintas jalan di …","lintasan pejalan kaki","tengah jalan","selekoh tajam","belakang bas"],
+ ["e","Sebelum melintas jalan, kita perlu melihat ke …","kanan dan kiri","atas sahaja","bawah sahaja","belakang sahaja"],
+ ["e","Benda tajam yang berbahaya untuk dimainkan ialah …","pisau","bola","buku","bantal"],
+ ["e","Pasukan yang menjaga keselamatan dan mencegah jenayah ialah …","polis","bomba","tentera","jururawat"],
+ ["e","Nombor telefon rumah ialah maklumat yang …","tidak boleh diberi kepada orang asing","boleh ditulis di media sosial","boleh diberi kepada sesiapa","perlu diumumkan"],
+ ["e","Jika ada kebakaran, kita perlu …","keluar dengan tenang","bersembunyi di bawah katil","mengambil mainan dahulu","menyalakan lilin"],
+ ["e","Sentuhan yang menyakitkan ialah sentuhan …","tidak selamat","selamat","menyeronokkan","biasa"],
+ ["e","Selepas berkata TIDAK, kita perlu …","lari ke tempat selamat","diam di situ","ikut orang itu","menangis seorang diri"],
+ ["e","Kita perlu memberitahu kejadian tidak selamat kepada …","orang dewasa yang dipercayai","orang asing","kucing","tiada sesiapa"],
+ ["e","Yang manakah tempat selamat untuk bermain?","Taman permainan dengan ibu bapa","Tepi jalan raya","Tepi kolam tanpa orang dewasa","Tapak pembinaan"],
+ ["e","Kata laluan perlu …","dirahsiakan","dikongsi dengan semua","ditulis di dinding","diberi kepada orang asing"],
+ ["e","Kenderaan bomba berwarna …","merah","hitam","ungu","coklat"],
+ ["e","Yang manakah situasi selamat di sekolah?","Berjalan perlahan di tangga","Berlari di tangga","Menolak kawan","Memanjat pagar"],
+ ["e","Bermain dengan mancis boleh menyebabkan …","kebakaran","hujan","pelangi","banjir"],
+ ["e","Jika orang asing mengajak kita naik keretanya, kita …","katakan TIDAK dan beritahu ibu bapa","terus naik","minta gula-gula","ikut sahaja"],
+ ["e","Tentera bertugas …","melindungi negara","memadam api","menjual makanan","mengajar di sekolah"],
+ ["e","Ketika menunggang basikal, kita perlu memakai …","topi keledar","topi tidur","cermin mata hitam","selipar"],
+ ["e","Seorang diri di tempat gelap dan sunyi ialah situasi …","tidak selamat","selamat","seronok","biasa"],
+ ["e","Sentuhan yang kita tidak suka walaupun tidak sakit dipanggil sentuhan …","tidak selesa","selamat","gembira","kuat"],
+ ["e","Ketika dalam bahaya, langkah pertama ialah …","bertenang","menangis kuat","bersembunyi lama","tidur"],
+ ["e","Kita tidak boleh berenang tanpa …","pengawasan orang dewasa","makanan","mainan","telefon"],
+ ["e","Ubat perlu diambil dengan pengawasan …","ibu bapa","kawan","adik","kucing"],
+ ["e","Soket elektrik tidak boleh dimasukkan …","jari atau benda logam","cahaya","udara","bunyi"],
+ ["e","Yang manakah maklumat diri yang perlu dirahsiakan?","Alamat rumah","Warna kegemaran","Haiwan kegemaran","Makanan kegemaran"],
+ ["l","Orang yang tidak dikenali bertanya kata laluan permainan Ahmad. Apakah yang patut Ahmad buat?","Tidak beritahu dan beritahu ibu bapa","Beritahu kata laluan","Beri alamat rumah","Ikut orang itu"],
+ ["l","Seseorang menyentuh Lina dan dia berasa tidak selesa. Langkah yang betul ialah …","Katakan TIDAK, lari dan beritahu orang dewasa dipercayai","Diam dan simpan rahsia","Ketawa sahaja","Tunggu di situ"],
+ ["l","Rumah jiran terbakar. Pasukan manakah yang perlu dihubungi?","Bomba","Tentera","Pengawal kedai","Cikgu"],
+ ["l","Haris terpisah daripada ibu di pasar raya. Tindakan yang paling selamat ialah …","Bertenang dan minta tolong pekerja kedai","Ikut orang asing pulang","Keluar seorang diri ke jalan","Menangis di tempat sunyi"],
+ ["l","Kenapa kita tidak boleh berlari di tangga sekolah?","Kita boleh terjatuh dan cedera","Tangga akan rosak","Guru akan marah sahaja","Kasut akan kotor"],
+ ["l","Seseorang dalam permainan dalam talian meminta alamat rumah Hana. Apakah yang patut Hana buat?","Tidak beri dan beritahu ibu bapa","Beri alamat","Beri nombor telefon","Jumpa orang itu"],
+ ["l","Iman melihat asap keluar dari dapur rumah jiran. Apakah tindakan terbaik?","Beritahu orang dewasa supaya hubungi bomba","Masuk ke rumah jiran","Ambil gambar sahaja","Diam"],
+ ["l","Kawan mengajak Rayyan bermain di tepi longkang besar selepas hujan. Apakah jawapan Rayyan?","Tidak mahu, kerana ia berbahaya","Ya, mari main","Ya, kita berenang","Ya, tanpa beritahu ibu"],
+ ["l","Orang tidak dikenali menawarkan gula-gula kepada Mira di pagar sekolah. Apakah yang patut Mira buat?","Tolak dan beritahu guru","Ambil gula-gula itu","Ikut orang itu","Beri nombor telefon"],
+ ["l","Ada orang menyuruh Daniel merahsiakan sentuhan yang membuatnya tidak selesa. Apakah yang betul?","Beritahu ibu bapa atau guru walaupun disuruh merahsiakan","Simpan rahsia selamanya","Lupakan sahaja","Salahkan diri sendiri"],
+ ["l","Loceng kebakaran berbunyi di sekolah. Apakah tindakan yang betul?","Beratur dan ikut arahan guru ke tempat berkumpul","Berlari sambil menolak kawan","Bersembunyi dalam tandas","Ambil beg dahulu"],
+ ["l","Ain terpisah daripada keluarga di taman. Siapakah yang paling sesuai untuk diminta bantuan?","Polis atau pengawal keselamatan","Orang asing di tempat sunyi","Tiada sesiapa","Kucing jalanan"],
+ ["l","Adik bermain gunting tajam. Sebagai abang, apakah yang patut dilakukan?","Ambil gunting dan beritahu ibu","Biarkan sahaja","Ikut bermain","Ketawa"],
+ ["l","Mengapa kita tidak boleh berjalan seorang diri di tempat gelap?","Ia boleh membahayakan diri","Ia menyeronokkan","Ia membuat kita cepat sampai","Ia baik untuk mata"],
+ ["l","Kucing tersangkut di atas pokok tinggi. Siapakah yang boleh membantu dengan selamat?","Bomba","Kanak-kanak memanjat sendiri","Penjual aiskrim","Tiada sesiapa"],
+ ["l","Aqil mendengar bunyi siren di jalan raya. Apakah yang patut kenderaan lain lakukan?","Beri laluan kepada kenderaan kecemasan","Memecut laju","Berhenti di tengah jalan","Membunyikan hon kuat"],
+ ["l","Mengapa pasukan keselamatan penting kepada kita?","Mereka melindungi dan membantu kita","Mereka menjual mainan","Mereka mengajar menyanyi","Mereka memasak makanan"],
+ ["l","Zara mahu membuat poster tentang situasi tidak selamat. Gambar manakah paling sesuai?","Budak bermain di tepi jalan raya","Budak membaca buku","Budak menggosok gigi","Budak makan sayur"],
+ ["l","Kakak memeluk bahu Mei dan Mei tidak suka. Apakah yang Mei boleh katakan?","\"Saya tidak suka, tolong jangan.\"","Tidak berkata apa-apa","Menangis sahaja","Lari ke jalan raya"],
+ ["l","Seseorang meminta kata laluan tablet Irfan melalui mesej. Kata laluan itu patut …","dirahsiakan","diberi segera","ditulis dalam mesej","diumumkan"],
+ ["m","Pasukan yang mencegah jenayah ialah ___.","polis",""],
+ ["m","Langkah selamat: katakan TIDAK, lari dan ___.","beritahu","lapor|memberitahu"],
+ ["m","Kita melintas jalan di lintasan ___ kaki.","pejalan",""],
+ ["m","Jangan beritahu kata ___ kepada orang yang tidak dikenali.","laluan",""],
+ ["m","Ketika dalam bahaya, kita boleh menjerit meminta ___.","tolong","pertolongan|bantuan"],
+ ["m","Pasukan yang memadam kebakaran ialah ___.","bomba",""],
+ ["m","Pasukan yang melindungi negara ialah ___.","tentera","askar"],
+ ["m","Langkah pertama: katakan ___.","tidak","TIDAK"],
+ ["m","Alamat rumah perlu di___ daripada orang asing.","rahsiakan","rahsia"],
+ ["m","Sebelum melintas, lihat kanan dan ___.","kiri",""],
+ ["m","Semasa menunggang basikal, pakai topi ___.","keledar",""],
+ ["m","Ketika dalam bahaya, kita perlu ___ dan beritahu orang dewasa.","bertenang","tenang"],
+ ["m","Berlari di ___ boleh menyebabkan kita jatuh.","tangga",""],
+ ["m","Polis bertugas mencegah ___.","jenayah",""],
+ ["m","Kita boleh menjerit meminta ___ jika dalam bahaya.","tolong","pertolongan|bantuan"]
+]];
+D[1].amalam = ["Jom Teroka Alam", "🌿", [
+ ["e","Yang manakah benda hidup?","Arnab","Belon","Kipas","Meja"],
+ ["e","Tumbuhan memerlukan … untuk membuat makanan.","cahaya matahari","nasi","susu","gula-gula"],
+ ["e","Yang manakah KEHENDAK, bukan keperluan asas?","Mainan","Air","Makanan","Udara"],
+ ["e","Bunyi gitar dihasilkan dengan cara …","memetik","meniup","menepuk","menggesek"],
+ ["e","Bunyi yang terlalu kuat boleh merosakkan …","telinga","rambut","kuku","kaki"],
+ ["e","Apabila menerima hadiah, kita berasa …","gembira","marah","takut","malu"],
+ ["e","Yang manakah benda bukan hidup?","Batu","Ikan","Pokok","Burung"],
+ ["e","Antara berikut, yang manakah benda hidup?","Rama-rama","Kereta","Kerusi","Basikal"],
+ ["e","Benda hidup boleh …","membesar","berkarat","pecah sendiri","kekal sama"],
+ ["e","Benda bukan hidup tidak …","bernafas","berwarna","berbentuk","bersaiz"],
+ ["e","Haiwan memerlukan … untuk berlindung.","tempat perlindungan","telefon","mainan","televisyen"],
+ ["e","Manusia memerlukan air untuk …","menghilangkan dahaga","bermain","menyanyi","menari"],
+ ["e","Manusia memerlukan makanan untuk …","mendapat tenaga","tidur","mendengar","melihat"],
+ ["e","Tumbuhan memerlukan …","air, udara dan cahaya matahari","nasi dan ikan","susu dan roti","mainan"],
+ ["e","Yang manakah keperluan asas?","Air","Telefon pintar","Basikal","Gula-gula"],
+ ["e","Telefon pintar ialah …","kehendak","keperluan asas","makanan","udara"],
+ ["e","Bunyi gendang dihasilkan dengan cara …","mengetuk","meniup","memetik","menggesek"],
+ ["e","Bunyi seruling dihasilkan dengan cara …","meniup","mengetuk","memetik","menepuk"],
+ ["e","Bunyi biola dihasilkan dengan cara …","menggesek","meniup","mengetuk","menepuk"],
+ ["e","Bunyi yang memberitahu waktu rehat ialah bunyi …","loceng sekolah","guruh","kereta","kucing"],
+ ["e","Bunyi siren memberitahu kita tentang …","kecemasan","waktu makan","waktu tidur","hari jadi"],
+ ["e","Apabila menonton cerita seram, kita mungkin berasa …","takut","kenyang","mengantuk","dahaga"],
+ ["e","Apabila ahli keluarga sakit, kita mungkin berasa …","sedih","gembira","lucu","bangga"],
+ ["e","Apabila kita marah, kita boleh …","tarik nafas panjang","memukul kawan","menjerit","membaling barang"],
+ ["e","Ikan bernafas di dalam …","air","pasir","pokok","udara panas"],
+ ["e","Benda hidup akhirnya akan …","mati","berkarat","cair","pecah"],
+ ["e","Bunyi yang terlalu kuat ialah bunyi yang …","memudaratkan","berfaedah","merdu","perlahan"],
+ ["e","Tin kosong berisi pasir boleh menghasilkan bunyi jika …","digoncang","dicat","dibasuh","dilipat"],
+ ["e","Kucing perlukan air dan … untuk hidup.","makanan","bola","baju","kasut"],
+ ["e","Perasaan apabila mendapat hadiah ialah …","gembira","sedih","takut","marah"],
+ ["l","Kereta boleh bergerak. Mengapa kereta BUKAN benda hidup?","Ia tidak bernafas dan tidak membesar","Ia berwarna","Ia mahal","Ia laju"],
+ ["l","Pokok bunga di dalam bilik gelap menjadi layu. Apakah yang tidak cukup?","Cahaya matahari","Mainan","Bunyi","Angin kipas"],
+ ["l","Selepas makan nasi lemak basi, Zul sakit perut. Mengapa?","Makanan tercemar menyebabkan keracunan","Dia makan terlalu cepat","Nasi lemak terlalu pedas","Dia minum air"],
+ ["l","Bekal makanan Mei hilang dan dia sedih. Apakah yang patut Mei buat?","Beritahu guru","Ambil bekal kawan","Menjerit di kelas","Tidak makan seharian"],
+ ["l","Loceng sekolah berbunyi pada waktu rehat. Bunyi ini ialah bunyi yang …","berfaedah","memudaratkan","menakutkan","tidak berguna"],
+ ["l","Belon boleh terbang apabila ditiup angin. Mengapa belon BUKAN benda hidup?","Ia tidak bernafas dan tidak membesar sendiri","Ia berwarna","Ia ringan","Ia bulat"],
+ ["l","Haikal mahu kasut baharu walaupun kasutnya masih elok. Kasut baharu itu ialah …","kehendak","keperluan asas","udara","makanan"],
+ ["l","Pokok di dalam pasu tidak disiram selama seminggu. Apakah yang berlaku?","Pokok menjadi layu","Pokok berbunga lebat","Pokok bertambah hijau","Tiada apa-apa"],
+ ["l","Mengapa ikan dalam akuarium perlu air yang bersih?","Supaya ikan sihat dan dapat bernafas","Supaya akuarium berkilat","Supaya ikan berwarna","Supaya ikan tidur"],
+ ["l","Jiran memasang muzik terlalu kuat pada waktu malam. Bunyi ini …","mengganggu ketenangan","membantu kita tidur","berfaedah","menyihatkan telinga"],
+ ["l","Kawan Lim menangis kerana bekalnya tumpah. Lim berasa kasihan. Apakah yang boleh Lim buat?","Berkongsi bekal dan memujuk kawannya","Ketawa","Pergi jauh","Ambil gambar"],
+ ["l","Kenapa kita perlu menutup makanan di atas meja?","Supaya makanan tidak dicemari lalat","Supaya makanan sejuk","Supaya makanan berbau","Supaya makanan hilang"],
+ ["l","Dua orang kawan melihat kucing yang sama. Seorang gembira, seorang takut. Ini menunjukkan …","emosi boleh berbeza bagi setiap orang","kucing itu jahat","seorang daripada mereka salah","emosi tidak penting"],
+ ["l","Danish marah kerana tidak dibelikan mainan. Cara terbaik mengurus emosi ialah …","bertenang dan bercakap baik dengan ibu","menjerit di kedai","membaling barang","tidak mahu makan"],
+ ["l","Bagaimanakah tumbuhan mendapat makanan?","Membuat makanan sendiri dengan cahaya matahari","Makan nasi","Diberi susu","Makan serangga"],
+ ["l","Yang manakah pasangan keperluan asas dan kepentingannya yang BETUL?","Udara untuk bernafas","Air untuk bermain","Makanan untuk tidur","Tempat perlindungan untuk makan"],
+ ["l","Arnab peliharaan Sofia perlukan sangkar. Sangkar itu ialah …","tempat perlindungan","makanan","mainan","kehendak sahaja"],
+ ["l","Apabila mendengar bunyi guruh, Aina takut. Apakah yang boleh dilakukan?","Duduk dekat ibu bapa dan bertenang","Lari ke luar rumah","Bermain di bawah pokok","Menangis seorang diri"],
+ ["l","Murid mengajuk bunyi kereta api: \"chuk chuk chuk\". Bunyi ini dihasilkan menggunakan …","suara","kaki","buku","pensel"],
+ ["l","Yang manakah ciri SEMUA benda hidup?","Memerlukan makanan dan air","Boleh terbang","Berkaki empat","Hidup dalam air"],
+ ["m","Manusia dan haiwan memerlukan udara untuk ___.","bernafas","nafas"],
+ ["m","Benda hidup boleh ___ dan menghasilkan anak.","membiak","biak"],
+ ["m","Keperluan asas ialah perkara yang ___ ada untuk hidup.","mesti","perlu|wajib"],
+ ["m","Kita meniup seruling untuk menghasilkan ___.","bunyi","muzik"],
+ ["m","Apabila loceng kebakaran berbunyi, tarik ___ dan ikut arahan guru.","nafas",""],
+ ["m","Tumbuhan memerlukan cahaya ___.","matahari","mentari"],
+ ["m","Kucing ialah benda ___.","hidup",""],
+ ["m","Meja ialah benda ___ hidup.","bukan","tak"],
+ ["m","Mainan ialah ___, bukan keperluan asas.","kehendak",""],
+ ["m","Kita meminum air untuk menghilangkan ___.","dahaga","haus"],
+ ["m","Bunyi gendang dihasilkan dengan cara ___.","mengetuk","ketuk|memukul|pukul"],
+ ["m","Bunyi terlalu kuat boleh merosakkan ___.","telinga","pendengaran"],
+ ["m","Apabila sedih, kita boleh ___ kepada ibu bapa.","beritahu","bercerita|memberitahu|cerita"],
+ ["m","Haiwan memerlukan tempat ___ untuk berlindung.","perlindungan","tinggal"],
+ ["m","Makanan yang tercemar boleh menyebabkan ___ makanan.","keracunan","racun"]
+]];
+D[1].amcahaya = ["Cahaya di Sekeliling Kita", "🔦", [
+ ["e","Yang manakah sumber cahaya?","Matahari","Batu","Buku","Bantal"],
+ ["e","Cahaya penting untuk kita …","melihat","mendengar","menghidu","merasa"],
+ ["e","Kita membaca dengan lebih mudah dalam keadaan …","terang","gelap","berasap","berkabus"],
+ ["e","Terlalu lama melihat skrin boleh menyebabkan mata …","letih","kuat","besar","berwarna"],
+ ["e","Kraf yang menggunakan bayang patung pada kain putih ialah …","wayang kulit","layang-layang","gasing","congkak"],
+ ["e","Lampu kertas berwarna-warni dipanggil …","tanglung","pelita","lilin","lampu suluh"],
+ ["e","Lampu suluh ialah …","sumber cahaya","sumber air","sumber bunyi","sumber makanan"],
+ ["e","Yang manakah BUKAN sumber cahaya?","Batu","Lilin","Matahari","Lampu"],
+ ["e","Pada waktu malam, kita menggunakan … untuk menerangi bilik.","lampu","kipas","bantal","buku"],
+ ["e","Menaiki tangga dalam gelap boleh menyebabkan kita …","terjatuh","gembira","kenyang","pandai"],
+ ["e","Kesan melihat skrin terlalu lama ialah …","sakit kepala","gigi kuat","rambut panjang","kaki laju"],
+ ["e","Sebelum tidur, kita patut …","tidak menggunakan skrin","bermain tablet","menonton video","bermain permainan video"],
+ ["e","Wayang kulit menggunakan … untuk menghasilkan bayang.","cahaya","air","angin","pasir"],
+ ["e","Tanglung biasanya diperbuat daripada …","kertas","batu","besi berat","kaca tebal"],
+ ["e","Pelita menghasilkan cahaya daripada …","api","air","angin","bunyi"],
+ ["e","Matahari memberi cahaya pada waktu …","siang","malam","tengah malam","subuh gelap"],
+ ["e","Api unggun memberi … dan haba.","cahaya","air","bunyi muzik","angin"],
+ ["e","Membaca dalam keadaan terang adalah …","lebih mudah","lebih susah","mustahil","berbahaya"],
+ ["e","Kita tidak boleh melihat matahari terus kerana boleh merosakkan …","mata","telinga","hidung","lidah"],
+ ["e","Kunang-kunang mengeluarkan …","cahaya","bunyi siren","air","asap"],
+ ["e","Selepas bermain tablet, kita perlu … mata.","merehatkan","menggosok kuat","menutup dengan tangan kotor","menekan"],
+ ["e","Lilin perlu dinyalakan dengan pengawasan …","orang dewasa","adik","kawan sebaya","kucing"],
+ ["e","Kraf yang dihias dengan lampu dan dibawa ketika perayaan ialah …","tanglung","gasing","wau","congkak"],
+ ["e","Patung wayang kulit digerakkan di belakang …","kain putih","pintu besi","dinding batu","tingkap kaca"],
+ ["e","Cahaya membantu kita …","melihat dengan jelas","mendengar dengan jelas","menghidu","merasa"],
+ ["e","Skrin telefon mengeluarkan …","cahaya","air","makanan","udara"],
+ ["e","Bilik yang gelap menyebabkan kita sukar untuk …","melihat","bernafas","mendengar","bercakap"],
+ ["e","Sumber cahaya semula jadi ialah …","matahari","lampu suluh","lampu jalan","televisyen"],
+ ["e","Pelita sering dipasang semasa …","perayaan","bermain bola","waktu mandi","waktu makan tengah hari"],
+ ["e","Kita perlu duduk … daripada skrin televisyen.","jauh","sangat dekat","di atas","di belakang"],
+ ["l","Bekalan elektrik terputus pada waktu malam. Apakah yang boleh digunakan untuk melihat?","Lampu suluh","Cermin","Pinggan","Kertas"],
+ ["l","Amir bermain tablet sehingga lewat malam. Esoknya dia sakit kepala. Mengapa?","Cahaya skrin meletihkan mata","Dia makan terlalu banyak","Bilik terlalu sejuk","Dia mandi pagi"],
+ ["l","Mengapa kita menaiki tangga dengan lebih selamat apabila lampu dipasang?","Kita dapat melihat anak tangga","Tangga menjadi pendek","Kaki menjadi kuat","Tangga menjadi lembut"],
+ ["l","Pelita biasanya dipasang ketika …","perayaan","tengah hari yang panas","bermain bola","waktu mandi"],
+ ["l","Apakah yang diperlukan untuk menghasilkan bayang dalam wayang kulit?","Cahaya","Air","Bunyi","Angin"],
+ ["l","Amin mahu membaca buku cerita pada waktu malam. Apakah yang perlu dilakukan?","Pasang lampu bilik","Tutup semua lampu","Baca dalam gelap","Pakai cermin mata hitam"],
+ ["l","Mengapa wayang kulit tidak boleh dipersembahkan tanpa lampu?","Bayang tidak terhasil tanpa cahaya","Patung terlalu berat","Kain terlalu kecil","Penonton tidak suka"],
+ ["l","Aisyah menonton video di tablet selama tiga jam. Matanya terasa pedih. Apakah nasihat terbaik?","Hadkan masa skrin dan rehatkan mata","Tambah masa menonton","Dekatkan tablet ke mata","Gosok mata kuat-kuat"],
+ ["l","Bekalan elektrik terputus. Sumber cahaya manakah yang paling selamat untuk kanak-kanak?","Lampu suluh","Lilin tanpa orang dewasa","Api unggun dalam rumah","Mancis"],
+ ["l","Mengapa lampu jalan penting pada waktu malam?","Membantu orang melihat jalan dengan selamat","Menghiasi pokok","Membuat bunyi","Memanaskan jalan"],
+ ["l","Hafiz mahu membuat kraf cahaya untuk sambutan perayaan. Kraf manakah sesuai?","Tanglung kertas","Kapal terbang kertas","Topeng","Gasing"],
+ ["l","Bayang patung wayang kulit kelihatan pada kain kerana …","cahaya dihalang oleh patung","kain itu berwarna","patung itu bercakap","ada angin"],
+ ["l","Ain bermain telefon dalam bilik gelap sebelum tidur. Apakah kesannya?","Sukar tidur dan mata letih","Mata menjadi kuat","Cepat mengantuk","Mimpi indah"],
+ ["l","Antara berikut, aktiviti manakah lebih selamat dilakukan dalam keadaan terang?","Menaiki tangga","Tidur","Mendengar radio","Menyanyi"],
+ ["l","Yang manakah pasangan BETUL sumber cahaya dan contohnya?","Api — pelita","Api — cermin","Matahari — bulan buatan","Lampu — batu"],
+ ["l","Guru meminta murid membina tanglung. Selepas siap, apakah langkah seterusnya?","Pamerkan dan terangkan kraf itu","Buang tanglung","Simpan dalam beg selamanya","Koyakkan tanglung"],
+ ["l","Mengapa kita perlu berhati-hati dengan lilin?","Api boleh menyebabkan kebakaran","Lilin terlalu ringan","Lilin berbau wangi","Lilin berwarna putih"],
+ ["l","Pada siang hari, kelas tetap terang walaupun lampu tidak dipasang. Mengapa?","Cahaya matahari masuk melalui tingkap","Guru bercahaya","Meja bercahaya","Buku bercahaya"],
+ ["l","Tanglung dan pelita ialah kraf daripada budaya yang …","berbeza-beza","sama sahaja","tidak wujud","baharu semalam"],
+ ["l","Kenapa kita perlu merehatkan mata setiap kali bermain tablet?","Supaya mata tidak letih","Supaya tablet sejuk","Supaya bateri penuh","Supaya skrin bersih"],
+ ["m","Sumber cahaya utama pada waktu siang ialah ___.","matahari","mentari"],
+ ["m","Tanpa cahaya, kita tidak dapat ___.","melihat","lihat|nampak"],
+ ["m","Lilin menghasilkan cahaya dan ___.","api","haba|panas"],
+ ["m","Patung wayang ___ diperbuat daripada kulit.","kulit",""],
+ ["m","Elakkan menggunakan skrin sebelum ___.","tidur",""],
+ ["m","Sumber cahaya pada waktu siang ialah ___.","matahari","mentari"],
+ ["m","Cahaya membantu kita ___.","melihat","lihat|nampak"],
+ ["m","Lampu kertas berwarna-warni dipanggil ___.","tanglung",""],
+ ["m","Lampu kecil berapi yang dipasang ketika perayaan dipanggil ___.","pelita",""],
+ ["m","Lihat skrin terlalu lama boleh membuat mata ___.","letih","penat|sakit"],
+ ["m","Wayang kulit menghasilkan ___ pada kain putih.","bayang","bayang-bayang"],
+ ["m","Lampu ___ boleh dibawa ke mana-mana dalam gelap.","suluh",""],
+ ["m","Membaca dalam keadaan ___ lebih mudah.","terang","cerah"],
+ ["m","Lilin perlu dinyalakan dengan pengawasan orang ___.","dewasa",""],
+ ["m","Elakkan skrin sebelum ___.","tidur",""]
+]];
+D[1].ammercu = ["Jelajah Mercu Tanda Dunia", "🏛️", [
+ ["e","Menara Berkembar Petronas terletak di …","Kuala Lumpur","Sabah","Pulau Pinang","Melaka"],
+ ["e","Gunung Kinabalu terletak di …","Sabah","Johor","Kedah","Perlis"],
+ ["e","Menara Eiffel terletak di negara …","Perancis","Jepun","China","Mesir"],
+ ["e","Piramid Giza terletak di negara …","Mesir","Perancis","Jepun","Malaysia"],
+ ["e","Gunung Fuji terletak di negara …","Jepun","China","Mesir","Perancis"],
+ ["e","Mercu tanda ialah tempat yang …","terkenal di sesuatu kawasan","tersembunyi","tidak diketahui orang","sentiasa berpindah"],
+ ["e","Mercu tanda yang mempunyai dua menara tinggi di Kuala Lumpur ialah …","Menara Berkembar Petronas","Menara Eiffel","Gunung Kinabalu","Piramid Giza"],
+ ["e","Gunung tertinggi di Malaysia ialah …","Gunung Kinabalu","Gunung Fuji","Gunung Ledang","Bukit Bendera"],
+ ["e","Jambatan Pulau Pinang merentasi …","laut","padang pasir","gunung","hutan"],
+ ["e","Piramid Giza terletak di kawasan …","padang pasir","kutub","laut","hutan salji"],
+ ["e","Menara Eiffel diperbuat daripada …","besi","kertas","kayu","kaca"],
+ ["e","Tembok Besar terletak di negara …","China","Jepun","Mesir","Perancis"],
+ ["e","Gunung yang puncaknya diliputi salji di Jepun ialah …","Gunung Fuji","Gunung Kinabalu","Gunung Tahan","Gunung Jerai"],
+ ["e","Mercu tanda boleh jadi bangunan, jambatan, tasik atau …","gunung","pensel","kasut","bantal"],
+ ["e","Menara jam di bandar ialah contoh mercu tanda …","setempat","luar negara","di bulan","di laut"],
+ ["e","Menara Berkembar Petronas mempunyai … menara.","dua","satu","tiga","empat"],
+ ["e","Model mercu tanda boleh dibina menggunakan …","bahan kitar semula","makanan","air","pasir basah sahaja"],
+ ["e","Negara kita ialah …","Malaysia","Mesir","Perancis","Jepun"],
+ ["e","Mercu tanda ialah tanda … sesuatu kawasan.","pengenalan","rahsia","larangan","bahaya"],
+ ["e","Gunung Kinabalu terletak di negeri …","Sabah","Sarawak","Selangor","Johor"],
+ ["e","Jambatan Pulau Pinang menghubungkan pulau dengan …","tanah besar","bulan","gunung","padang pasir"],
+ ["e","Piramid Giza berbentuk …","piramid","bulat","kubus","silinder"],
+ ["e","Menara Eiffel terletak di bandar …","Paris","Tokyo","Kaherah","Beijing"],
+ ["e","Lukisan mercu tanda boleh dibuat dengan teknik …","menyambung titik","memasak","berenang","menyanyi"],
+ ["e","Tembok Besar sangat …","panjang","pendek","kecil","lembut"],
+ ["e","Mercu tanda yang terkenal di Pulau Pinang ialah …","Jambatan Pulau Pinang","Menara Eiffel","Gunung Fuji","Tembok Besar"],
+ ["e","Pelancong datang untuk melihat …","mercu tanda","sampah","longkang","tempat letak kereta"],
+ ["e","Gunung berbentuk kon yang menjadi mercu tanda Jepun ialah …","Gunung Fuji","Gunung Kinabalu","Menara Eiffel","Tembok Besar"],
+ ["e","Selepas membina model, kita … model itu.","mempamerkan","membuang","memijak","menyorok"],
+ ["e","Lagu yang memupuk perasaan cinta akan negara ialah lagu …","patriotik","tidur","hari jadi","iklan"],
+ ["l","Pelancong mahu melihat jambatan panjang yang merentasi laut di utara Malaysia. Mercu tanda manakah sesuai?","Jambatan Pulau Pinang","Menara Eiffel","Gunung Fuji","Piramid Giza"],
+ ["l","Ain mahu membina model Menara Berkembar Petronas. Bahan manakah paling sesuai?","Dua botol plastik terpakai","Sebiji bola","Sehelai daun","Air"],
+ ["l","Selepas membina model, apakah langkah terakhir?","Pamer dan terangkan model","Buang model","Sorok model","Pecahkan model"],
+ ["l","Tembok yang sangat panjang di negara China dipanggil …","Tembok Besar","Menara Berkembar","Piramid","Jambatan Gantung"],
+ ["l","Mengapa kita perlu menjaga mercu tanda negara?","Ia lambang kebanggaan negara","Ia boleh dijual","Ia mainan","Ia milik seorang sahaja"],
+ ["l","Kelas Syafiq melawat Kuala Lumpur. Mercu tanda manakah yang boleh dilihat?","Menara Berkembar Petronas","Gunung Kinabalu","Gunung Fuji","Piramid Giza"],
+ ["l","Keluarga Zara mendaki gunung tertinggi di Malaysia. Ke negeri manakah mereka pergi?","Sabah","Melaka","Perlis","Pahang"],
+ ["l","Gambar menunjukkan menara besi tinggi di Perancis. Apakah nama mercu tanda itu?","Menara Eiffel","Menara Berkembar Petronas","Tembok Besar","Piramid Giza"],
+ ["l","Rizal ingin membina model Gunung Kinabalu. Bahan manakah paling sesuai?","Tanah liat atau kertas renyuk","Air","Pasir kering sahaja","Gula-gula"],
+ ["l","Langkah manakah yang perlu dibuat DAHULU sebelum membina model?","Merancang dan mengumpul bahan","Mempamerkan model","Menerangkan model kepada kelas","Membuang bahan"],
+ ["l","Mengapa pelancong luar negara datang ke Malaysia?","Untuk melihat mercu tanda dan keindahan negara","Untuk membuang sampah","Untuk bersembunyi","Untuk tidur sahaja"],
+ ["l","Aiman melihat poskad bergambar piramid di padang pasir. Dari negara manakah poskad itu?","Mesir","Jepun","Perancis","China"],
+ ["l","Mei Ling melawat dinding batu yang sangat panjang di atas bukit. Di negara manakah dia berada?","China","Mesir","Malaysia","Perancis"],
+ ["l","Menara jam di pekan kamu dikenali semua orang. Menara itu ialah contoh …","mercu tanda setempat","mercu tanda luar negara","rumah","kedai"],
+ ["l","Murid menggunakan kotak terpakai untuk membina model menara. Apakah kebaikannya?","Mengitar semula bahan dan menjimatkan","Membazir","Mengotorkan kelas","Membuang masa"],
+ ["l","Semasa pameran, apakah yang patut kamu terangkan tentang model kamu?","Nama mercu tanda dan cara membinanya","Harga makanan","Nama kucing","Cuaca hari ini"],
+ ["l","Yang manakah pasangan BETUL?","Gunung Fuji — Jepun","Menara Eiffel — Mesir","Piramid Giza — China","Tembok Besar — Perancis"],
+ ["l","Mengapa kita perlu bangga dengan mercu tanda Malaysia?","Ia menunjukkan keindahan dan kejayaan negara","Ia boleh dibawa pulang","Ia mainan","Ia milik pelancong"],
+ ["l","Guru meminta murid melukis Menara Berkembar Petronas dengan tepat. Teknik manakah membantu?","Lukisan grid","Mewarna dengan mata tertutup","Menconteng","Melipat kertas"],
+ ["l","Hana pergi ke kawasan bersalji dan melihat gunung berbentuk kon. Gunung itu mungkin …","Gunung Fuji","Gunung Kinabalu","Bukit Tinggi","Gunung Jerai"],
+ ["m","Gunung Kinabalu terletak di negeri ___.","Sabah",""],
+ ["m","Menara ___ terletak di Perancis.","Eiffel",""],
+ ["m","Gunung Fuji terletak di negara ___.","Jepun",""],
+ ["m","Piramid Giza terletak di negara ___.","Mesir",""],
+ ["m","Jambatan Pulau ___ ialah mercu tanda Malaysia.","Pinang",""],
+ ["m","Menara Berkembar Petronas terletak di Kuala ___.","Lumpur",""],
+ ["m","Tembok Besar terletak di negara ___.","China","Cina"],
+ ["m","Menara Eiffel terletak di negara ___.","Perancis",""],
+ ["m","Gunung tertinggi di Malaysia ialah Gunung ___.","Kinabalu",""],
+ ["m","Piramid ___ terletak di Mesir.","Giza",""],
+ ["m","Menara Berkembar Petronas mempunyai ___ menara.","dua","2"],
+ ["m","Jambatan Pulau Pinang merentasi ___.","laut","selat"],
+ ["m","Model boleh dibina daripada bahan kitar ___.","semula",""],
+ ["m","Selepas siap, model mercu tanda di___ dalam pameran.","pamerkan","pamer"],
+ ["m","Menara jam di bandar ialah mercu tanda ___.","setempat","tempatan"]
+]];
+D[1].amadiwira = ["Misi Wira Kecil", "🛠️", [
+ ["e","Langkah pertama menyelesaikan masalah ialah …","kenal pasti masalah","hasilkan produk","buat pameran","lupakan masalah"],
+ ["e","Wira kecil menggunakan ilmu untuk …","membantu orang lain","bergaduh","menunjuk-nunjuk","bermain sahaja"],
+ ["e","Hasil kerja boleh dikongsi melalui …","pameran","menyorok","membuang","merahsiakan"],
+ ["e","Bekerja dalam kumpulan memerlukan sikap …","bekerjasama","pentingkan diri","malas","bergaduh"],
+ ["e","Sebelum membina sesuatu, kita perlu …","merancang","tidur","bermain","menangis"],
+ ["e","Produk boleh berbentuk …","poster atau model","mimpi","awan","angin"],
+ ["e","Selepas mengenal pasti masalah, kita perlu …","fikir cara menyelesaikannya","lupakan masalah","menangis","tidur"],
+ ["e","Merancang bermaksud menentukan …","langkah yang akan dibuat","warna baju","makanan kegemaran","masa tidur"],
+ ["e","Produk boleh dihasilkan dalam bentuk fizikal, digital atau …","karya seni","mimpi","angin","awan"],
+ ["e","Semasa bekerja dalam kumpulan, kita perlu …","berkongsi tugas","buat semua sendiri","bergaduh","diam sahaja"],
+ ["e","Pembentangan boleh dibuat melalui …","persembahan","tidur","bersembunyi","membuang hasil kerja"],
+ ["e","Wira kecil bersikap …","bertanggungjawab","malas","sombong","pentingkan diri"],
+ ["e","Sebelum membentang, kita perlu …","berlatih","tidur","bermain","bergaduh"],
+ ["e","Apabila kawan memberi idea, kita perlu …","mendengar dengan baik","mengejek","menyampuk","pergi"],
+ ["e","Poster ialah contoh produk dalam bentuk …","karya seni","makanan","minuman","lagu"],
+ ["e","Video pendek yang dibuat di tablet ialah produk …","digital","makanan","kain","kayu"],
+ ["e","Kita menyelesaikan masalah untuk …","membantu diri, keluarga dan alam","menyusahkan orang","bermain sahaja","mendapat marah"],
+ ["e","Yang manakah contoh masalah di sekolah?","Sampah bersepah di kelas","Murid membaca buku","Guru mengajar","Murid beratur"],
+ ["e","Pameran boleh dibuat di dalam …","kelas","longkang","kereta","peti sejuk"],
+ ["e","Untuk mencari masalah, kita perlu …","memerhati sekeliling","menutup mata","tidur","pulang awal"],
+ ["e","Kumpulan yang baik saling …","membantu","bergaduh","mengejek","menyalahkan"],
+ ["e","Idea untuk menyelesaikan masalah datang daripada ilmu yang telah …","dipelajari","dilupakan","dibuang","dirahsiakan"],
+ ["e","Semasa membentang, kita bercakap dengan …","jelas dan yakin","berbisik","menjerit","membelakangkan penonton"],
+ ["e","Bahan untuk produk boleh diambil daripada barang …","terpakai","kawan tanpa izin","kedai tanpa bayar","jiran tanpa izin"],
+ ["e","Langkah terakhir menyelesaikan masalah ialah …","hasilkan produk","kenal pasti masalah","fikir idea","merancang"],
+ ["e","Apabila tidak setuju dengan kawan, kita …","berbincang dengan baik","bergaduh","merajuk","pergi"],
+ ["e","Murid yang membantu menjaga kebersihan kelas ialah …","wira kecil","pengacau","pemalas","penonton"],
+ ["e","Selepas pembentangan, kita boleh …","menerima pendapat kawan","marah kawan","menangis","membuang produk"],
+ ["e","Pembahagian tugas membantu kumpulan bekerja dengan …","lebih cepat dan teratur","lebih lambat","bergaduh","tidak siap"],
+ ["e","Demonstrasi bermaksud …","menunjukkan cara melakukan sesuatu","tidur","makan","bersembunyi"],
+ ["l","Ramai murid lupa mencuci tangan sebelum makan. Produk manakah paling sesuai?","Poster peringatan cuci tangan","Gula-gula baharu","Bola sepak","Kipas angin"],
+ ["l","Kelas sangat bising semasa guru mengajar. Apakah idea penyelesaian yang baik?","Buat tanda \"Senyap, Kawan Belajar\"","Menjerit lebih kuat","Keluar kelas","Tutup lampu"],
+ ["l","Kasut di rumah Aiman selalu bersepah. Produk apakah yang boleh dihasilkan?","Rak kasut daripada kotak","Kasut baharu","Bantal","Lukisan bunga"],
+ ["l","Kumpulan Siti mahu membentangkan poster. Apakah yang perlu dilakukan dahulu?","Bahagikan tugas dan berlatih","Terus pulang","Sembunyikan poster","Bertengkar"],
+ ["l","Kawan kamu tidak bersarapan dan selalu letih. Sebagai wira kecil, kamu boleh …","buat menu sarapan ringkas untuknya","mengejeknya","mengambil bekalnya","tidak peduli"],
+ ["l","Pokok bunga di sekolah layu kerana tiada orang menyiram. Produk manakah boleh membantu?","Jadual giliran menyiram pokok","Bola baharu","Gula-gula","Kipas"],
+ ["l","Ramai murid berlari di tangga. Apakah produk yang sesuai untuk menyelesaikan masalah ini?","Papan tanda \"Jalan Perlahan di Tangga\"","Kasut sukan baharu","Mainan","Lagu hari jadi"],
+ ["l","Adik selalu lupa memberus gigi. Apakah idea wira kecil yang baik?","Carta pelekat bintang memberus gigi","Memarahi adik","Menyorokkan berus gigi","Memberi adik gula-gula"],
+ ["l","Kumpulan Amir mahu membuat demonstrasi cara mencuci tangan. Apakah persediaan yang perlu?","Sabun, air dan latihan dahulu","Bola dan kasut","Bantal dan selimut","Pensel warna sahaja"],
+ ["l","Sampah plastik banyak di kantin. Penyelesaian manakah paling baik?","Membuat tong kitar semula dan poster","Membuang sampah ke longkang","Membakar sampah","Membiarkan sahaja"],
+ ["l","Dalam kumpulan, Lina pandai melukis dan Ravi pandai bercakap. Bagaimanakah tugas dibahagikan?","Lina melukis poster, Ravi membentang","Lina membentang, Ravi diam","Kedua-duanya tidak buat apa-apa","Ravi buat semua"],
+ ["l","Kawan malu untuk membentang. Apakah yang patut kamu lakukan?","Memberi semangat dan berlatih bersama","Mentertawakannya","Menyuruhnya pulang","Membentang tanpa dia"],
+ ["l","Mengapa kita perlu merancang sebelum menghasilkan produk?","Supaya kerja teratur dan berjaya","Supaya kerja lambat","Supaya bahan membazir","Supaya kawan marah"],
+ ["l","Kelas terlalu panas dan murid letih. Masalah ini berkaitan dengan …","persekitaran","mercu tanda","wayang kulit","nombor telefon"],
+ ["l","Aina membuat rak kasut daripada kotak. Langkah manakah yang dilakukan sekarang?","Hasilkan produk","Kenal pasti masalah","Fikir idea","Lupakan masalah"],
+ ["l","Yang manakah sikap wira kecil semasa bekerja dalam kumpulan?","Berkongsi alat dengan kawan","Merampas pensel kawan","Tidak mahu menolong","Menyalahkan kawan"],
+ ["l","Murid ingin menunjukkan hasil kerja kepada ibu bapa di sekolah. Aktiviti manakah paling sesuai?","Pameran","Tidur","Peperiksaan","Rehat"],
+ ["l","Bunyi bising di perpustakaan mengganggu murid membaca. Idea penyelesaian manakah sesuai?","Tanda \"Senyap\" dan peringatan mesra","Pasang muzik kuat","Tutup perpustakaan","Menjerit kepada kawan"],
+ ["l","Selepas produk siap, guru bertanya cara menghasilkannya. Kamu perlu …","menerangkan langkah demi langkah","diam","lari","mengatakan tidak tahu"],
+ ["l","Datuk sukar membaca kerana tulisan kecil. Apakah produk yang boleh kamu hasilkan?","Kad dengan tulisan besar dan jelas","Gula-gula","Bola","Topi"],
+ ["m","Murid yang membantu menyelesaikan masalah dipanggil wira ___.","kecil","cilik"],
+ ["m","Langkah: kenal pasti, fikir, ___, hasilkan.","rancang","merancang"],
+ ["m","Hasil kerja kumpulan boleh dipamerkan dalam ___.","pameran","kelas"],
+ ["m","Kerja berkumpulan memerlukan kita ___ dengan rakan.","bekerjasama","kerjasama"],
+ ["m","Selepas merancang, kita ___ produk.","hasilkan","menghasilkan|buat|bina"],
+ ["m","Langkah pertama ialah kenal ___ masalah.","pasti",""],
+ ["m","Kita ___ langkah sebelum membina produk.","merancang","rancang"],
+ ["m","Poster ialah contoh ___ yang dihasilkan.","produk","karya"],
+ ["m","Kerja dalam kumpulan memerlukan sikap ___.","bekerjasama","kerjasama"],
+ ["m","Sebelum membentang, kita perlu ___.","berlatih","latihan"],
+ ["m","Hasil kerja boleh ditunjukkan melalui ___.","pameran","persembahan|demonstrasi"],
+ ["m","Video pendek ialah produk ___.","digital",""],
+ ["m","Kita mendengar ___ kawan dengan baik.","idea","pendapat"],
+ ["m","Barang ___ boleh digunakan untuk membina produk.","terpakai","kitar semula"],
+ ["m","Wira kecil menggunakan ___ untuk membantu orang lain.","ilmu","pengetahuan"]
+]];
+// <<< ALAM DAN MANUSIA TAHUN 1
 const ORDER = {
-1: ['kps1','bilik1','hidup1','deria1','haiwan1','tumbuh1','magnet1','serap1','bumi1'],
+1: ['amdiri','amsihat','amselamat','amalam','amcahaya','ammercu','amadiwira'], // dahulu (KSSR): kps1,bilik1,hidup1,deria1,haiwan1,tumbuh1,magnet1,serap1,bumi1
 2: ['kps','manusia','haiwan','tumbuhan','cahaya','elektrik','campur2','air','binaan'],
 3: ['kps','gigi','makanan','cerna','tabiat','biak','ukur','asid','suria','takal'],
 4: ['kps','siasat','nafas','kumuh','haiwan4','tumbuhan4','cahaya4','bunyi','tenaga','bahan','bumi','mesin4'],
@@ -18844,6 +19316,178 @@ NOTA.sn[6].teknologi = `
 <li>Guna <b>teknologi hijau</b>: lampu LED, panel solar · urus sisa elektronik dengan betul</li></ul>
 <div class="tip">💡 Mesej "menang hadiah" yang minta kata laluan = penipuan. <b>Abaikan</b> dan beritahu ibu bapa atau guru. Jangan kongsi kata laluan!</div>`;
 
+// DRAF — Nota Alam dan Manusia Tahun 1 (KP2027). Ditulis sendiri oleh Sudut Belajar; tiada teks disalin daripada dokumen kurikulum.
+// Kunci topik: amdiri, amsihat, amselamat, amalam, amcahaya, ammercu, amadiwira
+// Gambar infografik: aset/am1-<kunci>.webp (dijana boss di ChatGPT, prompt dalam PROMPT-INFOGRAFIK-AM1.md)
+NOTA.sn[1] = NOTA.sn[1] || {};
+
+NOTA.sn[1].amdiri = `
+<h3>🧒 Kenali Diri &amp; Keluargaku</h3>
+<p>Tiada orang lain yang sama seperti kamu. Badan kamu, keluarga kamu dan cerita kamu istimewa!</p>
+<div class="info3d"><img src="aset/am1-diri.webp" alt="Infografik bahagian tubuh dan lima deria" loading="lazy" decoding="async"></div>
+<h3>Bahagian tubuh</h3>
+<p>Kepala, mata, telinga, hidung, mulut, lidah, tangan dan kaki. Ada juga <b>bahagian sulit</b> (zakar bagi lelaki, faraj bagi perempuan) yang sentiasa ditutup dan dijaga.</p>
+<h3>Lima deria</h3>
+<table><tr><th>Deria</th><th>Bahagian tubuh</th><th>Contoh</th></tr>
+<tr><td>Penglihatan</td><td>mata 👁️</td><td>melihat warna pelangi</td></tr>
+<tr><td>Pendengaran</td><td>telinga 👂</td><td>mendengar kucing mengiau</td></tr>
+<tr><td>Bau</td><td>hidung 👃</td><td>menghidu bau roti</td></tr>
+<tr><td>Rasa</td><td>lidah 👅</td><td>merasa gula manis</td></tr>
+<tr><td>Sentuhan</td><td>kulit ✋</td><td>merasa kain lembut</td></tr></table>
+<p>Kita guna deria untuk membezakan benda: <b>warna, bunyi, bau, rasa</b> dan <b>permukaan</b> (licin atau kasar).</p>
+<h3>Saya membesar</h3>
+<p>Masa bayi kamu kecil. Sekarang kamu <b>lebih tinggi</b> dan <b>lebih besar</b>. Setiap kawan membesar dengan cara berbeza, dan itu tidak mengapa.</p>
+<h3>Keluarga saya</h3>
+<ul><li>Ahli keluarga terdekat: ibu, bapa, abang, kakak, adik, datuk dan nenek.</li>
+<li>Anak boleh mewarisi ciri daripada keluarga, contohnya <b>warna kulit, warna mata</b> dan <b>jenis rambut</b> (lurus atau kerinting).</li>
+<li>Tunjukkan kasih sayang: ucap "terima kasih", peluk ibu bapa, tolong kemas rumah, buat kad ucapan.</li></ul>
+<div class="tip">💡 <b>Ingat:</b> 5 deria, 5 bahagian tubuh: mata, telinga, hidung, lidah, kulit!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Tutup mata anak, beri dia hidu atau rasa sesuatu (limau, roti). Boleh dia teka? Kemudian buat kad "Saya sayang keluarga saya" bersama-sama.</div>`;
+
+NOTA.sn[1].amsihat = `
+<h3>💪 Badan Cergas, Hati Ceria</h3>
+<p>Badan sihat membuat kita ceria dan bersedia untuk belajar.</p>
+<div class="info3d"><img src="aset/am1-sihat.webp" alt="Infografik cara menjaga kesihatan diri" loading="lazy" decoding="async"></div>
+<h3>Cara menjaga kesihatan</h3>
+<ul><li>🏃 Bersenam dan bermain di luar.</li>
+<li>🍚 Makan makanan seimbang.</li>
+<li>🧼 Jaga kebersihan diri.</li></ul>
+<h3>Kebersihan diri</h3>
+<table><tr><th>Amalan</th><th>Kenapa penting?</th></tr>
+<tr><td>Gosok gigi 🪥</td><td>gigi tidak rosak, mulut tidak berbau</td></tr>
+<tr><td>Potong kuku ✂️</td><td>kuman tidak bersembunyi di bawah kuku</td></tr>
+<tr><td>Mandi 🚿</td><td>kulit bersih, tidak gatal</td></tr>
+<tr><td>Cuci tangan 🫧</td><td>buang kuman sebelum makan</td></tr></table>
+<h3>Tiga hidangan utama</h3>
+<p><b>Sarapan</b> pagi, <b>makan tengah hari</b> dan <b>makan malam</b>. Makanan memberi kita tenaga sepanjang hari. Kalau tidak makan, kita mudah <b>letih dan lesu</b>.</p>
+<h3>Postur yang betul</h3>
+<ul><li>Duduk tegak semasa menulis.</li>
+<li>Berdiri tegak semasa menyanyi lagu Negaraku.</li>
+<li>Bengkokkan lutut bila mengambil barang di lantai.</li></ul>
+<h3>Tidur dan rehat</h3>
+<p>Tidur yang cukup membuat badan segar, bertenaga dan hati gembira.</p>
+<div class="tip">💡 <b>Ingat:</b> Sarapan dulu, baru ke sekolah!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Rancang menu sarapan esok bersama anak. Kemudian buat model makanan kegemarannya dengan doh atau tanah liat.</div>`;
+
+NOTA.sn[1].amselamat = `
+<h3>🛡️ Bijak Jaga Keselamatan</h3>
+<p>Kita perlu tahu situasi mana yang <b>selamat</b> dan mana yang <b>tidak selamat</b>.</p>
+<div class="info3d"><img src="aset/am1-selamat.webp" alt="Infografik situasi selamat dan tidak selamat" loading="lazy" decoding="async"></div>
+<h3>Selamat atau tidak selamat?</h3>
+<table><tr><th>Tempat</th><th>✅ Selamat</th><th>❌ Tidak selamat</th></tr>
+<tr><td>Rumah</td><td>menonton TV bersama keluarga</td><td>bermain pisau atau gunting</td></tr>
+<tr><td>Sekolah</td><td>bermain di padang, guru melihat</td><td>berlari di tangga</td></tr>
+<tr><td>Luar rumah</td><td>melintas di lintasan pejalan kaki</td><td>berjalan seorang diri di tempat gelap</td></tr></table>
+<h3>Rahsiakan maklumat diri</h3>
+<p>Jangan beritahu orang yang tidak dikenali: <b>alamat rumah, nombor telefon</b> dan <b>kata laluan</b>, termasuk dalam permainan atau mesej di internet.</p>
+<h3>Badan saya milik saya</h3>
+<ul><li><b>Sentuhan tidak selamat</b>: sentuhan yang menyakitkan atau pada bahagian sulit dan dada.</li>
+<li><b>Sentuhan tidak selesa</b>: sentuhan yang kamu tidak suka, walaupun daripada orang yang dikenali.</li></ul>
+<p>Kalau berlaku, ingat 3 langkah:</p>
+<table><tr><th>1. Katakan TIDAK ✋</th><th>2. LARI 🏃</th><th>3. BERITAHU 🗣️</th></tr>
+<tr><td>"Jangan sentuh saya!"</td><td>pergi ke tempat ramai orang</td><td>ibu, bapa atau guru yang dipercayai</td></tr></table>
+<p>Bila dalam bahaya: <b>bertenang</b>, beritahu orang dewasa yang dipercayai atau <b>jerit minta tolong</b>.</p>
+<h3>Pasukan keselamatan</h3>
+<table><tr><th>Pasukan</th><th>Tugas</th></tr>
+<tr><td>Polis 👮</td><td>mencegah jenayah, menjaga keselamatan</td></tr>
+<tr><td>Bomba 🚒</td><td>memadam kebakaran</td></tr>
+<tr><td>Tentera 🪖</td><td>melindungi negara</td></tr></table>
+<div class="tip">💡 <b>Ingat:</b> TIDAK, LARI, BERITAHU. Bukan salah kamu, dan kamu tidak perlu simpan rahsia itu.</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Berlatih berkata "Jangan sentuh saya!" dengan suara tegas. Senaraikan bersama 3 orang dewasa yang anak boleh beritahu.</div>`;
+
+NOTA.sn[1].amalam = `
+<h3>🌿 Jom Teroka Alam</h3>
+<div class="info3d"><img src="aset/am1-alam.webp" alt="Infografik benda hidup dan benda bukan hidup" loading="lazy" decoding="async"></div>
+<h3>Benda hidup atau bukan hidup?</h3>
+<p>Benda hidup: <b>manusia, haiwan, tumbuhan</b>. Benda bukan hidup: <b>meja, kipas, belon</b>.</p>
+<table><tr><th>Benda hidup 🌱</th><th>Benda bukan hidup 🪑</th></tr>
+<tr><td>bernafas</td><td>tidak bernafas</td></tr>
+<tr><td>perlu makanan dan air</td><td>tidak perlu makanan dan air</td></tr>
+<tr><td>bergerak</td><td>tidak bergerak sendiri</td></tr>
+<tr><td>membiak (ada anak)</td><td>tidak membiak</td></tr>
+<tr><td>membesar dan akan mati</td><td>tidak membesar sendiri</td></tr></table>
+<h3>Keperluan asas</h3>
+<table><tr><th>Siapa?</th><th>Perlukan</th></tr>
+<tr><td>Manusia 🧒 dan haiwan 🐈</td><td>udara (bernafas), makanan (tenaga), air (hilang dahaga), tempat perlindungan (lindungi diri)</td></tr>
+<tr><td>Tumbuhan 🌻</td><td>air, udara dan cahaya matahari (untuk membuat makanan sendiri)</td></tr></table>
+<p>Makanan, air dan udara mesti <b>bersih</b>. Makanan basi boleh menyebabkan keracunan makanan.</p>
+<h3>Keperluan atau kehendak?</h3>
+<p><b>Keperluan</b> = mesti ada untuk hidup (makanan, air). <b>Kehendak</b> = seronok jika ada, tetapi boleh hidup tanpanya (mainan, telefon pintar).</p>
+<h3>Bunyi di sekeliling</h3>
+<ul><li>Bunyi datang dari manusia, haiwan dan kenderaan, dari pelbagai arah.</li>
+<li>Bunyi boleh dihasilkan dengan <b>meniup, mengetuk, memetik, menggesek</b> dan <b>menepuk</b>.</li>
+<li>Bunyi berfaedah: siren dan loceng sekolah. Bunyi memudaratkan: bunyi bising dan terlalu kuat (boleh merosakkan telinga).</li></ul>
+<h3>Emosi saya</h3>
+<table><tr><th>Situasi</th><th>Emosi</th><th>Apa saya buat?</th></tr>
+<tr><td>Bekal makanan hilang</td><td>sedih 😢</td><td>beritahu guru</td></tr>
+<tr><td>Dapat hadiah</td><td>gembira 😄</td><td>ucap terima kasih</td></tr>
+<tr><td>Loceng kebakaran berbunyi</td><td>cemas 😟</td><td>tarik nafas, ikut arahan guru</td></tr></table>
+<p>Orang lain boleh rasa emosi yang berbeza dalam situasi yang sama.</p>
+<div class="tip">💡 <b>Ingat:</b> Tumbuhan tidak makan nasi. Ia buat makanan sendiri dengan cahaya matahari!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Buat alat muzik daripada tin kosong berisi pasir. Kemudian lukis wajah yang menunjukkan perasaan anak hari ini.</div>`;
+
+NOTA.sn[1].amcahaya = `
+<h3>💡 Cahaya di Sekeliling Kita</h3>
+<div class="info3d"><img src="aset/am1-cahaya.webp" alt="Infografik sumber cahaya dan kraf" loading="lazy" decoding="async"></div>
+<h3>Sumber cahaya</h3>
+<p>Matahari ☀️, lilin 🕯️, api 🔥 dan lampu suluh 🔦 memberi cahaya.</p>
+<h3>Kenapa cahaya penting?</h3>
+<p>Cahaya membantu kita <b>melihat</b>. Membaca, berjalan dan menaiki tangga lebih mudah dan selamat ketika <b>terang</b> berbanding gelap.</p>
+<h3>Jaga mata daripada skrin</h3>
+<p>Terlalu lama melihat skrin telefon, tablet atau TV boleh menyebabkan <b>mata letih, sakit kepala</b> dan <b>susah tidur</b>.</p>
+<ul><li>Rehatkan mata selepas bermain.</li>
+<li>Jangan guna skrin dalam gelap atau sebelum tidur.</li></ul>
+<h3>Kraf yang menggunakan cahaya</h3>
+<table><tr><th>Kraf</th><th>Keterangan</th></tr>
+<tr><td>Wayang kulit</td><td>bayang patung kulit pada kain putih, disuluh dengan lampu</td></tr>
+<tr><td>Tanglung</td><td>lampu kertas berwarna-warni</td></tr>
+<tr><td>Pelita</td><td>lampu kecil berapi, dipasang ketika perayaan</td></tr></table>
+<div class="tip">💡 <b>Ingat:</b> Tanpa cahaya, kita tidak dapat melihat!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Padamkan lampu, suluh lampu suluh ke dinding dan buat bayang tangan berbentuk haiwan, seperti wayang kulit.</div>`;
+
+NOTA.sn[1].ammercu = `
+<h3>🗼 Jelajah Mercu Tanda Dunia</h3>
+<p><b>Mercu tanda</b> ialah bangunan atau tempat terkenal yang menjadi tanda pengenalan sesuatu kawasan.</p>
+<div class="info3d"><img src="aset/am1-mercu.webp" alt="Infografik mercu tanda Malaysia dan dunia" loading="lazy" decoding="async"></div>
+<h3>Mercu tanda di tempat kita</h3>
+<p>Contohnya menara jam, jambatan gantung, tugu, tasik atau gunung di kawasan kamu.</p>
+<h3>Mercu tanda Malaysia 🇲🇾</h3>
+<table><tr><th>Mercu tanda</th><th>Di mana?</th></tr>
+<tr><td>Menara Berkembar Petronas</td><td>Kuala Lumpur</td></tr>
+<tr><td>Jambatan Pulau Pinang</td><td>Pulau Pinang</td></tr>
+<tr><td>Gunung Kinabalu</td><td>Sabah</td></tr></table>
+<h3>Mercu tanda dunia 🌍</h3>
+<table><tr><th>Mercu tanda</th><th>Negara</th></tr>
+<tr><td>Piramid Giza</td><td>Mesir</td></tr>
+<tr><td>Menara Eiffel</td><td>Perancis</td></tr>
+<tr><td>Tembok Besar</td><td>China</td></tr>
+<tr><td>Gunung Fuji</td><td>Jepun</td></tr></table>
+<h3>Bina model mercu tanda</h3>
+<ol><li>Pilih mercu tanda.</li><li>Kumpul bahan (kotak, botol, blok binaan).</li><li>Bina langkah demi langkah.</li><li>Tunjuk dan terangkan kepada keluarga.</li></ol>
+<div class="tip">💡 <b>Ingat:</b> Gunung Kinabalu di Sabah, Gunung Fuji di Jepun!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Bina Menara Berkembar Petronas daripada dua botol plastik atau kotak terpakai.</div>`;
+
+NOTA.sn[1].amadiwira = `
+<h3>🦸 Misi Wira Kecil</h3>
+<p><b>Wira kecil</b> ialah murid yang menggunakan ilmunya untuk menyelesaikan masalah dan membantu diri, keluarga dan alam sekitar.</p>
+<div class="info3d"><img src="aset/am1-adiwira.webp" alt="Infografik 4 langkah wira kecil menyelesaikan masalah" loading="lazy" decoding="async"></div>
+<h3>4 langkah Wira Kecil</h3>
+<table><tr><th>Langkah</th><th>Contoh</th></tr>
+<tr><td>1. Kenal pasti masalah 🔍</td><td>kawan selalu lupa cuci tangan sebelum makan</td></tr>
+<tr><td>2. Fikir cara selesaikan 💭</td><td>buat peringatan yang menarik</td></tr>
+<tr><td>3. Rancang langkah 📝</td><td>pilih bahan, bahagikan tugas</td></tr>
+<tr><td>4. Hasilkan produk 🛠️</td><td>poster "Cuci Tangan Dulu!"</td></tr></table>
+<h3>Masa tunjuk hasil!</h3>
+<p>Kongsikan hasil kerja kamu melalui <b>pameran, demonstrasi</b> atau <b>persembahan</b>. Rancang bersama kumpulan, berlatih, kemudian bentangkan dengan yakin!</p>
+<h3>Idea masalah daripada tema lain</h3>
+<ul><li>Diri dan keluarga: bagaimana menunjukkan kasih sayang kepada datuk dan nenek?</li>
+<li>Kesihatan: kawan tidak bersarapan.</li>
+<li>Keselamatan: murid berlari di tangga.</li>
+<li>Alam: bunyi bising di dalam kelas.</li></ul>
+<div class="tip">💡 <b>Ingat:</b> Kenal pasti, fikir, rancang, hasilkan!</div>
+<div class="tip">🏠 <b>Aktiviti bersama ibu bapa:</b> Cari satu masalah kecil di rumah (contoh: kasut bersepah). Biar anak cipta penyelesaiannya, contohnya rak kasut daripada kotak.</div>`;
+
+
 </script>
 <script>
 (() => {
@@ -18858,7 +19502,7 @@ const ikD = i => IKD.includes(i) ? `<img src="aset/p3-d${i}.webp" width="160" he
 const ENG = {
   mt: { gen: (y, t, r) => SB.gen(y, t, r), CUR: SB.CUR, NAMES: SB.NAMES, ICON: SB.ICON, DESC: SB.DESC, years: [1, 2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
   bi: { gen: (y, t, r) => EN.gen(y, t, r), CUR: EN.CUR, NAMES: EN.NAMES, ICON: EN.ICON, DESC: {}, years: [1, 2, 3, 4, 5, 6], mix: 'Mixed Test', mixd: 'Random questions from all topics' },
-  sn: { gen: (y, t, r) => SN.gen(y, t, r), round: (y, t, n, r) => SN.round(y, t, n, r), CUR: SN.CUR, NAMES: SN.NAMES, ICON: SN.ICON, DESC: {}, years: [2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
+  sn: { gen: (y, t, r) => SN.gen(y, t, r), round: (y, t, n, r) => SN.round(y, t, n, r), CUR: SN.CUR, NAMES: SN.NAMES, ICON: SN.ICON, DESC: {}, years: [1, 2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
   bm: { gen: (y, t, r) => BM.gen(y, t, r), round: (y, t, n, r) => BM.round(y, t, n, r), CUR: BM.CUR, NAMES: BM.NAMES, ICON: BM.ICON, DESC: {}, years: [1, 2, 3, 4, 5, 6], mix: 'Ujian Campuran', mixd: 'Soalan rawak dari semua topik' },
 };
 // Topik premium Jabatan Kandungan (17 Nov 2026): 'uasa' (Ramalan UASA, MT/SN/BM/BI) + 'rajahb' (MT Bahagian B) + 'rajahc' (SN Bahagian C), D4–D6.
@@ -19135,6 +19779,7 @@ const rf = s => String(s).replace(/\{(\d+) (\d+)\/(\d+)\}/g, '<span class="mixed
 const starsHTML = n => '<span class="stars">' + [1, 2, 3].map(i => i <= n ? '★' : '<span class="off">★</span>').join('') + '</span>';
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); };
 const subjBy = id => SUBJ.find(s => s.id === id);
+const namaSubj = (id, y) => { const S = subjBy(id); return (y === 1 && S.d1) ? S.d1.nama : S.nama; };
 // ikon 3D topik (dijana AI, dipadan ikut emoji topik) — jika tiada gambar, kekal emoji
 const IKT = {"🔢": "p3-t01-1", "➕": "p3-t01-2", "➖": "p3-t01-3", "✖️": "p3-t01-4", "➗": "p3-t01-5", "🍕": "p3-t01-6", "🧮": "p3-t01-7", "💯": "p3-t01-8", "💰": "p3-t01-9", "⏰": "p3-t02-1", "📏": "p3-t02-2", "🔷": "p3-t02-3", "📐": "p3-t02-4", "⚖️": "p3-t02-5", "🎯": "p3-t02-6", "🔤": "p3-t02-7", "✍️": "p3-t02-8", "🅰️": "p3-t02-9", "👯": "p3-t03-1", "🙋": "p3-t03-2", "📦": "p3-t03-3", "💪": "p3-t03-4", "🔁": "p3-t03-5", "▶️": "p3-t03-6", "❓": "p3-t03-7", "↔️": "p3-t03-8", "⏪": "p3-t03-9", "🕰️": "p3-t04-1", "🧺": "p3-t04-2", "🔗": "p3-t04-3", "🎞️": "p3-t04-4", "🚦": "p3-t04-5", "🏃": "p3-t04-6", "🫵": "p3-t04-7", "✅": "p3-t04-8", "👉": "p3-t04-9", "🌧️": "p3-t05-1", "🌀": "p3-t05-2", "📖": "p3-t05-3", "🧩": "p3-t05-4", "📝": "p3-t05-5", "🎨": "p3-t05-6", "🌈": "p3-t05-7", "💬": "p3-t05-8", "🧭": "p3-t05-9", "✏️": "p3-t06-1", "👤": "p3-t06-2", "👥": "p3-t06-3", "🗂️": "p3-t06-4", "🪢": "p3-t06-5", "🎬": "p3-t06-6", "📛": "p3-t06-7", "🧱": "p3-t06-8", "🎭": "p3-t06-9", "🏷️": "p3-t07-1", "🔖": "p3-t07-2", "🗣️": "p3-t07-3", "📜": "p3-t07-4", "🌐": "p3-t07-5", "🚫": "p3-t07-6", "🔀": "p3-t07-7", "⚙️": "p3-t07-8", "💧": "p3-t07-9", "🛠️": "p3-t08-1", "🧪": "p3-t08-2", "🥫": "p3-t08-3", "🌿": "p3-t08-4", "👪": "p3-t08-5", "♻️": "p3-t08-6", "🌙": "p3-t08-7", "🌍": "p3-t08-8", "🔦": "p3-t08-9", "🥣": "p3-t09-1", "🫃": "p3-t09-2", "👃": "p3-t09-3", "🔌": "p3-t09-4", "🌌": "p3-t09-5", "🌑": "p3-t09-6", "🏋️": "p3-t09-7", "🦷": "p3-t09-8", "🌡️": "p3-t09-9", "🐣": "p3-t10-1", "🐄": "p3-t10-2", "🐟": "p3-t10-3", "🌱": "p3-t10-4", "🐝": "p3-t10-5", "🧊": "p3-t10-6", "🔩": "p3-t10-7", "🐢": "p3-t10-8", "🏎️": "p3-t10-9", "🧲": "p3-t11-1", "🍚": "p3-t11-2", "👶": "p3-t11-3", "🦠": "p3-t11-4", "🫁": "p3-t11-5", "🌳": "p3-t11-6", "🦴": "p3-t11-7", "🧠": "p3-t11-8", "🪐": "p3-t11-9", "🦁": "p3-t12-1", "🏗️": "p3-t12-2", "⚡": "p3-t12-3", "🌻": "p3-t12-4", "🌵": "p3-t12-5", "🔍": "p3-t12-6", "💦": "p3-t12-7", "🏛️": "p3-t12-8", "🔮": "p3-pm-ramalan", "📊": "p3-pm-prestasi", "🔊": "p3-pm-suara", "💡": "p3-q-tip", "⚠️": "p3-q-amaran", "💻": "p3-q-komputer", "🔬": "p3-t08-2", "🕵️": "p3-t12-6", "📈": "p3-pm-prestasi", "👋": "p3-t13-1", "🏫": "p3-t13-2", "🪁": "p3-t13-3", "🐱": "p3-t13-4", "🥪": "p3-t13-5", "📅": "p3-t13-6", "🏠": "p3-t13-7", "👕": "p3-t13-8", "🤖": "p3-t13-9", "🏖️": "p3-t14-1", "🏡": "p3-t14-2", "🔡": "p3-t14-3", "🚸": "p3-t14-4"};
 const ikT = (e, k) => IKT[e] ? `<img class="it3${k ? ' k' : ''}" src="aset/${IKT[e]}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : (e || '');
@@ -19721,7 +20366,7 @@ function faq() {
     ${Q('Berapa harganya?', `<p><b>2 Bulan</b>: RM${hargaRM('2bulan')}${hargaAwal('2bulan') ? ` hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}` : ''}. <b>Setahun</b>: RM${hargaRM('setahun')}${hargaAwal('setahun') ? ` hingga ${tarikhBM(tt('harga_setahun_awal_tamat'))}, kemudian RM${tt('harga_setahun')}` : ''}. Satu pakej untuk seorang anak dan satu darjah (tidak boleh ditukar darjah). Tiada caj automatik.</p>`)}
     ${Q('Bagaimana cara membayar?', `<p>Pilih pakej di halaman <a href="#premium">Premium</a>, imbas <b>QR DuitNow</b> dengan app bank atau e-wallet, kemudian isi nombor rujukan transaksi dan tekan <b>Hantar</b>. Selepas bayaran disahkan (biasanya dalam 24 jam), kami emel <b>kod premium dan resit pembayaran</b>. Masukkan kod di halaman yang sama. Perlu akaun ibu bapa (percuma).</p>`)}
     ${Q('Apa jadi bila Premium tamat?', `<p>Kami emel peringatan <b>14, 7 dan 1 hari</b> sebelum tamat. Selepas tamat, profil kembali ke Percuma; bintang dan kemajuan anak kekal. Tiada pulangan wang, jadi cuba Perajurit percuma dahulu.</p>`)}
-    ${Q('Adakah kandungan ikut silibus sekolah?', `<p>Ya, ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</p>`)}
+    ${Q('Adakah kandungan ikut silibus sekolah?', `<p>Ya, ikut silibus semasa DSKP dan KSSR, ditulis sendiri oleh pasukan Sudut Belajar. Alam dan Manusia Darjah 1 sudah ikut Kurikulum Persekolahan 2027; subjek Darjah 1 lain dikemas kini bila dokumennya diterbitkan.</p>`)}
     <h2>Akaun &amp; bantuan</h2>
     ${Q('Adakah selamat untuk anak?', `<p>Tiada iklan dan tiada pautan keluar dalam latihan. Ranking hanya memaparkan nama glamour pilihan anak, bukan nama sebenar atau emel. <a href="#privasi">Notis Privasi</a></p>`)}
     ${Q('Terlupa kata laluan?', `<p>Tekan <b>Lupa kata laluan?</b> di halaman log masuk. Kod 6 angka dihantar ke emel ibu bapa (sah 30 minit).</p>`)}
@@ -20217,8 +20862,8 @@ function topics(s, y) {
   const tiles = topicsOf(s, y).map(t => `<a class="tp" href="#d${y}/${s}/${t}"><div class="ti">${ikT(E.ICON[t])}</div><div><h3>${E.NAMES[t]}</h3>${(E.DESC[y] || {})[t] ? `<div class="d">${E.DESC[y][t]}</div>` : ''}${rankPills(s, y, t)}</div></a>`).join('');
   app.innerHTML = `<div class="wrap pagein">
     <div class="band"><a class="back" href="#d${y}">← Semua subjek</a>
-      <h1><span class="bic">${ikonSubj(s, y)}</span> <span class="bnm">${S.nama}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
-      ${y === 1 ? '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</div>' : ''}
+      <h1><span class="bic">${ikonSubj(s, y)}</span> <span class="bnm">${namaSubj(s, y)}</span> <span class="byr">Darjah ${y}</span></h1><div class="sm"><b>⭐ ${p.got} / ${p.max} bintang</b><span class="rksm">⚔️ Hulubalang · 🎖️ Panglima · ⚓ Laksamana</span></div>
+      ${y === 1 ? (s === 'sn' ? '<div class="note">ℹ️ Alam dan Manusia Tahun 1 ikut Kurikulum Persekolahan 2027 (mula 2027), ditulis sendiri oleh pasukan Sudut Belajar.</div>' : '<div class="note">ℹ️ Ikut silibus semasa DSKP dan KSSR. Darjah 1 akan dikemas kini bila dokumen Kurikulum Persekolahan 2027 diterbitkan.</div>') : ''}
       <div class="yrs-mini">${E.years.map(i => `<a href="#d${i}/${s}" class="${i === y ? 'on' : ''}">Darjah ${i}</a>`).join('')}</div>
     </div>
     <div class="topics">${tiles}<a class="tp mix" href="#d${y}/${s}/campuran"><div class="ti">${ikT(E.ICON.campuran)}</div><div><h3>${E.mix}</h3><div class="d">${E.mixd}</div>${rankPills(s, y, 'campuran')}</div></a></div>
@@ -20231,7 +20876,7 @@ function ranks(s, y, t) {
   const S = subjBy(s), E = ENG[s]; setTheme(S);
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}">← Semua topik</a>
-      <h1>${ikT(E.ICON[t], 1)} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y} · Pilih tahap kamu</div></div>
+      <h1>${ikT(E.ICON[t], 1)} ${t === 'campuran' ? E.mix : E.NAMES[t]}</h1><div class="sm">${namaSubj(s, y)} · Darjah ${y} · Pilih tahap kamu</div></div>
     ${(typeof NOTA !== 'undefined' && NOTA[s] && NOTA[s][y] && NOTA[s][y][t]) ? `<a class="btn pri" href="#d${y}/${s}/${t}/nota" style="margin:0 0 18px;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15.5px">📖 Baca Nota Dulu <span style="font-size:11.5px;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px">PERCUMA</span></a>` : ''}
     <div class="ranks">${RANKS_UNTUK(t).map(r => `<a class="rk" style="--r1:${r.c1};--r2:${r.c2}${r.prem && !pakejOK(y) ? ';opacity:.78' : ''}" href="#d${y}/${s}/${t}/${r.id}">
       <div class="rkic">${rkImg(r)}</div><div class="rkt"><h3>${r.nama}${r.prem ? (pakejOK(y) ? ' <span style="font-size:12px">👑</span>' : ' <span style="font-size:11.5px;background:#ffd54f;color:#5d4037;border-radius:999px;padding:2px 8px;font-weight:700;white-space:nowrap;display:inline-block">🔒 PREMIUM</span>') : ''}</h3><span class="tpb">${r.tp}</span><p>${r.d}</p>${r.prem && !pakejOK(y) ? '' : kemJejak(s, y, t, r.id)}</div>${starsHTML(getStars(s, y, t, r.id))}</a>`).join('')}</div>
@@ -20244,7 +20889,7 @@ function notaPage(s, y, t) {
   const body = NOTA[s][y][t];
   app.innerHTML = `<div class="wrap">
     <div class="band"><a class="back" href="#d${y}/${s}/${t}">← Kembali</a>
-      <h1><img class="em3" src="aset/p3-d3.webp" width="160" height="160" alt="" decoding="async"> Nota: ${ikT(E.ICON[t], 1)} ${E.NAMES[t]}</h1><div class="sm">${S.nama} · Darjah ${y}</div></div>
+      <h1><img class="em3" src="aset/p3-d3.webp" width="160" height="160" alt="" decoding="async"> Nota: ${ikT(E.ICON[t], 1)} ${E.NAMES[t]}</h1><div class="sm">${namaSubj(s, y)} · Darjah ${y}</div></div>
     <div class="nota card" style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;max-width:760px;line-height:1.7">${body}</div>
     <div style="text-align:center;margin:22px 0 50px"><a class="btn pri" href="#d${y}/${s}/${t}" style="padding:13px 26px;font-size:16px">✅ Dah faham? Jom cuba kuiz!</a></div>
   </div>`;

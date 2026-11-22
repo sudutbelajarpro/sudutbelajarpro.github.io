@@ -19561,7 +19561,7 @@ const AKAUN = {
 //  (b) ibu bapa menghantar pesanan DuitNow (perlukan rujukan bank = tindakan dewasa) — Lead sahaja.
 // Tidak pernah menyala semasa latihan, permainan, ranking atau profil anak. Hanya nama peristiwa + nilai RM dihantar.
 const PIXEL = (() => {
-  const ID = '2059662131364937'; let siap = false, dahLihat = '';
+  const ID = '1124047677078549'; let siap = false, dahLihat = '';
   window.addEventListener('hashchange', () => { dahLihat = ''; });
   const dariIklan = () => { try { const q = new URLSearchParams(location.search); if (q.get('fbclid') || /^(fb|ig|meta|facebook|instagram|threads)/i.test(q.get('utm_source') || '')) sessionStorage.setItem('sb.iklan', '1'); return sessionStorage.getItem('sb.iklan') === '1'; } catch (e) { return false; } };
   dariIklan();
@@ -19672,6 +19672,8 @@ function pasang() {
 }
 
 const EMEL_HUB = 'sudutbelajarpro@gmail.com';
+const WA_HUB = '601116105183', WA_PAPAR = '011-1610 5183';
+const waHub = () => 'https://wa.me/' + WA_HUB + '?text=' + encodeURIComponent('Salam Sudut Belajar, saya ada pertanyaan: ');
 function mula() {
   setTheme({ g1: '#5b4bdb', g2: '#8f7dff' });
   const A = AKAUN.get(), P = PLAYER.get();
@@ -19704,7 +19706,7 @@ function faq() {
   app.innerHTML = `<section class="wrap pagein faq" style="padding:28px 20px 60px;max-width:680px">
     <a class="crumb" href="#pilih">← Utama</a>
     <h1 style="margin:10px 0 6px">Soalan Lazim</h1>
-    <p class="lead" style="margin:0 0 6px">Jawapan ringkas untuk ibu bapa. Tidak jumpa jawapan? <a href="mailto:${EMEL_HUB}">Emel kami</a>.</p>
+    <p class="lead" style="margin:0 0 6px">Jawapan ringkas untuk ibu bapa. Tidak jumpa jawapan? Hubungi kami melalui <a href="mailto:${EMEL_HUB}">emel</a> atau <a href="${waHub()}" target="_blank" rel="noopener">WhatsApp</a>.</p>
     <h2>Pakej &amp; bayaran</h2>
     ${Q('Apa beza Percuma dan Premium?', `<p><b>Percuma:</b> tahap Perajurit untuk semua darjah dan subjek, nota ulang kaji dan ranking. <b>Premium:</b> buka Hulubalang, Panglima dan Laksamana, Ramalan UASA (D4–6) dan laporan penuh ibu bapa, untuk semua subjek satu darjah.</p>`)}
     ${Q('Berapa harganya?', `<p><b>2 Bulan</b>: RM${hargaRM('2bulan')}${hargaAwal('2bulan') ? ` hingga ${tarikhBM(tt('harga_2bulan_awal_tamat'))}, kemudian RM${tt('harga_2bulan')}` : ''}. <b>Setahun</b>: RM${hargaRM('setahun')}${hargaAwal('setahun') ? ` hingga ${tarikhBM(tt('harga_setahun_awal_tamat'))}, kemudian RM${tt('harga_setahun')}` : ''}. Satu pakej untuk seorang anak dan satu darjah (tidak boleh ditukar darjah). Tiada caj automatik.</p>`)}
@@ -19718,7 +19720,7 @@ function faq() {
     ${Q('Ada untuk anak prasekolah?', `<p>Ada. <a href="#sedia"><b>Sedia ke Tahun 1</b></a>: 50 permainan untuk anak 5–6 tahun, 14 percuma. Kesemuanya dibuka sebagai 🎁 BONUS dalam Pakej Darjah 1.</p>`)}
     ${Q('Apa itu musim ranking? Berapa lama?', `<p><b>1 musim = ${tt('musim_bulan')} bulan.</b> Musim 1 bermula ${tarikhPenuh(tt('musim_mula'))} hingga ${tarikhPenuh((() => { const d = new Date(+tt('musim_mula') + 8 * 3600e3); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + (+tt('musim_bulan') || 3), d.getUTCDate()) - 8 * 3600e3 - 1; })())}. Setiap musim baharu, mata ranking semua pemain bermula semula dari kosong. Pemain 👑 Premium dengan mata tertinggi menerima <b>hadiah misteri</b> 🎁 di akhir musim.</p>`)}
     ${k && k.kod ? Q('Apa itu kod kempen ' + esc(k.kod) + '?', `<p>${k.had ? k.had + ' pengguna terawal' : 'Pengguna awal'} dapat Premium <b>percuma ${k.hari} hari</b> untuk satu darjah${k.tamat ? ` hingga ${tarikhPenuh(k.tamat - 1)}` : ''}. Sekali bagi setiap profil.</p>`) : ''}
-    ${Q('Bagaimana menghubungi kami?', `<p>Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
+    ${Q('Bagaimana menghubungi kami?', `<p>Sila hubungi kami melalui emel atau WhatsApp:<br>📧 Emel: <a href="mailto:${EMEL_HUB}">${EMEL_HUB}</a><br>💬 WhatsApp: <a href="${waHub()}" target="_blank" rel="noopener">${WA_PAPAR}</a><br>Kami membalas dalam tempoh 24 jam.</p>`)}
   </section>`;
   window.scrollTo(0, 0);
 }
@@ -20178,7 +20180,7 @@ function home(y, scroll) {
       </div>
     </section>
   </div>
-  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#pilih" data-pandu-ulang>Tunjuk cara guna</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · <a href="mailto:${EMEL_HUB}">Hubungi kami</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Kandungan ikut silibus semasa DSKP dan KSSR.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#pilih" data-pandu-ulang>Tunjuk cara guna</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · Hubungi kami: <a href="mailto:${EMEL_HUB}">Emel</a> · <a href="${waHub()}" target="_blank" rel="noopener">WhatsApp ${WA_PAPAR}</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Kandungan ikut silibus semasa DSKP dan KSSR.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);

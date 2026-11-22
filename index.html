@@ -288,6 +288,8 @@ section.blk{padding:44px 0}
 #dnref{width:100%;box-sizing:border-box;padding:11px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-weight:700;letter-spacing:.5px}
 #dnhantar{width:100%;justify-content:center;margin-top:10px;padding:12px 18px;font-size:15px}
 .dn-msg{font-size:14px;margin-top:8px}.dn-msg.ok{background:#e8f5e9;border-radius:12px;padding:10px 12px;color:#1b5e20;text-align:left}.dn-nota{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.dn-kunci{background:#fff8e1;border:1.5px dashed #ffb300;border-radius:14px;padding:14px;margin:12px 0 4px;font-size:14px;text-align:left;line-height:1.5}.dn-kb{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 8px}.dn-kb .btn{flex:1 1 140px;justify-content:center;text-align:center;padding:11px 14px}.dn-kn{font-size:12.5px;color:var(--muted)}
+.pm-hub{font-size:14px;margin:4px 0 16px;text-align:center;text-wrap:balance}
 .pk-ref{background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px;position:relative;padding-right:38px}
 .pk-refx{position:absolute;right:8px;top:8px;border:0;background:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;color:#555}
 .pk-refd{margin-top:10px;background:#fbfaff;border:1.5px dashed var(--line);border-radius:12px;padding:9px 12px}
@@ -19372,6 +19374,7 @@ function premium(s, y, t, rank) {
   const lain = P && P.premium && +P.pakej && y && +P.pakej !== +y;
   let pelan = (function () { try { return localStorage.getItem('sb.pelan') === 'setahun' ? 'setahun' : '2bulan'; } catch (e) { return '2bulan'; } })();
   const K = kempenT();
+  const bolehBayar = !!(P && P.akaun !== 0 && AKAUN.get());
   const kadPelan = pl => {
     const rm = hargaRM(pl), awal = hargaAwal(pl), hari = +tt('hari_' + pl), biasa = +tt('harga_' + pl);
     const jimat = pl === 'setahun' ? hargaRM('2bulan') * 6 - rm : 0;
@@ -19457,6 +19460,10 @@ function premium(s, y, t, rank) {
         ${REF.buka() ? (REF.sah() ? `<div class="pk-ref" id="pkref">🎁 Kod rakan <b>${esc(REF.sah())}</b> digunakan — ${['2bulan', 'setahun'].some(x => REF.diskaun(x)) ? ['2bulan', 'setahun'].filter(x => REF.diskaun(x)).map(x => `jimat <b>RM${REF.diskaun(x)}</b> (${NAMA_PELAN[x]})`).join(' · ') : 'harga awal sekarang sudah paling rendah'}. <button type="button" class="pk-refx" id="pkrefx" aria-label="Buang kod rakan">✕</button></div>` : `<details class="pk-refd" id="pkref"><summary>🎁 Ada kod rakan?</summary><div style="display:flex;gap:8px;margin-top:8px"><input id="refin" placeholder="cth AINA27" maxlength="12" autocomplete="off" style="flex:1;min-width:0;padding:9px;border:1.5px solid var(--line);border-radius:10px;font:inherit;text-transform:uppercase"><button type="button" class="btn sec" id="refguna" style="padding:9px 16px">Guna</button></div><div id="refmsg" style="font-size:13px;margin-top:6px;color:var(--muted)"></div></details>`) : ''}
         <div class="dn" id="dnbox">
           <div class="dn-amt"><span>JUMLAH PERLU DIBAYAR</span><b id="dnamt">RM${hargaBayar(pelan)}</b><em id="dnpl">${NAMA_PELAN[pelan]} · Darjah ${pd}</em></div>
+          ${bolehBayar ? '' : `<div class="dn-kunci" id="dnkunci">🔒 <b>QR bayaran dipaparkan selepas anda log masuk akaun ibu bapa</b> (percuma, kurang 1 minit). Ini supaya kod Premium dan resit dihantar ke emel anda, dan Premium dibuka untuk profil anak yang betul.
+            <div class="dn-kb">${AKAUN.get() ? (P ? `<a class="btn pri" href="#akaun">Pautkan profil ${esc(P.nick)}</a>` : `<a class="btn pri" href="#akaun">Pilih profil anak</a>`) : `<a class="btn pri" href="#akaun/daftar">Daftar akaun (percuma)</a><a class="btn sec" href="#akaun">Log masuk</a>`}</div>
+            <div class="dn-kn">Selepas daftar, tambah profil anak, kemudian tekan <b>👑 Naik taraf ke Premium</b> untuk kembali ke sini.</div></div>`}
+          <div id="dnbayar"${bolehBayar ? '' : ' hidden'}>
           <img class="dn-qr" src="aset/duitnow-qr.png" width="312" height="342" alt="Kod QR DuitNow untuk bayaran Sudut Belajar" loading="lazy">
           <div class="dn-nama">Nama penerima dalam app bank: <b style="white-space:nowrap">MOHD ZULHILMI</b></div>
           <a class="btn sec dn-simpan" href="aset/duitnow-qr.png" download="QR-DuitNow-SudutBelajar.png">⬇️ Simpan gambar QR</a>
@@ -19470,6 +19477,7 @@ function premium(s, y, t, rank) {
           <button type="button" class="btn pri" id="dnhantar">📨 Saya dah bayar · Hantar</button>
           <div id="dnmsg" class="dn-msg" role="status"></div>
           <p class="dn-nota">Kod Premium dan resit pembayaran dihantar ke emel akaun ibu bapa selepas bayaran disahkan, biasanya dalam masa 24 jam.</p>
+          </div>
         </div>
       </div></div>
       <div style="display:flex;gap:10px"><b style="background:#ffd54f;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">3</b><div style="flex:1"><b>Masukkan kod di sini</b> — Premium aktif serta-merta untuk darjah yang dipilih:
@@ -19481,6 +19489,7 @@ function premium(s, y, t, rank) {
       <div id="premsg" style="font-size:14px;margin-top:10px;color:var(--muted);text-align:center"></div>
       <div style="font-size:13px;color:var(--muted);margin-top:10px;border-top:1px solid var(--line);padding-top:10px">🛡️ Perajurit kekal <b>percuma selamanya</b>. Premium membuka Hulubalang, Panglima &amp; Laksamana untuk akaun kamu — kekal di semua peranti.</div>
     </div>
+    <p class="pm-hub">💬 Ada soalan sebelum bayar? <a href="${waHub()}" target="_blank" rel="noopener" style="font-weight:700">WhatsApp ${WA_PAPAR}</a> atau <a href="mailto:${EMEL_HUB}" style="font-weight:700">emel kami</a>.</p>
     <div class="faq pm-faq">
       <details><summary>Ada caj automatik bila tamat?</summary><p>Tiada. Bayaran sekali sahaja. Kami emel peringatan 14, 7 dan 1 hari sebelum tamat, dan kemajuan anak kekal.</p></details>
       <details><summary>Satu pakej untuk berapa anak?</summary><p>Seorang anak, satu darjah. Tambah profil adik-beradik dalam akaun ibu bapa yang sama.</p></details>

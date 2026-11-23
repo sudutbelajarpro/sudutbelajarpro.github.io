@@ -1048,6 +1048,9 @@ const fmt = n => { let s = typeof n === 'number' ? String(n) : n; const neg = s[
 // integer v scaled by 10^dp -> trimmed decimal string
 const D = (v, dp) => { let s = (v / Math.pow(10, dp)).toFixed(dp); if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, ''); return fmt(s); };
 const rm = sen => 'RM' + fmt((sen / 100).toFixed(2));
+// perpuluhan tanpa jarak ribu (untuk ruang kira bentuk lazim)
+const Dr = (v, dp) => { let s = (v / Math.pow(10, dp)).toFixed(dp); if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, ''); return s; };
+const LK = {lazimKosong: true};
 const fr = (n, d) => { const g = gcd(n, d); n /= g; d /= g; if (d === 1) return String(n); const w = Math.floor(n / d), r = n % d; return w ? `{${w} ${r}/${d}}` : `{${r}/${d}}`; };
 const fraw = (n, d) => `{${n}/${d}}`;
 const val = s => { let m; if ((m = /^\{(\d+) (\d+)\/(\d+)\}$/.exec(s))) return +m[1] + m[2] / m[3]; if ((m = /^\{(\d+)\/(\d+)\}$/.exec(s))) return m[1] / m[2]; const t = s.replace(/ /g, '').replace(/^RM/, ''); if (/^-?\d+(\.\d+)?$/.test(t)) return +t; return null; };
@@ -1185,20 +1188,20 @@ T.tambah = y => {
   const S = MAXN[y], a = R(Math.floor(S * .1), Math.floor(S * .6)), b = R(Math.floor(S * .05), S - 1 - a), s = a + b;
   if (b <= 0) return null;
   const t = pick(['kira', 'kira', 'cerita', 'tinggal'].concat(y === 6 ? ['tiga'] : []));
-  if (t === 'kira') return mk(`${fmt(a)} + ${fmt(b)} = <span class="blank">?</span>`, fmt(s), slips(s, y));
-  if (t === 'cerita') return mk(STORY_T(y, a, b, '+'), fmt(s), slips(s, y), { story: true });
-  if (t === 'tinggal') return mk(`${fmt(a)} + <span class="blank">?</span> = ${fmt(s)}`, fmt(b), slips(b, y).concat([fmt(s), fmt(s + a)]));
+  if (t === 'kira') return mk(`${fmt(a)} + ${fmt(b)} = <span class="blank">?</span>`, fmt(s), slips(s, y), { lazim: { jenis: 'col', a: String(a), b: String(b), op: '+', nt: y <= 3, simpan: true } });
+  if (t === 'cerita') return mk(STORY_T(y, a, b, '+'), fmt(s), slips(s, y), { story: true, lazimKosong: true });
+  if (t === 'tinggal') return mk(`${fmt(a)} + <span class="blank">?</span> = ${fmt(s)}`, fmt(b), slips(b, y).concat([fmt(s), fmt(s + a)]), LK);
   const c = R(Math.floor(S * .02), Math.floor(S * .2)); if (s + c >= S) return null;
-  return mk(`${fmt(a)} + ${fmt(b)} + ${fmt(c)} = <span class="blank">?</span>`, fmt(s + c), slips(s + c, y));
+  return mk(`${fmt(a)} + ${fmt(b)} + ${fmt(c)} = <span class="blank">?</span>`, fmt(s + c), slips(s + c, y), LK);
 };
 
 T.tolak = y => {
   const S = MAXN[y], a = R(Math.floor(S * .3), S - 1), b = R(Math.floor(S * .05), a - 1), d = a - b;
   if (d <= 0) return null;
   const t = pick(['kira', 'kira', 'cerita', 'tinggal']);
-  if (t === 'kira') return mk(`${fmt(a)} − ${fmt(b)} = <span class="blank">?</span>`, fmt(d), slips(d, y));
-  if (t === 'cerita') return mk(STORY_T(y, a, b, '-'), fmt(d), slips(d, y), { story: true });
-  return mk(`${fmt(a)} − <span class="blank">?</span> = ${fmt(d)}`, fmt(b), slips(b, y).concat([fmt(a + d)]));
+  if (t === 'kira') return mk(`${fmt(a)} − ${fmt(b)} = <span class="blank">?</span>`, fmt(d), slips(d, y), { lazim: { jenis: 'col', a: String(a), b: String(b), op: '−', nt: y <= 3, simpan: true, simpanLbl: 'pinjam' } });
+  if (t === 'cerita') return mk(STORY_T(y, a, b, '-'), fmt(d), slips(d, y), { story: true, lazimKosong: true });
+  return mk(`${fmt(a)} − <span class="blank">?</span> = ${fmt(d)}`, fmt(b), slips(b, y).concat([fmt(a + d)]), LK);
 };
 
 function pairMul(y) {
@@ -1213,19 +1216,36 @@ T.darab = y => {
     const a = R(10, 99), b = R(2, 9), c = R(2, 12), op = pick(['+', '−']);
     const ans = op === '+' ? a + b * c : a - b * c; if (ans <= 0) return null;
     const wrong = op === '+' ? (a + b) * c : (a - b) * c;
-    return mk(`${a} ${op} ${b} × ${c} = <span class="blank">?</span><div class="hint">Ingat: darab dahulu, kemudian ${op === '+' ? 'tambah' : 'tolak'}.</div>`, fmt(ans), [wrong, ans + 10, ans - 10, ans + b, ans + c].map(fmt));
+    return mk(`${a} ${op} ${b} × ${c} = <span class="blank">?</span><div class="hint">Ingat: darab dahulu, kemudian ${op === '+' ? 'tambah' : 'tolak'}.</div>`, fmt(ans), [wrong, ans + 10, ans - 10, ans + b, ans + c].map(fmt), LK);
   }
   const [a, b] = pairMul(y), p = a * b; if (p >= MAXN[y]) return null;
   const c = [p + a, p - a, p + b, p - b, p + 10, p - 10, a + b, p * 10].map(fmt);
   if (Math.random() < .35) {
     const bd = pick(['tin', 'biji telur', 'buku', 'botol']);
     const q = y <= 3 ? `Setiap kotak berisi ${fmt(b)} ${bd}. Berapakah jumlah ${bd} dalam ${fmt(a)} kotak?` : `Sebuah kilang membungkus ${fmt(a)} kotak. Setiap kotak berisi ${fmt(b)} ${bd}. Berapakah jumlah ${bd}?`;
-    return mk(q, fmt(p), c, { story: true });
+    return mk(q, fmt(p), c, { story: true, lazimKosong: y >= 3 });
   }
-  return mk(`${fmt(a)} × ${fmt(b)} = <span class="blank">?</span>`, fmt(p), c);
+  const [x1, x2] = a >= b ? [a, b] : [b, a];
+  return mk(`${fmt(a)} × ${fmt(b)} = <span class="blank">?</span>`, fmt(p), c, y >= 3 && x2 <= 99 ? { lazim: { jenis: 'col', a: String(x1), b: String(x2), op: '×', simpan: true, kerja: x2 >= 10 ? 2 : 0 } } : {});
 };
 
-T.bahagi = y => {
+// Bahagi (keputusan boss 23 Nov): TIADA baki. Perajurit & D3 = bahagi tepat; D4 Hulubalang ke atas boleh jawapan 1 t.p.;
+// D5–D6 hingga 2 t.p. Soalan cerita kekal bahagi tepat (benda dikira satu-satu).
+function bahagiP(y) {
+  const dp = y === 4 ? 1 : (Math.random() < .6 ? 2 : 1), P = Math.pow(10, dp);
+  const bs = y === 4 ? [2, 4, 5, 6, 8, 12, 15, 16, 20, 25] : [2, 4, 5, 6, 8, 12, 15, 16, 20, 24, 25, 32, 40, 48, 50, 75, 80];
+  for (let t = 0; t < 40; t++) {
+    const b = pick(bs), step = P / gcd(b, P); if (step % 10 === 0) continue;
+    const lo = y === 4 ? 10 : y === 5 ? 100 : 1000, hi = Math.floor((MAXN[y] - 1) / b) - 1; if (hi <= lo) continue;
+    const qi = R(lo, hi), nf = Math.floor((P - 1) / step); if (nf < 1) continue;
+    const frac = R(1, nf) * step; if (dp === 2 && frac % 10 === 0) continue;
+    const qs = qi * P + frac, A = b * qs / P; if (!Number.isInteger(A) || A >= MAXN[y]) continue;
+    const u = dp === 1 ? 1 : 10;
+    return mk(`${fmt(A)} ÷ ${b} = <span class="blank">?</span>`, D(qs, dp), [fmt(qi), D(qs * 10, dp), D(qs, dp + 1), D(qs + u, dp), D(qs - u, dp), D(qs + P, dp), D(qs - P, dp)], { lazim: { jenis: 'bahagi', a: String(A), b, desimal: true } });
+  }
+  return null;
+}
+T.bahagi = (y, rank) => {
   let b, q;
   if (y === 2) { b = pick([2, 3, 4, 5, 10]); q = R(1, 10); }
   else if (y === 3) { b = R(2, 9); q = R(2, Math.floor(999 / b)); }
@@ -1233,16 +1253,13 @@ T.bahagi = y => {
   else if (y === 5) { b = Math.random() < .5 ? R(2, 9) : R(11, 99); q = R(100, Math.floor(99999 / b)); }
   else { b = Math.random() < .5 ? R(2, 9) : R(11, 99); q = R(1000, Math.floor(999999 / b)); }
   const a = b * q;
-  if (y >= 3 && Math.random() < .3) {
-    const r = R(1, b - 1); if (b < 3) return null; const A = a + r; if (A >= MAXN[y]) return null;
-    return mk(`${fmt(A)} ÷ ${b} = <span class="blank">?</span>`, `${fmt(q)} baki ${r}`, [r + 1 < b ? `${fmt(q)} baki ${r + 1}` : null, `${fmt(q + 1)} baki ${r}`, q > 1 ? `${fmt(q - 1)} baki ${r}` : null, r > 1 ? `${fmt(q)} baki ${r - 1}` : null, `${fmt(q + 10)} baki ${r}`]);
-  }
   const c = [q + 1, q - 1, q + 10, q - 10, q * 10, a - b].map(fmt);
   if (Math.random() < .35) {
     const bd = pick(BENDA);
-    return mk(`Sebanyak ${fmt(a)} ${bd} dibahagikan sama banyak kepada ${b} orang murid. Berapakah ${bd} yang diterima oleh setiap murid?`, fmt(q), c, { story: true });
+    return mk(`Sebanyak ${fmt(a)} ${bd} dibahagikan sama banyak kepada ${b} orang murid. Berapakah ${bd} yang diterima oleh setiap murid?`, fmt(q), c, { story: true, lazimKosong: y >= 3 });
   }
-  return mk(`${fmt(a)} ÷ ${fmt(b)} = <span class="blank">?</span>`, fmt(q), c);
+  if (y >= 4 && rank !== 'warrior' && Math.random() < .45) { const d = bahagiP(y); if (d) return d; }
+  return mk(`${fmt(a)} ÷ ${b} = <span class="blank">?</span>`, fmt(q), c, y >= 3 ? { lazim: { jenis: 'bahagi', a: String(a), b } } : {});
 };
 
 // Tahun 1: setengah, suku, tiga suku — set 1-3 (epik: kenal/visual, legend: situasi harian, mythic: taip)
@@ -1323,41 +1340,92 @@ T.pecahan = y => {
   return mk(`${fraw(k, d)} ÷ ${W} = <span class="blank">?</span>`, fr(k, d * W), [fr(k * W, d), fr(k, d + W), fr(k + W, d * W), fr(k, d * W + 1), fr(W, d * k)]);
 };
 
+// Perpuluhan ikut DSKP KSSR Semakan 2017 (disemak 23 Nov 2026):
+// T3: tambah/tolak dua perpuluhan hingga 2 t.p. dalam lingkungan 0.99
+// T4: tambah/tolak hingga 3 t.p.; darab & bahagi dengan nombor satu digit, 10, 100, 1000 (hasil hingga 3 t.p.)
+// T5: tambah/tolak (termasuk bergabung) hingga 3 t.p.; darab & bahagi dengan nombor hingga dua digit, 100, 1000; pembundaran hingga 3 t.p.
+// T6: darab perpuluhan dengan perpuluhan; bahagi perpuluhan dengan perpuluhan (hasil hingga 3 t.p.)
 T.perpuluhan = y => {
-  const dp = y === 3 ? 1 : y === 4 ? 2 : 3;
-  const types = ['tukar', 'tambah', 'tolak', 'nilai']; if (y >= 5) types.push('darab10', 'darab10'); if (y >= 6) types.push('darabW', 'bahagiW');
-  const t = pick(types), P = Math.pow(10, dp);
+  const types = {
+    3: ['tukar', 'tukar', 'tambah', 'tolak', 'nilai'],
+    4: ['tukar', 'nilai', 'tambah', 'tolak', 'darabW', 'darabW', 'bahagiW', 'bahagiW', 'darab10'],
+    5: ['nilai', 'tambah', 'tolak', 'gabung', 'darabW', 'darabW', 'bahagiW', 'bahagiW', 'darab10', 'bundar'],
+    6: ['tambah', 'tolak', 'darabP', 'darabP', 'darabP', 'bahagiP', 'bahagiP', 'bahagiP', 'darabW', 'bahagiW', 'bundar'],
+  }[y];
+  const t = pick(types);
   if (t === 'tukar') {
-    const den = pick(y === 3 ? [10] : y === 4 ? [10, 100] : [10, 100, 1000]), dd = Math.log10(den), k = R(1, den - 1);
+    const den = pick(y === 3 ? [10, 100] : y === 4 ? [10, 100] : [10, 100, 1000]), dd = Math.log10(den), k = R(1, den - 1);
     if (k % 10 === 0 && den > 10) return null;
     const wrong = [D(k, dd + 1), D(k, Math.max(0, dd - 1)), D(k + 1, dd), D(k * 10, dd)];
     if (Math.random() < .5) return mk(`Tukarkan ${fraw(k, den)} kepada ${B('nombor perpuluhan')}.`, D(k, dd), wrong);
     return mk(`Tukarkan ${B(D(k, dd))} kepada ${B('pecahan')}.`, fraw(k, den), [fraw(k, den * 10), den > 10 ? fraw(k, den / 10) : fraw(k, 100), fraw(k + 1, den), fraw(k, k + den)]);
   }
-  if (t === 'tambah' || t === 'tolak') {
-    const lim = y === 3 ? 999 : y === 4 ? 9999 : 99999; let a = R(11, lim), b = R(11, lim);
-    if (t === 'tolak' && a < b) [a, b] = [b, a]; if (a === b) return null;
-    const r = t === 'tambah' ? a + b : a - b;
-    return mk(`${D(a, dp)} ${t === 'tambah' ? '+' : '−'} ${D(b, dp)} = <span class="blank">?</span>`, D(r, dp), [D(r + 1, dp), D(r - 1, dp), D(r + P / 10 >= 1 ? r + 10 : r + 1, dp), D(r - 10, dp), D(r, dp - 1 < 0 ? 0 : dp - 1), D(r + P, dp)]);
-  }
   if (t === 'nilai') {
-    const a = R(P + 1, P * 99), s = String(a), L = s.length, ks = [];
+    const dp = y === 3 ? 2 : y === 4 ? 2 : 3, P = Math.pow(10, dp);
+    const a = y === 3 ? R(11, 99) : R(P + 1, P * 99), s = String(a).padStart(dp + 1, '0'), L = s.length, ks = [];
     for (let k = 0; k < dp; k++) { const d = s[L - 1 - k]; if (d !== '0' && s.split(d).length === 2) ks.push(k); }
     if (!ks.length) return null;
     const k = pick(ks), d = +s[L - 1 - k], v = d * Math.pow(10, k);
     return mk(`Apakah nilai digit ${B(d)} dalam ${B(D(a, dp))}?`, D(v, dp), [D(v * 10, dp), D(v, dp + 1), D(v * 100, dp), String(d), String(d * 10)]);
   }
+  if (t === 'tambah' || t === 'tolak') {
+    let A, Bv, m;
+    if (y === 3) { m = 2; const tenth = () => Math.random() < .35; A = tenth() ? R(1, 9) * 10 : R(1, 98); Bv = tenth() ? R(1, 9) * 10 : R(1, 98); if (t === 'tambah' && A + Bv > 99) return null; }
+    else {
+      const da = R(1, 3), db = R(1, 3); m = Math.max(da, db);
+      const a0 = R(Math.pow(10, da) + 1, 999 * Math.pow(10, da)), b0 = R(Math.pow(10, db) + 1, 999 * Math.pow(10, db));
+      if (a0 % 10 === 0 || b0 % 10 === 0) return null;
+      A = a0 * Math.pow(10, m - da); Bv = b0 * Math.pow(10, m - db);
+    }
+    if (t === 'tolak' && A < Bv) [A, Bv] = [Bv, A]; if (A === Bv) return null;
+    const r = t === 'tambah' ? A + Bv : A - Bv, P = Math.pow(10, m), op = t === 'tambah' ? '+' : '−';
+    return mk(`${D(A, m)} ${op} ${D(Bv, m)} = <span class="blank">?</span>`, D(r, m), [D(r + 1, m), D(r - 1, m), D(r + P / 10, m), D(r - P / 10, m), D(r + P, m), D(r - P, m), D(r, m + 1)],
+      { lazim: { jenis: 'col', a: Dr(A, m), b: Dr(Bv, m), op, simpan: true, simpanLbl: t === 'tolak' ? 'pinjam' : 'simpan' } });
+  }
+  if (t === 'gabung') { // T5 2.2.2 operasi bergabung tambah dan tolak
+    const m = R(1, 3), P = Math.pow(10, m), a = R(P * 20, P * 500), b = R(P, P * 300), c = R(P, P * 300);
+    if (a % 10 === 0 || b % 10 === 0 || c % 10 === 0) return null;
+    const r = a + b - c; if (r <= 0) return null;
+    return mk(`${D(a, m)} + ${D(b, m)} − ${D(c, m)} = <span class="blank">?</span>`, D(r, m), [D(a + b + c, m), D(a - b - c > 0 ? a - b - c : r + P, m), D(r + 1, m), D(r - 1, m), D(r + P, m)], LK);
+  }
   if (t === 'darab10') {
-    const a = R(11, 99999), m = pick([10, 100, 1000]), mul = Math.random() < .5 || m === 1000;
-    if (mul) { const r = a * m; return mk(`${D(a, dp)} × ${fmt(m)} = <span class="blank">?</span>`, D(r, dp), [D(r * 10, dp), D(a, dp + 1), D(r, dp + 1), D(r * 100, dp), D(a + m, dp)]); }
-    return mk(`${D(a, dp)} ÷ ${fmt(m)} = <span class="blank">?</span>`, D(a, dp + Math.log10(m)), [D(a, dp + Math.log10(m) + 1), D(a, dp + Math.log10(m) - 1), D(a * m, dp), D(a, Math.max(0, dp - 1))]);
+    const mm = pick([10, 100, 1000]), mul = Math.random() < .5 || mm === 1000, a = R(11, 99999);
+    if (mul) { const dp = y === 4 ? 2 : 3, r = a * mm; return mk(`${D(a, dp)} × ${fmt(mm)} = <span class="blank">?</span>`, D(r, dp), [D(r * 10, dp), D(a, dp + 1), D(r, dp + 1), D(r * 100, dp), D(a + mm, dp)]); }
+    const dp = R(1, 3 - Math.log10(mm)); if (a % 10 === 0) return null; // hasil bahagi hingga 3 t.p. (DSKP)
+    return mk(`${D(a, dp)} ÷ ${fmt(mm)} = <span class="blank">?</span>`, D(a, dp + Math.log10(mm)), [D(a, dp + Math.log10(mm) + 1), D(a, dp + Math.log10(mm) - 1), D(a * mm, dp), D(a, Math.max(0, dp - 1))]);
   }
-  if (t === 'darabW') {
-    const a = R(11, 9999), w = R(2, 9), r = a * w;
-    return mk(`${D(a, 2)} × ${w} = <span class="blank">?</span>`, D(r, 2), [D(r, 1), D(r, 3), D(r + w, 2), D(r - w, 2), D(a + w * 100, 2)]);
+  if (t === 'darabW') { // T4: × satu digit; T5/T6: × hingga dua digit
+    const da = R(1, 3), A = R(11, da === 1 ? 9999 : 99999), w = y === 4 || Math.random() < .4 ? R(2, 9) : R(11, 99);
+    if (A % 10 === 0) return null;
+    const r = A * w;
+    return mk(`${D(A, da)} × ${w} = <span class="blank">?</span>`, D(r, da), [D(r, da + 1), D(r, Math.max(0, da - 1)), D(r + w, da), D(r - w, da), D(r + A, da), D(A * (w + 1), da)],
+      { lazim: { jenis: 'col', a: Dr(A, da), b: String(w), op: '×', simpan: true, kerja: w >= 10 ? 2 : 0 } });
   }
-  const w = R(2, 9), q = R(11, 9999), a = q * w;
-  return mk(`${D(a, 2)} ÷ ${w} = <span class="blank">?</span>`, D(q, 2), [D(q, 1), D(q, 3), D(q + 1, 2), D(q - 1, 2), D(q * 10, 2)]);
+  if (t === 'bahagiW') { // T4: ÷ satu digit; T5/T6: ÷ hingga dua digit; hasil hingga 3 t.p.
+    const dq = R(1, 3), q = R(11, dq === 1 ? 9999 : 99999), w = y === 4 || Math.random() < .4 ? R(2, 9) : R(11, 99), A = q * w;
+    if (q % 10 === 0 || A % Math.pow(10, dq) === 0) return null;
+    return mk(`${D(A, dq)} ÷ ${w} = <span class="blank">?</span>`, D(q, dq), [D(q, dq + 1), D(q, Math.max(0, dq - 1)), D(q + 1, dq), D(q - 1, dq), D(q + Math.pow(10, dq), dq)],
+      { lazim: { jenis: 'bahagi', a: Dr(A, dq), b: w } });
+  }
+  if (t === 'darabP') { // T6: perpuluhan × perpuluhan, hasil hingga 3 t.p.
+    const da = R(1, 2), db = R(1, 3 - da), A = R(11, da === 1 ? 9999 : 99999), Bv = R(2, 99);
+    if (A % 10 === 0 || Bv % 10 === 0) return null;
+    const r = A * Bv, dj = da + db;
+    return mk(`${D(A, da)} × ${D(Bv, db)} = <span class="blank">?</span>`, D(r, dj), [D(r, dj - 1), D(r, dj + 1), D(r, da), D(r + Bv, dj), D(r - Bv, dj)],
+      { lazim: { jenis: 'col', a: Dr(A, da), b: Dr(Bv, db), op: '×', simpan: true, kerja: Bv >= 10 ? 2 : 0 } });
+  }
+  if (t === 'bahagiP') { // T6: perpuluhan ÷ perpuluhan, hasil hingga 3 t.p.
+    const db = R(1, 2), Bv = R(2, 99), dq = R(0, 2), q = R(11, 9999);
+    if (Bv % 10 === 0 || (dq && q % 10 === 0)) return null;
+    const A = q * Bv, da = dq + db; if (A % Math.pow(10, da) === 0) return null;
+    const kali = Math.pow(10, db);
+    return mk(`${D(A, da)} ÷ ${D(Bv, db)} = <span class="blank">?</span>`, D(q, dq), [D(q, dq + 1), D(q * 10, dq), D(q, dq + 2), D(q + 1, dq), D(q - 1, dq)],
+      { lazim: { jenis: 'bahagi', a: Dr(A, dq), b: Bv, nota: `Pembahagi mesti nombor bulat dahulu. Darab kedua-dua nombor dengan <b>${kali}</b>: ${Dr(A, da)} ÷ ${Dr(Bv, db)} = <b>${Dr(A, dq)} ÷ ${Bv}</b>` } });
+  }
+  // bundar (T5 2.2.1 / T6): pembundaran hingga 3 t.p.
+  const n = pick([1, 2]), dp = n + 1, a = R(Math.pow(10, dp) + 1, Math.pow(10, dp) * 99); if (a % 10 === 0) return null;
+  const f = Math.pow(10, dp - n), r = Math.floor((a + f / 2) / f), tr = Math.floor(a / f);
+  return mk(`Bundarkan ${B(D(a, dp))} kepada ${B(n + ' tempat perpuluhan')}.`, (r / Math.pow(10, n)).toFixed(n), [(tr / Math.pow(10, n)).toFixed(n), ((r + 1) / Math.pow(10, n)).toFixed(n), (Math.round(a / Math.pow(10, dp))).toString(), (Math.floor((a + f * 5) / (f * 10)) / Math.pow(10, n - 1)).toFixed(n - 1), ((tr - 1) / Math.pow(10, n)).toFixed(n)]);
 };
 
 T.peratus = y => {
@@ -1649,9 +1717,11 @@ const CUR = {
 // rank: epik = soalan terus (TP1-2), legend = ayat cerita/aplikasi (TP3-4), mythic = taip jawapan sendiri, gaya UASA (TP5-6)
 const NOTYPE = /manakah|ditulis dalam perkataan/;
 function gen(y, topic, rank = 'epik') {
+  const rk0 = rank; if (rank === 'warrior') rank = 'epik'; // Perajurit: soalan epik, tetapi penjana tahu (cth. bahagi tepat)
   let fallback = null;
   for (let i = 0; i < 300; i++) {
-    const tp = topic === 'campuran' ? pick(CUR[y]) : topic; const q = T[tp](y); if (!q) continue; q.topic = tp;
+    const tp = topic === 'campuran' ? pick(CUR[y]) : topic; const q = T[tp](y, rk0); if (!q) continue; q.topic = tp;
+    if (tp === 'wang' && y >= 2 && !q.lazim) q.lazimKosong = true; // ruang kira: anak susun sendiri nilai wang
     if (rank === 'mythic') { if (q.small || NOTYPE.test(q.q)) continue; q.typed = true; }
     const want = rank === 'epik' ? !q.story : !!q.story;
     if (want || (rank === 'legend' && Math.random() < .25)) return q;
@@ -1666,6 +1736,436 @@ return { gen, round, CUR, NAMES, ICON, DESC, val, words, U: { R, pick, shuffle, 
 })();
 if (typeof module !== 'undefined') module.exports = SB;
 // ===== SB ENGINE END =====
+
+</script>
+<script>
+// ===== RUANG KIRA BENTUK LAZIM (Matematik) — 23 Nov 2026 =====
+const LAZIM = (() => {
+
+const RK = {warrior:['🛡️','Perajurit','#2e7d32','#66bb6a'], epik:['⚔️','Hulubalang','#1e4fbf','#5b8def'], legend:['🎖️','Panglima','#6a1b9a','#ab47bc'], mythic:['⚓','Laksamana','#8e1b2e','#d4a017']};
+const PH = ['S','P','R','Rb','PRb','RRb','J'];
+const NL = ['Sa','Puluh','Ratus','Ribu','Puluh ribu','Ratus ribu','Juta'];
+const NP = ['persepuluh','perseratus','perseribu','persepuluh ribu'];
+let cur = 0, boxes = [], aktif = null, langkah = [], li = 0, panduOn = null, M = null;
+let ROOT = null;
+const $ = s => ROOT ? ROOT.querySelector(s) : null;
+function cw(cols){ const w = Math.min(window.innerWidth, 480) - 58; return Math.max(22, Math.min(46, Math.floor(w / cols))); }
+function el(tag, cls, txt){ const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
+function kotak(jenis, grid, data){ const b = el('div', 'bx ' + jenis); Object.assign(b.dataset, data); b.onclick = () => pilih(b); grid.appendChild(b); boxes.push(b); return b; }
+const dpOf = s => (String(s).split('.')[1] || '').length;
+const sk = (s, dp) => { const [i, d = ''] = String(s).split('.'); return parseInt(i + d.padEnd(dp, '0'), 10); };
+const dig = (n, ri) => { const s = String(n); return ri < s.length ? +s[s.length - 1 - ri] : null; };
+const kol = (W, ri) => W - 1 - ri;
+const fmtN = (n, dp) => { let s = String(n).padStart(dp + 1, '0'); if (dp) s = s.slice(0, -dp) + '.' + s.slice(-dp); return s.replace(/^(\d+)/, m => m.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')); };
+function namaL(ri, dp){ return ri < dp ? NP[dp - 1 - ri] : NL[ri - dp]; }
+
+// ---------- LANGKAH PANDUAN ----------
+function langkahTambah(m){
+  const {A, B, W, dp, la, lb} = m, L = []; let c = 0; const n = Math.max(la, lb);
+  for (let ri = 0; ri < n; ri++) {
+    const x = dig(A, ri), y = dig(B, ri), parts = [x, y].filter(v => v !== null), last = ri === n - 1;
+    let t = `Lajur <b>${namaL(ri, dp)}</b>: kira <b>${parts.join(' + ')}${c ? ' + ' + c + ' (simpan)' : ''}</b>. `;
+    t += last ? 'Tulis jawapan di bawah.' : `Tulis digit sa di kotak bawah. Jika 10 atau lebih, simpan 1 di atas lajur ${namaL(ri + 1, dp)}.`;
+    if (ri === 0) t = 'Mula dari <b>kanan</b>. ' + (dp ? 'Titik perpuluhan sudah selari, 0 kelabu ditambah supaya tempat perpuluhan sama. ' : '') + t;
+    if (dp && ri === dp) t += ' (Kita sudah lepas titik perpuluhan.)';
+    L.push({t, col:kol(W, ri), row:'g'});
+    c = Math.floor(((x || 0) + (y || 0) + c) / 10);
+  }
+  if (c) { L[L.length - 1].t = L[L.length - 1].t.replace('Tulis jawapan di bawah.', `Tulis digit sa di bawah dan simpan 1 ke lajur ${namaL(n, dp)}.`); L.push({t:`Lajur <b>${namaL(n, dp)}</b>: tulis nombor simpan di sini.`, col:kol(W, n), row:'g'}); }
+  return L;
+}
+function langkahTolak(m){
+  const {A, B, W, dp} = m, L = [], AA = String(A).split('').reverse().map(Number), la = AA.length, j = A - B, lj = Math.max(String(j).length, dp + 1);
+  for (let ri = 0; ri < la; ri++) {
+    const y = dig(B, ri) || 0; let x = AA[ri], t = ri === 0 ? 'Mula dari <b>kanan</b>. ' + (dp ? 'Titik perpuluhan sudah selari, 0 kelabu ditambah. ' : '') : '';
+    if (x < y) {
+      let k = ri + 1; while (AA[k] === 0) k++;
+      if (k === ri + 1) t += `Lajur <b>${namaL(ri, dp)}</b>: ${x} kurang daripada ${y}. <b>Pinjam 1</b> dari lajur ${namaL(k, dp)} (${AA[k]} jadi ${AA[k] - 1}). Kini kira <b>${x + 10} − ${y}</b>.`;
+      else t += `Lajur <b>${namaL(ri, dp)}</b>: ${x} kurang daripada ${y}, tetapi lajur ${namaL(ri + 1, dp)} ialah 0. <b>Pinjam dari lajur ${namaL(k, dp)}</b> (${AA[k]} jadi ${AA[k] - 1}), setiap 0 di tengah jadi 9. Kini kira <b>${x + 10} − ${y}</b>.`;
+      AA[k]--; for (let q = ri + 1; q < k; q++) AA[q] = 9; x += 10;
+      t += ' Catat nilai baharu di kotak pinjam jika perlu.';
+    } else t += `Lajur <b>${namaL(ri, dp)}</b>: kira <b>${x} − ${y}</b>.`;
+    if (ri >= lj) t += ' Hasilnya 0 di depan, jadi <b>biarkan kosong</b>.';
+    L.push({t, col:kol(W, ri), row:'g'});
+  }
+  return L;
+}
+function langkahDarab(m){
+  const {A, B, W, dpA, dpB, dpJ, as, bs} = m, L = [], Bs = String(B), la = String(A).length;
+  const satuBaris = (mm, row, anjak, awal) => {
+    let c = 0;
+    for (let ri = 0; ri < la; ri++) {
+      const x = dig(A, ri);
+      L.push({t:(ri === 0 ? awal : '') + `Kira <b>${mm} × ${x}</b>${ri ? ' + nombor simpan' : ''}. Tulis digit sa di kotak ini` + (ri === la - 1 ? '.' : ', simpan puluh di atas lajur kiri.'), col:kol(W, ri + anjak), row});
+      c = Math.floor((mm * x + c) / 10);
+    }
+    if (c) L.push({t:'Tulis nombor simpan yang terakhir di kotak sebelah kiri.', col:kol(W, la + anjak), row});
+  };
+  const awalP = dpJ ? `<b>Abaikan titik dahulu</b>: darab ${A} × ${B} macam nombor bulat. ` : '';
+  if (Bs.length === 1) satuBaris(+Bs, 'g', 0, awalP + 'Mula dari <b>kanan</b>. ');
+  else {
+    satuBaris(+Bs[1], 'k0', 0, awalP + `<b>Baris 1:</b> darab ${A} dengan <b>${Bs[1]}</b> (sa). `);
+    L.push({t:`<b>Baris 2:</b> sekarang darab dengan <b>${Bs[0]} puluh</b>. Tulis <b>0</b> di lajur Sa dahulu.`, col:kol(W, 0), row:'k1'});
+    satuBaris(+Bs[0], 'k1', 1, '');
+    const lj = String(A * B).length;
+    for (let ri = 0; ri < lj; ri++) L.push({t:(ri === 0 ? '<b>Akhir:</b> tambah Baris 1 dan Baris 2, mula dari kanan. ' : '') + `Lajur ${ri + 1} dari kanan: tambah digit dalam lajur ini${ri ? ' + simpan' : ''}.`, col:kol(W, ri), row:'g'});
+  }
+  if (dpJ) {
+    const lj = String(A * B).length;
+    if (lj < dpJ + 1) L.push({t:`Jawapan perlu sekurang-kurangnya ${dpJ + 1} digit. Tulis <b>0</b> di depan.`, col:kol(W, lj), row:'g'});
+    L.push({t:`<b>Letak titik perpuluhan.</b> ${as} ada ${dpA} tempat perpuluhan${dpB ? `, ${bs} ada ${dpB}` : ''}. Jadi jawapan ada <b>${dpJ} tempat perpuluhan</b>: kira ${dpJ} digit dari kanan. Tekan kotak digit <b>sebelum</b> titik, kemudian tekan butang <b>[ . ]</b>.`, grp:[], titik:true});
+  }
+  return L;
+}
+function langkahBahagi(K){
+  const L = [], b = K.b;
+  K.langkah.forEach((st, n) => {
+    const titikNota = K.k && st.i === K.intLen ? ' (Kita sudah lepas titik perpuluhan. Titik di atas sudah diletak tepat di atas titik nombor dibahagi.)' : '';
+    if (st.lompat) {
+      if (st.wajib0) L.push({t:(n === 0 ? 'Mula dari <b>kiri</b>. ' : '') + `${st.cur} kurang daripada ${b}, jadi tulis <b>0</b> di atas garisan.` + (st.i === K.intLen - 1 ? ' (Digit sebelum titik perpuluhan mesti ditulis, walaupun 0.)' : '') + titikNota, grp:[st.qbox]});
+      else L.push({t:`Mula dari <b>kiri</b>. ${st.cur} kurang daripada ${b}, jadi <b>biarkan kosong</b> dan ambil digit seterusnya.`, grp:[st.qbox], lompat:true});
+      return;
+    }
+    if (st.sifar) {
+      L.push({t:`<b>${st.cur}</b> kurang daripada ${b}, jadi tulis <b>0</b> di atas garisan.` + titikNota, grp:[st.qbox]});
+      if (st.akhir) { if (K.bakiBox) L.push({t:`Tiada digit lagi. <b>${st.cur}</b> ialah baki. Salin ke kotak <b>Baki</b>.`, grp:[K.bakiBox]}); else L.push({t:'Tiada digit lagi untuk diturunkan. Bahagi <b>sudah habis, tiada baki</b>. 🎉', grp:[], lihat:true}); }
+      else L.push({t:`<b>Turunkan</b> ${st.tambah0 ? '<b>0</b> kelabu (yang ditambah)' : 'digit ' + st.turun} ke sebelah kanan.`, grp:[st.tbox]});
+      return;
+    }
+    const mulaTxt = (n === 0 || K.langkah[n - 1].lompat) && !K.langkah.slice(0, n).some(x => x.wajib0) ? 'Mula dari <b>kiri</b>. ' : '';
+    L.push({t:mulaTxt + `Berapa kali <b>${b}</b> masuk dalam <b>${st.cur}</b>? Tulis di atas garisan.` + titikNota, grp:[st.qbox]});
+    L.push({t:`<b>Darab:</b> ${st.qd} × ${b}. Tulis hasilnya di bawah ${st.cur} (isi dari kanan).`, grp:st.pboxes});
+    if (st.akhir) {
+      L.push({t:`<b>Tolak:</b> ${st.cur} − ${st.qd * b}.` + (K.k || K.tepat ? ' Hasilnya 0, jadi bahagi <b>sudah habis, tiada baki</b>. 🎉' : ' Hasilnya ialah <b>baki</b>.'), grp:st.rboxes});
+      if (!K.k && !K.tepat) L.push({t:'Salin baki ke kotak <b>Baki</b>. Siap!', grp:[K.bakiBox]});
+    } else {
+      if (st.rboxes.length) L.push({t:`<b>Tolak:</b> ${st.cur} − ${st.qd * b}. Tulis hasilnya.`, grp:st.rboxes});
+      else L.push({t:`<b>Tolak:</b> ${st.cur} − ${st.qd * b} = 0, tidak perlu tulis 0. Teruskan.`, grp:[], lihat:true});
+      L.push({t:`<b>Turunkan</b> ${st.tambah0 ? '<b>0</b> kelabu (yang ditambah supaya bahagi sampai habis)' : 'digit ' + st.turun} ke bawah, di sebelah kanan.`, grp:[st.tbox]});
+    }
+  });
+  return L;
+}
+function langkahHilang(m){
+  const {A, B, W} = m, ri = M.q.hilang.i, L = [];
+  L.push({t:`Mula dari <b>kanan</b>. Lajur Sa: ${dig(A,0)} + ${dig(B,0)}. Ada simpan ke lajur Puluh?`, col:kol(W, 0), row:'g', lihat:true, grp:[]});
+  L.push({t:`Lajur <b>${NL[ri]}</b>: <b>? + ${dig(B, ri)} + simpan</b> mesti beri digit <b>${dig(A + B, ri)}</b>. Nombor apa dalam kotak?`, col:kol(W, ri), row:'g'});
+  return L;
+}
+
+// ---------- BINA ----------
+function binaCol(q, S){
+  const op = q.op;
+  let m;
+  if (op === '×') {
+    const dpA = dpOf(q.a), dpB = dpOf(q.b), A = sk(q.a, dpA), B = sk(q.b, dpB), dpJ = dpA + dpB;
+    const as = String(A).padStart(dpA + 1, '0'), bs = String(B).padStart(dpB + 1, '0');
+    const W = as.length + bs.length, J = A * B;
+    m = {A, B, W, dpA, dpB, dpJ, as:q.a, bs:q.b, dp:0, rowA:as, rowB:bs, dotA:dpA ? as.length - 1 - dpA : -1, dotB:dpB ? bs.length - 1 - dpB : -1, J, Js:String(J).padStart(dpJ + 1, '0')};
+  } else {
+    const dp = Math.max(dpOf(q.a), dpOf(q.b)), A = sk(q.a, dp), B = sk(q.b, dp);
+    const rowA = String(A).padStart(dp + 1, '0'), rowB = String(B).padStart(dp + 1, '0');
+    const J = op === '+' ? A + B : A - B, Js = String(J).padStart(dp + 1, '0');
+    const W = op === '+' ? Math.max(rowA.length, rowB.length) + 1 : rowA.length;
+    m = {A, B, W, dp, rowA, rowB, J, Js, la:rowA.length, lb:rowB.length, g0A:dp - dpOf(q.a), g0B:dp - dpOf(q.b)};
+  }
+  M = {q, m};
+  const {W, dp} = m, pt = dp > 0, cols = W + 1 + (pt ? .4 : 0), w = cw(Math.ceil(cols));
+  $('#lzqt').textContent = q.hilang ? 'Apakah digit dalam kotak?' : 'Selesaikan dalam bentuk lazim.';
+  $('#lztip').textContent = q.hilang ? 'Tekan kotak, kemudian pilih nombor.' : 'Isi jawapan dari kanan ke kiri, macam di kertas.';
+  const g = el('div', 'lz'); g.style.setProperty('--cw', w + 'px');
+  const tmpl = [`${w}px`]; for (let i = 0; i < W; i++) { tmpl.push(`${w}px`); if (pt && i === W - dp - 1) tmpl.push(`${Math.round(w * .4)}px`); }
+  g.style.gridTemplateColumns = tmpl.join(' ');
+  const nCol = tmpl.length;
+  const titikSel = (isi) => { if (pt) g.appendChild(el('div', 'tt', isi)); };
+  // satu baris digit: fn(i) -> element
+  const baris = (fn, isiTitik) => { for (let i = 0; i < W; i++) { g.appendChild(fn(i)); if (pt && i === W - dp - 1) titikSel(isiTitik); } };
+  const digitCell = (s, i, g0, dotIdx) => { const p = s.padStart(W, ' '), ch = p[i]; const c = el('div', 'dg' + (g0 && i >= W - g0 ? ' g0' : '') + (dotIdx !== undefined && dotIdx >= 0 && i === W - s.length + dotIdx ? ' dt' : ''), ch === ' ' ? '' : ch); c.dataset.col = i; return c; };
+  if (q.nt) { g.appendChild(el('div', 'lzph')); baris(i => el('div', 'lzph', PH[W - 1 - i]), ''); }
+  if (q.simpan && !q.hilang) { g.appendChild(el('div', 'lzlbl', q.simpanLbl || 'simpan')); baris(i => { const b = el('div', 'bx lzkecil'); b.dataset.row = 's'; b.dataset.col = i; b.onclick = () => pilih(b); boxes.push(b); return b; }, ''); }
+  // baris A
+  g.appendChild(el('div'));
+  baris(i => { const ri = W - 1 - i; if (q.hilang && q.hilang.baris === 'a' && q.hilang.i === ri) { const b = el('div', 'bx hilang'); Object.assign(b.dataset, {row:'g', col:i, exp:m.rowA.padStart(W, ' ')[i]}); b.onclick = () => pilih(b); boxes.push(b); return b; } return digitCell(m.rowA, i, m.g0A, m.dotA); }, '.');
+  g.appendChild(el('div', 'op', op));
+  baris(i => digitCell(m.rowB, i, m.g0B, m.dotB), '.');
+  const hr = () => { g.appendChild(el('div')); const h = el('div', 'hr'); h.style.gridColumn = `2 / ${nCol + 1}`; g.appendChild(h); };
+  hr();
+  if (q.kerja && String(m.B).length > 1) {
+    for (let k = 0; k < 2; k++) { g.appendChild(el('div', k ? 'op' : '', k ? '+' : '')); baris(i => { const b = el('div', 'bx kerja'); Object.assign(b.dataset, {row:'k' + k, col:i}); b.onclick = () => pilih(b); boxes.push(b); return b; }, ''); }
+    hr();
+  }
+  g.appendChild(el('div'));
+  const pJ = m.Js.padStart(W, ' ');
+  if (q.hilang) baris(i => digitCell(m.Js, i), '.');
+  else baris(i => { const b = el('div', 'bx jaw'); Object.assign(b.dataset, {row:'g', col:i, exp:pJ[i]}); b.onclick = () => pilih(b); boxes.push(b); return b; }, '.');
+  g.appendChild(el('div')); const h2 = el('div', 'hr2'); h2.style.gridColumn = `2 / ${nCol + 1}`; g.appendChild(h2);
+  S.appendChild(g);
+  if (op === '×' && m.dpJ) m.dotExp = W - 1 - m.dpJ; // indeks kotak yang mesti ada titik selepasnya
+  q._jaw = q.hilang ? m.rowA.padStart(W, ' ')[W - 1 - q.hilang.i] : fmtN(m.J, op === '×' ? m.dpJ : dp);
+  langkah = q.hilang ? langkahHilang(m) : op === '+' ? langkahTambah(m) : op === '−' ? langkahTolak(m) : langkahDarab(m);
+}
+function binaBahagi(q, S){
+  const b = q.b, dpa = dpOf(q.a); let k = dpa;
+  const desimal = dpa > 0 || q.desimal;
+  if (desimal) { k = Math.max(dpa, 1); while (k < 4 && sk(q.a, k) % b) k++; }
+  const kk = desimal ? k : 0, V = sk(q.a, kk), Ds = String(V).padStart(kk + 1, '0'), L = Ds.length, intLen = L - kk;
+  const qn = Math.floor(V / b), r = V % b, Bs = String(b);
+  const pQ = String(qn).padStart(kk + 1, '0').padStart(L, ' ');
+  const off = Bs.length + 1, pt = kk > 0, w = cw(off + L + 1);
+  const GC = i => off + i + (pt && i >= intLen ? 1 : 0); // kolum grid (0-index) bagi digit i
+  $('#lzqt').textContent = 'Selesaikan dalam bentuk lazim.';
+  $('#lztip').textContent = desimal ? 'Bahagi sampai habis, tiada baki. Jalan kerja di bawah.' : 'Isi hasil bahagi di atas garisan. Jalan kerja di bawah (pilihan).';
+  const g = el('div', 'lz'); g.style.setProperty('--cw', w + 'px');
+  const tmpl = []; for (let c = 0; c < off + L; c++) { tmpl.push(`${w}px`); if (pt && c === off + intLen - 1) tmpl.push(`${Math.round(w * .4)}px`); }
+  g.style.gridTemplateColumns = tmpl.join(' ');
+  const put = (e, row, col, span) => { e.style.gridRow = row; e.style.gridColumn = span ? `${col + 1} / span ${span}` : String(col + 1); g.appendChild(e); return e; };
+  const bx = (jenis, data, row, col) => { const kb = kotak(jenis, g, data); kb.style.gridRow = row; kb.style.gridColumn = String(col + 1); return kb; };
+  const qb = []; for (let i = 0; i < L; i++) qb.push(bx('jaw', {row:'g', col:i, exp:pQ[i]}, 1, GC(i)));
+  if (pt) { put(el('div', 'tt', '.'), 1, off + intLen); }
+  for (let i = 0; i < Bs.length; i++) put(el('div', '', Bs[i]), 2, i + 1);
+  for (let i = 0; i < L; i++) { const c = el('div', 'dg kb' + (i === 0 ? ' kb1' : '') + (i >= L - (kk - dpa) && desimal ? ' g0' : ''), Ds[i]); c.dataset.col = i; put(c, 2, GC(i)); }
+  if (pt) put(el('div', 'tt kb', '.'), 2, off + intLen);
+  const K = {langkah:[], b, k:kk, intLen}; let cur = 0, mula = false, row = 3;
+  for (let i = 0; i < L; i++) {
+    cur = cur * 10 + +Ds[i];
+    const tambah0 = desimal && i + 1 >= L - (kk - dpa);
+    if (!mula && cur < b) { K.langkah.push({lompat:true, cur, i, qbox:qb[i], wajib0:pQ[i] === '0'}); continue; }
+    mula = true;
+    const qd = Math.floor(cur / b), pr = qd * b, rem = cur - pr, akhir = i === L - 1, P = String(pr);
+    const st = {cur, qd, i, qbox:qb[i], akhir, pboxes:[], rboxes:[], tambah0};
+    if (qd === 0) {
+      st.sifar = true;
+      if (!akhir) { st.turun = Ds[i + 1]; st.tbox = bx('kerja', {row:'kz' + i, col:i + 1}, row - 1, GC(i + 1)); }
+      K.langkah.push(st); cur = rem; continue;
+    }
+    let mc = GC(i - P.length + 1) - 1; if (pt && mc === off + intLen) mc--;
+    put(el('div', 'op', '−'), row, mc);
+    for (let t = 0; t < P.length; t++) st.pboxes.unshift(bx('kerja', {row:'kp' + i, col:i - P.length + 1 + t}, row, GC(i - P.length + 1 + t)));
+    const s0 = GC(i - Math.max(String(cur).length, P.length) + 1);
+    put(el('div', 'hr'), row + 1, s0, GC(i) - s0 + 1);
+    const Rs = String(rem);
+    if (akhir || rem) for (let t = 0; t < Rs.length; t++) st.rboxes.unshift(bx('kerja', {row:'kr' + i, col:i - Rs.length + 1 + t}, row + 2, GC(i - Rs.length + 1 + t)));
+    if (!akhir) { st.turun = Ds[i + 1]; st.tbox = bx('kerja', {row:'kt' + i, col:i + 1}, row + 2, GC(i + 1)); }
+    K.langkah.push(st); cur = rem; row += 3;
+  }
+  S.appendChild(g);
+  const tepat = !desimal && r === 0; K.tepat = tepat;
+  if (!desimal && !tepat) {
+    const bk = el('div', 'baki'); bk.appendChild(el('span', '', 'Baki'));
+    const g2 = el('div', 'lz'); g2.style.setProperty('--cw', w + 'px'); g2.style.gridTemplateColumns = `repeat(${String(b - 1).length}, ${w}px)`;
+    const pR = String(r).padStart(String(b - 1).length, ' ');
+    for (let i = 0; i < pR.length; i++) K.bakiBox = kotak('jaw', g2, {row:'r', col:i, exp:pR[i]});
+    bk.appendChild(g2); S.appendChild(bk);
+  }
+  q._jaw = desimal ? fmtN(qn, kk) : qn + (r ? ' baki ' + r : '');
+  M = {q, m:{dp:kk}};
+  langkah = langkahBahagi(K);
+}
+function tunjukLangkah(){
+  ROOT.querySelectorAll('.sorot').forEach(e => e.classList.remove('sorot'));
+  ROOT.querySelectorAll('.sasar').forEach(e => e.classList.remove('sasar'));
+  $('#lzswp').textContent = panduOn ? '💡 Panduan: HIDUP' : '💡 Panduan: MATI';
+  $('#lzswp').classList.toggle('on', panduOn);
+  const P = $('#lzpandu');
+  if (!panduOn) { P.innerHTML = ''; return; }
+  if (li >= langkah.length) { P.innerHTML = `<div class="pandu siap"><span class="lzic">✅</span><div><div class="lk">SEMUA LANGKAH SIAP</div>Semak semula kiraan, kemudian tekan <b>Siap, tutup ✓</b> dan pilih jawapan.</div></div>`; return; }
+  const L = langkah[li];
+  P.innerHTML = `<div class="pandu"><span class="lzic">💡</span><div><div class="lk">LANGKAH ${li + 1} DARIPADA ${langkah.length}</div>${L.t}<div class="lznav">${li ? '<button type="button" id="lzpb">‹ Sebelum</button>' : ''}<button type="button" id="lzpn">${L.lompat || L.lihat ? 'Faham, seterusnya ›' : 'Langkau ›'}</button></div></div></div>`;
+  if ($('#lzpb')) $('#lzpb').onclick = () => { li--; tunjukLangkah(); };
+  $('#lzpn').onclick = () => { li++; tunjukLangkah(); };
+  if (L.col !== undefined && L.col >= 0) ROOT.querySelectorAll(`#lzsoal .dg[data-col="${L.col}"], #lzsoal .bx[data-col="${L.col}"]:not(.lzkecil)`).forEach(e => e.classList.add('sorot'));
+  L.grp.forEach(x => x.classList.add('sasar'));
+  if (L.titik) { boxes.filter(b => b.dataset.row === 'g').forEach(b => b.classList.add('sasar')); }
+  const kosong = L.grp.find(x => !x.textContent) || L.box; if (kosong) pilih(kosong);
+}
+function pilih(b){ if (!b) return; if (aktif) aktif.classList.remove('aktif'); aktif = b; b.classList.add('aktif'); nampak(b); }
+function nampak(b){ const r = b.getBoundingClientRect(), bawah = window.innerHeight - ROOT.querySelector('.lzpad').offsetHeight - 12; if (r.bottom > bawah) document.getElementById('lzsheet').scrollBy({top: r.bottom - bawah + 8, behavior:'smooth'}); else if (r.top < 70) document.getElementById('lzsheet').scrollBy({top: r.top - 120, behavior:'smooth'}); }
+function seterus(){
+  const row = boxes.filter(x => x.dataset.row === aktif.dataset.row);
+  const i = row.indexOf(aktif);
+  if (M.q.jenis === 'bahagi' && aktif.dataset.row === 'g') { if (i < row.length - 1) pilih(row[i + 1]); else { const bk = boxes.find(b => b.dataset.row === 'r'); if (bk) pilih(bk); } }
+  else if (i > 0) pilih(row[i - 1]);
+}
+function taip(d){
+  if (!aktif) return; bersih();
+  if (d === '.') {
+    if (aktif.dataset.row !== 'g') return;
+    const ada = aktif.classList.contains('dt');
+    boxes.filter(b => b.dataset.row === 'g').forEach(b => b.classList.remove('dt'));
+    if (!ada) aktif.classList.add('dt');
+    if (panduOn && langkah[li] && langkah[li].titik && !ada) { li++; tunjukLangkah(); }
+    return;
+  }
+  if (d === 'del') { if (aktif.textContent) aktif.textContent = ''; else { const row = boxes.filter(x => x.dataset.row === aktif.dataset.row); const i = row.indexOf(aktif); if (i < row.length - 1) { pilih(row[i + 1]); aktif.textContent = ''; } } return; }
+  const tadi = aktif; aktif.textContent = d;
+  if (panduOn && langkah[li] && langkah[li].grp.includes(tadi)) { const nx = langkah[li].grp.find(x => !x.textContent); if (nx) pilih(nx); else { li++; tunjukLangkah(); } return; }
+  if (tadi.classList.contains('jaw') || tadi.classList.contains('kerja')) seterus();
+}
+
+
+// ---------- INTEGRASI KUIZ ----------
+let SQ = null, dibina = false, inAktif = null, pilihCerita = null;
+const CSS = `
+#lzRoot{--lzb:var(--g1,#5b4bdb);--ink:#1d1a39;--line:#e6e2fb;--okc:#2e9d57}
+#lzRoot .lz{display:grid;width:max-content;margin:6px auto 0;font:700 calc(var(--cw)*.72)/1 var(--fd);font-variant-numeric:tabular-nums;align-items:center;color:var(--ink)}
+#lzRoot .lz>*{width:var(--cw);height:var(--cw);display:flex;align-items:center;justify-content:center}
+#lzRoot .lz>.hr,#lzRoot .lz>.hr2,#lzRoot .lz>.tt{width:auto}
+#lzRoot .lz .lzph{height:calc(var(--cw)*.5);font:700 calc(var(--cw)*.3)/1 var(--fb);color:#a19dc2;align-items:flex-end}
+#lzRoot .lz .op{color:var(--lzb)}
+#lzRoot .lz .hr{height:0;border-top:3.5px solid var(--ink);margin:3px 0}
+#lzRoot .lz .hr2{height:6px;border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);margin:3px 0 0}
+#lzRoot .lz .lzlbl{font:700 calc(var(--cw)*.26)/1.1 var(--fb);color:#a19dc2;justify-content:flex-end;padding-right:4px}
+#lzRoot .lz .tt{font-weight:800}
+#lzRoot .lz .g0{color:#bdb8dc}
+#lzRoot .bx{border:2.5px solid #cfc9f5;background:#faf9ff;border-radius:10px;margin:2px;width:calc(var(--cw) - 4px)!important;height:calc(var(--cw) - 4px)!important;color:var(--ink);cursor:pointer;transition:border-color .12s,background .12s}
+#lzRoot .bx.lzkecil{height:calc(var(--cw)*.62)!important;font-size:calc(var(--cw)*.42);border-width:2px;border-style:dashed;color:#8b86b5;background:#fff}
+#lzRoot .bx.kerja{border-style:dashed;background:#fff;color:#6e69a0}
+#lzRoot .bx.aktif{border-color:var(--lzb);background:#efecff;box-shadow:0 0 0 3px rgba(91,75,219,.25)}
+#lzRoot .bx.hilang{border-color:var(--lzb)}
+#lzRoot .lz .kb{border-top:3.5px solid var(--ink)}
+#lzRoot .lz .kb1{border-left:3.5px solid var(--ink);border-top-left-radius:calc(var(--cw)*.4) calc(var(--cw)*.9)}
+#lzRoot .dt{position:relative}
+#lzRoot .dt::after{content:'';position:absolute;right:-6px;bottom:10%;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+#lzRoot .bx.dt::after{background:var(--lzb);right:-7px}
+#lzRoot .lz .sorot{background:#fff1b8;border-radius:8px}
+#lzRoot .lz .bx.sasar{border-color:#e0a800;box-shadow:0 0 0 3px rgba(240,190,40,.35)}
+#lzRoot .baki{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font:600 18px var(--fd)}
+#lzRoot .baki .lz{margin:0}
+#lzsheet{position:fixed;inset:0;z-index:950;background:linear-gradient(160deg,#f3f0ff,#eaf6ff);overflow-y:auto;transform:translateY(105%);transition:transform .28s ease;padding:0 14px 270px;visibility:hidden}
+body.lz-buka #lzsheet{transform:none;visibility:visible}
+body.lz-buka{overflow:hidden}
+#lzRoot .lzpad{display:none;position:fixed;left:0;right:0;bottom:0;z-index:960;background:rgba(255,255,255,.97);border-top:1.5px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+body.lz-buka #lzRoot .lzpad{display:block}
+#lzRoot .lzpad .in{max-width:480px;margin:0 auto}
+#lzRoot .keys{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+#lzRoot .keys button{height:48px;border-radius:14px;border:2px solid var(--line);background:#fff;font:700 24px var(--fd);color:var(--ink);box-shadow:0 3px 0 var(--line)}
+#lzRoot .keys button:active{transform:translateY(2px);box-shadow:none}
+#lzRoot .keys .del{font-size:20px;color:#7b77a0}
+#lzRoot .keys .titikK{font-size:30px;line-height:.6;color:var(--lzb)}
+#lzRoot .lzact{display:flex;gap:8px;margin-top:8px}
+#lzRoot .lzact button{flex:1;height:48px;border:0;border-radius:14px;font:700 17px var(--fd)}
+#lzRoot .lzpadam{background:#f1effb;color:#5d5888;flex:.55!important}
+#lzRoot .lzsiap{background:linear-gradient(135deg,#2e9d57,#46c07a);color:#fff}
+#lzRoot .sh-head{position:sticky;top:0;z-index:2;max-width:480px;margin:0 auto;background:rgba(243,240,255,.96);padding:12px 0 8px;display:flex;gap:10px;align-items:flex-start;text-align:left}
+#lzRoot .sh-head .ttl{font:700 12.5px var(--fd);color:var(--lzb)}
+#lzRoot .sh-head .shq{font:600 16px/1.35 var(--fd);color:var(--ink);max-height:7.2em;overflow:auto}
+#lzRoot .sh-head .shq .blank{border-bottom-width:2px}
+#lzRoot .sh-head .x{margin-left:auto;flex:0 0 auto;border:0;background:#fff;border-radius:12px;width:40px;height:40px;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#lzRoot .sh-card{max-width:480px;margin:0 auto;background:#fff;border-radius:24px;padding:16px 12px 20px;text-align:center;box-shadow:0 20px 50px -24px rgba(46,32,140,.35)}
+#lzRoot .lzqt{font:600 17px/1.3 var(--fd);margin:0 0 2px;color:var(--ink)}
+#lzRoot .lztip{font-size:13px;color:#7b77a0;margin:0 0 10px}
+#lzRoot .lznote{font-size:13px;line-height:1.45;color:#5d5888;background:#f6f4ff;border-radius:12px;padding:8px 10px;margin:0 0 10px;text-align:left}
+#lzRoot .sw{display:flex;justify-content:center;margin:0 0 8px}
+#lzRoot .sw button{font:600 14px var(--fd);border:2px solid var(--line);background:#fff;color:#5d5888;border-radius:999px;padding:5px 14px}
+#lzRoot .sw button.on{background:#fff4c7;border-color:#f0cf5c;color:#7a5b00}
+#lzRoot .pandu{display:flex;gap:10px;align-items:flex-start;text-align:left;background:#fff8dc;border:2px solid #f3d36b;border-radius:16px;padding:10px 12px;margin:4px 0 8px;font:500 15px/1.4 var(--fb);color:var(--ink)}
+#lzRoot .pandu .lzic{font-size:20px;line-height:1.2}
+#lzRoot .pandu .lk{font:700 12px var(--fd);color:#a07800}
+#lzRoot .pandu b{color:var(--lzb)}
+#lzRoot .pandu .lznav{display:flex;gap:6px;margin-top:6px}
+#lzRoot .pandu .lznav button{font:600 13px var(--fd);border:1.5px solid #e9c95a;background:#fff;color:#8a6a00;border-radius:999px;padding:3px 10px}
+#lzRoot .pandu.siap{background:#e9f8ef;border-color:#8fd3a8}
+#lzRoot .sh-note{font-size:12.5px;color:#7b77a0;margin:10px 0 0}
+#lzRoot .cer{display:grid;gap:10px;text-align:left}
+#lzRoot .cer-l{font:700 14px var(--fd);color:#5d5888}
+#lzRoot .cer-op{display:flex;gap:8px}
+#lzRoot .cer-op button{flex:1;height:52px;border-radius:14px;border:2px solid var(--line);background:#fff;font:700 26px var(--fd);color:var(--lzb)}
+#lzRoot .cer-op button.on{background:var(--lzb);color:#fff;border-color:var(--lzb)}
+#lzRoot .cer-n{display:flex;align-items:center;gap:8px}
+#lzRoot .cer-n span{font:700 24px var(--fd);color:var(--lzb)}
+#lzRoot .cer-in{flex:1;min-width:0;min-height:52px;border:2.5px solid #cfc9f5;border-radius:14px;font:700 22px var(--fd);display:flex;align-items:center;justify-content:center;background:#faf9ff;color:var(--ink);overflow:hidden}
+#lzRoot .cer-in:empty::before{content:attr(data-ph);font:500 13px var(--fb);color:#a19dc2}
+#lzRoot .cer-in.aktif{border-color:var(--lzb);box-shadow:0 0 0 3px rgba(91,75,219,.25)}
+#lzRoot .btn-susun{height:50px;border:0;border-radius:14px;background:var(--lzb);color:#fff;font:700 17px var(--fd)}
+#lzRoot .cer-err{color:#e0475b;font:600 14px var(--fd);min-height:18px}
+#lzRoot .ulang{border:1.5px solid var(--line);background:#fff;border-radius:999px;font:600 13px var(--fd);color:#5d5888;padding:5px 12px;margin-bottom:6px}
+.bkira{display:inline-flex;align-items:center;gap:8px;font:600 16px var(--fd);border:2px dashed var(--g1,#5b4bdb);background:#f6f4ff;color:var(--g1,#5b4bdb);border-radius:999px;padding:9px 18px;margin:14px 0 0;cursor:pointer}
+@media (prefers-reduced-motion:reduce){#lzsheet{transition:none}}
+`;
+function init(){
+  if (ROOT) return;
+  ROOT = document.createElement('div'); ROOT.id = 'lzRoot';
+  ROOT.innerHTML = `<div id="lzsheet" role="dialog" aria-modal="true" aria-label="Ruang kira bentuk lazim">
+    <div class="sh-head"><div><div class="ttl">✏️ RUANG KIRA · tidak disemak, tiada markah</div><div class="shq" id="lzshq"></div></div><button class="x" id="lztutup" type="button" aria-label="Tutup ruang kira">✕</button></div>
+    <div class="sh-card"><p class="lzqt" id="lzqt"></p><p class="lztip" id="lztip"></p><div id="lznote"></div>
+      <div class="sw"><button id="lzswp" type="button"></button></div><div id="lzpandu"></div><div id="lzsoal"></div><div id="lzfb" hidden></div>
+      <p class="sh-note">Selesai mengira? Tekan <b>Siap</b>, kemudian jawab soalan.</p></div></div>
+    <div class="lzpad"><div class="in"><div class="keys" id="lzkeys"></div>
+      <div class="lzact"><button class="lzpadam" id="lzpadam" type="button">Padam semua</button><button class="lzsiap" id="lzsiap" type="button">Siap, tutup ✓</button></div></div></div>`;
+  document.body.appendChild(ROOT);
+  const keys = $('#lzkeys');
+  ['1','2','3','4','5','del','6','7','8','9','0','.'].forEach(k => { const b = el('button', k === 'del' ? 'del' : '', k === 'del' ? '⌫' : k); b.type = 'button'; b.setAttribute('aria-label', k === 'del' ? 'Padam' : k === '.' ? 'Titik perpuluhan' : k); if (k === '.') { b.id = 'lzkt'; b.className = 'titikK'; } if (k === '0') b.id = 'lzk0'; b.onclick = () => taip(k); keys.appendChild(b); });
+  $('#lzpadam').onclick = () => { if (SQ.lazim) binaKira(SQ.lazim); else binaCerita(); };
+  $('#lzsiap').onclick = tutup; $('#lztutup').onclick = tutup;
+  $('#lzswp').onclick = () => { panduOn = !panduOn; tunjukLangkah(); };
+  document.addEventListener('keydown', e => { if (!document.body.classList.contains('lz-buka')) return; if (/^[0-9]$/.test(e.key)) { taip(e.key); e.preventDefault(); } else if (e.key === '.') taip('.'); else if (e.key === 'Backspace') { taip('del'); e.preventDefault(); } else if (e.key === 'Escape') tutup(); });
+  window.addEventListener('hashchange', tutup);
+}
+function tunjukTitik(on){ $('#lzkt').style.display = on ? '' : 'none'; $('#lzk0').style.gridColumn = on ? '' : 'span 2'; }
+function binaKira(k){
+  inAktif = null; boxes = []; aktif = null; const S = $('#lzsoal'); S.innerHTML = '';
+  $('#lznote').innerHTML = k.nota ? `<div class="lznote">💡 ${k.nota}</div>` : '';
+  if (k.jenis === 'col') binaCol(k, S); else binaBahagi(k, S);
+  langkah.forEach(L => { L.grp = (L.grp || [boxes.find(b => b.dataset.row === L.row && +b.dataset.col === L.col)]).filter(Boolean); L.box = L.grp[0]; });
+  tunjukTitik(!!(k.op === '×' && M.m.dpJ));
+  li = 0; $('#lzswp').style.display = ''; tunjukLangkah();
+  if (!panduOn || !langkah[0] || !langkah[0].box) { const f = boxes.filter(b => b.dataset.row === 'g'); pilih(k.jenis === 'bahagi' ? f[0] : f[f.length - 1]); }
+}
+function binaCerita(){
+  boxes = []; aktif = null; langkah = []; li = 0; M = null; $('#lzpandu').innerHTML = ''; $('#lzswp').style.display = 'none'; $('#lznote').innerHTML = '';
+  $('#lzqt').textContent = 'Tentukan sendiri operasinya.'; $('#lztip').textContent = 'Baca soalan, pilih operasi, kemudian taip dua nombor (tanpa RM).';
+  pilihCerita = {op:null};
+  const S = $('#lzsoal'); S.innerHTML = `<div class="cer"><div class="cer-l">1. Pilih operasi</div><div class="cer-op">${['+','−','×','÷'].map(o => `<button type="button" data-op="${o}">${o}</button>`).join('')}</div>
+   <div class="cer-l">2. Taip nombor</div><div class="cer-n"><div class="cer-in" id="lzn1" data-ph="Nombor pertama"></div><span id="lzcop">?</span><div class="cer-in" id="lzn2" data-ph="Nombor kedua"></div></div>
+   <button type="button" class="btn-susun" id="lzsusun">Susun dalam bentuk lazim</button><div class="cer-err" id="lzcerr"></div></div>`;
+  S.querySelectorAll('.cer-op button').forEach(b => b.onclick = () => { pilihCerita.op = b.dataset.op; S.querySelectorAll('.cer-op button').forEach(x => x.classList.toggle('on', x === b)); $('#lzcop').textContent = b.dataset.op; });
+  ['#lzn1','#lzn2'].forEach(id => { const e = $(id); e.onclick = () => pilihIn(e); });
+  pilihIn($('#lzn1')); tunjukTitik(true);
+  $('#lzsusun').onclick = () => {
+    const a = $('#lzn1').textContent, b = $('#lzn2').textContent, op = pilihCerita.op, er = $('#lzcerr');
+    if (!op) return er.textContent = 'Pilih operasi dulu.';
+    if (!/^\d+(\.\d+)?$/.test(a) || !/^\d+(\.\d+)?$/.test(b)) return er.textContent = 'Taip kedua-dua nombor dulu.';
+    if (op === '−' && parseFloat(a) < parseFloat(b)) return er.textContent = 'Untuk tolak, nombor pertama mesti lebih besar.';
+    if (op === '÷' && (b.includes('.') || +b === 0)) return er.textContent = 'Pembahagi mesti nombor bulat (bukan 0).';
+    if ((op === '÷' || op === '×') && b.replace('.', '').replace(/^0+/, '').length > 2) return er.textContent = 'Ruang kira ini untuk ' + (op === '÷' ? 'pembahagi' : 'pendarab') + ' hingga 2 digit.';
+    if (a.replace('.', '').length > 9) return er.textContent = 'Nombor terlalu panjang untuk skrin.';
+    const k = op === '÷' ? {jenis:'bahagi', a, b:+b, desimal:a.includes('.') || (+a % +b !== 0)} : {jenis:'col', a, b, op, simpan:true, simpanLbl:op === '−' ? 'pinjam' : 'simpan', kerja:(op === '×' && b.replace('.', '').replace(/^0+/, '').length > 1) ? 2 : 0};
+    if (op === '÷' && k.desimal) { let ok = false; for (let t = Math.max((a.split('.')[1] || '').length, 1); t <= 3; t++) if (sk(a, t) % +b === 0) ok = true; if (!ok) return er.textContent = 'Bahagi ini tidak habis dalam 3 tempat perpuluhan. Semak semula nombor.'; }
+    binaKira(k);
+    $('#lzsoal').insertAdjacentHTML('afterbegin', '<button type="button" class="ulang" id="lzulang">↺ Tukar operasi / nombor</button>');
+    $('#lzulang').onclick = binaCerita;
+  };
+}
+function pilihIn(e){ ROOT.querySelectorAll('.cer-in').forEach(x => x.classList.remove('aktif')); inAktif = e; e.classList.add('aktif'); if (aktif) aktif.classList.remove('aktif'); aktif = null; }
+const taipAsal = taip;
+taip = function(d){
+  if (inAktif && ROOT.contains(inAktif) && $('.cer')) {
+    if (d === 'del') inAktif.textContent = inAktif.textContent.slice(0, -1);
+    else if (d === '.') { if (!inAktif.textContent.includes('.') && inAktif.textContent) inAktif.textContent += '.'; }
+    else if (inAktif.textContent.replace('.', '').length < 9) inAktif.textContent += d;
+    $('#lzcerr').textContent = ''; return;
+  }
+  taipAsal(d);
+};
+function bersih(){ boxes.forEach(b => b.classList.remove('ok', 'no')); }
+function buka(){
+  init(); try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (e) {}
+  const shq = $('#lzshq'); shq.innerHTML = typeof rf === 'function' ? rf(SQ.q) : SQ.q; shq.querySelectorAll('svg').forEach(s => s.remove());
+  if (!dibina) { panduOn = SQ._rank !== 'mythic'; if (SQ.lazim) binaKira(SQ.lazim); else binaCerita(); dibina = true; }
+  document.body.classList.add('lz-buka'); $('#lzsheet').scrollTop = 0;
+  if (aktif) aktif.classList.add('aktif');
+}
+function tutup(){ document.body.classList.remove('lz-buka'); const b = document.getElementById('bkira'); if (b && ROOT && document.activeElement && ROOT.contains(document.activeElement)) b.focus({preventScroll:true}); }
+try { const st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st); } catch (e) {} // gaya butang perlu ada sebelum helaian dibuka
+const ada = q => !!(q && (q.lazim || q.lazimKosong));
+return {
+  ada,
+  butang: q => ada(q) ? '<button class="bkira" id="bkira" type="button">✏️ Kira dalam bentuk lazim</button>' : '',
+  pasang(q, rank){ SQ = q; SQ._rank = rank; dibina = false; tutup(); const b = document.getElementById('bkira'); if (b) b.onclick = buka; },
+  tutup,
+  _uji: () => ({ boxes, langkah, get li(){ return li; }, M, taip, pilih, get aktif(){ return aktif; } }),
+};
+})();
 
 </script>
 <script>
@@ -20834,7 +21334,7 @@ function home(y, scroll) {
       </div>
     </section>
   </div>
-  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#pilih" data-pandu-ulang>Tunjuk cara guna</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · Hubungi kami: <a href="mailto:${EMEL_HUB}">Emel</a> · <a href="${waHub()}" target="_blank" rel="noopener">WhatsApp ${WA_PAPAR}</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p><p>Kandungan ikut silibus semasa DSKP dan KSSR.</p></footer>`;
+  <footer class="wrap"><p><a href="#mula">Mula</a> · <a href="#faq">Soalan Lazim</a> · <a href="#pasang">Pasang di telefon</a> · <a href="#pilih" data-pandu-ulang>Tunjuk cara guna</a> · <a href="#affiliate">Program Affiliate</a> · <a href="#privasi">Notis Privasi</a> · Hubungi kami: <a href="mailto:${EMEL_HUB}">Emel</a> · <a href="${waHub()}" target="_blank" rel="noopener">WhatsApp ${WA_PAPAR}</a></p><p>© ${new Date().getFullYear()} Sudut Belajar · Tahap Perajurit percuma untuk semua murid.</p></footer>`;
   renderSubjects(y);
   app.querySelectorAll('.yr').forEach(b => b.onclick = () => {
     const n = +b.dataset.y; DB.lastYear = n; store.set(DB);
@@ -20989,17 +21489,18 @@ function showQ() {
   $('#qbox').innerHTML = `
     <div class="qlabel"><span>Darjah ${Q.y}</span><span>${E.ICON[q.topic]} ${E.NAMES[q.topic]}</span><span class="rkchip" style="--r1:${R.c1};--r2:${R.c2}">${R.ic} ${R.nama}</span>${Q.kem && Q.kem.ns === 3 ? `<span class="kemchip">${KEM[Q.kem.set].ic} Set ${Q.kem.set + 1} · ${KEM[Q.kem.set].n}</span>` : ''}<span>✅ ${Q.score}</span>${chipStreak_()}</div>
     ${Q.i === 0 && Q.kem && Q.kem.ns === 3 ? `<div class="kemban">${KEM[Q.kem.set].ic} <b>Kembara Set ${Q.kem.set + 1}: ${KEM[Q.kem.set].n}</b><span>${['Mula kembara! 10 soalan menanti di rimba.', '10 soalan baharu di lautan!', 'Set terakhir — tawan puncak!'][Q.kem.set]}</span></div>` : ''}
-    <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${body}</div>
+    <div class="qcard"><div class="qtext ${q.story || q.read ? 'story' : ''}">${rf(q.q)}</div>${Q.s === 'mt' ? LAZIM.butang(q) : ''}${body}</div>
     <div class="fb" id="fb"></div>`;
   Q.lock = false;
   SUARA_EN.henti(); try { pasangSuara_(q); } catch (e) {}
+  if (Q.s === 'mt') LAZIM.pasang(q, Q.rank);
   maskot('fikir');
   if (q.typed) { const f = $('#tform'); f.onsubmit = e => { e.preventDefault(); const v = $('#tin').value; if (!v.trim()) { toast('Taip jawapan dulu.'); return; } answer(v); }; setTimeout(() => $('#tin') && $('#tin').focus({ preventScroll: true }), 60); }
   else $('#qbox').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
 }
 function answer(x) {
   if (Q.lock) return; Q.lock = true;
-  SUARA_EN.henti();
+  SUARA_EN.henti(); LAZIM.tutup();
   const q = Q.list[Q.i]; let ok, pickTxt;
   if (q.typed) {
     ok = check(q, x); pickTxt = esc(x); const inp = $('#tin'); inp.disabled = true; inp.classList.add(ok ? 'ok' : 'no'); $('#tform button').disabled = true;
@@ -21238,7 +21739,7 @@ const cincang_ = x => { let h = 5381; for (let i = 0; i < x.length; i++) h = (h 
 function benih_(str) { let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; } let a = h >>> 0; return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function denganBenih_(kunci, fn) { const asal = Math.random; Math.random = benih_(kunci); try { return fn(); } finally { Math.random = asal; } }
 function kemPool_(s, y, t, rank, benih) {
-  const E = ENG[s], gr = rank === 'warrior' ? 'epik' : rank;
+  const E = ENG[s], gr = rank === 'warrior' ? (s === 'mt' ? 'warrior' : 'epik') : rank; // Matematik: penjana tahu Perajurit (bahagi tepat)
   return denganBenih_(`${s}.${y}.${t}.${rank}#${benih}`, () => {
     const calon = E.round ? E.round(y, t, 60, gr) : SB.round(y, t, 40, gr, E.gen), sedia = [], ada = new Set();
     (calon || []).forEach(q => { const h = cincang_(String(q.q).replace(/<svg[\s\S]*?<\/svg>/g, '') + '|' + q.ans); if (!ada.has(h)) { ada.add(h); sedia.push(q); } });
@@ -22667,6 +23168,7 @@ function confetti() {
 }
 document.addEventListener('keydown', e => {
   if (!Q || !$('#qbox')) return;
+  if (document.body.classList.contains('lz-buka')) return; // ruang kira dibuka: kekunci nombor untuk ruang kira, bukan pilih jawapan
   if (document.activeElement && document.activeElement.id === 'tin') return;
   const k = e.key.toUpperCase(), idx = 'ABCD1234'.indexOf(k);
   if (idx >= 0 && !Q.lock && document.querySelector('.opt')) { answer(idx % 4); e.preventDefault(); }

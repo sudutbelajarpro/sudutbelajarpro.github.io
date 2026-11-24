@@ -23414,11 +23414,11 @@ const PRA = (() => {
       SND.ctx();
       if (habis) { laToast('Hebat hari ini! Rehat dulu, esok kita sambung ya 🌙'); dengar(['l-esok'], null, 'Esok kita sambung ya.'); return; }
       if (semua) { laToast('Semua sesi dah siap. Main di Taman Permainan ya!'); return; }
-      bukaAudio(); location.hash = '#sedia/sesi';
+      ULANG = null; bukaAudio(); location.hash = '#sedia/sesi';
     };
     app.querySelectorAll('.la-titik').forEach(b => b.onclick = () => {
       const i = +b.dataset.i;
-      if (i < l.n) laToast(`★ "${LSESI[i].nama}" dah siap. Nak ulang? Minta ibu ayah buka.`);
+      if (i < l.n) { SND.ctx(); ULANG = i; bukaAudio(); location.hash = '#sedia/sesi'; }
       else if (i === l.n) $('#lahari').click();
       else { laToast('Siapkan yang berkelip dulu ya! 🔒'); dengar(['l-berkelip'], null, 'Siapkan yang berkelip dulu ya.'); }
     });
@@ -23426,13 +23426,14 @@ const PRA = (() => {
     $('#laibu').onclick = () => { location.hash = '#sedia/ibubapa'; };
   }
   // ---------- SESI ----------
-  let SS = null;
+  let SS = null, ULANG = null; // ULANG = indeks sesi siap yang dimain semula (ulang kaji): tidak ubah kemajuan & tidak guna kuota sehari
   function mulaSesi() {
     gaya6(); henti6();
-    const l = LS();
-    if (l.n >= LSESI.length || habisHari(l)) return laluanPeta();
-    const se = LSESI[l.n];
-    SS = { i: l.n, se, mula: Date.now(), silap: 0, betul: 0, n: 0 };
+    const l = LS(), u = ULANG; ULANG = null;
+    const ulang = u != null && u < l.n;
+    if (!ulang && (l.n >= LSESI.length || habisHari(l))) return laluanPeta();
+    const se = LSESI[ulang ? u : l.n];
+    SS = { i: ulang ? u : l.n, se, mula: Date.now(), silap: 0, betul: 0, n: 0, ulang };
     app.innerHTML = `<div class="pr la"><div class="la-ss-atas"><button class="la-x" id="lax" aria-label="Keluar">✖</button><div class="la-langkah"><div><i id="lap0"></i></div><div><i id="lap1"></i></div><div><i id="lap2"></i></div></div></div>
       <div class="la-lk"><span id="lal0">${ikP('x-tonton', '📺', 1)}Tonton</span><span id="lal1">${ikP('x-cuba', '✏️', 1)}Cuba</span><span id="lal2">${ikP('x-main', '🎮', 1)}Main</span></div><div id="laisi"></div></div>`;
     app.querySelectorAll('.la-lk .pr-i3').forEach(x => { x.style.width = '32px'; x.style.height = '32px'; });
@@ -23930,17 +23931,17 @@ const PRA = (() => {
   function tamatSesi() {
     henti6(); if (!SS) return;
     const se = SS.se, min = Math.max(1, Math.round((Date.now() - SS.mula) / 60000)), bin = SS.silap <= 2 ? 3 : SS.silap <= 5 ? 2 : 1;
-    let lagi = false;
-    LSimpan(l => { l.n = Math.max(l.n, SS.i + 1); l.h.k++; l.b[se.id] = Math.max(l.b[se.id] || 0, bin); const mg = tarikh(); l.m[mg] = (l.m[mg] || 0) + min; lagi = l.h.k < l.had && l.n < LSESI.length; });
+    let lagi = false; const ulang = SS.ulang;
+    LSimpan(l => { if (!ulang) { l.n = Math.max(l.n, SS.i + 1); l.h.k++; } l.b[se.id] = Math.max(l.b[se.id] || 0, bin); const mg = tarikh(); l.m[mg] = (l.m[mg] || 0) + min; lagi = !ulang && l.h.k < l.had && l.n < LSESI.length; });
     { const s = ST.get(); if (!s.p.includes('l-' + se.id)) { s.p.push('l-' + se.id); ST.set(s); } }
     try { STAT.catat('pra.0.t-' + LTOPIK[se.t].k, Math.max(1, SS.n), SS.betul, (Date.now() - SS.mula) / 1000); simpanAuto(); } catch (e) {}
     app.innerHTML = `<div class="pr la"><div class="la-tamat"><img class="maskot" src="aset/maskot-kanan.webp" alt=""><h2>Hebat!</h2>
       <div>${bintangTeks(bin)}</div>
-      <div class="la-pel">${pelekatImg(se)}<span>Pelekat baharu:<br><b>${se.nama}</b></span></div>
-      ${lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
+      <div class="la-pel">${pelekatImg(se)}<span>${ulang ? 'Ulang kaji siap:' : 'Pelekat baharu:'}<br><b>${se.nama}</b></span></div>
+      ${ulang ? '' : lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
       <div class="la-baris"><button class="la-btn l" id="lakp">Kembali ke jalan</button></div></div></div>`;
     try { konfeti(app.querySelector('.la-tamat')); } catch (e) {}
-    dengar(lagi ? ['u-tahniah'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
+    dengar(lagi || ulang ? ['u-tahniah'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi || ulang ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
     $('#lakp').onclick = () => { location.hash = '#sedia'; };
     if ($('#lalg')) $('#lalg').onclick = () => { bukaAudio(); mulaSesi(); };
   }
@@ -23973,7 +23974,9 @@ const PRA = (() => {
       <div class="la-kotak"><h3>${ikP('zon-huruf', '🎠', 1)} Taman Permainan</h3><div class="la-kecil">50 permainan lama di 5 pulau. Anak boleh buka dari bawah jalan bila-bila masa.</div></div>
       <div class="la-kotak la-kecil">Kemajuan disimpan dalam peranti ini${(() => { try { const P = PLAYER.get(); return P && P.akaun ? ' dan akaun' : ''; } catch (e) { return ''; } })()}.</div></div>`;
     app.querySelectorAll('#lahad button').forEach(b => b.onclick = () => { LSimpan(x => { x.had = +b.dataset.n; }); ibuBapa(); laToast(`Sesi sehari: ${b.dataset.n}`); });
-    app.querySelectorAll('[data-lompat]').forEach(b => b.onclick = () => { const i = +b.dataset.lompat; LSimpan(x => { x.n = i; x.h.k = 0; }); laToast(`Jalan anak kini bermula di "${LSESI[i].nama}".`); ibuBapa(); });
+    app.querySelectorAll('[data-lompat]').forEach(b => b.onclick = () => { const i = +b.dataset.lompat;
+      if (i < LS().n) { ULANG = i; bukaAudio(); location.hash = '#sedia/sesi'; return; } // Ulang = main semula sahaja, kemajuan anak kekal
+      LSimpan(x => { x.n = i; x.h.k = 0; }); laToast(`Jalan anak kini bermula di "${LSESI[i].nama}".`); ibuBapa(); });
     $('#lakad').onclick = kadAZ;
   }
   function kadAZ() {

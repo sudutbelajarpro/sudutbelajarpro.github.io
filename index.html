@@ -21866,7 +21866,7 @@ const PRA = (() => {
 
   // ---------- simpanan (peranti sahaja) ----------
   const ST = {
-    get() { try { const v = JSON.parse(localStorage.getItem('sb.pra') || '{}'); return { g: v.g || {}, p: v.p || [], l: v.l || {} }; } catch (e) { return { g: {}, p: [], l: {} }; } },
+    get() { try { const v = JSON.parse(localStorage.getItem('sb.pra') || '{}'); return { g: v.g || {}, p: v.p || [], l: v.l || {}, lm: v.lm || {}, sj: v.sj === 'mt' ? 'mt' : 'bm' }; } catch (e) { return { g: {}, p: [], l: {}, lm: {}, sj: 'bm' }; } },
     set(v) { try { localStorage.setItem('sb.pra', JSON.stringify(v)); } catch (e) {} },
   };
 
@@ -23168,7 +23168,7 @@ const PRA = (() => {
   const skA = s => s === 'i' || s === 'u' ? 's-' + s : s === 'bas' || s === 'beg' ? 'kw-' + s : skAud(s);
   const blok = (t, w) => `<span class="la-blok" style="background:${w}">${t}</span>`;
   // ---------- rancangan sesi (Topik 1–6; Topik 7 Menulis belum) ----------
-  const LTOPIK = [
+  const LTOPIK_BM = [
     { k: 'az', nama: 'Huruf A–Z', ik: 'g-kawan', main: 'Belon Huruf' },
     { k: 'vokal', nama: 'Vokal & konsonan', ik: 'g-vokal', main: 'Tangkap Vokal' },
     { k: 'sk', nama: 'Suku kata', ik: 'g-keretaapi', main: 'Kereta Suku Kata' },
@@ -23177,7 +23177,7 @@ const PRA = (() => {
     { k: 'ayat', nama: 'Baca ayat mudah', ik: 'x-lihat', main: 'Susun Ayat' },
     { k: 'tulis', nama: 'Menulis huruf & perkataan', ik: 'g-surih', main: 'Tulis Perkataan' },
   ];
-  const LSESI = [
+  const LSESI_BM = [
     { id: 'az1', t: 0, nama: 'A hingga F', h: 'ABCDEF' }, { id: 'az2', t: 0, nama: 'G hingga L', h: 'GHIJKL' }, { id: 'az3', t: 0, nama: 'M hingga R', h: 'MNOPQR' },
     { id: 'az4', t: 0, nama: 'S hingga X', h: 'STUVWX' }, { id: 'az5', t: 0, nama: 'Y, Z & ulang kaji', h: 'YZAEIO' },
     { id: 'vk1', t: 1, nama: 'Kenal 5 vokal' }, { id: 'vk2', t: 1, nama: 'Vokal atau konsonan?' },
@@ -23188,8 +23188,11 @@ const PRA = (() => {
     { id: 'bc1', t: 4, nama: 'Perkataan 2 suku kata' }, { id: 'bc2', t: 4, nama: 'Perkataan 3 suku kata' }, { id: 'bc3', t: 4, nama: 'Baca tanpa gambar' },
     { id: 'ay1', t: 5, nama: 'Huruf besar & titik', a: [0, 1, 2, 3] }, { id: 'ay2', t: 5, nama: 'Baca ayat bergambar', a: [3, 4, 5, 6, 7, 8] }, { id: 'ay3', t: 5, nama: 'Susun ayat', a: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
   ];
-    LSESI.push({ id: 'tl1', t: 6, nama: 'Tulis huruf vokal' }, { id: 'tl2', t: 6, nama: 'Tulis huruf konsonan' }, { id: 'tl3', t: 6, nama: 'Tulis perkataan' });
-  const AKAN = [];
+    LSESI_BM.push({ id: 'tl1', t: 6, nama: 'Tulis huruf vokal' }, { id: 'tl2', t: 6, nama: 'Tulis huruf konsonan' }, { id: 'tl3', t: 6, nama: 'Tulis perkataan' });
+  const AKAN_BM = [];
+  // Subjek aktif: 'bm' (kemajuan di s.l) atau 'mt' Matematik (s.lm). Tukar dengan sjGuna(k).
+  let LTOPIK = LTOPIK_BM, LSESI = LSESI_BM, AKAN = AKAN_BM, LK = 'l', SJ = 'bm';
+  function sjGuna(k) { const s = ST.get(); if (k && k !== s.sj) { s.sj = k; ST.set(s); } SJ = (k || s.sj) === 'mt' ? 'mt' : 'bm'; const m = SJ === 'mt'; LTOPIK = m ? LTOPIK_MT : LTOPIK_BM; LSESI = m ? LSESI_MT : LSESI_BM; AKAN = m ? [] : AKAN_BM; LK = m ? 'lm' : 'l'; }
   // ---- data Topik 4–6 ----
   const VOW = 'aeiou', tutup = s => !VOW.includes(s.slice(-1));
   const TT_B = ['ba', 'ka', 'ga', 'ru', 'na', 'le', 'ca', 'bo', 'sa', 'pu', 'ti'], TT_T = ['kan', 'wan', 'jah', 'mah', 'lar', 'nas', 'bah', 'tak', 'pal', 'tol', 'bun', 'lam', 'tal', 'kus', 'ban'];
@@ -23200,8 +23203,8 @@ const PRA = (() => {
   const wAud = w => WAUD[w] || 'kw-' + w;
   const besarH = s => s[0].toUpperCase() + s.slice(1);
   const tarikh = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
-  const LS = () => { const s = ST.get(); const l = s.l || {}; const h = l.h && l.h.d === tarikh() ? l.h : { d: tarikh(), k: 0 }; return { n: Math.min(l.n | 0, LSESI.length), h, had: l.had || 1, w: l.w || {}, b: l.b || {}, m: l.m || {} }; };
-  const LSimpan = f => { const s = ST.get(); const l = LS(); f(l); s.l = l; ST.set(s); try { simpanAuto(); } catch (e) {} };
+  const LS = () => { const s = ST.get(); const l = s[LK] || {}; const h = l.h && l.h.d === tarikh() ? l.h : { d: tarikh(), k: 0 }; return { n: Math.min(l.n | 0, LSESI.length), h, had: l.had || 1, w: l.w || {}, b: l.b || {}, m: l.m || {} }; };
+  const LSimpan = f => { const s = ST.get(); const l = LS(); f(l); s[LK] = l; ST.set(s); try { simpanAuto(); } catch (e) {} };
   const habisHari = l => l.h.k >= l.had && l.n < LSESI.length;
   // ---------- audio: SATU elemen Audio (iOS: dibuka oleh tekanan pertama, kemudian boleh tukar src) ----------
   let PA = null, paTok = 0, laHai = 0;
@@ -23314,6 +23317,8 @@ const PRA = (() => {
 .la-hud{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;z-index:5;font-weight:700}
 .la-hud span{background:#fffd;border-radius:14px;padding:4px 12px;cursor:pointer}
 .la-hud b{font-size:28px;color:#ec4899}
+.la-hud{gap:6px;align-items:flex-start}.la-hud span:first-child{min-width:0}.la-hud span:last-child{flex:none}
+.la-lang .la-hud b{font-size:clamp(18px,6vw,28px)}
 .la-mas{position:absolute;right:8px;bottom:6px;z-index:6}.la-mas img{width:66px;height:66px}
 .la-pil img,.la-pil .la-emj{width:clamp(64px,21vw,96px);height:clamp(64px,21vw,96px);object-fit:contain;display:block;margin:auto;pointer-events:none}
 .la-tt{display:inline-flex;align-items:center;gap:4px;color:#fff;border-radius:16px;padding:5px 14px;font-size:clamp(34px,10vw,64px);font-weight:700;box-shadow:0 9px 0 #0003,inset 0 -6px 0 #0002;margin:0 4px}
@@ -23377,6 +23382,125 @@ const PRA = (() => {
 .la-albl div img{width:56px;height:56px;display:block;margin:0 auto}
 .la-albl div.tiada{background:#eee8fa;box-shadow:none;color:#b9addb;font-size:24px;display:grid;place-items:center;min-height:82px}
 @media (prefers-reduced-motion:reduce){.la *{animation:none!important;transition:none!important}}
+.la-sj{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 2px 4px}
+.la-sj button{display:flex;align-items:center;gap:8px;border:0;border-radius:18px;padding:8px 10px;background:#f1ecff;box-shadow:0 5px 0 #d9cdfa;font-family:var(--fd);font-weight:700;font-size:16px;color:#5b4a86;cursor:pointer;text-align:left;transition:transform .15s}
+.la-sj button img{width:40px;height:40px;flex:none}
+.la-sj button small{display:block;font-family:var(--fb);font-size:12px;font-weight:600;opacity:.8}
+.la-sj button.on{background:linear-gradient(160deg,#8b5cf6,#6d3df2);color:#fff;box-shadow:0 5px 0 #4c1fc0}
+.la-sj button:active{transform:translateY(3px)}
+.la-kump{display:grid;gap:4px 6px;justify-content:center;align-items:end;margin:4px auto}
+.la-kump i{display:block;position:relative}
+.la-kump img{width:clamp(40px,12vw,54px);height:clamp(40px,12vw,54px);object-fit:contain;filter:drop-shadow(0 6px 4px #0004)}
+.la-kamera .la-kump img{width:clamp(48px,14vw,64px);height:clamp(48px,14vw,64px)}
+.la-kamera .la-manik span{width:clamp(44px,12vw,56px);height:clamp(44px,12vw,56px)}
+.la-kamera .la-kump.kc img{width:clamp(30px,9vw,42px);height:clamp(30px,9vw,42px)}
+.la-kump.kc img{width:clamp(28px,8.4vw,38px);height:clamp(28px,8.4vw,38px)}
+.la-kump.anim i{animation:lapop .45s cubic-bezier(.2,1.6,.4,1) both}
+.la-kump i.buang{opacity:.35}
+.la-kump i.buang::after{content:'✖';position:absolute;inset:0;display:grid;place-items:center;color:#e03131;font-size:1.6em;font-weight:700;text-shadow:0 2px 0 #fff}
+@keyframes lapop{from{transform:scale(0) translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.la-pinggan{display:block;width:110px;height:44px;border-radius:50%;background:radial-gradient(#fff 45%,#e9e3f7 47%,#d6ccf2 70%);box-shadow:0 8px 0 #b9acdf}
+.la-gkira{background:#fff8e6;border-radius:20px;padding:10px;margin:4px 0;box-shadow:inset 0 -5px 0 #f5e3b5}
+.la-ops{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.la-pers{margin-top:2px}.la-pers .la-h3d.k{font-size:clamp(40px,11vw,60px)}
+.la-dua{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:92%;align-items:center}
+.la-dua>div{background:#ffffff26;border-radius:18px;min-height:150px;display:grid;place-items:center;padding:8px;transition:.3s}
+.la-dua>div.pilih{background:#fff;box-shadow:0 0 0 5px #ffd43b,0 10px 20px #0004;transform:scale(1.05)}
+.la-manik{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:10px;margin:4px 0;background:linear-gradient(#fff,#f4efff);border-radius:22px;position:relative}
+.la-manik::before{content:'';position:absolute;left:14px;right:14px;top:50%;height:4px;background:#c8b8f5;border-radius:2px}
+.la-manik span{position:relative;width:clamp(40px,11vw,52px);height:clamp(40px,11vw,52px);border-radius:50%;background:#efe9ff;box-shadow:inset 0 -4px 0 #d9cdfa;display:grid;place-items:center}
+.la-manik span.isi{background:#fff;box-shadow:0 4px 0 #d9cdfa}
+.la-manik span img{width:86%;height:86%;object-fit:contain}
+.la-manik span.baru{animation:lapop .45s both}
+.la-manik span.tanya{background:#ffd43b;box-shadow:0 4px 0 #d18b00;font-weight:700;font-size:26px;color:#7a4b00;animation:laayun 1.6s infinite}
+.la-manik.kc span{width:clamp(34px,9vw,44px);height:clamp(34px,9vw,44px)}
+.la-kad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;perspective:800px}
+.la-kadp{position:relative;aspect-ratio:3/4;border:0;background:none;padding:0;cursor:pointer;transform-style:preserve-3d;transition:transform .45s}
+.la-kadp span{position:absolute;inset:0;border-radius:16px;display:grid;place-items:center;backface-visibility:hidden}
+.la-kadp .blk{background:linear-gradient(150deg,#a78bfa,#6d3df2);box-shadow:0 6px 0 #4c1fc0;color:#fff;font-size:34px;font-weight:700;font-family:var(--fd)}
+.la-kadp .dpn{background:#fff;box-shadow:0 6px 0 #dccffd;transform:rotateY(180deg)}
+.la-kadp .dpn img{width:80%;height:80%;object-fit:contain}
+.la-kadp.buka{transform:rotateY(180deg)}
+.la-kadp.ok .dpn{box-shadow:0 0 0 4px #22c55e,0 6px 0 #15803d}
+.la-slot-baris{display:flex;justify-content:center;align-items:flex-end;gap:5px;flex-wrap:wrap;margin:6px 0 12px;min-height:70px;transition:transform 1.8s ease-in}
+.la-slt{width:clamp(48px,14vw,70px);height:clamp(48px,14vw,70px);border-radius:16px;border:3px dashed #c8b8f5;display:grid;place-items:center;background:#faf8ff}
+.la-slt.isi{border:3px solid #fff;background:#fff;box-shadow:0 5px 0 #dccffd;animation:lapop .35s both}
+.la-slt img,.la-pil-susun img{max-width:100%;max-height:100%}
+.la-slot-baris.kereta{flex-wrap:nowrap;overflow:hidden;gap:3px;padding:0 4px 10px;background:linear-gradient(transparent 82%,#a1887f 82%,#a1887f 88%,transparent 88%)}
+.la-slot-baris.kereta .la-slt{width:clamp(26px,8vw,44px);height:clamp(34px,10vw,52px);border-radius:8px 8px 4px 4px;border-style:solid;border-color:#fca5a5;background:#fee2e2}
+.la-slot-baris.kereta .la-slt.isi{background:linear-gradient(#f87171,#dc2626);border-color:#b91c1c;box-shadow:0 4px 0 #7f1d1d}
+.la-slot-baris.kereta .la-slt .la-nkad{font-size:clamp(16px,5vw,24px);color:#fff;background:none;box-shadow:none;width:auto;height:auto}
+.la-lok{order:99;flex:none}.la-lok img{width:clamp(44px,13vw,64px);height:clamp(44px,13vw,64px);transform:scaleX(-1)}
+.la-slot-baris.jalan{transform:translateX(110%)}
+.la-pil-susun{display:grid;gap:8px}
+.la-pil-susun .la-nkad{width:min(52px,100%);height:52px}
+.la-pil-susun button{border:3px solid #e9e0ff;background:#fff;border-radius:18px;min-height:86px;min-width:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 0 #dccffd;padding:4px 2px;font-family:var(--fd)}
+.la-pil-susun button.ok{opacity:.25;transform:scale(.9);pointer-events:none}
+.la-pil-susun button.no,.la-pil button.no{animation:lagoyang .4s}
+.la-nkad{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;font-size:32px;font-weight:700;color:#fff;background:linear-gradient(160deg,#ffb84d,#f76707);box-shadow:inset 0 -5px 0 #0002;text-shadow:0 2px 0 #0003}
+.la-bt{position:relative;display:inline-block;filter:drop-shadow(0 10px 6px #0005)}
+.la-bt::before{content:'';position:absolute;inset:0;background:linear-gradient(150deg,var(--a) 0%,var(--b) 100%)}
+.la-bt i{position:absolute;inset:8% 10% auto 10%;height:34%;background:linear-gradient(#fff9,#fff0);border-radius:inherit}
+.la-bt.bulatan,.la-bt.bulatan::before,.la-bt.bulatan i{border-radius:50%}
+.la-bt.bulatan i{inset:8% 22% auto 22%}
+.la-bt.segitiga::before{clip-path:polygon(50% 4%,98% 94%,2% 94%)}
+.la-bt.segitiga i{clip-path:polygon(50% 12%,70% 50%,30% 50%);inset:4% 0 auto 0;height:60%}
+.la-bt.segiempatsama::before,.la-bt.segiempattepat::before{border-radius:10%}
+.la-bt-pentas{animation:lamasuk 1s cubic-bezier(.2,1.4,.4,1) both,laayun 3.2s 1s ease-in-out infinite;margin-bottom:8px}
+.la-belon.bt{background:none!important;box-shadow:none;width:auto;height:auto;padding:4px}
+.la-syl{display:inline-grid;place-items:center;align-content:center;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,#e9ecef 25%,#adb5bd 70%,#868e96 100%);box-shadow:inset 0 0 0 5px #ced4da,inset 0 0 0 7px #868e96,0 7px 0 #495057,0 12px 10px #0004;color:#343a40;font-family:var(--fd);line-height:1}
+.la-syl.s20{width:92px;height:92px;background:radial-gradient(circle at 35% 30%,#fffbe6 0,#ffe8a3 25%,#e0b84a 70%,#a9822a 100%);box-shadow:inset 0 0 0 5px #f0d27a,inset 0 0 0 7px #a9822a,0 7px 0 #7a5d1c,0 12px 10px #0004;color:#5c4210}.la-syl.s50{width:102px;height:102px}
+.la-syl b{font-size:28px}.la-syl small{font-size:13px;font-weight:700}
+.la-syl.kc{transform:scale(.8)}
+.la-not{display:inline-grid;place-items:center;width:132px;height:66px;border-radius:8px;background:repeating-linear-gradient(45deg,#ffffff1a 0 6px,#fff0 6px 12px),linear-gradient(135deg,var(--w),color-mix(in srgb,var(--w) 60%,#000));box-shadow:inset 0 0 0 4px #fff6,0 6px 0 color-mix(in srgb,var(--w) 50%,#000),0 10px 10px #0004;color:#fff;font-family:var(--fd);transform:rotate(-3deg)}
+.la-not b{font-size:28px;text-shadow:0 2px 0 #0004;background:#ffffff33;border-radius:999px;padding:0 10px}
+.la-not.kc{width:96px;height:48px}.la-not.kc b{font-size:20px}
+.la-tumpuk{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.la-tumpuk.kc{background:#fff8e6;border-radius:20px;padding:12px;box-shadow:inset 0 -5px 0 #f5e3b5}
+.la-langit{display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-end;width:150px;height:120px;border-radius:20px;position:relative;overflow:hidden;box-shadow:0 7px 0 #0003;padding-bottom:6px}
+.la-langit b{position:relative;color:#fff;font-size:20px;text-shadow:0 2px 0 #0005;font-family:var(--fd)}
+.la-langit i{position:absolute;width:46px;height:46px;border-radius:50%}
+.la-langit.pagi{background:linear-gradient(#ffd8a8,#ffa94d 60%,#74c0fc)}.la-langit.pagi i{left:16%;bottom:34%;background:radial-gradient(#fff3bf,#ffd43b 60%,#fab005);box-shadow:0 0 22px #ffd43b}
+.la-langit.petang{background:linear-gradient(#4dabf7,#a5d8ff)}.la-langit.petang i{right:18%;top:14%;background:radial-gradient(#fff3bf,#ffd43b 60%,#f59f00);box-shadow:0 0 22px #ffe066}
+.la-langit.malam{background:radial-gradient(circle at 70% 20%,#3b5bdb,#1b1f5e 70%)}.la-langit.malam i{right:20%;top:12%;background:transparent;box-shadow:-10px 8px 0 0 #fff3bf}
+.la-langit.malam::before{content:'✦ ✧ ✦';position:absolute;top:18%;left:12%;color:#fff9;font-size:14px;letter-spacing:6px}
+.la-langit.kc{width:100%;max-width:110px;height:84px}.la-langit.kc b{font-size:15px}.la-langit.kc i{width:30px;height:30px}
+.la-akt{display:inline-grid;place-items:center;width:96px;height:96px;border-radius:24px;background:linear-gradient(160deg,#fff,#efe9ff);box-shadow:0 7px 0 #cfc4ea,0 12px 12px #0003;font-size:56px}
+.la-pil-susun .la-akt{width:74px;height:74px;font-size:42px}
+.la-asing-item{height:150px;display:grid;place-items:center}
+.la-asing-item .masuk{animation:lapop .4s both}
+.la-bekas{font-size:56px!important;display:flex;flex-direction:column;align-items:center;gap:2px}
+.la-bekas small{font-size:15px;color:#5b4a86}
+.la-bekas.ok{background:#22c55e!important}
+.la-kedai{text-align:center}
+.la-barang{position:relative;display:inline-block;margin:4px auto}
+.la-barang img{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 10px 6px #0004)}
+.la-tanda{position:absolute;right:-26px;top:6px;background:#ffd43b;color:#7a4b00;font-weight:700;font-size:22px;padding:4px 10px;border-radius:10px;box-shadow:0 4px 0 #d18b00;transform:rotate(8deg)}
+.la-dulang{min-height:78px;margin:6px 0;border-radius:20px;background:linear-gradient(#e9ecef,#ced4da);box-shadow:inset 0 6px 8px #0002;display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center;padding:8px}
+.la-dulang button{border:0;background:none;padding:0;cursor:pointer}
+.la-dulang small{color:#6b5a90;font-family:var(--fb)}
+.la-dompet{border:0;background:#fff;border-radius:20px;padding:10px 14px;box-shadow:0 6px 0 #dccffd;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--fd)}
+.la-dompet small{color:#5b4a86;font-size:13px}
+.la-adg{position:relative;display:inline-block;width:220px;height:200px;isolation:isolate}
+.la-adg.kc{width:100px;height:92px}
+.la-kotak3{position:absolute;z-index:2;left:24%;right:24%;top:26%;bottom:40%;background:linear-gradient(150deg,#d9a066cc,#a0612bdd);border-radius:6px;box-shadow:inset 0 9px 0 #7a4417,0 7px 0 #6b3a12}
+.la-kotak3 i{position:absolute;left:8%;right:8%;top:0;height:20%;background:#5c3210;border-radius:0 0 4px 4px}
+.la-adg::before{content:'';position:absolute;z-index:2;left:14%;right:14%;top:60%;height:5%;background:linear-gradient(#c08552,#8d5524);border-radius:3px;box-shadow:0 4px 0 #6b3a12,0 9px 8px #0003}
+.la-adg::after{content:'';position:absolute;z-index:1;left:18%;right:18%;top:65%;height:7%;background:linear-gradient(90deg,#8d5524 0 8%,transparent 8% 92%,#8d5524 92%);clip-path:polygon(0 0,8% 0,0 100%,100% 100%,92% 0,100% 0,100% 100%,0 100%)}
+.la-bola{position:absolute;z-index:3;width:28%;transition:all .6s cubic-bezier(.3,1.4,.5,1)}
+.la-bola img{width:100%;height:auto;margin:0;filter:drop-shadow(0 6px 4px #0005)}
+.la-bola.atas{left:36%;top:-2%}
+.la-bola.dalam{left:37%;top:31%;width:26%;z-index:1}
+.la-bola.bawah{left:37%;bottom:-2%;width:26%}
+.la-bola.luar{left:80%;top:36%;width:22%}
+.la-letak{position:relative;width:260px;height:250px;margin:4px auto}
+.la-letak .la-adg{width:260px;height:240px}
+.la-letak .zon{position:absolute;border:3px dashed #a78bfa;background:#f5f0ff99;border-radius:16px;cursor:pointer}
+.la-letak .zon.atas{left:30%;top:0;width:40%;height:25%}
+.la-letak .zon.dalam{left:26%;top:28%;width:48%;height:30%}
+.la-letak .zon.bawah{left:30%;bottom:0;width:40%;height:30%}
+.la-letak .zon.luar{right:-4%;top:22%;width:22%;height:40%}
+.la-letak .zon.no{border-color:#ef4444;background:#fee2e2aa}
 `;
   function gaya6() { if (document.getElementById('pracss6')) return; const s = document.createElement('style'); s.id = 'pracss6'; s.textContent = CSS6; document.head.appendChild(s); }
   function laToast(t) { const o = document.querySelector('.la-toast'); if (o) o.remove(); const d = document.createElement('div'); d.className = 'la-toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
@@ -23387,7 +23511,7 @@ const PRA = (() => {
     gaya6(); henti6();
     const l = LS(), s = ST.get(), habis = habisHari(l), semua = l.n >= LSESI.length;
     let nama = ''; try { const P = PLAYER.get(); nama = P && P.nick ? String(P.nick).split(' ')[0] : ''; } catch (e) {}
-    let h = `<div class="pr la"><div class="la-pk"><img class="muka" src="aset/logo-muka.webp" alt=""><b>Hai${nama ? ', ' + esc(nama) : ''}!<small style="display:block;font-family:var(--fb);font-size:12.5px;font-weight:600;color:#6b5a90">Sedia ke Tahun 1</small></b><button class="la-cip" id="lacpel" aria-label="Buku Pelekat">${ikP('x-pelekat', '📒', 1)} ${s.p.length}</button>${suaraBtn()}</div><div class="la-jalan" id="lajalan">`;
+    let h = `<div class="pr la"><div class="la-pk"><img class="muka" src="aset/logo-muka.webp" alt=""><b>Hai${nama ? ', ' + esc(nama) : ''}!<small style="display:block;font-family:var(--fb);font-size:12.5px;font-weight:600;color:#6b5a90">Sedia ke Tahun 1</small></b><button class="la-cip" id="lacpel" aria-label="Buku Pelekat">${ikP('x-pelekat', '📒', 1)} ${s.p.length}</button>${suaraBtn()}</div>${sjTab()}<div class="la-jalan" id="lajalan">`;
     let ti = -1;
     LSESI.forEach((se, i) => {
       if (se.t !== ti) { ti = se.t; const T = LTOPIK[ti]; h += `<div class="la-bendera">${ikP(T.ik, '', 1).replace('class="pr-i3 k"', 'class="pr-i3 k" style="width:40px;height:40px"')}<span>Topik ${ti + 1}: ${T.nama}<small>${LSESI.filter(x => x.t === ti).length} sesi · ${T.main}</small></span></div>`; }
@@ -23395,8 +23519,8 @@ const PRA = (() => {
       const isi = i < l.n ? '★' : i === l.n ? (habis ? '🌙' : '▶') : (i + 1);
       h += `<button class="la-titik ${st}" data-i="${i}" style="--x:translateX(${OFS[i % 8]}px);transform:var(--x)" aria-label="Sesi ${i + 1}: ${se.nama}">${isi}<span class="lbl">${i <= l.n ? se.nama : ''}</span></button>`;
     });
-    h += `${AKAN.length ? `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div>` : `<div class="la-bendera">🏁<span>Hujung jalan<small>Semua topik Bahasa Melayu prasekolah</small></span></div>`}</div>
-      <div class="la-hari">${habis ? `<button class="la-besar esok" id="lahari">🌙 Esok kita sambung</button>`
+    h += `${AKAN.length ? `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div>` : `<div class="la-bendera">🏁<span>Hujung jalan<small>${SJ === 'mt' ? 'Semua topik Matematik yang ada setakat ini' : 'Semua topik Bahasa Melayu prasekolah'}</small></span></div>`}</div>
+      <div class="la-hari">${habis ? `<button class="la-besar esok" id="lahari">🌙 Esok kita sambung</button>${sjLainBoleh() ? `<button class="la-btn k" id="lasjl" style="margin:10px auto 0;display:flex;align-items:center;gap:6px">${ikP(SJ === 'mt' ? 'zon-huruf' : 'zon-nombor', '', 1)} Jom main ${SJ === 'mt' ? 'Bahasa Melayu' : 'Matematik'}</button>` : ''}`
         : semua ? `<button class="la-besar" id="lahari">🎉 Semua sesi siap!</button>`
         : `<button class="la-besar" id="lahari">${ikP('x-main', '▶', 1).replace('class="pr-i3 k"', 'class="pr-i3 k" style="width:42px;height:42px"')} Main hari ini</button>`}
         <div class="la-pautan"><a href="#sedia/taman">${ikP('zon-huruf', '🎠', 1)} Taman Permainan</a><a href="#sedia/pelekat">${ikP('x-pelekat', '📒', 1)} Pelekat</a></div></div>
@@ -23424,7 +23548,16 @@ const PRA = (() => {
     });
     $('#lacpel').onclick = () => { location.hash = '#sedia/pelekat'; };
     $('#laibu').onclick = () => { location.hash = '#sedia/ibubapa'; };
+    ikatSj(laluanPeta);
+    if ($('#lasjl')) $('#lasjl').onclick = () => { sjGuna(SJ === 'mt' ? 'bm' : 'mt'); laluanPeta(); scrollTo(0, 0); };
   }
+  // Tab subjek (BM / Matematik) — kemajuan berasingan
+  function sjKira(k) { const s = ST.get(), l = s[k === 'mt' ? 'lm' : 'l'] || {}, se = k === 'mt' ? LSESI_MT : LSESI_BM; return [Math.min(l.n | 0, se.length), se.length, l.h && l.h.d === tarikh() ? l.h.k | 0 : 0, l.had || 1]; }
+  function sjLainBoleh() { const [n, j, k, had] = sjKira(SJ === 'mt' ? 'bm' : 'mt'); return n < j && k < had; }
+  function sjTab() {
+    return `<div class="la-sj" role="tablist">${[['bm', 'zon-huruf', 'Bahasa Melayu'], ['mt', 'zon-nombor', 'Matematik']].map(([k, ik, nm]) => { const [n, j] = sjKira(k); return `<button role="tab" aria-selected="${SJ === k}" class="${SJ === k ? 'on' : ''}" data-sj="${k}">${ikP(ik, '', 1)}<span>${nm}<small>${n}/${j} sesi</small></span></button>`; }).join('')}</div>`;
+  }
+  function ikatSj(semula) { app.querySelectorAll('[data-sj]').forEach(b => b.onclick = () => { if (b.dataset.sj === SJ) return; try { SND.play('klik'); } catch (e) {} sjGuna(b.dataset.sj); semula(); scrollTo(0, 0); }); }
   // ---------- SESI ----------
   let SS = null, ULANG = null; // ULANG = indeks sesi siap yang dimain semula (ulang kaji): tidak ubah kemajuan & tidak guna kuota sehari
   function mulaSesi() {
@@ -23507,11 +23640,11 @@ const PRA = (() => {
     const sas = o.sasaran, jatuh = !!o.jatuh;
     LI().innerHTML = `<div class="la-lang" id="lalang" style="${jatuh ? 'background:linear-gradient(#ffe4f1,#fff7fb)' : ''}"><div class="la-hud"><span id="lass">${o.label}: <b id="lasas"></b> 🔊</span><span id="lask">⭐ 0/${o.jumlah}</span></div>${jatuh ? `<div class="la-mas">${ikP('g-bakul', '🧺')}</div>` : ''}</div>`;
     const L = $('#lalang'), W = () => L.clientWidth, H = () => L.clientHeight, warna = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#a855f7', '#ec4899'];
-    const sebut = () => dengar(o.sebut(sas ? sas[t] : null), null, o.sandaran);
+    const sebut = () => { if (sas && t >= sas.length) return; dengar(o.sebut(sas ? sas[t] : null), null, o.sandaran); };
     $('#lass').onclick = sebut;
     const tambah = () => {
       const c = o.pilih(sas ? sas[t] : null), el = document.createElement('div');
-      el.className = 'la-belon' + (jatuh ? ' jubin' : ''); el.textContent = c; el.style.background = warna[rnd(7)];
+      el.className = 'la-belon' + (jatuh ? ' jubin' : '') + (o.html ? ' bt' : ''); if (o.html) el.innerHTML = o.html(c); else { el.textContent = c; el.style.background = warna[rnd(7)]; }
       const b = { el, c, x: Math.random() * (W() - 80) + 4, y: jatuh ? -70 : H() + 20, v: jatuh ? .9 + Math.random() * .6 : .55 + Math.random() * .4, s: Math.random() * 6 };
       el.style.left = b.x + 'px'; el.style.transform = `translateY(${b.y}px)`; L.appendChild(el); belon.push(b);
       el.onpointerdown = () => {
@@ -23520,7 +23653,7 @@ const PRA = (() => {
           el.classList.add('pecah'); setTimeout(() => el.remove(), 260); try { SND.play('betul'); } catch (e) {} skor++; t++;
           fasa(2, skor / o.jumlah * 100); $('#lask').textContent = `⭐ ${skor}/${o.jumlah}`;
           if (skor >= o.jumlah) { cancelAnimationFrame(laRaf); lepasT(done, 700); return; }
-          if (sas) { $('#lasas').textContent = sas[t]; lepasT(sebut, 300); } else if (o.sebutBetul) dengar(o.sebutBetul(b.c));
+          if (sas) { $('#lasas').textContent = o.lbl ? o.lbl(sas[t]) : sas[t]; lepasT(sebut, 300); } else if (o.sebutBetul) dengar(o.sebutBetul(b.c));
         } else { SS.silap++; try { SND.play('salah'); } catch (e) {} dengar(o.sebutSalah(b.c), null, 'Bukan'); }
       };
     };
@@ -23531,7 +23664,7 @@ const PRA = (() => {
       belon = belon.filter(b => { if (jatuh ? b.y > H() + 20 : b.y < -110) { b.el.remove(); return false; } return b.el.isConnected; });
       laRaf = requestAnimationFrame(langkah);
     };
-    $('#lasas').textContent = sas ? sas[0] : o.teksSasar; sebut(); laRaf = requestAnimationFrame(langkah);
+    $('#lasas').textContent = sas ? (o.lbl ? o.lbl(sas[0]) : sas[0]) : o.teksSasar; sebut(); laRaf = requestAnimationFrame(langkah);
   }
   // Kereta Suku Kata umum
   function kereta(senarai, done) {
@@ -23928,6 +24061,318 @@ const PRA = (() => {
       tulisKata(id === 'tl2' ? kocok(['bas', 'mata']) : kocok(['bas', 'mata', 'susu']), false, done);
     },
   };
+  // ================= LALUAN MATEMATIK AWAL (KSPK prasekolah) =================
+  // Kemajuan berasingan di s.lm (lihat sjGuna). Sesi bertanda mt:1. Kunci salah 'mX:...' (3 aksara, dipapar slice(3)).
+  const LTOPIK_MT = [
+    { k: 'm-pn', nama: 'Pranombor', ik: 'g-padan', main: 'Padan & Susun' },
+    { k: 'm-na', nama: 'Nombor 1–5', ik: 'g-belon', main: 'Belon & Kereta Api Nombor' },
+    { k: 'm-nb', nama: 'Nombor 6–10', ik: 'g-keretaapi', main: 'Belon & Kereta Api Nombor' },
+    { k: 'm-tb', nama: 'Tambah & tolak', ik: 'g-bakul', main: 'Tangkap Jawapan' },
+    { k: 'm-bt', nama: 'Bentuk & kedudukan', ik: 'g-bentuk', main: 'Pemburu Bentuk & Letak Bola' },
+    { k: 'm-wg', nama: 'Wang & waktu', ik: 'g-rutin', main: 'Tabung, Kedai & Susun Waktu' },
+  ];
+  const LSESI_MT = [
+    { id: 'pn1', t: 0, nama: 'Padan yang sama' }, { id: 'pn2', t: 0, nama: 'Banyak, sedikit, besar, kecil' }, { id: 'pn3', t: 0, nama: 'Corak' },
+    { id: 'na1', t: 1, nama: 'Kenal 1, 2, 3', n: [1, 2, 3] }, { id: 'na2', t: 1, nama: 'Kenal 4 dan 5', n: [4, 5] }, { id: 'na3', t: 1, nama: 'Kira hingga 5', n: [1, 2, 3, 4, 5] },
+    { id: 'nb1', t: 2, nama: 'Kenal 6, 7, 8', n: [6, 7, 8] }, { id: 'nb2', t: 2, nama: '9, 10 dan sifar', n: [9, 10, 0] }, { id: 'nb3', t: 2, nama: 'Susun 1 hingga 10', n: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+    { id: 'tb1', t: 3, nama: 'Tambah: cantumkan' }, { id: 'tb2', t: 3, nama: 'Tolak: ambil keluar' }, { id: 'tb3', t: 3, nama: 'Tambah atau tolak?' },
+    { id: 'bt1', t: 4, nama: 'Bulatan & segi tiga', b: ['bulatan', 'segitiga'] }, { id: 'bt2', t: 4, nama: 'Segi empat sama & tepat', b: ['segiempatsama', 'segiempattepat'] }, { id: 'bt3', t: 4, nama: 'Atas, bawah, dalam, luar' },
+    { id: 'wg1', t: 5, nama: 'Duit syiling & duit kertas' }, { id: 'wg2', t: 5, nama: 'Kira ringgit' }, { id: 'wg3', t: 5, nama: 'Pagi, petang, malam' },
+  ].map(x => Object.assign(x, { mt: 1 }));
+  const NKATA = ['sifar', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'lapan', 'sembilan', 'sepuluh'];
+  const mA = n => 'm-' + n;
+  const BENDA = ['e', 'o', 'b', 'i', 'p', 'a', 'l', 'k', 'n', 'c'];
+  const bImg = (x, st) => `<img src="aset/pra-az/az-${x}.webp" alt="" draggable="false" style="${st || ''}" onerror="this.style.visibility='hidden'">`;
+  const n3d = (n, k) => h3d(String(n), k).replace('<div class="la-h3d', `<div style="width:${String(n).length}ch" class="la-h3d`);
+  const kump = (n, x, o) => { o = o || {}; const lebar = n > 5 ? 5 : Math.max(n, 1); return `<div class="la-kump${o.anim ? ' anim' : ''}${o.kecil ? ' kc' : ''}" style="grid-template-columns:repeat(${lebar},auto)">${n ? Array.from({ length: n }, (_, i) => `<i style="animation-delay:${o.anim ? .15 + i * .78 : 0}s" class="${o.buang && i >= n - o.buang ? 'buang' : ''}">${bImg(x)}</i>`).join('') : '<span class="la-pinggan"></span>'}</div>`; };
+  const jumlahPil = (jaw, maks, n, min) => { min = min == null ? 0 : min; const s = new Set([jaw]); let c = 0; while (s.size < n && c++ < 50) { const v = Math.max(min, Math.min(maks, jaw + (rnd(2) ? 1 : -1) * (1 + rnd(2)))); s.add(v); } for (let v = min; s.size < n; v++) s.add(v); return kocok([...s]); };
+  // Bentuk 3D
+  const BNAMA = { bulatan: 'bulatan', segitiga: 'segi tiga', segiempatsama: 'segi empat sama', segiempattepat: 'segi empat tepat' };
+  const WBT = [['#ff6b6b', '#c0262d'], ['#ffd43b', '#d18b00'], ['#4dabf7', '#1c5fb8'], ['#69db7c', '#2b8a3e'], ['#b197fc', '#6741d9'], ['#ffa94d', '#d9480f']];
+  const bentuk = (k, w, s) => { w = w || WBT[0]; s = s || 86; const ww = k === 'segiempattepat' ? s * 1.5 : s, hh = k === 'segiempattepat' ? s * .82 : s; return `<span class="la-bt ${k}" style="width:${ww}px;height:${hh}px;--a:${w[0]};--b:${w[1]}"><i></i></span>`; };
+  // Wang (reka bentuk umum, bukan salinan wang sebenar)
+  const DUIT = { s10: ['10', 'sen', 'syiling'], s20: ['20', 'sen', 'syiling'], s50: ['50', 'sen', 'syiling'], rm1: ['RM1', '', 'kertas', '#3b82f6'], rm5: ['RM5', '', 'kertas', '#22a35a'], rm10: ['RM10', '', 'kertas', '#e03131'] };
+  const duit = (k, kecil) => { const d = DUIT[k]; return d[2] === 'syiling' ? `<span class="la-syl${kecil ? ' kc' : ''} ${k}"><b>${d[0]}</b><small>sen</small></span>` : `<span class="la-not${kecil ? ' kc' : ''}" style="--w:${d[3]}"><b>${d[0]}</b></span>`; };
+  const DAUD = { s10: 'm-10sen', s20: 'm-20sen', s50: 'm-50sen', rm1: 'm-rm1', rm5: 'm-rm5', rm10: 'm-rm10' };
+  const DTEKS = { s10: '10 sen', s20: '20 sen', s50: '50 sen', rm1: 'satu ringgit', rm5: 'lima ringgit', rm10: 'sepuluh ringgit' };
+  // Waktu
+  const WAKTU = { pagi: ['🌅', 'pagi'], petang: ['🌤️', 'petang'], malam: ['🌙', 'malam'] };
+  const langit = (k, kecil) => `<span class="la-langit ${k}${kecil ? ' kc' : ''}"><i></i><b>${k[0].toUpperCase() + k.slice(1)}</b></span>`;
+  const AKTIVITI = [['🥣', 'pagi', 'sarapan'], ['⚽', 'petang', 'main bola di padang'], ['🪁', 'petang', 'main layang-layang'], ['🛏️', 'malam', 'tidur'], ['⭐', 'malam', 'lihat bintang']];
+  const aktiviti = a => `<span class="la-akt">${a[0]}</span>`;
+  // ---------- enjin permainan Matematik ----------
+  // Susun ikut urutan (saiz / nombor / waktu). rounds: [{items:[html...] (sudah ikut urutan betul), sebut, sandaran, soal, kereta, sebutItem:i=>[keys]}]
+  function susunTekan(rounds, done) {
+    fasa(2, 0); let r = 0;
+    const satu = () => {
+      if (!LI()) return;
+      if (r >= rounds.length) { done(); return; }
+      const R = rounds[r], n = R.items.length, susun = kocok(R.items.map((h, i) => i)); let k = 0, salah = 0;
+      LI().innerHTML = `<div class="la-soal" style="font-size:19px">${R.soal} <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>
+        <div class="la-slot-baris${R.kereta ? ' kereta' : ''}" id="laslt">${R.kereta ? `<span class="la-lok">${ikP('x-lokomotif', '🚂', 1)}</span>` : ''}${R.items.map(() => `<span class="la-slt"></span>`).join('')}</div>
+        <div class="la-pil-susun" style="grid-template-columns:repeat(${n > 5 ? 5 : n},minmax(0,1fr))">${susun.map(i => `<button data-i="${i}">${R.items[i]}</button>`).join('')}</div>`;
+      const sebut = () => dengar(R.sebut, null, R.sandaran); sebut(); $('#laul').onclick = sebut;
+      LI().querySelectorAll('[data-i]').forEach(b => b.onclick = () => {
+        if (b.disabled) return; const i = +b.dataset.i;
+        if (i === k) {
+          b.disabled = true; b.classList.add('ok'); const sl = LI().querySelectorAll('.la-slt')[k]; sl.innerHTML = R.items[i]; sl.classList.add('isi');
+          try { SND.play('betul'); } catch (e) {} if (R.sebutItem) dengar(R.sebutItem(i));
+          k++; fasa(2, (r + k / n) / rounds.length * 100);
+          if (k >= n) { if (!salah) SS.betul++; SS.n++; if (R.kereta) $('#laslt').classList.add('jalan'); lepasT(() => { dengar(['u-hebat'], null, 'Hebat!'); lepasT(() => { r++; satu(); }, 1500); }, 500); }
+        } else { salah++; SS.silap++; b.classList.add('no'); try { SND.play('salah'); } catch (e) {} setTimeout(() => b.classList.remove('no'), 450); dengar(['u-cubalagi'], null, 'Cuba lagi'); }
+      });
+    };
+    satu();
+  }
+  // Padan Kad (ingatan): pasangan gambar
+  function padanKad(x, done) {
+    fasa(2, 0); const kad = kocok([...x, ...x]); let buka = [], siap = 0, kunci = false;
+    LI().innerHTML = `<div class="la-soal" style="font-size:19px">Cari pasangan yang sama</div><div class="la-kad-grid">${kad.map((b, i) => `<button class="la-kadp" data-i="${i}" aria-label="Kad ${i + 1}"><span class="dpn">${bImg(b)}</span><span class="blk">?</span></button>`).join('')}</div>`;
+    dengar(['m-carisama'], null, 'Cari yang sama.');
+    LI().querySelectorAll('.la-kadp').forEach(b => b.onclick = () => {
+      if (kunci || b.classList.contains('buka')) return;
+      b.classList.add('buka'); buka.push(b); try { SND.play('klik'); } catch (e) {}
+      if (buka.length < 2) return;
+      const [p, q] = buka; buka = [];
+      if (kad[+p.dataset.i] === kad[+q.dataset.i]) {
+        siap++; p.classList.add('ok'); q.classList.add('ok'); try { SND.play('betul'); } catch (e) {} SS.n++; SS.betul++; fasa(2, siap / x.length * 100);
+        dengar(['k-' + kad[+p.dataset.i], 'm-sama'], null, 'Sama!');
+        if (siap >= x.length) lepasT(done, 1600);
+      } else { kunci = true; setTimeout(() => { p.classList.remove('buka'); q.classList.remove('buka'); kunci = false; }, 900); }
+    });
+  }
+  // Sambung corak manik
+  function sambungCorak(rounds, done) {
+    fasa(2, 0); let r = 0;
+    const satu = () => {
+      if (!LI()) return;
+      if (r >= rounds.length) { done(); return; }
+      const R = rounds[r], seq = Array.from({ length: R.n }, (_, i) => R.pat[i % R.pat.length]); let k = R.ada, salah = 0;
+      const pal = [...new Set(R.pat)];
+      LI().innerHTML = `<div class="la-soal" style="font-size:19px">Sambung corak ini <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>
+        <div class="la-manik${R.n > 6 ? ' kc' : ''}">${seq.map((b, i) => `<span class="${i < R.ada ? 'isi' : ''}">${i < R.ada ? bImg(b) : ''}</span>`).join('')}</div>
+        <div class="la-pil" style="grid-template-columns:repeat(${pal.length},1fr)">${pal.map(b => `<button data-b="${b}">${bImg(b, 'width:72px;height:72px;object-fit:contain')}</button>`).join('')}</div>`;
+      const sebut = () => dengar(['m-sambungcorak'], null, 'Sambung corak ini.'); sebut(); $('#laul').onclick = sebut;
+      LI().querySelectorAll('[data-b]').forEach(b => b.onclick = () => {
+        if (k >= R.n) return;
+        if (b.dataset.b === seq[k]) {
+          const sl = LI().querySelectorAll('.la-manik span')[k]; sl.innerHTML = bImg(seq[k]); sl.classList.add('isi', 'baru'); try { SND.play('betul'); } catch (e) {} dengar(['k-' + seq[k]]);
+          k++; fasa(2, (r + (k - R.ada) / (R.n - R.ada)) / rounds.length * 100);
+          if (k >= R.n) { if (!salah) SS.betul++; SS.n++; lepasT(() => { dengar(['u-hebat'], null, 'Hebat!'); lepasT(() => { r++; satu(); }, 1400); }, 400); }
+        } else { salah++; catatSalah('mp:corak'); b.classList.add('no'); try { SND.play('salah'); } catch (e) {} setTimeout(() => b.classList.remove('no'), 450); dengar(['u-cubalagi'], null, 'Cuba lagi'); }
+      });
+    };
+    satu();
+  }
+  // Asing ke dua tempat (duit syiling → tabung, duit kertas → dompet)
+  function asingDua(items, kiri, kanan, done) {
+    fasa(2, 0); let k = 0, tunggu = false;
+    LI().innerHTML = `<div class="la-soal" style="font-size:18px">Syiling ke tabung, kertas ke dompet <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>
+      <div class="la-asing-item" id="laai"></div>
+      <div class="la-pil" style="grid-template-columns:1fr 1fr"><button data-p="syiling" class="la-bekas">🐷<small>${kiri}</small></button><button data-p="kertas" class="la-bekas">👛<small>${kanan}</small></button></div>`;
+    const sebut = () => dengar(['m-asing1', 'm-asing2'], null, 'Syiling masuk tabung. Duit kertas masuk dompet.'); $('#laul').onclick = sebut;
+    const tunjuk = () => { if (!$('#laai')) return; if (k >= items.length) { lepasT(done, 700); return; } $('#laai').innerHTML = `<div class="masuk">${duit(items[k])}</div>`; tunggu = false; };
+    sebut(); tunjuk();
+    LI().querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
+      if (tunggu || k >= items.length) return; const it = items[k];
+      if (DUIT[it][2] === b.dataset.p) { tunggu = true; k++; SS.n++; SS.betul++; try { SND.play('betul'); } catch (e) {} b.classList.add('ok'); setTimeout(() => b.classList.remove('ok'), 400); fasa(2, k / items.length * 100); dengar([DAUD[it]]); lepasT(tunjuk, 500); }
+      else { catatSalah('mw:' + DTEKS[it]); b.classList.add('no'); try { SND.play('salah'); } catch (e) {} setTimeout(() => b.classList.remove('no'), 450); dengar(['u-cubalagi'], null, 'Cuba lagi'); }
+    });
+  }
+  // Kedai runcit: bayar tepat dengan RM1
+  function kedai(rounds, done) {
+    fasa(2, 0); let r = 0;
+    const satu = () => {
+      if (!LI()) return;
+      if (r >= rounds.length) { done(); return; }
+      const [x, harga] = rounds[r]; let dulang = 0, salah = 0, siap = false;
+      LI().innerHTML = `<div class="la-kedai"><div class="la-barang">${bImg(x)}<span class="la-tanda">RM${harga}</span></div>
+        <div class="la-soal" style="font-size:18px">Bayar RM${harga} <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>
+        <div class="la-dulang" id="ladl"><small>Tekan duit di dulang untuk ambil semula</small></div>
+        <div class="la-baris"><button class="la-dompet" id="laamb">${duit('rm1')}<small>Tekan untuk letak RM1</small></button></div>
+        <div class="la-baris"><button class="la-btn h" id="labyr">Bayar ✔</button></div></div>`;
+      const sebut = () => dengar(['m-rm' + harga, 'm-bayar'], null, `${NKATA[harga]} ringgit. Tekan duit untuk bayar.`); sebut(); $('#laul').onclick = sebut;
+      const lukis = () => { $('#ladl').innerHTML = dulang ? Array.from({ length: dulang }, (_, i) => `<button data-d="${i}">${duit('rm1', 1)}</button>`).join('') : '<small>Tekan duit di bawah untuk letak di sini</small>'; $('#ladl').querySelectorAll('[data-d]').forEach(b => b.onclick = () => { if (siap) return; dulang--; lukis(); }); };
+      lukis();
+      $('#laamb').onclick = () => { if (siap || dulang >= 9) return; dulang++; lukis(); try { SND.play('klik'); } catch (e) {} dengar([mA(dulang)]); };
+      $('#labyr').onclick = () => {
+        if (siap) return;
+        if (dulang === harga) { siap = true; if (!salah) SS.betul++; SS.n++; try { SND.play('betul'); } catch (e) {} $('#labyr').classList.add('ok'); fasa(2, (r + 1) / rounds.length * 100); dengar(['u-betul'], null, 'Betul!'); lepasT(() => { r++; satu(); }, 1600); }
+        else { salah++; catatSalah('mw:RM' + harga); try { SND.play('salah'); } catch (e) {} dengar(['u-cubalagi', 'm-rm' + harga], null, `Cuba lagi. ${NKATA[harga]} ringgit.`); laToast(dulang > harga ? 'Terlebih. Ambil semula sikit 🙂' : 'Belum cukup. Letak lagi 🙂'); }
+      };
+    };
+    satu();
+  }
+  // Letak bola ikut kedudukan
+  const KED = { atas: 'di atas', bawah: 'di bawah', dalam: 'di dalam', luar: 'di luar' };
+  const adegan = (pos, kecil) => `<span class="la-adg${kecil ? ' kc' : ''}"><span class="la-kotak3"><i></i></span>${pos ? `<span class="la-bola ${pos}">${bImg('b')}</span>` : ''}</span>`;
+  function letakBola(senarai, done) {
+    fasa(2, 0); let n = 0;
+    const satu = () => {
+      if (!LI()) return;
+      if (n >= senarai.length) { done(); return; }
+      const p = senarai[n]; let salah = 0;
+      LI().innerHTML = `<div class="la-soal" style="font-size:19px">Letak bola <b>${KED[p]}</b> kotak <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>
+        <div class="la-letak">${adegan('')}${Object.keys(KED).map(k => `<button class="zon ${k}" data-p="${k}" aria-label="${KED[k]}"></button>`).join('')}</div>`;
+      const sebut = () => dengar(['m-l' + p], null, `Letak bola ${KED[p]} kotak.`); sebut(); $('#laul').onclick = sebut;
+      LI().querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
+        if (b.dataset.p === p) { LI().querySelector('.la-adg').outerHTML = adegan(p); if (!salah) SS.betul++; SS.n++; try { SND.play('betul'); } catch (e) {} fasa(2, (n + 1) / senarai.length * 100); LI().querySelectorAll('[data-p]').forEach(z => z.onclick = null); dengar(['m-' + p], null, `Bola ${KED[p]} kotak.`); lepasT(() => { n++; satu(); }, 1900); }
+        else { salah++; catatSalah('mk:' + KED[p]); b.classList.add('no'); try { SND.play('salah'); } catch (e) {} setTimeout(() => b.classList.remove('no'), 450); dengar(['u-cubalagi'], null, 'Cuba lagi'); }
+      });
+    };
+    satu();
+  }
+  // ---------- babak (Tonton) ----------
+  const babakNom = (n, x) => ({ html: `<div class="la-baris3">${n3d(n)}</div>${n ? kump(n, x, { anim: 1 }) : kump(0)}`, keys: n ? [...Array.from({ length: n }, (_, i) => mA(i + 1)), ...(n > 1 ? [mA(n)] : [])] : [mA(0), 'm-tiada'], teks: n ? `${Array.from({ length: n }, (_, i) => i + 1).join(', ')} … <span class="on">${n} ${NKATA[n]}</span>` : `<span class="on">0 sifar</span>, tiada apa-apa` });
+  const opr = (a, b, tolak, x) => ({ html: `<div class="la-ops">${tolak ? `${kump(a, x, { buang: b, kecil: a > 5 })}` : `${kump(a, x, { kecil: 1 })}<b class="la-sim">+</b>${kump(b, x, { kecil: 1 })}`}</div><div class="la-baris3 la-pers">${n3d(a, 1)}<b class="la-sim">${tolak ? '−' : '+'}</b>${n3d(b, 1)}<b class="la-sim">=</b>${n3d(tolak ? a - b : a + b, 1)}</div>`,
+    keys: [mA(a), tolak ? 'm-tolak' : 'm-tambah', mA(b), 'm-samadengan', mA(tolak ? a - b : a + b)], teks: `${a} ${tolak ? 'tolak' : 'tambah'} ${b} sama dengan <span class="on">${tolak ? a - b : a + b}</span>` });
+  // ---------- soalan (Cuba) ----------
+  const qNom = (n, jenis) => {
+    const x = BENDA[rnd(BENDA.length)], ops = jumlahPil(n, 10, 3, n > 0 && SS && SS.se && SS.se.id !== 'nb2' ? 1 : 0);
+    if (jenis === 'kump') { const p = kocok([n, ...kocok([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(v => v !== n && Math.abs(v - n) <= 3 && v > 0)).slice(0, 2)]); return { kunci: 'mn:' + n, jaw: String(n), lajur: 1, ulang: [babakNom(n, x)], atas: `<div class="la-soal">Cari kumpulan ada ${n3d(n, 1).replace('class="la-h3d k"', 'class="la-h3d k" style="font-size:44px;display:inline-block;vertical-align:middle"')}</div><div class="la-baris" style="margin:2px 0"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: p.map(v => ({ v: String(v), t: kump(v, x, { kecil: 1 }), gaya: 'padding:8px 4px' })), sebut: ['m-carikump', mA(n)], sandaran: 'Cari kumpulan yang ada ' + NKATA[n] }; }
+    if (jenis === 'kira') return { kunci: 'mn:' + n, jaw: String(n), ulang: [babakNom(n, x)], betul: ['u-betul', mA(n)], atas: `<div class="la-gkira">${kump(n, x)}</div><div class="la-soal">Ada berapa? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: ops.map(v => ({ v: String(v), t: v })), sebut: ['m-adaberapa'], sandaran: 'Ada berapa?' };
+    return { kunci: 'mn:' + n, jaw: String(n), ulang: [babakNom(n, x)], atas: `<div class="la-soal">Dengar, tekan nombor</div><div class="la-baris" style="margin:4px 0 8px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: ops.map(v => ({ v: String(v), t: v })), sebut: ['m-tekannombor', mA(n)], sandaran: 'Tekan nombor ' + NKATA[n] };
+  };
+  const qOpr = (a, b, tolak) => { const j = tolak ? a - b : a + b, x = BENDA[rnd(BENDA.length)]; return { kunci: 'mt:' + a + (tolak ? '−' : '+') + b, jaw: String(j), ulang: [opr(a, b, tolak, x)], betul: ['u-betul', mA(j)],
+    atas: `<div class="la-gkira la-ops">${tolak ? kump(a, x, { buang: b, kecil: 1 }) : `${kump(a, x, { kecil: 1 })}<b class="la-sim" style="font-size:34px">+</b>${kump(b, x, { kecil: 1 })}`}</div><div class="la-soal">${a} ${tolak ? '−' : '+'} ${b} = ? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`,
+    ops: jumlahPil(j, 10, 3).map(v => ({ v: String(v), t: v })), sebut: [mA(a), tolak ? 'm-tolak' : 'm-tambah', mA(b), 'm-samadengan', 'm-berapa'], sandaran: `${NKATA[a]} ${tolak ? 'tolak' : 'tambah'} ${NKATA[b]} sama dengan berapa?` }; };
+  const SOALTB = { tb1: [[1, 1], [2, 1], [2, 2], [3, 1], [3, 2], [4, 1], [1, 3], [2, 3]], tb2: [[2, 1], [3, 1], [4, 1], [4, 2], [5, 2], [5, 1], [3, 2], [5, 3]] };
+  const pilihOpr = id => id === 'tb3' ? [...kocok(SOALTB.tb1).slice(0, 3).map(p => [...p, false]), ...kocok(SOALTB.tb2).slice(0, 3).map(p => [...p, true])] : kocok(SOALTB[id]).map(p => [...p, id === 'tb2']);
+  const pecahOpr = s => { const m = s.match(/(\d+) ([+−]) (\d+)/); return m ? (m[2] === '+' ? +m[1] + +m[3] : +m[1] - +m[3]) : NaN; };
+  // ---------- RUNNER Matematik ----------
+  Object.assign(RUNNER, {
+    pn: {
+      ayatCuba: 'Dengar dan pilih yang betul', ayatMain: 'Jom main!',
+      tonton(done) {
+        const id = SS.se.id;
+        if (id === 'pn1') return babak([
+          { html: `<div class="la-baris3">${ped(bImg('e'))}${ped(bImg('e'))}</div>`, keys: ['k-e', 'm-sama'], teks: 'Epal dan epal: <span class="on">sama!</span>' },
+          { html: `<div class="la-baris3">${ped(bImg('b'))}${ped(bImg('b'))}</div>`, keys: ['k-b', 'm-sama'], teks: 'Bola dan bola: <span class="on">sama!</span>' },
+          { html: `<div class="la-baris3">${ped(bImg('b'))}${ped(bImg('i'))}</div>`, keys: ['m-tidaksama'], teks: 'Bola dan ikan: <span class="on">tidak sama</span>' },
+        ], done);
+        if (id === 'pn2') return babak([
+          { html: `<div class="la-dua"><div class="pilih">${kump(5, 'o', { kecil: 1 })}</div><div>${kump(2, 'o', { kecil: 1 })}</div></div>`, keys: ['m-lebihbanyak'], teks: 'Lima oren: <span class="on">lebih banyak</span>' },
+          { html: `<div class="la-dua"><div>${kump(5, 'o', { kecil: 1 })}</div><div class="pilih">${kump(2, 'o', { kecil: 1 })}</div></div>`, keys: ['m-lebihsedikit'], teks: 'Dua oren: <span class="on">lebih sedikit</span>' },
+          { html: `<div class="la-dua"><div class="pilih">${bImg('g', 'width:150px;height:150px;object-fit:contain')}</div><div>${bImg('g', 'width:60px;height:60px;object-fit:contain')}</div></div>`, keys: ['m-inibesar'], teks: 'Ini <span class="on">besar</span>' },
+          { html: `<div class="la-dua"><div>${bImg('g', 'width:150px;height:150px;object-fit:contain')}</div><div class="pilih">${bImg('g', 'width:60px;height:60px;object-fit:contain')}</div></div>`, keys: ['m-inikecil'], teks: 'Ini <span class="on">kecil</span>' },
+        ], done);
+        babak([
+          { html: `<div class="la-manik">${['e', 'p', 'e', 'p'].map(b => `<span class="isi">${bImg(b)}</span>`).join('')}<span class="tanya">?</span></div>`, keys: ['k-e', 'k-p', 'k-e', 'k-p', 'm-seterusnya'], teks: 'Epal, pisang… <span class="on">apa seterusnya?</span>' },
+          { html: `<div class="la-manik">${['e', 'p', 'e', 'p', 'e'].map((b, i) => `<span class="isi${i === 4 ? ' baru' : ''}">${bImg(b)}</span>`).join('')}</div>`, keys: ['k-e'], teks: 'Seterusnya <span class="on">epal!</span>' },
+        ], done);
+      },
+      cuba(done) {
+        const id = SS.se.id;
+        if (id === 'pn1') return siriSoalan(kocok(BENDA).slice(0, 4).map(x => { const ops = kocok([x, ...kocok(BENDA.filter(y => y !== x)).slice(0, 2)]); return { kunci: 'mp:sama', jaw: x, atas: `<div class="la-gsoal">${bImg(x)}</div><div class="la-soal">Cari yang sama <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: ops.map(o => ({ v: o, t: bImg(o, 'width:76px;height:76px;object-fit:contain'), gaya: 'padding:8px 0' })), sebut: ['m-carisama'], sandaran: 'Cari yang sama.' }; }), done);
+        if (id === 'pn2') return siriSoalan(kocok(['banyak', 'sedikit', 'besar', 'kecil']).map(j => { const x = BENDA[rnd(BENDA.length)], sz = j === 'besar' || j === 'kecil';
+          const a = sz ? 130 : 4 + rnd(2), b = sz ? 60 : 1 + rnd(2), kiriA = rnd(2) === 0; const isi = v => sz ? bImg(x, `width:${v}px;height:${v}px;object-fit:contain`) : kump(v, x, { kecil: 1 });
+          const besarKiri = kiriA, ops = [{ v: 'a', t: isi(kiriA ? a : b) }, { v: 'b', t: isi(kiriA ? b : a) }]; const jaw = (j === 'banyak' || j === 'besar') === besarKiri ? 'a' : 'b';
+          return { kunci: 'mp:' + j, jaw, lajur: 2, atas: `<div class="la-soal">Mana lebih ${j}? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: ops.map(o => Object.assign(o, { gaya: 'min-height:160px;display:grid;place-items:center' })), sebut: ['m-mana' + j], sandaran: 'Mana lebih ' + j + '?' }; }), done);
+        const POLA = [['e', 'p'], ['b', 'i'], ['o', 'o', 'a'], ['l', 'c', 'c'], ['n', 'k']];
+        siriSoalan(kocok(POLA).slice(0, 4).map(p => { const n = p.length * 2, seq = Array.from({ length: n }, (_, i) => p[i % p.length]), jaw = p[n % p.length], ops = kocok([...new Set([...p, BENDA.find(y => !p.includes(y))])]).slice(0, 3);
+          if (!ops.includes(jaw)) ops[0] = jaw;
+          return { kunci: 'mp:corak', jaw, atas: `<div class="la-manik kc">${seq.map(b => `<span class="isi">${bImg(b)}</span>`).join('')}<span class="tanya">?</span></div><div class="la-soal">Apa seterusnya? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: kocok(ops).map(o => ({ v: o, t: bImg(o, 'width:70px;height:70px;object-fit:contain'), gaya: 'padding:8px 0' })), sebut: ['m-seterusnya'], sandaran: 'Apa seterusnya?' }; }), done);
+      },
+      main(done) {
+        const id = SS.se.id;
+        if (id === 'pn1') return padanKad(kocok(BENDA).slice(0, 4), done);
+        if (id === 'pn2') { const sz = [[50, 80, 115], [40, 70, 100], [36, 58, 82, 108]]; return susunTekan(sz.map(s => { const x = BENDA[rnd(BENDA.length)]; return { soal: 'Tekan dari kecil ke besar', sebut: ['m-susunkecil'], sandaran: 'Susun dari kecil ke besar.', items: s.map(v => bImg(x, `width:${v * .62}px;height:${v * .62}px;object-fit:contain`)) }; }), done); }
+        sambungCorak([{ pat: ['e', 'p'], n: 8, ada: 4 }, { pat: ['b', 'b', 'i'], n: 9, ada: 3 }], done);
+      },
+    },
+    na: {
+      ayatCuba: 'Dengar dan tekan nombor yang betul', ayatMain: 'Belon Nombor: pecahkan belon yang betul',
+      tonton(done) { babak(SS.se.n.map((n, i) => babakNom(n, BENDA[i % BENDA.length])), done); },
+      cuba(done) {
+        const ns = SS.se.n, id = SS.se.id;
+        const senarai = id === 'na3' ? kocok(ns).slice(0, 4).map((n, i) => qNom(n, i % 2 ? 'kump' : 'kira')) : [...kocok(ns), ...kocok(ns)].slice(0, 4).map((n, i) => qNom(n, ['dengar', 'kira', 'kump', 'kira'][i]));
+        siriSoalan(senarai, done);
+      },
+      main(done) {
+        const ns = SS.se.n, id = SS.se.id;
+        if (id === 'na3' || id === 'nb3') return susunTekan([{ kereta: 1, soal: 'Susun nombor dari kecil ke besar', sebut: ['m-susunnombor'], sandaran: 'Susun nombor dari kecil ke besar.', items: ns.map(n => `<b class="la-nkad">${n}</b>`), sebutItem: i => [mA(ns[i])] }], done);
+        const l = LS(), pool = id === 'na1' ? [1, 2, 3, 4] : id === 'na2' ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], dulu = ns.filter(n => l.w['mn:' + n]);
+        const sas = [...dulu, ...kocok(ns), ...kocok(ns)].slice(0, 5).map(String);
+        permainanTerbang({ sasaran: sas, jumlah: sas.length, label: 'Cari', pilih: c => String(Math.random() < .45 ? c : pool[rnd(pool.length)]), betul: (c, s) => c === s,
+          sebut: c => ['u-cari', mA(c)], sandaran: 'Cari nombor', sebutSalah: c => [mA(c), 'u-bukan'] }, done);
+      },
+    },
+    tb: {
+      ayatCuba: 'Kira dan pilih jawapan', ayatMain: 'Tangkap Jawapan: tekan jubin jawapan yang betul',
+      tonton(done) {
+        const id = SS.se.id;
+        babak(id === 'tb1' ? [opr(2, 1, false, 'e'), opr(3, 2, false, 'b'), opr(4, 1, false, 'i')] : id === 'tb2' ? [opr(4, 1, true, 'e'), opr(5, 2, true, 'o'), opr(3, 1, true, 'a')] : [opr(2, 2, false, 'p'), opr(5, 1, true, 'b')], done);
+      },
+      cuba(done) { siriSoalan(pilihOpr(SS.se.id).slice(0, 4).map(([a, b, t]) => qOpr(a, b, t)), done); },
+      main(done) {
+        const sas = pilihOpr(SS.se.id).slice(0, 5).map(([a, b, t]) => `${a} ${t ? '−' : '+'} ${b} = ?`);
+        permainanTerbang({ jatuh: true, sasaran: sas, jumlah: sas.length, label: 'Tangkap', pilih: s => { const j = pecahOpr(s); return String(Math.random() < .45 ? j : Math.max(0, Math.min(10, j + (rnd(2) ? 1 : -1) * (1 + rnd(2))))); }, betul: (c, s) => +c === pecahOpr(s),
+          sebut: s => { const m = s.match(/(\d+) ([+−]) (\d+)/); return [mA(m[1]), m[2] === '+' ? 'm-tambah' : 'm-tolak', mA(m[3]), 'm-samadengan', 'm-berapa']; }, sandaran: 'Sama dengan berapa?', sebutSalah: c => [mA(c), 'u-bukan'] }, done);
+      },
+    },
+    bt: {
+      ayatCuba: 'Dengar dan tekan yang betul', ayatMain: 'Pemburu Bentuk: tekan bentuk yang disebut',
+      tonton(done) {
+        const id = SS.se.id;
+        if (id === 'bt3') return babak(Object.keys(KED).map(p => ({ html: adegan(p), keys: ['m-' + p], teks: `Bola <span class="on">${KED[p]}</span> kotak` })), done);
+        const C = { bulatan: [bentuk('bulatan', WBT[0], 130), 'm-bulat', 'Bulat, tiada bucu', `<div class="la-baris3">${['b', 'o', 'j'].map(x => bImg(x, 'width:62px;height:62px;object-fit:contain')).join('')}</div>`, ['k-b', 'k-o', 'k-j']],
+          segitiga: [bentuk('segitiga', WBT[1], 130), 'm-sisi3', 'Ada tiga sisi', ''], segiempatsama: [bentuk('segiempatsama', WBT[2], 120), 'm-sisi4sama', 'Empat sisi sama panjang', ''],
+          segiempattepat: [bentuk('segiempattepat', WBT[3], 110), 'm-sisi4tepat', 'Dua sisi panjang, dua sisi pendek', `<div class="la-baris3">${['buku', 'bas'].map(w => `<img src="aset/pra-az/kw-${w}.webp" alt="" style="width:70px;height:70px;object-fit:contain">`).join('')}</div>`, ['kw-buku', 'kw-bas']] };
+        babak(SS.se.b.map(k => ({ html: `<div class="la-bt-pentas">${C[k][0]}</div>${C[k][3]}`, keys: ['m-i' + k, C[k][1], ...(C[k][4] || [])], teks: `Ini <span class="on">${BNAMA[k]}</span>. ${C[k][2]}` })), done);
+      },
+      cuba(done) {
+        const id = SS.se.id;
+        if (id === 'bt3') return siriSoalan(kocok(Object.keys(KED)).map(p => { const ops = kocok([p, ...kocok(Object.keys(KED).filter(q => q !== p)).slice(0, 2)]); return { kunci: 'mk:' + KED[p], jaw: p, ulang: [{ html: adegan(p), keys: ['m-' + p], teks: `Bola <span class="on">${KED[p]}</span> kotak` }], atas: `<div class="la-soal">Cari: bola ${KED[p]} kotak</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: ops.map(o => ({ v: o, t: adegan(o, 1), gaya: 'padding:6px 0' })), sebut: ['u-cari', 'm-' + p], sandaran: `Cari bola ${KED[p]} kotak.` }; }), done);
+        const semua = Object.keys(BNAMA), b = SS.se.b;
+        siriSoalan([...kocok(b), ...kocok(b)].map(k => { const ops = kocok([k, ...kocok(semua.filter(q => q !== k)).slice(0, 2)]), w = kocok(WBT); return { kunci: 'mb:' + BNAMA[k], jaw: k, atas: `<div class="la-soal">Tekan ${BNAMA[k]}</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: ops.map((o, i) => ({ v: o, t: bentuk(o, w[i], 62), gaya: 'min-height:110px;display:grid;place-items:center' })), sebut: ['m-t' + k], sandaran: 'Tekan ' + BNAMA[k] }; }), done);
+      },
+      main(done) {
+        if (SS.se.id === 'bt3') return letakBola(kocok(Object.keys(KED)), done);
+        const b = SS.se.b, semua = Object.keys(BNAMA), sas = [...kocok(b), ...kocok(b), b[rnd(2)]];
+        permainanTerbang({ jatuh: true, sasaran: sas, jumlah: sas.length, label: 'Tekan', html: c => bentuk(c, WBT[rnd(WBT.length)], c === 'segiempattepat' ? 40 : 52), lbl: s => BNAMA[s], pilih: s => Math.random() < .45 ? s : semua[rnd(semua.length)], betul: (c, s) => c === s,
+          sebut: s => ['m-t' + s], sandaran: 'Tekan bentuk itu', sebutSalah: c => ['m-i' + c, 'u-bukan'] }, done);
+      },
+    },
+    wg: {
+      ayatCuba: 'Dengar dan tekan yang betul', ayatMain: 'Jom main!',
+      tonton(done) {
+        const id = SS.se.id;
+        if (id === 'wg1') return babak([
+          { html: `<div class="la-baris3">${duit('s10')}${duit('s20')}${duit('s50')}</div>`, keys: ['m-syiling', 'm-10sen', 'm-20sen', 'm-50sen'], teks: 'Ini <span class="on">duit syiling</span>: 10 sen, 20 sen, 50 sen' },
+          { html: `<div class="la-tumpuk">${duit('rm1')}${duit('rm5')}${duit('rm10')}</div>`, keys: ['m-kertas', 'm-rm1', 'm-rm5', 'm-rm10'], teks: 'Ini <span class="on">duit kertas</span>: RM1, RM5, RM10' },
+        ], done);
+        if (id === 'wg2') return babak([1, 2, 3].map(n => ({ html: `<div class="la-tumpuk">${Array.from({ length: n }, () => duit('rm1')).join('')}</div><div class="la-baris3">${n3d('RM' + n, 1)}</div>`, keys: [...Array.from({ length: n }, (_, i) => mA(i + 1)), 'm-rm' + n], teks: `<span class="on">${NKATA[n]} ringgit</span>` })), done);
+        babak(Object.keys(WAKTU).map(k => ({ html: `<div class="la-bt-pentas">${langit(k)}</div><div class="la-baris3">${AKTIVITI.filter(a => a[1] === k).slice(0, 2).map(aktiviti).join('')}</div>`, keys: ['m-t' + k], teks: `<span class="on">${k[0].toUpperCase() + k.slice(1)}</span>` })), done);
+      },
+      cuba(done) {
+        const id = SS.se.id, sy = ['s10', 's20', 's50'], kt = ['rm1', 'rm5', 'rm10'];
+        if (id === 'wg1') return siriSoalan([...kocok([...sy, ...kt]).slice(0, 2).map(k => { const ops = kocok([k, ...kocok([...sy, ...kt].filter(q => q !== k)).slice(0, 2)]); return { kunci: 'mw:' + DTEKS[k], jaw: k, atas: `<div class="la-soal">Cari ${DTEKS[k]}</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: ops.map(o => ({ v: o, t: duit(o, 1), gaya: 'min-height:110px;display:grid;place-items:center' })), sebut: ['u-cari', DAUD[k]], sandaran: 'Cari ' + DTEKS[k] }; }),
+          ...kocok(['syiling', 'kertas']).map(j => { const a = (j === 'syiling' ? sy : kt)[rnd(3)], ops = kocok([a, ...kocok(j === 'syiling' ? kt : sy).slice(0, 2)]); return { kunci: 'mw:duit ' + j, jaw: a, atas: `<div class="la-soal">Mana duit ${j}?</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`, ops: ops.map(o => ({ v: o, t: duit(o, 1), gaya: 'min-height:110px;display:grid;place-items:center' })), sebut: ['m-mana' + j], sandaran: 'Mana duit ' + j + '?' }; })], done);
+        if (id === 'wg2') return siriSoalan(kocok([2, 3, 4, 5]).map(n => ({ kunci: 'mw:RM' + n, jaw: String(n), betul: ['u-betul', 'm-rm' + n], atas: `<div class="la-tumpuk kc">${Array.from({ length: n }, () => duit('rm1', 1)).join('')}</div><div class="la-soal">Ada berapa ringgit? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: jumlahPil(n, 9, 3, 1).map(v => ({ v: String(v), t: 'RM' + v, gaya: 'font-size:clamp(26px,8vw,36px)' })), sebut: ['m-berapaRM'], sandaran: 'Ada berapa ringgit?' })), done);
+        siriSoalan(kocok(AKTIVITI).slice(0, 4).map(a => ({ kunci: 'mm:' + a[2], jaw: a[1], lajur: 3, atas: `<div class="la-gsoal">${aktiviti(a)}</div><div class="la-soal" style="font-size:19px">Bila kita ${a[2]}? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: Object.keys(WAKTU).map(k => ({ v: k, t: langit(k, 1), gaya: 'padding:6px 0' })), sebut: ['m-bila'], sandaran: `Bila kita ${a[2]}?` })), done);
+      },
+      main(done) {
+        const id = SS.se.id;
+        if (id === 'wg1') return asingDua(kocok(['s10', 's20', 's50', 'rm1', 'rm5', 'rm10']), 'Tabung syiling', 'Dompet', done);
+        if (id === 'wg2') return kedai(kocok(['e', 'b', 'p', 'n', 'c']).slice(0, 3).map((x, i) => [x, [2, 3, 4, 5][rnd(4)]]), done);
+        const wk = Object.keys(WAKTU); const ak = wk.map(k => kocok(AKTIVITI.filter(a => a[1] === k))[0]);
+        susunTekan([{ soal: 'Susun dari pagi ke malam', sebut: ['m-susunhari'], sandaran: 'Susun dari pagi ke malam.', items: wk.map(k => langit(k, 1)), sebutItem: i => ['m-' + wk[i]] },
+          { soal: 'Susun ikut waktu: pagi, petang, malam', sebut: ['m-susunhari'], sandaran: 'Susun dari pagi ke malam.', items: ak.map(aktiviti), sebutItem: i => ['m-' + wk[i]] }], done);
+      },
+    },
+  });
+  RUNNER.nb = RUNNER.na;
+  // Kad nombor 0–10 untuk ibu bapa
+  function kadNombor() {
+    const m = document.createElement('div'); m.className = 'la-modal';
+    m.innerHTML = `<div><div style="display:flex;align-items:center;margin-bottom:8px"><b style="flex:1;font-size:18px">🔢 Kad nombor 0–10</b><button class="la-x" id="lamx" aria-label="Tutup">✖</button></div>
+      <div class="la-kecil" style="margin-bottom:8px">Tunjuk bersama anak. Tekan kad untuk dengar.</div>
+      <div class="la-kgrid">${NKATA.map((w, n) => `<button data-n="${n}"><b style="font-size:34px;color:#6d3df2">${n}</b><small>${w}</small>${n ? `<span style="display:block;font-size:11px;letter-spacing:-1px">${'●'.repeat(n)}</span>` : ''}</button>`).join('')}</div></div>`;
+    document.body.appendChild(m);
+    const tutup = () => { laSenyap(); m.remove(); };
+    m.querySelector('#lamx').onclick = tutup; m.onclick = e => { if (e.target === m) tutup(); };
+    m.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { bukaAudio(); dengar([mA(b.dataset.n)], null, NKATA[+b.dataset.n]); });
+  }
   function tamatSesi() {
     henti6(); if (!SS) return;
     const se = SS.se, min = Math.max(1, Math.round((Date.now() - SS.mula) / 60000)), bin = SS.silap <= 2 ? 3 : SS.silap <= 5 ? 2 : 1;
@@ -23935,17 +24380,19 @@ const PRA = (() => {
     LSimpan(l => { if (!ulang) { l.n = Math.max(l.n, SS.i + 1); l.h.k++; } l.b[se.id] = Math.max(l.b[se.id] || 0, bin); const mg = tarikh(); l.m[mg] = (l.m[mg] || 0) + min; lagi = !ulang && l.h.k < l.had && l.n < LSESI.length; });
     { const s = ST.get(); if (!s.p.includes('l-' + se.id)) { s.p.push('l-' + se.id); ST.set(s); } }
     try { STAT.catat('pra.0.t-' + LTOPIK[se.t].k, Math.max(1, SS.n), SS.betul, (Date.now() - SS.mula) / 1000); simpanAuto(); } catch (e) {}
+    const lain = !ulang && !lagi && sjLainBoleh();
     app.innerHTML = `<div class="pr la"><div class="la-tamat"><img class="maskot" src="aset/maskot-kanan.webp" alt=""><h2>Hebat!</h2>
       <div>${bintangTeks(bin)}</div>
       <div class="la-pel">${pelekatImg(se)}<span>${ulang ? 'Ulang kaji siap:' : 'Pelekat baharu:'}<br><b>${se.nama}</b></span></div>
-      ${ulang ? '' : lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
+      ${ulang ? '' : lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : lain ? `<div class="la-bulan">🌙 ${SJ === 'mt' ? 'Matematik' : 'Bahasa Melayu'}: esok kita sambung!</div><div class="la-baris"><button class="la-btn h" id="lasjl2">▶ Jom main ${SJ === 'mt' ? 'Bahasa Melayu' : 'Matematik'}</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
       <div class="la-baris"><button class="la-btn l" id="lakp">Kembali ke jalan</button></div></div></div>`;
     try { konfeti(app.querySelector('.la-tamat')); } catch (e) {}
-    dengar(lagi || ulang ? ['u-tahniah'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi || ulang ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
+    dengar(lagi || ulang ? ['u-tahniah'] : lain ? ['u-tahniah', 'l-esok'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi || ulang ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
+    if ($('#lasjl2')) $('#lasjl2').onclick = () => { bukaAudio(); sjGuna(SJ === 'mt' ? 'bm' : 'mt'); location.hash = '#sedia'; };
     $('#lakp').onclick = () => { location.hash = '#sedia'; };
     if ($('#lalg')) $('#lalg').onclick = () => { bukaAudio(); mulaSesi(); };
   }
-  const pelekatImg = se => se.h ? azGbr(AZM(se.h[0]), '').replace('class=""', 'style="width:56px;height:56px"') : ikP(LTOPIK[se.t].ik, '⭐').replace('class="pr-i3"', 'class="pr-i3" style="width:56px;height:56px;margin:0"');
+  const pelekatImg = se => se.h ? azGbr(AZM(se.h[0]), '').replace('class=""', 'style="width:56px;height:56px"') : ikP((se.mt ? LTOPIK_MT : LTOPIK_BM)[se.t].ik, '⭐').replace('class="pr-i3"', 'class="pr-i3" style="width:56px;height:56px;margin:0"');
   // ---------- UNTUK IBU BAPA (#sedia/ibubapa, dipagar "tekan & tahan") ----------
   let ibuBuka = 0;
   function ibuBapa() {
@@ -23963,21 +24410,22 @@ const PRA = (() => {
     const l = LS(), mg = Object.entries(l.m).filter(([d]) => (Date.now() - new Date(d.replace(/-(\d)\b/g, '-0$1')).getTime()) < 7 * 864e5).reduce((a, [, m]) => a + m, 0);
     const lemah = Object.entries(l.w).filter(([k]) => !k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6);
     const lemahK = Object.entries(l.w).filter(([k]) => k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k]) => k.startsWith('ay:') ? (AYAT[+k.slice(3)] || [''])[0] : k.slice(3));
-    app.innerHTML = `<div class="pr la"><div class="la-ss-atas"><button class="la-x" onclick="location.hash='#sedia'">⬅️</button><b style="font-size:20px">Untuk ibu bapa · Sedia ke Tahun 1</b></div>
-      <div class="la-kotak"><div class="la-angka"><div><b>${l.n}/${LSESI.length}</b><span>sesi siap</span></div><div><b>${mg}</b><span>minit (7 hari lepas)</span></div><div><b>${ST.get().p.length}</b><span>pelekat</span></div></div></div>
-      <div class="la-kotak"><h3>Tetapan</h3><div class="la-tet"><span>Sesi sehari</span><div class="la-seg" id="lahad">${[1, 2].map(n => `<button data-n="${n}" class="${l.had === n ? 'on' : ''}">${n}</button>`).join('')}</div></div>
+    app.innerHTML = `<div class="pr la"><div class="la-ss-atas"><button class="la-x" onclick="location.hash='#sedia'">⬅️</button><b style="font-size:20px">Untuk ibu bapa · Sedia ke Tahun 1</b></div>${sjTab()}
+      <div class="la-kotak"><div class="la-angka"><div><b>${l.n}/${LSESI.length}</b><span>sesi ${SJ === 'mt' ? 'Matematik' : 'BM'} siap</span></div><div><b>${mg}</b><span>minit (7 hari lepas)</span></div><div><b>${ST.get().p.length}</b><span>pelekat</span></div></div></div>
+      <div class="la-kotak"><h3>Tetapan · ${SJ === 'mt' ? 'Matematik' : 'Bahasa Melayu'}</h3><div class="la-tet"><span>Sesi sehari (setiap subjek)</span><div class="la-seg" id="lahad">${[1, 2].map(n => `<button data-n="${n}" class="${l.had === n ? 'on' : ''}">${n}</button>`).join('')}</div></div>
         <div class="la-kecil">1 sesi ≈ 7–10 minit. Panduan umur 5–6 tahun: masa skrin kurang 1 jam sehari, termasuk TV. Duduk bersama anak dan <b>hidupkan bunyi</b>.</div></div>
       <div class="la-kotak"><h3>Perlu latihan</h3>${lemah.length || lemahK.length ? `<div class="la-lemah">${lemah.map(([c]) => `<span>${esc(c)}</span>`).join('')}${lemahK.map(w => `<span style="font-size:16px">${esc(w)}</span>`).join('')}</div><div class="la-kecil" style="margin-top:6px">Yang anak salah semasa Cuba atau Main. Ia keluar dahulu dalam permainan.</div>` : '<div class="la-kecil">Belum ada. Muncul selepas anak salah semasa Cuba.</div>'}</div>
       <div class="la-kotak"><h3>Sesi</h3>${LTOPIK.map((T, ti) => `<div style="font-family:var(--fd);font-weight:600;margin:8px 0 2px">${ti + 1}. ${T.nama}</div>` + LSESI.map((se, i) => [se, i]).filter(([se]) => se.t === ti).map(([se, i]) => `<div class="la-ssr"><span>${i < l.n ? '★' : i === l.n ? '▶' : '·'} ${se.nama}</span>${i === l.n ? '<span class="la-tag">sekarang</span>' : `<button data-lompat="${i}">${i < l.n ? 'Ulang' : 'Mula di sini'}</button>`}</div>`).join('')).join('')}
-        ${AKAN.length ? `<div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>` : `<div class="la-kecil" style="margin-top:8px">Menulis di skrin bantu anak kenal bentuk dan arah huruf, tetapi tidak menggantikan latihan pegang pensel. Biar anak tulis juga di atas kertas.</div>`}
-        <div class="la-baris" style="justify-content:flex-start"><button class="la-btn l" id="lakad">🖼️ Kad rujukan A–Z</button></div></div>
+        ${AKAN.length ? `<div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>` : SJ === 'mt' ? `<div class="la-kecil" style="margin-top:8px">Matematik awal paling mudah difahami dengan benda sebenar. Kira sudu, kasut atau buah bersama anak, dan biar anak pegang duit syiling semasa membeli.</div>` : `<div class="la-kecil" style="margin-top:8px">Menulis di skrin bantu anak kenal bentuk dan arah huruf, tetapi tidak menggantikan latihan pegang pensel. Biar anak tulis juga di atas kertas.</div>`}
+        <div class="la-baris" style="justify-content:flex-start"><button class="la-btn l" id="lakad">${SJ === 'mt' ? '🔢 Kad nombor 0–10' : '🖼️ Kad rujukan A–Z'}</button></div></div>
       <div class="la-kotak"><h3>${ikP('zon-huruf', '🎠', 1)} Taman Permainan</h3><div class="la-kecil">50 permainan lama di 5 pulau. Anak boleh buka dari bawah jalan bila-bila masa.</div></div>
       <div class="la-kotak la-kecil">Kemajuan disimpan dalam peranti ini${(() => { try { const P = PLAYER.get(); return P && P.akaun ? ' dan akaun' : ''; } catch (e) { return ''; } })()}.</div></div>`;
     app.querySelectorAll('#lahad button').forEach(b => b.onclick = () => { LSimpan(x => { x.had = +b.dataset.n; }); ibuBapa(); laToast(`Sesi sehari: ${b.dataset.n}`); });
     app.querySelectorAll('[data-lompat]').forEach(b => b.onclick = () => { const i = +b.dataset.lompat;
       if (i < LS().n) { ULANG = i; bukaAudio(); location.hash = '#sedia/sesi'; return; } // Ulang = main semula sahaja, kemajuan anak kekal
       LSimpan(x => { x.n = i; x.h.k = 0; }); laToast(`Jalan anak kini bermula di "${LSESI[i].nama}".`); ibuBapa(); });
-    $('#lakad').onclick = kadAZ;
+    $('#lakad').onclick = SJ === 'mt' ? kadNombor : kadAZ;
+    ikatSj(ibuBapa);
   }
   function kadAZ() {
     const m = document.createElement('div'); m.className = 'la-modal';
@@ -23991,16 +24439,17 @@ const PRA = (() => {
   }
   function albumLaluan() {
     const s = ST.get();
-    return `<h3 style="margin:6px 0 8px">Pelekat jalan belajar</h3><div class="la-albl">${LSESI.map(se => s.p.includes('l-' + se.id) ? `<div>${pelekatImg(se)}<small>${se.nama}</small></div>` : `<div class="tiada">?</div>`).join('')}</div><h3 style="margin:6px 0 8px">Pelekat Taman Permainan</h3>`;
+    return [['Bahasa Melayu', LSESI_BM], ['Matematik', LSESI_MT]].map(([nm, L]) => `<h3 style="margin:6px 0 8px">Pelekat jalan belajar · ${nm}</h3><div class="la-albl">${L.map(se => s.p.includes('l-' + se.id) ? `<div>${pelekatImg(se)}<small>${se.nama}</small></div>` : `<div class="tiada">?</div>`).join('')}</div>`).join('') + `<h3 style="margin:6px 0 8px">Pelekat Taman Permainan</h3>`;
   }
 
   function hab() { laluanPeta(); }
   function route(h) {
     gaya(); gaya2(); gaya3(); TOK++; SUARA.henti(); G = null; try { K3.henti(); } catch (e) {} try { henti6(); } catch (e) {} SS = null;
     const p = h.split('/');
-    if (p.length === 1) return hab();
+    if (p.length === 1) { sjGuna(); return hab(); }
     if (p[1] === 'pelekat') return album();
     if (p[1] === 'taman') return taman();
+    sjGuna();
     if (p[1] === 'sesi') return mulaSesi();
     if (p[1] === 'ibubapa') return ibuBapa();
     const Z = ZON[p[1]]; if (!Z) return hab();

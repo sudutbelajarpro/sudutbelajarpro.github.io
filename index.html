@@ -22303,10 +22303,10 @@ const PRA = (() => {
           else api.salah(b);
         });
       } },
-    { id: 'surih', ic: '✍️', nama: 'Surih Huruf', d: 'Tulis huruf dengan jari', pelekat: '🦊', n: 4,
+    { id: 'surih', ic: '✍️', nama: 'Tulis Ikut Garisan', d: 'Tulis huruf dengan jari', pelekat: '🦊', n: 4,
       main(R) {
         const s0 = pick(R.i < 2 ? ['a', 'c', 'o', 'i', 'l', 'u', 'e', 't'] : ABC.map(c => c.toLowerCase())); const c = R.i % 2 ? s0.toUpperCase() : s0;
-        api.soal(`Surih huruf <span class="h">${c}</span> dengan jari`, `Surih huruf ${sh(s0)} dengan jari kamu.`);
+        api.soal(`Ikut garisan huruf <span class="h">${c}</span> dengan jari`, `Ikut garisan huruf ${sh(s0)} dengan jari kamu.`);
         const W = Math.min(300, (api.pentas().clientWidth || 320) - 30);
         api.pentas().innerHTML = `<div class="pr-surih" style="width:${W}px;height:${W}px"><canvas id="prc1" width="${W}" height="${W}"></canvas><canvas id="prc2" class="lapis" width="${W}" height="${W}"></canvas></div><button class="pr-btn" id="prpadam">🧽 Padam</button>`;
         const c1 = $('#prc1'), c2 = $('#prc2'), x1 = c1.getContext('2d'), x2 = c2.getContext('2d');
@@ -23175,6 +23175,7 @@ const PRA = (() => {
     { k: 'tt', nama: 'Suku kata terbuka & tertutup', ik: 'x-kunci', main: 'Pintu Ajaib' },
     { k: 'bina', nama: 'Bina & baca perkataan', ik: 'g-ikan', main: 'Pancing Kata' },
     { k: 'ayat', nama: 'Baca ayat mudah', ik: 'x-lihat', main: 'Susun Ayat' },
+    { k: 'tulis', nama: 'Menulis huruf & perkataan', ik: 'g-surih', main: 'Tulis Perkataan' },
   ];
   const LSESI = [
     { id: 'az1', t: 0, nama: 'A hingga F', h: 'ABCDEF' }, { id: 'az2', t: 0, nama: 'G hingga L', h: 'GHIJKL' }, { id: 'az3', t: 0, nama: 'M hingga R', h: 'MNOPQR' },
@@ -23187,7 +23188,8 @@ const PRA = (() => {
     { id: 'bc1', t: 4, nama: 'Perkataan 2 suku kata' }, { id: 'bc2', t: 4, nama: 'Perkataan 3 suku kata' }, { id: 'bc3', t: 4, nama: 'Baca tanpa gambar' },
     { id: 'ay1', t: 5, nama: 'Huruf besar & titik', a: [0, 1, 2, 3] }, { id: 'ay2', t: 5, nama: 'Baca ayat bergambar', a: [3, 4, 5, 6, 7, 8] }, { id: 'ay3', t: 5, nama: 'Susun ayat', a: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
   ];
-  const AKAN = ['Menulis huruf & perkataan'];
+    LSESI.push({ id: 'tl1', t: 6, nama: 'Tulis huruf vokal' }, { id: 'tl2', t: 6, nama: 'Tulis huruf konsonan' }, { id: 'tl3', t: 6, nama: 'Tulis perkataan' });
+  const AKAN = [];
   // ---- data Topik 4–6 ----
   const VOW = 'aeiou', tutup = s => !VOW.includes(s.slice(-1));
   const TT_B = ['ba', 'ka', 'ga', 'ru', 'na', 'le', 'ca', 'bo', 'sa', 'pu', 'ti'], TT_T = ['kan', 'wan', 'jah', 'mah', 'lar', 'nas', 'bah', 'tak', 'pal', 'tol', 'bun', 'lam', 'tal', 'kus', 'ban'];
@@ -23332,6 +23334,9 @@ const PRA = (() => {
 .la-pk2{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
 .la-pk2 button{border:0;cursor:pointer;font-family:var(--fd);font-size:24px;font-weight:700;background:#fff;color:#6d3df2;border-radius:16px;padding:10px 18px;box-shadow:0 6px 0 #c4b5fd}
 .la-pk2 button.no{animation:lagoyang .4s;background:#ffe1e1}
+@keyframes latulis{to{stroke-dashoffset:0}}
+.la-tlk{width:min(42vw,220px);aspect-ratio:1;background:#fff;border-radius:22px;box-shadow:0 12px 0 #c4b5fd}
+.la-tkata{font-size:clamp(36px,11vw,52px);font-weight:800;letter-spacing:6px;font-family:var(--fd)}
 .la-gb{width:clamp(52px,15vw,84px);height:56px;border-radius:12px;background:#fff;border:4px dashed #f97316;display:grid;place-items:center;font-size:28px;font-weight:700;color:#f97316}
 .la-gb.isi{background:#f97316;color:#fff;border-style:solid}
 .la-loko{width:clamp(110px,32vw,160px)}.la-loko img{width:100%;height:auto;display:block}
@@ -23390,7 +23395,7 @@ const PRA = (() => {
       const isi = i < l.n ? '★' : i === l.n ? (habis ? '🌙' : '▶') : (i + 1);
       h += `<button class="la-titik ${st}" data-i="${i}" style="--x:translateX(${OFS[i % 8]}px);transform:var(--x)" aria-label="Sesi ${i + 1}: ${se.nama}">${isi}<span class="lbl">${i <= l.n ? se.nama : ''}</span></button>`;
     });
-    h += `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div></div>
+    h += `${AKAN.length ? `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div>` : `<div class="la-bendera">🏁<span>Hujung jalan<small>Semua topik Bahasa Melayu prasekolah</small></span></div>`}</div>
       <div class="la-hari">${habis ? `<button class="la-besar esok" id="lahari">🌙 Esok kita sambung</button>`
         : semua ? `<button class="la-besar" id="lahari">🎉 Semua sesi siap!</button>`
         : `<button class="la-besar" id="lahari">${ikP('x-main', '▶', 1).replace('class="pr-i3 k"', 'class="pr-i3 k" style="width:42px;height:42px"')} Main hari ini</button>`}
@@ -23809,6 +23814,119 @@ const PRA = (() => {
       main(done) { susunAyat(dulukan(SS.se.a, 'ay:', SS.se.id === 'ay3' ? 5 : 3), done); },
     },
   });
+  // ---------- Topik 7: Menulis (ikut garisan) ----------
+  const STROKE = { a: ['M68 48 C58 36 32 40 32 60 C32 80 60 84 68 68', 'M68 40 L68 80'], b: ['M32 10 L32 80', 'M32 60 C34 40 68 40 68 60 C68 80 34 82 32 66'], d: ['M68 10 L68 80', 'M68 60 C66 40 32 40 32 60 C32 80 66 82 68 66'], e: ['M32 60 L68 60 C68 40 34 38 32 58 C30 80 58 84 68 72'], i: ['M50 40 L50 80', 'M50 25 L50 28'], o: ['M50 40 C28 40 28 80 50 80 C72 80 72 40 50 40'], u: ['M32 40 L32 66 C32 84 68 84 68 62', 'M68 40 L68 80'], m: ['M28 80 L28 40', 'M28 52 C30 38 50 38 50 52 L50 80', 'M50 52 C52 38 72 38 72 52 L72 80'], s: ['M66 46 C58 36 34 38 36 52 C38 62 64 58 66 68 C68 82 40 84 32 74'], t: ['M48 18 L48 72 C48 82 60 82 66 76', 'M34 40 L64 40'] };
+  const HV = ['a', 'e', 'i', 'o', 'u'], HK = ['b', 'd', 'm', 's', 't'];
+  const garisT = () => `<line x1="5" y1="40" x2="95" y2="40" stroke="#c4b5fd" stroke-dasharray="3 3" stroke-width=".8"/><line x1="5" y1="80" x2="95" y2="80" stroke="#f472b6" stroke-width="1.2"/><line x1="5" y1="10" x2="95" y2="10" stroke="#ddd6fe" stroke-width=".6"/>`;
+  const svgHuruf = c => { const p = STROKE[c]; let dl = 0; return `<svg viewBox="0 0 100 100" style="width:100%;height:100%">${garisT()}
+    ${p.map(d => `<path d="${d}" fill="none" stroke="#ede9fe" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}
+    ${p.map(d => { const x = `<path d="${d}" fill="none" stroke="#6d3df2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" pathLength="100" style="stroke-dasharray:100;stroke-dashoffset:100;animation:latulis 1.1s ${dl}s ease forwards"/>`; dl += 1.2; return x; }).join('')}
+    ${p.map((d, k) => { const m = d.match(/M\s*([\d.]+)\s+([\d.]+)/); return `<circle cx="${m[1]}" cy="${m[2]}" r="3.6" fill="#22c55e"/><text x="${+m[1] + 4}" y="${+m[2] - 3}" font-size="7" font-weight="800" fill="#16a34a">${k + 1}</text>`; }).join('')}</svg>`; };
+  const babakTulis = c => ({ html: `<div style="display:flex;align-items:center;gap:4vw"><div class="la-tlk">${svgHuruf(c)}</div><span class="la-tkata" style="font-size:clamp(70px,20vw,130px);color:#fff;text-shadow:0 6px 0 #4c22b8">${c}</span></div>`, keys: ['u-mulahijau', 'u-anakpanah', 'h-' + c], teks: `Mula di titik <b style="color:#16a34a">hijau</b>, ikut anak panah: <span class="on">${c}</span>` });
+  // papan ikut garisan: titik panduan menyala bila dilalui; siap bila ≥85% dilalui
+  function papanTulis(el, c, selesai) {
+    const p = STROKE[c];
+    el.innerHTML = `<div class="la-ptl" style="position:relative;width:min(84vw,400px);aspect-ratio:1;margin:auto;background:radial-gradient(circle at 50% 35%,#fff,#f5f3ff);border-radius:28px;box-shadow:0 10px 0 #ddd6fe;touch-action:none;overflow:hidden">
+      <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%">${garisT()}
+        ${p.map(d => `<path d="${d}" fill="none" stroke="#ede9fe" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}
+        ${p.map(d => `<path class="pg" d="${d}" fill="none" stroke="none"/>`).join('')}<g class="titikG"></g><g class="mulaG"></g>
+        ${p.map(d => `<path class="isi" d="${d}" fill="none" stroke="#ec4899" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" pathLength="100" style="stroke-dasharray:100;stroke-dashoffset:100;opacity:0"/>`).join('')}</svg>
+      <canvas class="cvT" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+      <div class="jari" style="position:absolute;font-size:44px;pointer-events:none;transform:translate(-20%,-10%)">👆</div></div>
+      <div style="width:min(84vw,400px);margin:10px auto 0;height:14px;background:#ede9fe;border-radius:10px;overflow:hidden"><div class="bar" style="height:100%;width:0;background:linear-gradient(90deg,#f97316,#ec4899,#8b5cf6);transition:width .2s"></div></div>`;
+    const kot = el.querySelector('.la-ptl'), cv = el.querySelector('.cvT'), Wd = kot.getBoundingClientRect().width, dpr = devicePixelRatio || 1;
+    cv.width = Wd * dpr; cv.height = Wd * dpr; const g = cv.getContext('2d'); g.scale(dpr, dpr); g.lineCap = 'round'; g.lineJoin = 'round'; g.lineWidth = Wd * .085;
+    const tg = el.querySelector('.titikG'), sampel = []; let html = '';
+    el.querySelectorAll('.pg').forEach(pp => { const L = pp.getTotalLength(); for (let t = 0; t <= L; t += 4.5) { const q = pp.getPointAtLength(t); sampel.push({ x: q.x, y: q.y, ok: false }); html += `<circle cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="1.5" fill="#a78bfa"/>`; } });
+    tg.innerHTML = html; const bulat = [...tg.children];
+    el.querySelector('.mulaG').innerHTML = p.map((d, k) => { const m = d.match(/M\s*([\d.]+)\s+([\d.]+)/); return `<circle cx="${m[1]}" cy="${m[2]}" r="4.2" fill="#22c55e"><animate attributeName="r" values="3.6;5.2;3.6" dur="1.2s" repeatCount="indefinite"/></circle><text x="${+m[1] + 5}" y="${+m[2] - 4}" font-size="8" font-weight="800" fill="#16a34a">${k + 1}</text>`; }).join('');
+    const jari = el.querySelector('.jari'), pg0 = el.querySelector('.pg'), L0 = pg0.getTotalLength(); let jt = 0, jariHidup = true;
+    const gerak = () => { if (!jariHidup || !document.body.contains(jari)) return; jt = (jt + .6) % (L0 + 25); const q = pg0.getPointAtLength(Math.min(jt, L0)); jari.style.left = (q.x * Wd / 100) + 'px'; jari.style.top = (q.y * Wd / 100) + 'px'; jari.style.opacity = jt > L0 ? 0 : 1; requestAnimationFrame(gerak); }; gerak();
+    let lukis = false, last = null, dakwat = 0, siap = false, hue = 0, dapat = 0;
+    const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * Wd / r.width, (e.clientY - r.top) * Wd / r.height]; };
+    const ting = t => { try { const a = new (window.AudioContext || window.webkitAudioContext)(), o = a.createOscillator(), gg = a.createGain(); o.connect(gg); gg.connect(a.destination); o.frequency.value = 520 + t * 700; gg.gain.setValueAtTime(.06, a.currentTime); gg.gain.exponentialRampToValueAtTime(.001, a.currentTime + .18); o.start(); o.stop(a.currentTime + .18); setTimeout(() => a.close(), 400); } catch (e) {} };
+    const tamat = () => {
+      const kemas = dakwat < sampel.length * 4.5 * Wd / 100 * 2.6;
+      el.querySelectorAll('.isi').forEach((x, k) => { x.style.opacity = 1; x.style.transition = `stroke-dashoffset .6s ${k * .35}s ease`; requestAnimationFrame(() => x.style.strokeDashoffset = 0); });
+      setTimeout(() => { g.clearRect(0, 0, Wd, Wd); kot.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.05) rotate(-2deg)' }, { transform: 'scale(1)' }], { duration: 500 }); }, 300 + p.length * 350);
+      setTimeout(() => selesai(kemas), 700 + p.length * 350);
+    };
+    const tanda = (x, y) => {
+      const ux = x * 100 / Wd, uy = y * 100 / Wd;
+      sampel.forEach((s, i) => { if (!s.ok && Math.hypot(s.x - ux, s.y - uy) < 7.5) { s.ok = true; dapat++; bulat[i].setAttribute('fill', '#facc15'); bulat[i].setAttribute('r', '2.6'); if (dapat % 6 === 0) ting(dapat / sampel.length); } });
+      el.querySelector('.bar').style.width = (dapat / sampel.length * 100) + '%';
+      if (dapat / sampel.length >= .85 && !siap) { siap = true; lukis = false; tamat(); }
+    };
+    cv.onpointerdown = e => { if (siap) return; lukis = true; jariHidup = false; jari.style.display = 'none'; last = pos(e); try { cv.setPointerCapture(e.pointerId); } catch (x) {} tanda(...last); };
+    cv.onpointermove = e => { if (!lukis) return; const q = pos(e); hue = (hue + 4) % 360; g.strokeStyle = `hsl(${hue},90%,58%)`; g.beginPath(); g.moveTo(...last); g.lineTo(...q); g.stroke(); dakwat += Math.hypot(q[0] - last[0], q[1] - last[1]); tanda(...q); last = q; };
+    cv.onpointerup = cv.onpointercancel = () => { lukis = false; };
+    return { padam: () => { if (siap) return; g.clearRect(0, 0, Wd, Wd); dakwat = 0; dapat = 0; sampel.forEach((s, i) => { s.ok = false; bulat[i].setAttribute('fill', '#a78bfa'); bulat[i].setAttribute('r', '1.5'); }); el.querySelector('.bar').style.width = '0'; } };
+  }
+  // Cuba: ikut garisan beberapa huruf
+  function cubaTulis(huruf, done) {
+    let n = 0; fasa(1, 0);
+    const q = () => {
+      if (!LI()) return;
+      if (n >= huruf.length) { done(); return; }
+      const c = huruf[n];
+      LI().innerHTML = `<div class="la-soal">Ikut garisan huruf <b style="color:#6d3df2;font-size:1.5em">${c}</b> <span style="font-size:16px;color:#8b7bb0">(${n + 1}/${huruf.length})</span></div><div id="lapapan"></div>
+        <div class="la-baris"><button class="la-btn l" id="lapadam">🧽 Padam</button><button class="la-btn l" id="latunjuk">📺 Tunjuk cara</button></div>`;
+      dengar(['u-ikutgaris', 'h-' + c], null, 'Ikut garisan huruf ' + c);
+      const P = papanTulis($('#lapapan'), c, kemas => {
+        SS.n++; if (kemas) SS.betul++; else binKata('tl:' + c);
+        try { SND.play('betul'); } catch (e) {} dengar([kemas ? 'u-cantik' : 'u-betul'], null, kemas ? 'Cantik!' : 'Betul!'); n++; fasa(1, n / huruf.length * 100); lepasT(q, 1600);
+      });
+      $('#lapadam').onclick = () => P.padam();
+      $('#latunjuk').onclick = () => { const k = document.createElement('div'); k.style.cssText = 'position:absolute;inset:8%;background:#fff;border-radius:22px;z-index:3'; k.innerHTML = svgHuruf(c); LI().querySelector('.la-ptl').appendChild(k); dengar(['u-mulahijau', 'h-' + c], null, c); setTimeout(() => k.remove(), 1300 * STROKE[c].length + 900); };
+    };
+    q();
+  }
+  // Main: Tulis Perkataan; vokalSahaja = konsonan sudah ditulis, anak isi vokal
+  function tulisKata(senarai, vokalSahaja, done) {
+    let n = 0, h = 0; fasa(2, 0);
+    const tulisIni = (w, i) => STROKE[w[i]] && (!vokalSahaja || VOW.includes(w[i]));
+    const q = () => {
+      if (!LI()) return;
+      if (n >= senarai.length) { done(); return; }
+      const w = senarai[n];
+      while (h < w.length && !tulisIni(w, h)) h++;
+      if (h >= w.length) {
+        LI().innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:20px">${ped(gbrW(w))}<div class="la-tkata" style="color:#f97316">${w}</div></div>`;
+        SS.betul++; SS.n++; n++; h = 0; fasa(2, n / senarai.length * 100);
+        let jalan = false; const go = () => { if (jalan) return; jalan = true; q(); };
+        dengar([kwAud(w)], () => lepasT(go, 600), w); lepasT(go, 4000); return;
+      }
+      const c = w[h], dahTulis = i => i < h || !tulisIni(w, i);
+      LI().innerHTML = `<div style="display:flex;align-items:center;justify-content:center;gap:12px"><div style="width:80px;height:80px">${gbrW(w, '').replace('class=""', 'style="width:80px;height:80px;object-fit:contain"')}</div>
+        <div class="la-tkata">${[...w].map((x, i) => `<span style="color:${i === h ? '#6d3df2' : dahTulis(i) ? '#f97316' : '#d4d4d8'};${i === h ? 'text-decoration:underline' : ''}">${x}</span>`).join('')}</div></div>
+        <div id="lapapan" style="margin-top:6px"></div><div class="la-baris"><button class="la-btn l" id="lapadam">🧽 Padam</button><span style="align-self:center;color:#8b7bb0;font-weight:700">${n + 1} / ${senarai.length}</span></div>`;
+      dengar(h === [...w].findIndex((_, i) => tulisIni(w, i)) ? ['u-tulisperkataan', kwAud(w), 'h-' + c] : ['h-' + c], null, c);
+      const P = papanTulis($('#lapapan'), c, kemas => { if (!kemas) binKata('tl:' + c); try { SND.play('betul'); } catch (e) {} h++; lepasT(q, 900); });
+      $('#lapadam').onclick = () => P.padam();
+    };
+    q();
+  }
+  RUNNER.tl = {
+    ayatCuba: 'Ikut garisan huruf', ayatMain: 'Tulis Perkataan: tulis huruf satu-satu',
+    tonton(done) {
+      const id = SS.se.id, s = [];
+      if (id === 'tl1') {
+        s.push({ html: '<div style="font-size:clamp(70px,18vw,120px)">✏️🤏</div>', keys: ['u-pegang'], teks: 'Pegang pensel dengan <b>3 jari</b>' }, { html: '<div style="font-size:clamp(70px,18vw,120px)">🪑📄</div>', keys: ['u-duduk'], teks: 'Duduk tegak, kertas lurus' }, { html: `<div style="display:flex;gap:3vw">${HV.slice(0, 3).map(c => `<span class="la-tkata" style="font-size:clamp(60px,16vw,110px);color:#fff;text-shadow:0 6px 0 #4c22b8">${c}</span>`).join('')}</div>`, keys: ['u-jomtulis'], teks: 'Jom tulis huruf!' });
+        HV.forEach(c => s.push(babakTulis(c)));
+      } else if (id === 'tl2') { s.push({ html: `<div style="display:flex;gap:3vw">${HK.slice(0, 3).map(c => `<span class="la-tkata" style="font-size:clamp(60px,16vw,110px);color:#fff;text-shadow:0 6px 0 #4c22b8">${c}</span>`).join('')}</div>`, keys: ['u-jomtulis'], teks: 'Jom tulis huruf!' }); HK.forEach(c => s.push(babakTulis(c))); }
+      else { s.push({ html: `<div style="display:flex;flex-direction:column;align-items:center;gap:8px">${ped(gbrW('mata'))}<div class="la-tkata" style="color:#fff;text-shadow:0 5px 0 #4c22b8">mata</div></div>`, keys: ['u-jomtulisperkataan', 'kw-mata'], teks: 'Jom tulis perkataan!' }); ['m', 'a', 't'].forEach(c => s.push(babakTulis(c))); }
+      babak(s, done);
+    },
+    cuba(done) {
+      const id = SS.se.id;
+      cubaTulis(id === 'tl1' ? kocok(HV) : id === 'tl2' ? kocok(HK) : dulukan([...HV, ...HK], 'tl:', 5), done);
+    },
+    main(done) {
+      const id = SS.se.id;
+      if (id === 'tl1') return tulisKata(kocok(['kuda', 'roti', 'buku', 'labu', 'baju', 'nasi', 'kaki', 'mata', 'susu']).slice(0, 3), true, done);
+      tulisKata(id === 'tl2' ? kocok(['bas', 'mata']) : kocok(['bas', 'mata', 'susu']), false, done);
+    },
+  };
   function tamatSesi() {
     henti6(); if (!SS) return;
     const se = SS.se, min = Math.max(1, Math.round((Date.now() - SS.mula) / 60000)), bin = SS.silap <= 2 ? 3 : SS.silap <= 5 ? 2 : 1;
@@ -23850,7 +23968,7 @@ const PRA = (() => {
         <div class="la-kecil">1 sesi ≈ 7–10 minit. Panduan umur 5–6 tahun: masa skrin kurang 1 jam sehari, termasuk TV. Duduk bersama anak dan <b>hidupkan bunyi</b>.</div></div>
       <div class="la-kotak"><h3>Perlu latihan</h3>${lemah.length || lemahK.length ? `<div class="la-lemah">${lemah.map(([c]) => `<span>${esc(c)}</span>`).join('')}${lemahK.map(w => `<span style="font-size:16px">${esc(w)}</span>`).join('')}</div><div class="la-kecil" style="margin-top:6px">Yang anak salah semasa Cuba atau Main. Ia keluar dahulu dalam permainan.</div>` : '<div class="la-kecil">Belum ada. Muncul selepas anak salah semasa Cuba.</div>'}</div>
       <div class="la-kotak"><h3>Sesi</h3>${LTOPIK.map((T, ti) => `<div style="font-family:var(--fd);font-weight:600;margin:8px 0 2px">${ti + 1}. ${T.nama}</div>` + LSESI.map((se, i) => [se, i]).filter(([se]) => se.t === ti).map(([se, i]) => `<div class="la-ssr"><span>${i < l.n ? '★' : i === l.n ? '▶' : '·'} ${se.nama}</span>${i === l.n ? '<span class="la-tag">sekarang</span>' : `<button data-lompat="${i}">${i < l.n ? 'Ulang' : 'Mula di sini'}</button>`}</div>`).join('')).join('')}
-        <div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>
+        ${AKAN.length ? `<div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>` : `<div class="la-kecil" style="margin-top:8px">Menulis di skrin bantu anak kenal bentuk dan arah huruf, tetapi tidak menggantikan latihan pegang pensel. Biar anak tulis juga di atas kertas.</div>`}
         <div class="la-baris" style="justify-content:flex-start"><button class="la-btn l" id="lakad">🖼️ Kad rujukan A–Z</button></div></div>
       <div class="la-kotak"><h3>${ikP('zon-huruf', '🎠', 1)} Taman Permainan</h3><div class="la-kecil">50 permainan lama di 5 pulau. Anak boleh buka dari bawah jalan bila-bila masa.</div></div>
       <div class="la-kotak la-kecil">Kemajuan disimpan dalam peranti ini${(() => { try { const P = PLAYER.get(); return P && P.akaun ? ' dan akaun' : ''; } catch (e) { return ''; } })()}.</div></div>`;

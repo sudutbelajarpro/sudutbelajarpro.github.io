@@ -23184,7 +23184,7 @@ const PRA = (() => {
   const LSimpan = f => { const s = ST.get(); const l = LS(); f(l); s.l = l; ST.set(s); try { simpanAuto(); } catch (e) {} };
   const habisHari = l => l.h.k >= l.had && l.n < LSESI.length;
   // ---------- audio: SATU elemen Audio (iOS: dibuka oleh tekanan pertama, kemudian boleh tukar src) ----------
-  let PA = null, paTok = 0;
+  let PA = null, paTok = 0, laHai = 0;
   const SENYAP = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
   function bukaAudio() { try { if (!PA) PA = new Audio(); PA.src = SENYAP; const p = PA.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
   function laSenyap() { paTok++; try { if (PA) PA.pause(); } catch (e) {} SUARA.henti(); }
@@ -23367,9 +23367,10 @@ const PRA = (() => {
       m.style.top = (kini.offsetTop - 24) + 'px'; m.style.left = x > 0 ? 'calc(50% - 150px)' : 'calc(50% + 72px)';
       setTimeout(() => { try { const r = kini.getBoundingClientRect(); if (r.top > innerHeight * .55) window.scrollBy({ top: r.top - innerHeight * .35, behavior: 'smooth' }); } catch (e) {} }, 200);
     }
+    if (!habis && !semua && (PA || (navigator.userActivation && navigator.userActivation.hasBeenActive)) && Date.now() - laHai > 600000) { laHai = Date.now(); dengar(['l-hai'], null, null); }
     $('#lahari').onclick = () => {
       SND.ctx();
-      if (habis) { laToast('Hebat hari ini! Rehat dulu, esok kita sambung ya 🌙'); SUARA.cakap('Esok kita sambung ya.'); return; }
+      if (habis) { laToast('Hebat hari ini! Rehat dulu, esok kita sambung ya 🌙'); dengar(['l-esok'], null, 'Esok kita sambung ya.'); return; }
       if (semua) { laToast('Semua sesi dah siap. Main di Taman Permainan ya!'); return; }
       bukaAudio(); location.hash = '#sedia/sesi';
     };
@@ -23377,7 +23378,7 @@ const PRA = (() => {
       const i = +b.dataset.i;
       if (i < l.n) laToast(`★ "${LSESI[i].nama}" dah siap. Nak ulang? Minta ibu ayah buka.`);
       else if (i === l.n) $('#lahari').click();
-      else laToast('Siapkan yang berkelip dulu ya! 🔒');
+      else { laToast('Siapkan yang berkelip dulu ya! 🔒'); dengar(['l-berkelip'], null, 'Siapkan yang berkelip dulu ya.'); }
     });
     $('#lacpel').onclick = () => { location.hash = '#sedia/pelekat'; };
     $('#laibu').onclick = () => { location.hash = '#sedia/ibubapa'; };
@@ -23395,7 +23396,10 @@ const PRA = (() => {
     app.querySelectorAll('.la-lk .pr-i3').forEach(x => { x.style.width = '32px'; x.style.height = '32px'; });
     $('#lax').onclick = () => { henti6(); laToast('Tak apa, nanti sambung dari mula ya.'); location.hash = '#sedia'; };
     const R = RUNNER[se.id.slice(0, 2)];
-    R.tonton(() => peralihan('x-cuba', 'Jom cuba!', R.ayatCuba, () => R.cuba(() => peralihan('x-main', 'Jom main!', R.ayatMain, () => R.main(tamatSesi)))));
+    const mulaTonton = () => R.tonton(() => peralihan('x-cuba', 'Jom cuba!', R.ayatCuba, () => R.cuba(() => peralihan('x-main', 'Jom main!', R.ayatMain, () => R.main(tamatSesi)))));
+    LI().innerHTML = `<div class="la-per"><div>${ikP('x-tonton', '', 1).replace('class="pr-i3 k"', 'class="pr-i3 k big" style="width:120px;height:120px"')}<h2>Jom tonton!</h2></div></div>`; fasa(0, 0);
+    let mt = false; const goT = () => { if (mt || SS !== s0) return; mt = true; mulaTonton(); };
+    const s0 = SS; dengar(['l-tonton'], () => lepasT(goT, 200), 'Jom kita tonton dulu.'); lepasT(goT, 3500);
   }
   const LI = () => $('#laisi');
   function fasa(f, pct) { for (let i = 0; i < 3; i++) { const p = $('#lap' + i); if (p) p.style.width = (i < f ? 100 : i === f ? pct : 0) + '%'; const q = $('#lal' + i); if (q) { q.classList.toggle('on', i === f); q.classList.toggle('ok', i < f); } } }
@@ -23405,8 +23409,9 @@ const PRA = (() => {
     laSenyap(); if (!LI()) return;
     LI().innerHTML = `<div class="la-per"><div>${ikP(ik, '', 1).replace('class="pr-i3 k"', 'class="pr-i3 k big" style="width:120px;height:120px"')}<h2>${tajuk}</h2><p style="font-family:var(--fb);font-size:16px;margin:0 0 16px">${ayat}</p><button class="la-btn h" id="lasn">Teruskan ▶</button></div></div>`;
     let jalan = false; const go = () => { if (jalan || !$('#lasn')) return; jalan = true; seterus(); };
-    dengar([ik === 'x-cuba' ? 'u-hebat' : 'u-jommain'], null, tajuk);
-    $('#lasn').onclick = go; lepasT(go, 4200);
+    const t0 = Date.now();
+    dengar([ik === 'x-cuba' ? 'l-cuba' : 'u-jommain'], () => lepasT(go, Math.max(900, 4200 - (Date.now() - t0))), tajuk);
+    $('#lasn').onclick = go; lepasT(go, 9000);
   }
   // pemain babak umum: [{html, keys, teks}] — berjalan sendiri
   function babak(senarai, done, kembali) {
@@ -23610,7 +23615,7 @@ const PRA = (() => {
       ${lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
       <div class="la-baris"><button class="la-btn l" id="lakp">Kembali ke jalan</button></div></div></div>`;
     try { konfeti(app.querySelector('.la-tamat')); } catch (e) {}
-    dengar(['u-tahniah'], lagi ? null : () => SUARA.cakap('Esok kita sambung ya.'), 'Tahniah!');
+    dengar(lagi ? ['u-tahniah'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
     $('#lakp').onclick = () => { location.hash = '#sedia'; };
     if ($('#lalg')) $('#lalg').onclick = () => { bukaAudio(); mulaSesi(); };
   }

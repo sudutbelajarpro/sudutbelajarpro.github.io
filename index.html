@@ -21866,7 +21866,7 @@ const PRA = (() => {
 
   // ---------- simpanan (peranti sahaja) ----------
   const ST = {
-    get() { try { const v = JSON.parse(localStorage.getItem('sb.pra') || '{}'); return { g: v.g || {}, p: v.p || [], l: v.l || {}, lm: v.lm || {}, sj: v.sj === 'mt' ? 'mt' : 'bm' }; } catch (e) { return { g: {}, p: [], l: {}, lm: {}, sj: 'bm' }; } },
+    get() { try { const v = JSON.parse(localStorage.getItem('sb.pra') || '{}'); return { g: v.g || {}, p: v.p || [], l: v.l || {}, lm: v.lm || {}, lb: v.lb || {}, sj: v.sj === 'mt' || v.sj === 'bi' ? v.sj : 'bm' }; } catch (e) { return { g: {}, p: [], l: {}, lm: {}, lb: {}, sj: 'bm' }; } },
     set(v) { try { localStorage.setItem('sb.pra', JSON.stringify(v)); } catch (e) {} },
   };
 
@@ -23192,7 +23192,10 @@ const PRA = (() => {
   const AKAN_BM = [];
   // Subjek aktif: 'bm' (kemajuan di s.l) atau 'mt' Matematik (s.lm). Tukar dengan sjGuna(k).
   let LTOPIK = LTOPIK_BM, LSESI = LSESI_BM, AKAN = AKAN_BM, LK = 'l', SJ = 'bm';
-  function sjGuna(k) { const s = ST.get(); if (k && k !== s.sj) { s.sj = k; ST.set(s); } SJ = (k || s.sj) === 'mt' ? 'mt' : 'bm'; const m = SJ === 'mt'; LTOPIK = m ? LTOPIK_MT : LTOPIK_BM; LSESI = m ? LSESI_MT : LSESI_BM; AKAN = m ? [] : AKAN_BM; LK = m ? 'lm' : 'l'; }
+  const SUBJ = { bm: { nama: 'Bahasa Melayu', tab: 'B. Melayu', lk: 'l', ik: 'zon-huruf' }, mt: { nama: 'Matematik', tab: 'Matematik', lk: 'lm', ik: 'zon-nombor' }, bi: { nama: 'English', tab: 'English', lk: 'lb', img: 'aset/pra-az/bi-apple.webp' } };
+  const SJS = ['bm', 'mt', 'bi'];
+  const sjData = k => k === 'mt' ? [LTOPIK_MT, LSESI_MT] : k === 'bi' ? [LTOPIK_BI, LSESI_BI] : [LTOPIK_BM, LSESI_BM];
+  function sjGuna(k) { const s = ST.get(); if (k && k !== s.sj && SJS.includes(k)) { s.sj = k; ST.set(s); } SJ = SJS.includes(k) ? k : s.sj; [LTOPIK, LSESI] = sjData(SJ); AKAN = SJ === 'bm' ? AKAN_BM : []; LK = SUBJ[SJ].lk; }
   // ---- data Topik 4–6 ----
   const VOW = 'aeiou', tutup = s => !VOW.includes(s.slice(-1));
   const TT_B = ['ba', 'ka', 'ga', 'ru', 'na', 'le', 'ca', 'bo', 'sa', 'pu', 'ti'], TT_T = ['kan', 'wan', 'jah', 'mah', 'lar', 'nas', 'bah', 'tak', 'pal', 'tol', 'bun', 'lam', 'tal', 'kus', 'ban'];
@@ -23212,6 +23215,7 @@ const PRA = (() => {
   function bukaAudio() { try { if (!PA) PA = new Audio(); PA.src = SENYAP; const p = PA.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
   function laSenyap() { paTok++; try { if (PA) PA.pause(); } catch (e) {} SUARA.henti(); }
   function dengar(keys, cb, sandaran) {
+    if (SJ === 'bi' && keys) keys = keys.map(k => BIMAP[k] || k);
     const t = ++paTok; SUARA.henti();
     if (!SUARA.on) { if (cb) setTimeout(() => { if (t === paTok) cb(); }, 1100); return; }
     if (!PA) PA = new Audio();
@@ -23382,9 +23386,10 @@ const PRA = (() => {
 .la-albl div img{width:56px;height:56px;display:block;margin:0 auto}
 .la-albl div.tiada{background:#eee8fa;box-shadow:none;color:#b9addb;font-size:24px;display:grid;place-items:center;min-height:82px}
 @media (prefers-reduced-motion:reduce){.la *{animation:none!important;transition:none!important}}
-.la-sj{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 2px 4px}
-.la-sj button{display:flex;align-items:center;gap:8px;border:0;border-radius:18px;padding:8px 10px;background:#f1ecff;box-shadow:0 5px 0 #d9cdfa;font-family:var(--fd);font-weight:700;font-size:16px;color:#5b4a86;cursor:pointer;text-align:left;transition:transform .15s}
-.la-sj button img{width:40px;height:40px;flex:none}
+.la-sj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 2px 4px}
+.la-sj button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;border-radius:18px;padding:6px 4px;min-width:0;background:#f1ecff;box-shadow:0 5px 0 #d9cdfa;font-family:var(--fd);font-weight:700;font-size:16px;color:#5b4a86;cursor:pointer;text-align:left;transition:transform .15s}
+.la-sj button img{width:38px;height:38px;flex:none;object-fit:contain}
+.la-sj button span{text-align:center;font-size:14px;line-height:1.15}
 .la-sj button small{display:block;font-family:var(--fb);font-size:12px;font-weight:600;opacity:.8}
 .la-sj button.on{background:linear-gradient(160deg,#8b5cf6,#6d3df2);color:#fff;box-shadow:0 5px 0 #4c1fc0}
 .la-sj button:active{transform:translateY(3px)}
@@ -23501,6 +23506,11 @@ const PRA = (() => {
 .la-letak .zon.bawah{left:30%;bottom:0;width:40%;height:30%}
 .la-letak .zon.luar{right:-4%;top:22%;width:22%;height:40%}
 .la-letak .zon.no{border-color:#ef4444;background:#fee2e2aa}
+.la-bwarna{display:inline-block;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0,var(--a) 22%,var(--b) 100%);box-shadow:inset -6px -8px 14px #0003,0 8px 0 #0002,0 12px 14px #0003}
+.la-belon.bt .la-bwarna{width:58px!important;height:58px!important}
+.la-ekata{display:inline-grid;place-items:center;min-width:52px;height:52px;padding:0 10px;border-radius:14px;font-size:24px;font-weight:700;color:#fff;background:linear-gradient(160deg,#22c55e,#15803d);box-shadow:inset 0 -5px 0 #0002;text-shadow:0 2px 0 #0003}
+.la-slt .la-ekata{min-width:0;height:auto;padding:4px 6px;font-size:clamp(15px,4.6vw,22px)}
+.la-blend .la-blok{animation:lapop .5s both}
 `;
   function gaya6() { if (document.getElementById('pracss6')) return; const s = document.createElement('style'); s.id = 'pracss6'; s.textContent = CSS6; document.head.appendChild(s); }
   function laToast(t) { const o = document.querySelector('.la-toast'); if (o) o.remove(); const d = document.createElement('div'); d.className = 'la-toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
@@ -23519,8 +23529,8 @@ const PRA = (() => {
       const isi = i < l.n ? '★' : i === l.n ? (habis ? '🌙' : '▶') : (i + 1);
       h += `<button class="la-titik ${st}" data-i="${i}" style="--x:translateX(${OFS[i % 8]}px);transform:var(--x)" aria-label="Sesi ${i + 1}: ${se.nama}">${isi}<span class="lbl">${i <= l.n ? se.nama : ''}</span></button>`;
     });
-    h += `${AKAN.length ? `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div>` : `<div class="la-bendera">🏁<span>Hujung jalan<small>${SJ === 'mt' ? 'Semua topik Matematik yang ada setakat ini' : 'Semua topik Bahasa Melayu prasekolah'}</small></span></div>`}</div>
-      <div class="la-hari">${habis ? `<button class="la-besar esok" id="lahari">🌙 Esok kita sambung</button>${sjLainBoleh() ? `<button class="la-btn k" id="lasjl" style="margin:10px auto 0;display:flex;align-items:center;gap:6px">${ikP(SJ === 'mt' ? 'zon-huruf' : 'zon-nombor', '', 1)} Jom main ${SJ === 'mt' ? 'Bahasa Melayu' : 'Matematik'}</button>` : ''}`
+    h += `${AKAN.length ? `<div class="la-bendera">🚧<span>Topik seterusnya akan datang<small>${AKAN.join(' · ')}</small></span></div>` : `<div class="la-bendera">🏁<span>Hujung jalan<small>${SJ === 'bm' ? 'Semua topik Bahasa Melayu prasekolah' : 'Semua topik ' + SUBJ[SJ].nama + ' yang ada setakat ini'}</small></span></div>`}</div>
+      <div class="la-hari">${habis ? `<button class="la-besar esok" id="lahari">🌙 Esok kita sambung</button>${sjLainBoleh() ? `<button class="la-btn k" id="lasjl" style="margin:10px auto 0;display:flex;align-items:center;gap:6px">${sjIk(sjLainBoleh())} Jom main ${SUBJ[sjLainBoleh()].nama}</button>` : ''}`
         : semua ? `<button class="la-besar" id="lahari">🎉 Semua sesi siap!</button>`
         : `<button class="la-besar" id="lahari">${ikP('x-main', '▶', 1).replace('class="pr-i3 k"', 'class="pr-i3 k" style="width:42px;height:42px"')} Main hari ini</button>`}
         <div class="la-pautan"><a href="#sedia/taman">${ikP('zon-huruf', '🎠', 1)} Taman Permainan</a><a href="#sedia/pelekat">${ikP('x-pelekat', '📒', 1)} Pelekat</a></div></div>
@@ -23549,13 +23559,14 @@ const PRA = (() => {
     $('#lacpel').onclick = () => { location.hash = '#sedia/pelekat'; };
     $('#laibu').onclick = () => { location.hash = '#sedia/ibubapa'; };
     ikatSj(laluanPeta);
-    if ($('#lasjl')) $('#lasjl').onclick = () => { sjGuna(SJ === 'mt' ? 'bm' : 'mt'); laluanPeta(); scrollTo(0, 0); };
+    if ($('#lasjl')) $('#lasjl').onclick = () => { sjGuna(sjLainBoleh()); laluanPeta(); scrollTo(0, 0); };
   }
   // Tab subjek (BM / Matematik) — kemajuan berasingan
-  function sjKira(k) { const s = ST.get(), l = s[k === 'mt' ? 'lm' : 'l'] || {}, se = k === 'mt' ? LSESI_MT : LSESI_BM; return [Math.min(l.n | 0, se.length), se.length, l.h && l.h.d === tarikh() ? l.h.k | 0 : 0, l.had || 1]; }
-  function sjLainBoleh() { const [n, j, k, had] = sjKira(SJ === 'mt' ? 'bm' : 'mt'); return n < j && k < had; }
+  function sjKira(k) { const s = ST.get(), l = s[SUBJ[k].lk] || {}, se = sjData(k)[1]; return [Math.min(l.n | 0, se.length), se.length, l.h && l.h.d === tarikh() ? l.h.k | 0 : 0, l.had || 1]; }
+  function sjLainBoleh() { return SJS.find(k => { if (k === SJ) return false; const [n, j, kk, had] = sjKira(k); return n < j && kk < had; }) || null; }
+  const sjIk = k => SUBJ[k].img ? `<img class="pr-i3 k" src="${SUBJ[k].img}" alt="" width="160" height="160">` : ikP(SUBJ[k].ik, '', 1);
   function sjTab() {
-    return `<div class="la-sj" role="tablist">${[['bm', 'zon-huruf', 'Bahasa Melayu'], ['mt', 'zon-nombor', 'Matematik']].map(([k, ik, nm]) => { const [n, j] = sjKira(k); return `<button role="tab" aria-selected="${SJ === k}" class="${SJ === k ? 'on' : ''}" data-sj="${k}">${ikP(ik, '', 1)}<span>${nm}<small>${n}/${j} sesi</small></span></button>`; }).join('')}</div>`;
+    return `<div class="la-sj" role="tablist">${SJS.map(k => { const [n, j] = sjKira(k); return `<button role="tab" aria-selected="${SJ === k}" class="${SJ === k ? 'on' : ''}" data-sj="${k}">${sjIk(k)}<span>${SUBJ[k].tab}<small>${n}/${j} sesi</small></span></button>`; }).join('')}</div>`;
   }
   function ikatSj(semula) { app.querySelectorAll('[data-sj]').forEach(b => b.onclick = () => { if (b.dataset.sj === SJ) return; try { SND.play('klik'); } catch (e) {} sjGuna(b.dataset.sj); semula(); scrollTo(0, 0); }); }
   // ---------- SESI ----------
@@ -23644,7 +23655,7 @@ const PRA = (() => {
     $('#lass').onclick = sebut;
     const tambah = () => {
       const c = o.pilih(sas ? sas[t] : null), el = document.createElement('div');
-      el.className = 'la-belon' + (jatuh ? ' jubin' : '') + (o.html ? ' bt' : ''); if (o.html) el.innerHTML = o.html(c); else { el.textContent = c; el.style.background = warna[rnd(7)]; }
+      el.className = 'la-belon' + (jatuh ? ' jubin' : '') + (o.html ? ' bt' : ''); el.dataset.c = c; if (o.html) el.innerHTML = o.html(c); else { el.textContent = c; el.style.background = warna[rnd(7)]; }
       const b = { el, c, x: Math.random() * (W() - 80) + 4, y: jatuh ? -70 : H() + 20, v: jatuh ? .9 + Math.random() * .6 : .55 + Math.random() * .4, s: Math.random() * 6 };
       el.style.left = b.x + 'px'; el.style.transform = `translateY(${b.y}px)`; L.appendChild(el); belon.push(b);
       el.onpointerdown = () => {
@@ -24373,6 +24384,149 @@ const PRA = (() => {
     m.querySelector('#lamx').onclick = tutup; m.onclick = e => { if (e.target === m) tutup(); };
     m.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { bukaAudio(); dengar([mA(b.dataset.n)], null, NKATA[+b.dataset.n]); });
   }
+  // ================= LALUAN ENGLISH AWAL (KSPK Bahasa Inggeris prasekolah) =================
+  // Kemajuan di s.lb (lihat sjGuna). Sesi bertanda bi:1. Audio e-*; kunci arahan BM dipeta ke English oleh BIMAP (dalam dengar()).
+  const LTOPIK_BI = [
+    { k: 'e-fa', nama: 'Letter sounds A–M', ik: 'g-awal', main: 'Sound Balloons' },
+    { k: 'e-fn', nama: 'Letter sounds N–Z', ik: 'g-belon', main: 'Sound Balloons' },
+    { k: 'e-wd', nama: 'Words around me', ik: 'g-kawan', main: 'Picture Catch' },
+    { k: 'e-wc', nama: 'Colours & numbers', ik: 'g-warna', main: 'Colour Pop & Number Train' },
+    { k: 'e-cv', nama: 'Blend & read', ik: 'x-lokomotif', main: 'Build the Word' },
+    { k: 'e-hs', nama: 'Hello & sentences', ik: 'g-perasaan', main: 'Sentence Builder' },
+  ];
+  const LSESI_BI = [
+    { id: 'fa1', t: 0, nama: 'a b c d e', h: 'abcde' }, { id: 'fa2', t: 0, nama: 'f g h i j', h: 'fghij' }, { id: 'fa3', t: 0, nama: 'k l m & review', h: 'klmabdfh' },
+    { id: 'fn1', t: 1, nama: 'n o p q r', h: 'nopqr' }, { id: 'fn2', t: 1, nama: 's t u v w', h: 'stuvw' }, { id: 'fn3', t: 1, nama: 'x y z & review', h: 'xyzinpsu' },
+    { id: 'wd1', t: 2, nama: 'Animals', w: ['cat', 'dog', 'duck', 'fish', 'frog', 'elephant', 'tiger', 'bee'] }, { id: 'wd2', t: 2, nama: 'Food', w: ['apple', 'banana', 'orange', 'pineapple', 'watermelon', 'milk', 'bread', 'egg'] }, { id: 'wd3', t: 2, nama: 'Things', w: ['ball', 'bus', 'car', 'book', 'bag', 'cup', 'spoon', 'clock'] },
+    { id: 'wc1', t: 3, nama: 'Colours: red, blue, yellow, green', c: ['red', 'blue', 'yellow', 'green'] }, { id: 'wc2', t: 3, nama: 'More colours', c: ['orange', 'purple', 'pink', 'brown'] }, { id: 'wc3', t: 3, nama: 'Numbers 1 to 10' },
+    { id: 'cv1', t: 4, nama: 'cat, van, bag, jam', w: ['cat', 'van', 'bag', 'jam', 'cap'] }, { id: 'cv2', t: 4, nama: 'sun, bus, dog, box', w: ['sun', 'bus', 'cup', 'dog', 'fox', 'box', 'mop'] }, { id: 'cv3', t: 4, nama: 'bed, pen, net, bin', w: ['bed', 'pen', 'net', 'web', 'bin'] },
+    { id: 'hs1', t: 5, nama: 'Hello & thank you' }, { id: 'hs2', t: 5, nama: 'I see a cat', w: ['cat', 'dog', 'duck', 'fish', 'bus', 'ball'] }, { id: 'hs3', t: 5, nama: 'It is red', c: ['red', 'blue', 'yellow', 'green', 'orange', 'purple'] },
+  ].map(x => Object.assign(x, { bi: 1 }));
+  // perkataan → [gambar, emoji sandaran, maksud BM]
+  const EW = {
+    apple: ['bi-apple', '🍎', 'epal'], ball: ['bi-ball', '⚽', 'bola'], butterfly: ['bi-butterfly', '🦋', 'rama-rama'], car: ['bi-car', '🚗', 'kereta'], cat: ['bi-cat', '🐱', 'kucing'], duck: ['bi-duck', '🦆', 'itik'], house: ['bi-house', '🏠', 'rumah'], tree: ['bi-tree', '🌳', 'pokok'],
+    elephant: ['az-g', '🐘', 'gajah'], fish: ['az-i', '🐟', 'ikan'], kite: ['az-w', '🪁', 'wau / layang-layang'], lamp: ['kw-lampu', '💡', 'lampu'], milk: ['kw-susu', '🥛', 'susu'], orange: ['az-o', '🍊', 'oren'], pineapple: ['az-n', '🍍', 'nanas'], banana: ['az-p', '🍌', 'pisang'],
+    sun: ['az-m', '☀️', 'matahari'], tiger: ['az-h', '🐯', 'harimau'], van: ['az-v', '🚐', 'van'], yoyo: ['az-y', '🪀', 'yoyo'], bee: ['az-l', '🐝', 'lebah'], cup: ['az-c', '☕', 'cawan'], spoon: ['az-s', '🥄', 'sudu'], cap: ['az-t', '🧢', 'topi'], clock: ['az-j', '⏰', 'jam'],
+    bus: ['kw-bas', '🚌', 'bas'], bag: ['kw-beg', '🎒', 'beg'], book: ['kw-buku', '📖', 'buku'], bread: ['kw-roti', '🍞', 'roti'], rice: ['kw-nasi', '🍚', 'nasi'], frog: ['kw-katak', '🐸', 'katak'], mouse: ['kw-tikus', '🐭', 'tikus'],
+    dog: ['bn-dog', '🐶', 'anjing'], goat: ['bn-goat', '🐐', 'kambing'], igloo: ['bn-igloo', '🧊', 'iglu'], jam: ['bn-jam', '🍓', 'jem'], nest: ['bn-nest', '🪺', 'sarang'], bin: ['bn-bin', '🗑️', 'tong sampah'], quilt: ['bn-quilt', '🛏️', 'selimut tampal'],
+    umbrella: ['bn-umbrella', '☂️', 'payung'], watermelon: ['bn-watermelon', '🍉', 'tembikai'], zebra: ['bn-zebra', '🦓', 'kuda belang'], box: ['bn-box', '📦', 'kotak'], fox: ['bn-fox', '🦊', 'musang'], bed: ['bn-bed', '🛏️', 'katil'], pen: ['bn-pen', '🖊️', 'pen'],
+    net: ['bn-net', '🥅', 'jaring'], web: ['bn-web', '🕸️', 'sarang labah-labah'], mop: ['bn-mop', '🧹', 'mop'], egg: ['bn-egg', '🥚', 'telur'],
+  };
+  const FONIK = { a: 'apple', b: 'ball', c: 'cat', d: 'dog', e: 'elephant', f: 'fish', g: 'goat', h: 'house', i: 'igloo', j: 'jam', k: 'kite', l: 'lamp', m: 'mouse', n: 'nest', o: 'orange', p: 'pineapple', q: 'quilt', r: 'rice', s: 'sun', t: 'tiger', u: 'umbrella', v: 'van', w: 'watermelon', x: 'box', y: 'yoyo', z: 'zebra' };
+  const FTEKS = { a: '/a/', b: '/b/', c: '/k/', d: '/d/', e: '/e/', f: '/f/', g: '/g/', h: '/h/', i: '/i/', j: '/j/', k: '/k/', l: '/l/', m: '/m/', n: '/n/', o: '/o/', p: '/p/', q: '/kw/', r: '/r/', s: '/s/', t: '/t/', u: '/u/', v: '/v/', w: '/w/', x: '/ks/', y: '/y/', z: '/z/' };
+  const EWARNA = { red: ['#ff4d4d', '#b3001b', 'merah'], blue: ['#4da3ff', '#1747b3', 'biru'], yellow: ['#ffe066', '#d19b00', 'kuning'], green: ['#5fd068', '#19803a', 'hijau'], orange: ['#ffa94d', '#d9480f', 'oren'], purple: ['#b197fc', '#5f3dc4', 'ungu'], pink: ['#ff9ec7', '#d6336c', 'merah jambu'], brown: ['#c08552', '#6b3a12', 'coklat'] };
+  const ENUM = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+  const SALAM = [['hello', '👋', 'Hello!', 'Helo!'], ['goodbye', '🙋', 'Goodbye!', 'Selamat tinggal!'], ['goodmorning', '🌅', 'Good morning!', 'Selamat pagi!'], ['thankyou', '🙏', 'Thank you!', 'Terima kasih!'], ['please', '🤲', 'Please.', 'Tolong / sila.'], ['sorry', '🥺', 'Sorry.', 'Maaf.']];
+  const BIMAP = { 'u-betul': 'e-i-good', 'u-cubalagi': 'e-i-try', 'u-hebat': 'e-i-great', 'u-tahniah': 'e-i-welldone', 'u-bukan': 'e-i-no', 'u-cari': 'e-i-find', 'l-tonton': 'e-i-watch', 'l-cuba': 'e-i-yourturn', 'u-jommain': 'e-i-play', 'l-esok': 'e-i-tomorrow', 'l-rehat': 'e-i-rest', 'l-hai': 'e-i-hello', 'l-berkelip': 'e-i-blink' };
+  const eImg = (w, st) => { const e = EW[w]; return `<img src="aset/pra-az/${e[0]}.webp" alt="${w}" draggable="false" style="${st || ''}" onerror="this.outerHTML='<span class=&quot;la-emj&quot; style=&quot;font-size:56px&quot;>${e[1]}</span>'">`; };
+  const bolaW = (c, s) => { const w = EWARNA[c]; s = s || 80; return `<span class="la-bwarna" style="width:${s}px;height:${s}px;--a:${w[0]};--b:${w[1]}"></span>`; };
+  const huruf3d = c => `<div class="la-baris3">${h3d(c.toUpperCase(), 1)}${h3d(c, 1)}</div>`;
+  const babakFonik = c => { const w = FONIK[c]; return { html: `${huruf3d(c)}${ped(eImg(w))}`, keys: ['e-p-' + c], teks: `<span class="on">${c}</span> ${FTEKS[c]} ${w}` }; };
+  const babakKataBI = w => ({ html: ped(eImg(w)), keys: ['e-w-' + w], teks: `<span class="on">${w}</span> · ${EW[w][2]}` });
+  const babakBlend = w => ({ html: `<div class="la-baris3 la-blend">${w.split('').map((c, i) => `<span class="la-blok" style="background:${['#f97316', '#ec4899', '#3b82f6'][i % 3]};animation-delay:${i * .5}s">${c}</span>`).join('')}</div>${ped(eImg(w))}`, keys: ['e-b-' + w], teks: `${w.split('').join(' - ')} = <span class="on">${w}</span>` });
+  const pilih3 = (jaw, semua) => kocok([jaw, ...kocok(semua.filter(x => x !== jaw)).slice(0, 2)]);
+  const qGambar = (w, semua, kunci, sebut, sandaran, atas) => ({ kunci, jaw: w, ulang: [babakKataBI(w)], atas: atas || `<div class="la-soal">Listen and tap</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>`, ops: pilih3(w, semua).map(o => ({ v: o, t: eImg(o, 'width:76px;height:76px;object-fit:contain'), gaya: 'padding:8px 0' })), sebut, sandaran });
+  Object.assign(RUNNER, {
+    fa: {
+      ayatCuba: 'Listen and find the letter', ayatMain: 'Sound Balloons: pop the right letter',
+      tonton(done) { babak(SS.se.h.slice(0, SS.se.id.endsWith('3') ? 3 : 5).split('').map(babakFonik), done); },
+      cuba(done) {
+        const hs = SS.se.h.split(''), pilihH = kocok(hs).slice(0, 4), jenis = ['dengar', 'awal', 'dengar', 'awal'];
+        siriSoalan(pilihH.map((c, i) => { const w = FONIK[c], ops = pilih3(c, hs);
+          return jenis[i] === 'dengar'
+            ? { kunci: 'ef:' + c, jaw: c, ulang: [babakFonik(c)], atas: `<div class="la-soal">Find the letter</div><div class="la-baris" style="margin:4px 0 8px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>`, ops: ops.map(o => ({ v: o, t: o })), sebut: ['e-i-find', 'e-p-' + c], sandaran: 'Find the letter ' + c }
+            : { kunci: 'ef:' + c, jaw: c, ulang: [babakFonik(c)], atas: `<div class="la-gsoal">${eImg(w)}</div><div class="la-soal">What sound does it start with? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: ops.map(o => ({ v: o, t: o })), sebut: ['e-w-' + w, 'e-i-starts'], sandaran: w + '. What sound does it start with?' };
+        }), done);
+      },
+      main(done) {
+        const hs = SS.se.h.split(''), l = LS(), dulu = hs.filter(c => l.w['ef:' + c]), sas = [...dulu, ...kocok(hs.filter(c => !l.w['ef:' + c]))].slice(0, 5);
+        permainanTerbang({ sasaran: sas, jumlah: sas.length, label: 'Find', pilih: c => Math.random() < .45 ? c : hs[rnd(hs.length)], betul: (c, s) => c === s,
+          sebut: c => ['e-i-find', 'e-p-' + c], sandaran: 'Find the letter', sebutSalah: () => ['e-i-no'] }, done);
+      },
+    },
+    wd: {
+      ayatCuba: 'Listen and tap the picture', ayatMain: 'Picture Catch: tap the right picture',
+      tonton(done) { babak(SS.se.w.slice(0, 6).map(babakKataBI), done); },
+      cuba(done) { const ws = SS.se.w; siriSoalan(kocok(ws).slice(0, 4).map(w => qGambar(w, ws, 'ew:' + w, ['e-i-listen', 'e-w-' + w], 'Tap the ' + w)), done); },
+      main(done) {
+        const ws = SS.se.w, sas = kocok(ws).slice(0, 5);
+        permainanTerbang({ jatuh: true, sasaran: sas, jumlah: sas.length, label: 'Find', html: c => eImg(c, 'width:58px;height:58px;object-fit:contain;pointer-events:none'), lbl: s => s, pilih: s => Math.random() < .45 ? s : ws[rnd(ws.length)], betul: (c, s) => c === s,
+          sebut: s => ['e-i-find', 'e-w-' + s], sandaran: 'Find it', sebutSalah: () => ['e-i-no'] }, done);
+      },
+    },
+    wc: {
+      ayatCuba: 'Listen and tap', ayatMain: 'Let’s play!',
+      tonton(done) {
+        if (SS.se.id === 'wc3') return babak([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => [1, 2, 3, 5, 8, 10].includes(n)).map((n, i) => ({ html: `<div class="la-baris3">${n3d(n)}</div>${kump(n, BENDA[i % BENDA.length], { anim: 1 })}`, keys: Array.from({ length: n }, (_, k) => 'e-n-' + (k + 1)), teks: `<span class="on">${n} ${ENUM[n]}</span>` })), done);
+        babak(SS.se.c.map(c => ({ html: `<div class="la-bt-pentas">${bolaW(c, 130)}</div>`, keys: ['e-c-' + c], teks: `<span class="on">${c}</span> · ${EWARNA[c][2]}` })), done);
+      },
+      cuba(done) {
+        if (SS.se.id === 'wc3') return siriSoalan(kocok([2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 4).map(n => { const x = BENDA[rnd(BENDA.length)]; return { kunci: 'en:' + n, jaw: String(n), betul: ['e-i-good', 'e-n-' + n], atas: `<div class="la-gkira">${kump(n, x)}</div><div class="la-soal">How many? <button class="la-btn k" id="laul" aria-label="Dengar lagi" style="padding:8px 14px;font-size:18px;min-height:44px">🔊</button></div>`, ops: jumlahPil(n, 10, 3, 1).map(v => ({ v: String(v), t: v })), sebut: ['e-i-count'], sandaran: 'How many?' }; }), done);
+        const cs = SS.se.c; siriSoalan([...kocok(cs), ...kocok(cs)].slice(0, 4).map(c => ({ kunci: 'ec:' + c, jaw: c, atas: `<div class="la-soal">Find the colour</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>`, ops: pilih3(c, cs).map(o => ({ v: o, t: bolaW(o, 64), gaya: 'min-height:100px;display:grid;place-items:center' })), sebut: ['e-i-colour', 'e-c-' + c], sandaran: 'Find ' + c })), done);
+      },
+      main(done) {
+        if (SS.se.id === 'wc3') { const ns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; return susunTekan([{ kereta: 1, soal: 'Count from one to ten', sebut: ['e-i-order'], sandaran: 'Put the numbers in order', items: ns.map(n => `<b class="la-nkad">${n}</b>`), sebutItem: i => ['e-n-' + ns[i]] }], done); }
+        const cs = SS.se.c, sas = [...kocok(cs), cs[rnd(cs.length)]];
+        permainanTerbang({ sasaran: sas, jumlah: sas.length, label: 'Find', html: c => bolaW(c, 64), lbl: s => s, pilih: s => Math.random() < .45 ? s : cs[rnd(cs.length)], betul: (c, s) => c === s,
+          sebut: s => ['e-i-colour', 'e-c-' + s], sandaran: 'Find the colour', sebutSalah: () => ['e-i-no'] }, done);
+      },
+    },
+    cv: {
+      ayatCuba: 'Listen and tap the picture', ayatMain: 'Build the Word: tap the letters in order',
+      tonton(done) { babak(SS.se.w.slice(0, 4).map(babakBlend), done); },
+      cuba(done) { const ws = SS.se.w; siriSoalan(kocok(ws).slice(0, 4).map(w => Object.assign(qGambar(w, ws, 'eb:' + w, ['e-b-' + w], w), { ulang: [babakBlend(w)], atas: `<div class="la-soal">Listen: ${w.split('').join(' - ')}</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>` })), done); },
+      main(done) {
+        susunTekan(kocok(SS.se.w).slice(0, 3).map(w => ({ soal: `${eImg(w, 'width:64px;height:64px;object-fit:contain;vertical-align:middle')} Build the word`, sebut: ['e-i-build', 'e-w-' + w], sandaran: 'Build the word ' + w, items: w.split('').map(c => `<b class="la-nkad" style="background:linear-gradient(160deg,#8b5cf6,#5b21b6)">${c}</b>`) })), done);
+      },
+    },
+    hs: {
+      ayatCuba: 'Listen and tap', ayatMain: 'Let’s play!',
+      tonton(done) {
+        const id = SS.se.id;
+        if (id === 'hs1') return babak(SALAM.map(g => ({ html: `<div class="la-bt-pentas"><span class="la-akt" style="width:130px;height:130px;font-size:80px">${g[1]}</span></div>`, keys: ['e-g-' + g[0]], teks: `<span class="on">${g[2]}</span> · ${g[3]}` })), done);
+        if (id === 'hs2') return babak(SS.se.w.slice(0, 4).map(w => ({ html: ped(eImg(w)), keys: ['e-s-' + w], teks: `I see a <span class="on">${w}</span>.` })), done);
+        babak(SS.se.c.slice(0, 4).map(c => ({ html: `<div class="la-bt-pentas">${bolaW(c, 130)}</div>`, keys: ['e-s-' + c], teks: `It is <span class="on">${c}</span>.` })), done);
+      },
+      cuba(done) {
+        const id = SS.se.id;
+        if (id === 'hs1') return siriSoalan(kocok(SALAM).slice(0, 4).map(g => ({ kunci: 'eg:' + g[0], jaw: g[0], atas: `<div class="la-soal">Listen and tap</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>`, ops: pilih3(g[0], SALAM.map(x => x[0])).map(o => ({ v: o, t: `<span class="la-akt" style="width:72px;height:72px;font-size:42px">${SALAM.find(x => x[0] === o)[1]}</span>`, gaya: 'padding:6px 0' })), sebut: ['e-g-' + g[0]], sandaran: g[2] })), done);
+        if (id === 'hs2') { const ws = SS.se.w; return siriSoalan(kocok(ws).slice(0, 4).map(w => qGambar(w, ws, 'es:' + w, ['e-s-' + w], 'I see a ' + w)), done); }
+        const cs = SS.se.c; siriSoalan(kocok(cs).slice(0, 4).map(c => ({ kunci: 'es:' + c, jaw: c, atas: `<div class="la-soal">Listen and tap</div><div class="la-baris" style="margin:2px 0 6px"><button class="la-btn k" id="laul" aria-label="Dengar lagi">🔊 Dengar lagi</button></div>`, ops: pilih3(c, cs).map(o => ({ v: o, t: bolaW(o, 64), gaya: 'min-height:100px;display:grid;place-items:center' })), sebut: ['e-s-' + c], sandaran: 'It is ' + c })), done);
+      },
+      main(done) {
+        const id = SS.se.id;
+        if (id === 'hs1') { const g = kocok(SALAM).slice(0, 4); return padanKadE(g.map(x => [x[0], `<span style="font-size:44px">${x[1]}</span>`]), x => ['e-g-' + x], done); }
+        if (id === 'hs2') return susunTekan(kocok(SS.se.w).slice(0, 3).map(w => ({ soal: `${eImg(w, 'width:56px;height:56px;object-fit:contain;vertical-align:middle')} Put the words in order`, sebut: ['e-s-' + w], sandaran: 'I see a ' + w, items: ['I', 'see', 'a', w].map(t => `<b class="la-ekata">${t}</b>`) })), done);
+        susunTekan(kocok(SS.se.c).slice(0, 3).map(c => ({ soal: `${bolaW(c, 44)} Put the words in order`, sebut: ['e-s-' + c], sandaran: 'It is ' + c, items: ['It', 'is', c].map(t => `<b class="la-ekata">${t}</b>`) })), done);
+      },
+    },
+  });
+  RUNNER.fn = RUNNER.fa;
+  // Padan Kad dengan kandungan HTML + audio sendiri (untuk salam)
+  function padanKadE(pasang, sebutK, done) {
+    fasa(2, 0); const kad = kocok([...pasang, ...pasang].map(p => p[0])), html = Object.fromEntries(pasang); let buka = [], siap = 0, kunci = false;
+    LI().innerHTML = `<div class="la-soal" style="font-size:19px">Find the pairs</div><div class="la-kad-grid">${kad.map((b, i) => `<button class="la-kadp" data-i="${i}" data-k="${b}" aria-label="Kad ${i + 1}"><span class="dpn">${html[b]}</span><span class="blk">?</span></button>`).join('')}</div>`;
+    dengar(['e-i-match'], null, 'Find the pairs.');
+    LI().querySelectorAll('.la-kadp').forEach(b => b.onclick = () => {
+      if (kunci || b.classList.contains('buka')) return;
+      b.classList.add('buka'); buka.push(b); try { SND.play('klik'); } catch (e) {} dengar(sebutK(kad[+b.dataset.i]));
+      if (buka.length < 2) return;
+      const [p, q] = buka; buka = [];
+      if (kad[+p.dataset.i] === kad[+q.dataset.i]) { siap++; p.classList.add('ok'); q.classList.add('ok'); try { SND.play('betul'); } catch (e) {} SS.n++; SS.betul++; fasa(2, siap / pasang.length * 100); if (siap >= pasang.length) lepasT(done, 1400); }
+      else { kunci = true; setTimeout(() => { p.classList.remove('buka'); q.classList.remove('buka'); kunci = false; }, 1000); }
+    });
+  }
+  // Kad fonik A–Z untuk ibu bapa
+  function kadFonik() {
+    const m = document.createElement('div'); m.className = 'la-modal';
+    m.innerHTML = `<div><div style="display:flex;align-items:center;margin-bottom:8px"><b style="flex:1;font-size:18px">🔤 Phonics cards A–Z</b><button class="la-x" id="lamx" aria-label="Tutup">✖</button></div>
+      <div class="la-kecil" style="margin-bottom:8px">Tekan kad untuk dengar bunyi fonik dan perkataan.</div>
+      <div class="la-kgrid">${Object.keys(FONIK).map(c => `<button data-c="${c}">${eImg(FONIK[c], 'width:52px;height:52px;object-fit:contain;display:block;margin:0 auto')}${c.toUpperCase()}${c}<small>${FONIK[c]}</small></button>`).join('')}</div></div>`;
+    document.body.appendChild(m);
+    const tutup = () => { laSenyap(); m.remove(); };
+    m.querySelector('#lamx').onclick = tutup; m.onclick = e => { if (e.target === m) tutup(); };
+    m.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { bukaAudio(); dengar(['e-p-' + b.dataset.c], null, b.dataset.c); });
+  }
   function tamatSesi() {
     henti6(); if (!SS) return;
     const se = SS.se, min = Math.max(1, Math.round((Date.now() - SS.mula) / 60000)), bin = SS.silap <= 2 ? 3 : SS.silap <= 5 ? 2 : 1;
@@ -24384,15 +24538,15 @@ const PRA = (() => {
     app.innerHTML = `<div class="pr la"><div class="la-tamat"><img class="maskot" src="aset/maskot-kanan.webp" alt=""><h2>Hebat!</h2>
       <div>${bintangTeks(bin)}</div>
       <div class="la-pel">${pelekatImg(se)}<span>${ulang ? 'Ulang kaji siap:' : 'Pelekat baharu:'}<br><b>${se.nama}</b></span></div>
-      ${ulang ? '' : lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : lain ? `<div class="la-bulan">🌙 ${SJ === 'mt' ? 'Matematik' : 'Bahasa Melayu'}: esok kita sambung!</div><div class="la-baris"><button class="la-btn h" id="lasjl2">▶ Jom main ${SJ === 'mt' ? 'Bahasa Melayu' : 'Matematik'}</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
+      ${ulang ? '' : lagi ? `<div class="la-baris"><button class="la-btn h" id="lalg">▶ Sesi seterusnya</button></div>` : lain ? `<div class="la-bulan">🌙 ${SUBJ[SJ].nama}: esok kita sambung!</div><div class="la-baris"><button class="la-btn h" id="lasjl2">▶ Jom main ${SUBJ[lain].nama}</button></div>` : `<div class="la-bulan">🌙 Esok kita sambung!<br><span>Sekarang rehat, main di luar ya.</span></div>`}
       <div class="la-baris"><button class="la-btn l" id="lakp">Kembali ke jalan</button></div></div></div>`;
     try { konfeti(app.querySelector('.la-tamat')); } catch (e) {}
     dengar(lagi || ulang ? ['u-tahniah'] : lain ? ['u-tahniah', 'l-esok'] : ['u-tahniah', 'l-esok', 'l-rehat'], null, lagi || ulang ? 'Tahniah!' : 'Tahniah! Esok kita sambung ya.');
-    if ($('#lasjl2')) $('#lasjl2').onclick = () => { bukaAudio(); sjGuna(SJ === 'mt' ? 'bm' : 'mt'); location.hash = '#sedia'; };
+    if ($('#lasjl2')) $('#lasjl2').onclick = () => { bukaAudio(); sjGuna(lain); location.hash = '#sedia'; };
     $('#lakp').onclick = () => { location.hash = '#sedia'; };
     if ($('#lalg')) $('#lalg').onclick = () => { bukaAudio(); mulaSesi(); };
   }
-  const pelekatImg = se => se.h ? azGbr(AZM(se.h[0]), '').replace('class=""', 'style="width:56px;height:56px"') : ikP((se.mt ? LTOPIK_MT : LTOPIK_BM)[se.t].ik, '⭐').replace('class="pr-i3"', 'class="pr-i3" style="width:56px;height:56px;margin:0"');
+  const pelekatImg = se => se.bi ? (se.h ? eImg(FONIK[se.h[0]], 'width:56px;height:56px;object-fit:contain') : se.w ? eImg(se.w[0], 'width:56px;height:56px;object-fit:contain') : ikP(LTOPIK_BI[se.t].ik, '⭐').replace('class="pr-i3"', 'class="pr-i3" style="width:56px;height:56px;margin:0"')) : se.h ? azGbr(AZM(se.h[0]), '').replace('class=""', 'style="width:56px;height:56px"') : ikP((se.mt ? LTOPIK_MT : se.bi ? LTOPIK_BI : LTOPIK_BM)[se.t].ik, '⭐').replace('class="pr-i3"', 'class="pr-i3" style="width:56px;height:56px;margin:0"');
   // ---------- UNTUK IBU BAPA (#sedia/ibubapa, dipagar "tekan & tahan") ----------
   let ibuBuka = 0;
   function ibuBapa() {
@@ -24411,20 +24565,20 @@ const PRA = (() => {
     const lemah = Object.entries(l.w).filter(([k]) => !k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6);
     const lemahK = Object.entries(l.w).filter(([k]) => k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k]) => k.startsWith('ay:') ? (AYAT[+k.slice(3)] || [''])[0] : k.slice(3));
     app.innerHTML = `<div class="pr la"><div class="la-ss-atas"><button class="la-x" onclick="location.hash='#sedia'">⬅️</button><b style="font-size:20px">Untuk ibu bapa · Sedia ke Tahun 1</b></div>${sjTab()}
-      <div class="la-kotak"><div class="la-angka"><div><b>${l.n}/${LSESI.length}</b><span>sesi ${SJ === 'mt' ? 'Matematik' : 'BM'} siap</span></div><div><b>${mg}</b><span>minit (7 hari lepas)</span></div><div><b>${ST.get().p.length}</b><span>pelekat</span></div></div></div>
-      <div class="la-kotak"><h3>Tetapan · ${SJ === 'mt' ? 'Matematik' : 'Bahasa Melayu'}</h3><div class="la-tet"><span>Sesi sehari (setiap subjek)</span><div class="la-seg" id="lahad">${[1, 2].map(n => `<button data-n="${n}" class="${l.had === n ? 'on' : ''}">${n}</button>`).join('')}</div></div>
+      <div class="la-kotak"><div class="la-angka"><div><b>${l.n}/${LSESI.length}</b><span>sesi ${SUBJ[SJ].tab} siap</span></div><div><b>${mg}</b><span>minit (7 hari lepas)</span></div><div><b>${ST.get().p.length}</b><span>pelekat</span></div></div></div>
+      <div class="la-kotak"><h3>Tetapan · ${SUBJ[SJ].nama}</h3><div class="la-tet"><span>Sesi sehari (setiap subjek)</span><div class="la-seg" id="lahad">${[1, 2].map(n => `<button data-n="${n}" class="${l.had === n ? 'on' : ''}">${n}</button>`).join('')}</div></div>
         <div class="la-kecil">1 sesi ≈ 7–10 minit. Panduan umur 5–6 tahun: masa skrin kurang 1 jam sehari, termasuk TV. Duduk bersama anak dan <b>hidupkan bunyi</b>.</div></div>
       <div class="la-kotak"><h3>Perlu latihan</h3>${lemah.length || lemahK.length ? `<div class="la-lemah">${lemah.map(([c]) => `<span>${esc(c)}</span>`).join('')}${lemahK.map(w => `<span style="font-size:16px">${esc(w)}</span>`).join('')}</div><div class="la-kecil" style="margin-top:6px">Yang anak salah semasa Cuba atau Main. Ia keluar dahulu dalam permainan.</div>` : '<div class="la-kecil">Belum ada. Muncul selepas anak salah semasa Cuba.</div>'}</div>
       <div class="la-kotak"><h3>Sesi</h3>${LTOPIK.map((T, ti) => `<div style="font-family:var(--fd);font-weight:600;margin:8px 0 2px">${ti + 1}. ${T.nama}</div>` + LSESI.map((se, i) => [se, i]).filter(([se]) => se.t === ti).map(([se, i]) => `<div class="la-ssr"><span>${i < l.n ? '★' : i === l.n ? '▶' : '·'} ${se.nama}</span>${i === l.n ? '<span class="la-tag">sekarang</span>' : `<button data-lompat="${i}">${i < l.n ? 'Ulang' : 'Mula di sini'}</button>`}</div>`).join('')).join('')}
-        ${AKAN.length ? `<div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>` : SJ === 'mt' ? `<div class="la-kecil" style="margin-top:8px">Matematik awal paling mudah difahami dengan benda sebenar. Kira sudu, kasut atau buah bersama anak, dan biar anak pegang duit syiling semasa membeli.</div>` : `<div class="la-kecil" style="margin-top:8px">Menulis di skrin bantu anak kenal bentuk dan arah huruf, tetapi tidak menggantikan latihan pegang pensel. Biar anak tulis juga di atas kertas.</div>`}
-        <div class="la-baris" style="justify-content:flex-start"><button class="la-btn l" id="lakad">${SJ === 'mt' ? '🔢 Kad nombor 0–10' : '🖼️ Kad rujukan A–Z'}</button></div></div>
+        ${AKAN.length ? `<div class="la-kecil" style="margin-top:8px">Topik akan datang: ${AKAN.join(', ')}.</div>` : SJ === 'bi' ? `<div class="la-kecil" style="margin-top:8px">Bunyi fonik dalam English awal ialah bunyi huruf (contoh /a/ untuk apple), bukan nama huruf. Sebut perkataan bersama anak dan tunjuk benda sebenar di rumah.</div>` : SJ === 'mt' ? `<div class="la-kecil" style="margin-top:8px">Matematik awal paling mudah difahami dengan benda sebenar. Kira sudu, kasut atau buah bersama anak, dan biar anak pegang duit syiling semasa membeli.</div>` : `<div class="la-kecil" style="margin-top:8px">Menulis di skrin bantu anak kenal bentuk dan arah huruf, tetapi tidak menggantikan latihan pegang pensel. Biar anak tulis juga di atas kertas.</div>`}
+        <div class="la-baris" style="justify-content:flex-start"><button class="la-btn l" id="lakad">${SJ === 'mt' ? '🔢 Kad nombor 0–10' : SJ === 'bi' ? '🔤 Phonics cards A–Z' : '🖼️ Kad rujukan A–Z'}</button></div></div>
       <div class="la-kotak"><h3>${ikP('zon-huruf', '🎠', 1)} Taman Permainan</h3><div class="la-kecil">50 permainan lama di 5 pulau. Anak boleh buka dari bawah jalan bila-bila masa.</div></div>
       <div class="la-kotak la-kecil">Kemajuan disimpan dalam peranti ini${(() => { try { const P = PLAYER.get(); return P && P.akaun ? ' dan akaun' : ''; } catch (e) { return ''; } })()}.</div></div>`;
     app.querySelectorAll('#lahad button').forEach(b => b.onclick = () => { LSimpan(x => { x.had = +b.dataset.n; }); ibuBapa(); laToast(`Sesi sehari: ${b.dataset.n}`); });
     app.querySelectorAll('[data-lompat]').forEach(b => b.onclick = () => { const i = +b.dataset.lompat;
       if (i < LS().n) { ULANG = i; bukaAudio(); location.hash = '#sedia/sesi'; return; } // Ulang = main semula sahaja, kemajuan anak kekal
       LSimpan(x => { x.n = i; x.h.k = 0; }); laToast(`Jalan anak kini bermula di "${LSESI[i].nama}".`); ibuBapa(); });
-    $('#lakad').onclick = SJ === 'mt' ? kadNombor : kadAZ;
+    $('#lakad').onclick = SJ === 'mt' ? kadNombor : SJ === 'bi' ? kadFonik : kadAZ;
     ikatSj(ibuBapa);
   }
   function kadAZ() {
@@ -24439,7 +24593,7 @@ const PRA = (() => {
   }
   function albumLaluan() {
     const s = ST.get();
-    return [['Bahasa Melayu', LSESI_BM], ['Matematik', LSESI_MT]].map(([nm, L]) => `<h3 style="margin:6px 0 8px">Pelekat jalan belajar · ${nm}</h3><div class="la-albl">${L.map(se => s.p.includes('l-' + se.id) ? `<div>${pelekatImg(se)}<small>${se.nama}</small></div>` : `<div class="tiada">?</div>`).join('')}</div>`).join('') + `<h3 style="margin:6px 0 8px">Pelekat Taman Permainan</h3>`;
+    return [['Bahasa Melayu', LSESI_BM], ['Matematik', LSESI_MT], ['English', LSESI_BI]].map(([nm, L]) => `<h3 style="margin:6px 0 8px">Pelekat jalan belajar · ${nm}</h3><div class="la-albl">${L.map(se => s.p.includes('l-' + se.id) ? `<div>${pelekatImg(se)}<small>${se.nama}</small></div>` : `<div class="tiada">?</div>`).join('')}</div>`).join('') + `<h3 style="margin:6px 0 8px">Pelekat Taman Permainan</h3>`;
   }
 
   function hab() { laluanPeta(); }

@@ -21870,6 +21870,54 @@ const PRA = (() => {
     set(v) { try { localStorage.setItem('sb.pra', JSON.stringify(v)); } catch (e) {} },
   };
 
+  // ==TS-MULA== suara Taman Permainan: ayat -> senarai klip mp3 Nika (aset/pra-suara). Tiada padanan = null (guna suara peranti).
+  function buatTS(SEBUT, sn) {
+    const HUR = {}; Object.keys(SEBUT).forEach(k => { HUR[SEBUT[k]] = k; });
+    const NOMS = {}; for (let n = 0; n <= 20; n++) NOMS[sn(n)] = n;
+    const HW = Object.values(SEBUT).sort((a, b) => b.length - a.length).join('|');
+    const NW = Object.keys(NOMS).sort((a, b) => b.length - a.length).join('|');
+    const slug = s => s.toLowerCase().replace(/&/g, ' dan ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    // nama fail klip ayat penuh: ikut teks + tanda baca hujung (intonasi soalan / seruan berbeza)
+    const kAyat = a => { const h = a.trim().slice(-1); return 't-' + slug(a) + (h === '?' ? '_q' : h === '!' ? '_x' : h === '…' ? '_e' : ''); };
+    const kKata = w => 'tw-' + slug(w);
+    const kNom = n => 'm-' + n;
+    const kHur = s => 'h-' + HUR[s];
+    // bingkai: {N} nombor, {L} nama huruf, {W} perkataan (klip tw-). Kepingan teks di antara = klip t- sendiri.
+    const BINGKAI = [
+      '{N}', '{N}.', 'Nombor {N}.', 'Tangkap rama-rama nombor {N}.', 'Mula dengan {N}.', '{N} ekor ikan.', 'Cari kumpulan yang ada {N}.',
+      'Tinggal {N}.', '{N} tambah {N}, jadi {N}.',
+      '{L}', '{L}.', 'Huruf {L}.', 'Mula dengan {L}.', 'Cari kawannya, huruf besar {L}.', 'Cari kawannya, huruf kecil {L}.',
+      'Ini huruf besar {L}.', 'Ini huruf kecil {L}.', 'Pecahkan belon huruf {L}', 'Pecahkan belon huruf {L}.', 'Sentuh telur huruf {L}.',
+      'Cari tiga huruf {L} yang tersembunyi.', 'Ikut garisan huruf {L} dengan jari kamu.',
+      '{L}, {W}.', '{W} bermula dengan huruf apa?',
+    ].map(b => {
+      const bah = b.split(/(\{[NLW]\})/).filter(x => x !== '');
+      const re = new RegExp('^' + bah.map(x => x === '{N}' ? '(' + NW + ')' : x === '{L}' ? '(' + HW + ')' : x === '{W}' ? '([a-z][a-z -]*[a-z])' : x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('') + '$');
+      return { re, bah };
+    });
+    function satu(a) {
+      for (const B of BINGKAI) {
+        const m = a.match(B.re); if (!m) continue;
+        const out = []; let g = 1;
+        for (const x of B.bah) {
+          if (x === '{N}') out.push(kNom(NOMS[m[g++]]));
+          else if (x === '{L}') out.push(kHur(m[g++]));
+          else if (x === '{W}') out.push(kKata(m[g++]));
+          else { const t = x.replace(/^[\s,.!?]+|\s+$/g, ''); if (/[a-z]/i.test(t)) out.push(kAyat(t)); }
+        }
+        return out;
+      }
+      return [kAyat(a)];
+    }
+    const ayat = t => (String(t).replace(/\s+/g, ' ').match(/[^.!?…]+[.!?…]*/g) || []).map(x => x.trim()).filter(x => /[a-z0-9]/i.test(x));
+    return {
+      kunci(t) { const a = ayat(t); if (!a.length) return null; const out = []; a.forEach(x => out.push(...satu(x))); return out; },
+      // untuk ujian / penjanaan: setiap klip -> teks yang perlu dirakam
+      teks(t) { const r = []; ayat(t).forEach(a => { for (const B of BINGKAI) { const m = a.match(B.re); if (!m) continue; let g = 1; for (const x of B.bah) { if (x === '{N}' || x === '{L}') g++; else if (x === '{W}') { const w = m[g++]; r.push([kKata(w), w]); } else { const s = x.replace(/^[\s,.!?]+|\s+$/g, ''); if (/[a-z]/i.test(s)) r.push([kAyat(s), s]); } } return; } r.push([kAyat(a), a]); }); return r; },
+    };
+  }
+  // ==TS-AKHIR==
+  const TS = buatTS(SEBUT_HURUF, sn);
   // ---------- suara (pelayar) ----------
   const SUARA = {
     ok: typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined',
@@ -21884,10 +21932,34 @@ const PRA = (() => {
       return this.v;
     },
     ada() { return this.ok && !!(this.v || this.pilih()); },
-    henti() { try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} },
+    henti() { try { if (this.ok) speechSynthesis.cancel(); } catch (e) {} if (this.m) { this.m = false; try { if (PA) PA.pause(); } catch (e) {} } },
     // masih bercakap? (dipakai supaya pusingan seterusnya tidak memotong pujian)
-    sibuk() { try { return !!(this.ok && this.on && (speechSynthesis.speaking || speechSynthesis.pending)); } catch (e) { return false; } },
+    sibuk() { if (this.m && this.on) return true; try { return !!(this.ok && this.on && (speechSynthesis.speaking || speechSynthesis.pending)); } catch (e) { return false; } },
+    // klip Nika (mp3) dahulu; suara peranti hanya sandaran jika ayat tiada rakaman / fail gagal dimuat
+    m: false,
     cakap(t) {
+      if (!this.on || !t) return;
+      const k = TS.kunci(t);
+      if (k) { this.mp3(k, t); return; }
+      this.tts(t);
+    },
+    mp3(keys, t) {
+      const tok = ++paTok; this.m = true;
+      try { if (this.ok) speechSynthesis.cancel(); } catch (e) {}
+      try { if (!PA) PA = new Audio(); } catch (e) { this.m = false; this.tts(t); return; }
+      let i = 0;
+      const gagal = () => { if (tok !== paTok) return; this.m = false; this.tts(t); };
+      const seterus = () => {
+        if (tok !== paTok) return;
+        if (i >= keys.length) { this.m = false; return; }
+        PA.onended = () => setTimeout(seterus, 70);
+        PA.onerror = gagal;
+        PA.src = 'aset/pra-suara/' + keys[i++] + '.mp3';
+        try { const p = PA.play(); if (p && p.catch) p.catch(gagal); } catch (e) { gagal(); }
+      };
+      seterus();
+    },
+    tts(t) {
       if (!this.ok || !this.on || !t) return;
       try {
         if (!this.v) this.pilih();
@@ -22215,9 +22287,9 @@ const PRA = (() => {
       SND.play('betul'); try { maskot('gembira'); } catch (e) {}
       SUARA.cakap(kata || pick(PUJI));
       const d = $('#prjejak'); if (d && d.children[G.i]) { d.children[G.i].className = 'ok'; }
-      // tunggu sekurang-kurangnya 1.5 s, kemudian tunggu suara pujian habis (had 8 s jika pelayar tersangkut)
+      // tunggu sekurang-kurangnya 1.5 s, kemudian tunggu suara pujian habis (had 12 s jika pelayar tersangkut)
       const mula = Date.now();
-      const maju = () => { if (SUARA.sibuk() && Date.now() - mula < 8000) return later(maju, 150); G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); };
+      const maju = () => { if (SUARA.sibuk() && Date.now() - mula < 12000) return later(maju, 150); G.i++; G.kunci = false; G.i >= G.n ? tamat() : pusingan(); };
       later(maju, 1500);
     },
     salah(el) {
@@ -22230,7 +22302,7 @@ const PRA = (() => {
     get kunci() { return G && G.kunci; },
     later,
   };
-  function denyut() { const b = $('#prdengar'); if (!b || !SUARA.on || !SUARA.ok) return; b.classList.add('cakap'); later(() => b.classList.remove('cakap'), 2200); }
+  function denyut() { const b = $('#prdengar'); if (!b || !SUARA.on) return; b.classList.add('cakap'); later(() => b.classList.remove('cakap'), 2200); }
 
   // pilihan biasa (butang besar)
   function pilihan(opsyen, betulIdx, onBetul, cls) {
@@ -22350,7 +22422,7 @@ const PRA = (() => {
     { id: 'telur', ic: '🥚', nama: 'Telur Dinosaur', d: 'Dengar dan pilih huruf', pelekat: '🦕',
       main(R) {
         const s = pick(ABC).toLowerCase(); const besar = Math.random() < .5; const ops = kocok([s, ...silap(s, 2)]).map(c => besar ? c.toUpperCase() : c); const T = besar ? s.toUpperCase() : s;
-        const suara = SUARA.on && SUARA.ada();
+        const suara = SUARA.on;
         api.soal(suara ? '🔊 Dengar, kemudian sentuh telur huruf itu' : `Sentuh telur huruf <span class="h">${T}</span>`, `Sentuh telur huruf ${sh(s)}.`);
         api.pentas().innerHTML = `<div class="pr-sarang">${ops.map(c => `<button class="pr-telur" data-c="${c}">${c}</button>`).join('')}</div><div class="pr-kira">🪺 Ada anak dinosaur dalam telur yang betul!</div>`;
         api.pentas().querySelectorAll('.pr-telur').forEach((b, i) => { b.style.animationDelay = -i * .5 + 's'; b.onclick = () => {
@@ -22955,7 +23027,7 @@ const PRA = (() => {
           jenis === 'tinggi' ? 'Dengar bunyi ini. Tinggi atau rendah?' : 'Dengar bunyi ini. Kuat atau perlahan?');
         api.pentas().innerHTML = `<button class="pr-btn utama" id="prmain" style="font-size:22px">🔊 Main bunyi</button>
           ${SND.on ? '' : '<p class="pr-nota-kecil">Bunyi dimatikan. Hidupkan butang bunyi di atas.</p>'}${pilihanLbl(A, 'besar')}`;
-        $('#prmain').onclick = main; { const t0 = Date.now(); const tunggu = () => (SUARA.sibuk() && Date.now() - t0 < 7000) ? later(tunggu, 150) : main(); later(tunggu, 600); }
+        $('#prmain').onclick = main; { const t0 = Date.now(); const tunggu = () => (SUARA.sibuk() && Date.now() - t0 < 10000) ? later(tunggu, 150) : main(); later(tunggu, 600); }
         ikatPilihan(ya ? 0 : 1, `Betul! Bunyi itu ${A[ya ? 0 : 1][1].toLowerCase()}.`);
       } },
     { id: 'warnabenda', ic: '🍆', nama: 'Warna Benda', d: 'Benda ini warna apa?', pelekat: '🦚',
@@ -23072,11 +23144,8 @@ const PRA = (() => {
       <div class="pr-zon" style="grid-template-columns:1fr"><button class="pr-zk" data-z="pelekat" style="background:linear-gradient(135deg,#ffb800,#ff7f2a);display:flex;align-items:center;gap:14px"><span class="ic" style="font-size:44px">${ikP('x-pelekat', '📒')}</span><span><b style="margin:0">Buku Pelekat</b><span>${s.p.length} / ${semuaGame().length + LSESI.length} pelekat dikumpul</span></span></button></div>
       ${premPra() ? `<div class="pr-nota" style="border-style:solid;border-color:#ffd54f;background:#fffbea">👑 <b>Semua 50 permainan terbuka</b> — BONUS daripada pakej Premium anda.</div>` : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">14 permainan PERCUMA · 36 lagi sebagai BONUS</b>Semua 50 permainan dibuka <b>tanpa caj tambahan</b> dalam <b>Pakej Darjah 1</b>. Ketik untuk lihat pakej (ibu bapa).</span></a>`}
       <div class="pr-nota">👨‍👩‍👧 <b>Untuk ibu bapa:</b> Duduk bersama anak 10–15 minit sehari. Arahan dibacakan oleh suara telefon, jadi <b>hidupkan bunyi</b>. Jika tiada suara, bacakan arahan untuk anak. Kemajuan disimpan dalam peranti ini.</div>
-      <div class="pr-nota" id="prsuarainfo" style="display:none"></div>
       <div style="text-align:center;margin-top:14px">${suaraBtn()}</div>
     </div>`;
-    const info = () => { const el = $('#prsuarainfo'); if (!el) return; if (!SUARA.ok || ((speechSynthesis.getVoices() || []).length && !SUARA.pilih())) { el.style.display = ''; el.innerHTML = '🔈 <b>Telefon ini belum ada suara Bahasa Melayu.</b> Anak masih boleh bermain, tetapi ibu bapa perlu bacakan arahan. Di Android: Tetapan → Sistem → Bahasa → Output teks-ke-pertuturan → pasang bahasa Melayu atau Indonesia.'; } };
-    setTimeout(info, 900);
     app.querySelectorAll('[data-z]').forEach(b => b.onclick = () => { location.hash = '#sedia/' + b.dataset.z; });
     ikatSuara();
   }
@@ -23084,7 +23153,7 @@ const PRA = (() => {
     const Z = ZON[z]; const s = ST.get();
     app.innerHTML = `<div class="pr"><div class="pr-top"><button class="pr-btn" onclick="location.hash='#sedia/taman'">⬅️</button><h2>${ikP('zon-' + z, Z.ic, 1)} ${Z.nama}</h2>${suaraBtn()}</div>
       <div class="pr-grid">${Z.games.map(g => `<button class="pr-gk${terbuka(g) ? '' : ' kunci'}" data-g="${g.id}">${terbuka(g) ? (premPra() ? '' : '<span class="pc">PERCUMA</span>') : `<span class="kc">${ikP('x-kunci', '🔒', 1)}</span>`}<span class="ic">${ikP('g-' + g.id, g.ic)}</span><b>${g.nama}</b><small>${g.d}</small><span class="bt">${bintangTeks(s.g[g.id] || 0)}</span></button>`).join('')}</div>${premPra() ? '' : `<a class="pr-bonus" href="#premium/sedia"><span class="ic">${ikP('pm-bonus', '🎁')}</span><span><b class="t">Buka semua 50 permainan</b>BONUS percuma dalam <b>Pakej Darjah 1</b> · untuk ibu bapa</span></a>`}</div>`;
-    app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
+    app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { SND.ctx(); bukaAudio(); if (SUARA.ok) SUARA.pilih(); location.hash = `#sedia/${z}/${b.dataset.g}`; });
     ikatSuara();
   }
   function pintu(z, g) {
@@ -23117,7 +23186,7 @@ const PRA = (() => {
       <div class="pr-soal"><div class="m">${maskotHTML('kecil')}</div><div class="pr-teks" id="prteks"></div><button class="pr-dengar" id="prdengar" aria-label="Dengar semula"><img src="aset/p3-pm-suara.webp" width="160" height="160" alt=""></button></div>
       <div class="pr-pentas" id="prpentas"></div></div></div>`;
     $('#prkeluar').onclick = () => { location.hash = '#sedia/' + z; };
-    $('#prdengar').onclick = () => { if (!SUARA.on) { SUARA.set(true); } api.ulangCakap(); if (!SUARA.ok) toast('Telefon ini tiada suara pembaca. Ibu bapa, bacakan arahan ya 😊'); };
+    $('#prdengar').onclick = () => { if (!SUARA.on) { SUARA.set(true); } api.ulangCakap(); };
     pusingan();
   }
   function pusingan() {
@@ -24612,7 +24681,7 @@ const PRA = (() => {
     if (!terbuka(g)) return pintu(p[1], g);
     main(p[1], g);
   }
-  return { route, henti: () => { TOK++; SUARA.henti(); try { henti6(); } catch (e) {} }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, PERCUMA };
+  return { route, henti: () => { TOK++; SUARA.henti(); try { henti6(); } catch (e) {} }, _HURUF: HURUF, _NOMBOR: NOMBOR, _SAINS: SAINS, _KAMPUNG: KAMPUNG, _KREATIF: KREATIF, _ZON: ZON, _ST: ST, _TS: TS, _SUARA: SUARA, PERCUMA };
 })();
 
 try { Object.defineProperty(window, '__sbUji', { value: { get PRA() { return PRA; }, get SND() { return SND; }, nama: k => namaTopikDs_(k), hantarSkor: (...a) => hantarSkor(...a), apiPost: b => apiPost(b), muzik: () => ({ on: MUZIK.on, mod: MUZIK.mod }) } }); } catch (e) {}

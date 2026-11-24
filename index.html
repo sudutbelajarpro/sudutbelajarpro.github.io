@@ -23045,7 +23045,7 @@ const PRA = (() => {
   const premPra = () => { try { return pakejOK(1); } catch (e) { return false; } };
   const terbuka = g => PERCUMA.includes(g.id) || premPra();
   // ikon 3D (gambar jana AI, dipotong dari grid) — jika tiada, guna emoji
-  const IKP = new Set(['x-kunci', 'x-bintang', 'x-pelekat', 'x-tonton', 'x-cuba', 'x-main', 'x-lokomotif', 'pm-bonus', 'g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
+  const IKP = new Set(['x-kunci', 'x-lihat', 'x-bintang', 'x-pelekat', 'x-tonton', 'x-cuba', 'x-main', 'x-lokomotif', 'pm-bonus', 'g-adab', 'g-alatseni', 'g-angkut', 'g-awal', 'g-bakul', 'g-bayang', 'g-belon', 'g-bentuk', 'g-berat', 'g-bunyi', 'g-cuaca', 'g-deria', 'g-detektif', 'g-epal', 'g-habitat', 'g-hidup', 'g-hilang', 'g-ikan', 'g-ingat', 'g-katak', 'g-kawan', 'g-kedudukan', 'g-keluarga', 'g-keretaapi', 'g-kerjarumah', 'g-kerjaya', 'g-kitar', 'g-kitaran', 'g-lain', 'g-magnet', 'g-makanan', 'g-menara', 'g-muzik', 'g-padan', 'g-perasaan', 'g-pinggan', 'g-pola', 'g-rama', 'g-roket', 'g-rutin', 'g-saiz', 'g-selamat', 'g-surih', 'g-telur', 'g-tempat', 'g-timbul', 'g-ulat', 'g-vokal', 'g-warna', 'g-warnabenda', 'zon-huruf', 'zon-kampung', 'zon-kreatif', 'zon-nombor', 'zon-sains']);
   const ikP = (k, emoji, kecil) => IKP.has(k) ? `<img class="pr-i3${kecil ? ' k' : ''}" src="aset/p3-${k}.webp" width="160" height="160" alt="" loading="lazy" decoding="async">` : emoji;
   const ZON = {
     huruf: { nama: 'Pulau Huruf', ic: '🏝️', sub: 'Kenal huruf A hingga Z', w: 'linear-gradient(135deg,#ff6fa5,#ff9a3c)', games: HURUF },
@@ -23161,14 +23161,20 @@ const PRA = (() => {
   const KW = { buku: ['📘'], kaki: ['🦶'], mata: ['👀'], nasi: ['🍚'], susu: ['🥛'], roti: ['🍞'], kuda: ['🐴'], labu: ['🎃'], baju: ['👕'], bola: ['⚽', 'az-b'], topi: ['🧢', 'az-t'], sudu: ['🥄', 'az-s'] };
   const PECAH = { bola: ['bo', 'la'], buku: ['bu', 'ku'], kaki: ['ka', 'ki'], mata: ['ma', 'ta'], susu: ['su', 'su'], nasi: ['na', 'si'], roti: ['ro', 'ti'], kuda: ['ku', 'da'], labu: ['la', 'bu'], baju: ['ba', 'ju'], sudu: ['su', 'du'], topi: ['to', 'pi'] };
   const gbrW = (w, c) => { const k = KW[w], f = k[1] ? `aset/pra-az/${k[1]}.webp` : `aset/pra-az/kw-${w}.webp`; return `<img class="${c || ''}" src="${f}" alt="${w}" draggable="false" onerror="this.outerHTML='<span class=&quot;la-emj&quot;>${k[0]}</span>'">`; };
+  Object.assign(KW, { katak: ['🐸'], kapal: ['⛵'], botol: ['🍼'], bas: ['🚌'], beg: ['🎒'], sabun: ['🧼'], lampu: ['💡'], bantal: ['🛏️'], tikus: ['🐭'], ikan: ['🐟', 'az-i'], cawan: ['☕', 'az-c'], gajah: ['🐘', 'az-g'], rumah: ['🏠', 'az-r'], ular: ['🐍', 'az-u'], nanas: ['🍍', 'az-n'], lebah: ['🐝', 'az-l'], harimau: ['🐯', 'az-h'], zirafah: ['🦒', 'az-z'], matahari: ['☀️', 'az-m'], pisang: ['🍌', 'az-p'], kucing: ['🐱', 'az-k'] });
+  Object.assign(PECAH, { ikan: ['i', 'kan'], cawan: ['ca', 'wan'], gajah: ['ga', 'jah'], rumah: ['ru', 'mah'], ular: ['u', 'lar'], nanas: ['na', 'nas'], lebah: ['le', 'bah'], katak: ['ka', 'tak'], kapal: ['ka', 'pal'], botol: ['bo', 'tol'], bas: ['bas'], beg: ['beg'], sabun: ['sa', 'bun'], lampu: ['lam', 'pu'], bantal: ['ban', 'tal'], tikus: ['ti', 'kus'], harimau: ['ha', 'ri', 'mau'], zirafah: ['zi', 'ra', 'fah'], matahari: ['ma', 'ta', 'ha', 'ri'], pisang: ['pi', 'sang'], kucing: ['ku', 'cing'] });
   const kwAud = w => KW[w][1] ? 'k-' + KW[w][1].slice(-1) : 'kw-' + w;
   const skAud = s => s === 'pi' ? 'h-p' : 'sk-' + s;
+  const skA = s => s === 'i' || s === 'u' ? 's-' + s : s === 'bas' || s === 'beg' ? 'kw-' + s : skAud(s);
   const blok = (t, w) => `<span class="la-blok" style="background:${w}">${t}</span>`;
-  // ---------- rancangan sesi (fasa 1: Topik 1–3) ----------
+  // ---------- rancangan sesi (Topik 1–6; Topik 7 Menulis belum) ----------
   const LTOPIK = [
     { k: 'az', nama: 'Huruf A–Z', ik: 'g-kawan', main: 'Belon Huruf' },
     { k: 'vokal', nama: 'Vokal & konsonan', ik: 'g-vokal', main: 'Tangkap Vokal' },
     { k: 'sk', nama: 'Suku kata', ik: 'g-keretaapi', main: 'Kereta Suku Kata' },
+    { k: 'tt', nama: 'Suku kata terbuka & tertutup', ik: 'x-kunci', main: 'Pintu Ajaib' },
+    { k: 'bina', nama: 'Bina & baca perkataan', ik: 'g-ikan', main: 'Pancing Kata' },
+    { k: 'ayat', nama: 'Baca ayat mudah', ik: 'x-lihat', main: 'Susun Ayat' },
   ];
   const LSESI = [
     { id: 'az1', t: 0, nama: 'A hingga F', h: 'ABCDEF' }, { id: 'az2', t: 0, nama: 'G hingga L', h: 'GHIJKL' }, { id: 'az3', t: 0, nama: 'M hingga R', h: 'MNOPQR' },
@@ -23177,8 +23183,20 @@ const PRA = (() => {
     { id: 'sk1', t: 2, nama: 'ba bi bu be bo', sk: ['ba', 'bi', 'bu', 'be', 'bo'], w: ['bola', 'buku', 'baju', 'labu'] },
     { id: 'sk2', t: 2, nama: 'ka ma sa ta', sk: ['ka', 'ma', 'sa', 'ta', 'ki', 'mu', 'si', 'tu'], w: ['kaki', 'mata', 'nasi', 'susu'] },
     { id: 'sk3', t: 2, nama: 'Cantum jadi perkataan', w: ['kuda', 'roti', 'sudu', 'topi', 'bola', 'buku', 'kaki', 'mata', 'susu', 'nasi', 'labu', 'baju'] },
+    { id: 'tt1', t: 3, nama: 'Suku kata terbuka' }, { id: 'tt2', t: 3, nama: 'Suku kata tertutup' }, { id: 'tt3', t: 3, nama: 'Terbuka atau tertutup?' },
+    { id: 'bc1', t: 4, nama: 'Perkataan 2 suku kata' }, { id: 'bc2', t: 4, nama: 'Perkataan 3 suku kata' }, { id: 'bc3', t: 4, nama: 'Baca tanpa gambar' },
+    { id: 'ay1', t: 5, nama: 'Huruf besar & titik', a: [0, 1, 2, 3] }, { id: 'ay2', t: 5, nama: 'Baca ayat bergambar', a: [3, 4, 5, 6, 7, 8] }, { id: 'ay3', t: 5, nama: 'Susun ayat', a: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
   ];
-  const AKAN = ['Suku kata terbuka & tertutup', 'Bina & baca perkataan', 'Baca ayat mudah', 'Menulis huruf & perkataan'];
+  const AKAN = ['Menulis huruf & perkataan'];
+  // ---- data Topik 4–6 ----
+  const VOW = 'aeiou', tutup = s => !VOW.includes(s.slice(-1));
+  const TT_B = ['ba', 'ka', 'ga', 'ru', 'na', 'le', 'ca', 'bo', 'sa', 'pu', 'ti'], TT_T = ['kan', 'wan', 'jah', 'mah', 'lar', 'nas', 'bah', 'tak', 'pal', 'tol', 'bun', 'lam', 'tal', 'kus', 'ban'];
+  const BC2 = ['ikan', 'katak', 'kapal', 'botol', 'sabun', 'lampu', 'bantal', 'tikus', 'gajah', 'rumah', 'ular', 'nanas', 'lebah', 'cawan', 'pisang', 'kucing', 'bola', 'buku', 'kuda', 'roti'];
+  const BACA = [...BC2, 'kaki', 'mata', 'susu', 'nasi', 'labu', 'baju', 'sudu', 'topi', 'bas', 'beg', 'harimau', 'zirafah', 'matahari'];
+  const AYAT = [['kucing minum susu', '🐱🥛'], ['gajah makan pisang', '🐘🍌'], ['katak naik kapal', '🐸⛵'], ['tikus makan roti', '🐭🍞'], ['lebah suka bunga', '🐝🌸'], ['zirafah makan daun', '🦒🍃'], ['harimau tidur', '🐯💤'], ['ayam main bola', '🐔⚽'], ['arnab baca buku', '🐰📖']];
+  const WAUD = { kucing: 'k-k', gajah: 'k-g', pisang: 'k-p', lebah: 'k-l', zirafah: 'k-z', harimau: 'k-h', ayam: 'k-a', bola: 'k-b' };
+  const wAud = w => WAUD[w] || 'kw-' + w;
+  const besarH = s => s[0].toUpperCase() + s.slice(1);
   const tarikh = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
   const LS = () => { const s = ST.get(); const l = s.l || {}; const h = l.h && l.h.d === tarikh() ? l.h : { d: tarikh(), k: 0 }; return { n: Math.min(l.n | 0, LSESI.length), h, had: l.had || 1, w: l.w || {}, b: l.b || {}, m: l.m || {} }; };
   const LSimpan = f => { const s = ST.get(); const l = LS(); f(l); s.l = l; ST.set(s); try { simpanAuto(); } catch (e) {} };
@@ -23295,6 +23313,25 @@ const PRA = (() => {
 .la-hud span{background:#fffd;border-radius:14px;padding:4px 12px;cursor:pointer}
 .la-hud b{font-size:28px;color:#ec4899}
 .la-mas{position:absolute;right:8px;bottom:6px;z-index:6}.la-mas img{width:66px;height:66px}
+.la-pil img,.la-pil .la-emj{width:clamp(64px,21vw,96px);height:clamp(64px,21vw,96px);object-fit:contain;display:block;margin:auto;pointer-events:none}
+.la-tt{display:inline-flex;align-items:center;gap:4px;color:#fff;border-radius:16px;padding:5px 14px;font-size:clamp(34px,10vw,64px);font-weight:700;box-shadow:0 9px 0 #0003,inset 0 -6px 0 #0002;margin:0 4px}
+.la-tt small{font-size:.45em}.la-tt.b{background:#22c55e}.la-tt.t{background:#ef4444}
+.la-kad{display:inline-block;background:#6d3df2;color:#fff;border-radius:20px;padding:8px 28px;font-size:clamp(46px,14vw,64px);font-weight:700;box-shadow:0 10px 0 #4c22b8;transition:transform .45s,opacity .45s}
+.la-pintu{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.la-pintu button{border:0;cursor:pointer;color:#fff;font-family:var(--fd);font-size:20px;font-weight:700;border-radius:22px;padding:14px 6px}
+.la-pintu button b{display:block;font-size:56px;line-height:1.1}
+.la-pintu .b{background:#22c55e;box-shadow:0 8px 0 #15803d}.la-pintu .t{background:#ef4444;box-shadow:0 8px 0 #b91c1c}
+.la-pintu button.no{animation:lagoyang .4s}
+.la-kata{display:inline-block;background:#fff;border:4px solid #c4b5fd;border-radius:24px;padding:4px 28px;font-size:clamp(44px,13vw,60px);font-weight:700;color:#6d3df2}
+.la-ikan{position:absolute;left:0;top:0;display:flex;align-items:center;gap:4px;border-radius:40px;padding:8px 16px;font-size:24px;font-weight:700;color:#3b0764;box-shadow:0 5px 0 #0003;cursor:pointer;user-select:none;white-space:nowrap;touch-action:manipulation}
+.la-ayt{font-size:clamp(26px,7.5vw,44px);font-weight:700;color:#2b1650;line-height:1.3;text-align:center}
+.la-ayt span{display:inline-block;margin:0 4px}.la-ayt b{color:#ec4899}
+.la-ayk{background:#fff;border:4px solid #c4b5fd;border-radius:22px;padding:8px 16px;display:inline-block}
+.la-slot{min-width:84px;height:56px;border-radius:14px;border:4px dashed #a78bfa;display:grid;place-items:center;font-size:24px;font-weight:700;color:#fff;padding:0 10px}
+.la-slot.isi{background:#8b5cf6;border-style:solid;border-color:#6d3df2}
+.la-pk2{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.la-pk2 button{border:0;cursor:pointer;font-family:var(--fd);font-size:24px;font-weight:700;background:#fff;color:#6d3df2;border-radius:16px;padding:10px 18px;box-shadow:0 6px 0 #c4b5fd}
+.la-pk2 button.no{animation:lagoyang .4s;background:#ffe1e1}
 .la-gb{width:clamp(52px,15vw,84px);height:56px;border-radius:12px;background:#fff;border:4px dashed #f97316;display:grid;place-items:center;font-size:28px;font-weight:700;color:#f97316}
 .la-gb.isi{background:#f97316;color:#fff;border-style:solid}
 .la-loko{width:clamp(110px,32vw,160px)}.la-loko img{width:100%;height:auto;display:block}
@@ -23507,8 +23544,8 @@ const PRA = (() => {
       LI().querySelectorAll('[data-j]').forEach(b => b.onclick = () => {
         if (lk >= p.length) return;
         if (b.dataset.j === p[lk]) {
-          try { SND.play('betul'); } catch (e) {} const g = LI().querySelector(`[data-gb="${lk}"]`); g.textContent = p[lk]; g.classList.add('isi'); dengar([skAud(p[lk])]); lk++;
-          if (lk >= p.length) { fasa(2, (n + 1) / senarai.length * 100); lepasT(() => { if (!$('#lakr')) return; dengar([skAud(p[0]), skAud(p[1]), kwAud(w)], null, w); $('#lakr').style.transform = 'translateX(120vw)'; lepasT(() => { n++; q(); }, 2300); }, 500); }
+          try { SND.play('betul'); } catch (e) {} const g = LI().querySelector(`[data-gb="${lk}"]`); g.textContent = p[lk]; g.classList.add('isi'); dengar([skA(p[lk])]); lk++;
+          if (lk >= p.length) { fasa(2, (n + 1) / senarai.length * 100); lepasT(() => { if (!$('#lakr')) return; dengar([...p.map(skA), kwAud(w)], null, w); $('#lakr').style.transform = 'translateX(120vw)'; lepasT(() => { n++; q(); }, 2300); }, 500); }
         } else { SS.silap++; LSimpan(l => { l.w['sk:' + w] = (l.w['sk:' + w] || 0) + 1; }); try { SND.play('salah'); } catch (e) {} b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 450); dengar(['u-bukan'], null, 'Bukan yang itu'); }
       });
     };
@@ -23602,6 +23639,176 @@ const PRA = (() => {
       },
     },
   };
+  // ---------- Topik 4–6: pembantu ----------
+  const blokTT = (x, kecil) => `<span class="la-tt ${tutup(x) ? 't' : 'b'}"${kecil ? ' style="font-size:22px;padding:2px 10px;box-shadow:0 4px 0 #0003"' : ''}>${x}<small>${tutup(x) ? '🔒' : '🚪'}</small></span>`;
+  const WRN = ['#f97316', '#3b82f6', '#22c55e', '#a855f7'];
+  const blokW = p => p.map((x, i) => blok(x, WRN[i % 4])).join('');
+  const babakTT = w => { const p = PECAH[w]; return { html: `<div>${p.map(x => blokTT(x)).join('')}</div>${ped(gbrW(w))}`, keys: [...p.map(skA), kwAud(w)], teks: p.map(x => `<span style="color:${tutup(x) ? '#dc2626' : '#16a34a'}">${x}</span>`).join(' - ') + ` = <span class="on">${w}</span>` }; };
+  const babakBina = w => { const p = PECAH[w]; return { html: `<div>${blokW(p)}</div>${ped(gbrW(w))}`, keys: [...p.map(skA), kwAud(w)], teks: p.join(' - ') + ` = <span class="on">${w}</span>` }; };
+  const gbrA = i => `<img src="aset/pra-az/ay-${i + 1}.webp" alt="${AYAT[i][0]}" draggable="false" onerror="this.outerHTML='<span class=&quot;la-emj&quot;>${AYAT[i][1]}</span>'">`;
+  const ayatHTML = i => { const w = AYAT[i][0].split(' '); return `<div class="la-ayt">${w.map((x, j) => `<span>${j === 0 ? `<b>${x[0].toUpperCase()}</b>${x.slice(1)}` : x}${j === w.length - 1 ? '<b>.</b>' : ''}</span>`).join('')}</div>`; };
+  const babakAyat = i => ({ html: `<div style="display:flex;flex-direction:column;align-items:center;gap:8px">${ped(gbrA(i))}<div class="la-ayk">${ayatHTML(i)}</div></div>`, keys: ['ay-' + (i + 1)], teks: besarH(AYAT[i][0]) + '.' });
+  const dulukan = (semua, k, n) => { const l = LS(), d = semua.filter(x => l.w[k + x]); return [...d, ...kocok(semua.filter(x => !d.includes(x)))].slice(0, n); };
+  const binKata = k => { SS.silap++; LSimpan(l => { l.w[k] = (l.w[k] || 0) + 1; }); };
+  // Pintu Ajaib: masukkan suku kata ke pintu terbuka / tertutup
+  function pintuAjaib(senarai, done) {
+    fasa(2, 0); let n = 0, kunci = false;
+    LI().innerHTML = `<div class="la-soal" id="lapn" style="font-size:18px"></div><div class="la-lang" style="height:auto;min-height:300px;background:linear-gradient(#ede9fe,#faf5ff);padding:14px">
+      <div style="text-align:center;height:110px;display:grid;place-items:center"><span class="la-kad" id="lakad1"></span></div>
+      <div class="la-pintu"><button data-p="b" class="b"><b>🚪</b>Terbuka</button><button data-p="t" class="t"><b>🔒</b>Tertutup</button></div></div>`;
+    const q = () => {
+      if (!$('#lakad1')) return;
+      if (n >= senarai.length) { done(); return; }
+      const x = senarai[n], k = $('#lakad1'); kunci = false; $('#lapn').textContent = `${n + 1} / ${senarai.length}`;
+      k.style.transition = 'none'; k.style.transform = 'scale(.3)'; k.style.opacity = 0; k.textContent = x;
+      requestAnimationFrame(() => requestAnimationFrame(() => { k.style.transition = ''; k.style.transform = 'scale(1)'; k.style.opacity = 1; }));
+      dengar(n ? [skA(x)] : ['u-masukpintu', skA(x)], null, x);
+    };
+    LI().querySelectorAll('[data-p]').forEach(b => b.onclick = () => {
+      if (kunci || n >= senarai.length) return;
+      const x = senarai[n], t = tutup(x);
+      if ((b.dataset.p === 't') === t) {
+        kunci = true; try { SND.play('betul'); } catch (e) {} SS.betul++; SS.n++;
+        const k = $('#lakad1'); k.style.transform = `translate(${t ? '45%' : '-45%'},150px) scale(.2)`; k.style.opacity = 0;
+        dengar([t ? 'u-tertutup' : 'u-terbuka'], null, t ? 'Tertutup' : 'Terbuka'); n++; fasa(2, n / senarai.length * 100); lepasT(q, 1200);
+      } else { binKata('tt:' + x); try { SND.play('salah'); } catch (e) {} b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 450); dengar(['u-bukan'], null, 'Bukan yang itu'); }
+    });
+    q();
+  }
+  // Pancing Kata: tengok gambar, pancing ikan yang ada perkataannya
+  function pancingKata(senarai, done) {
+    fasa(2, 0); let n = 0, ikan = [], last = 0;
+    LI().innerHTML = `<div class="la-lang" id="lalang" style="background:linear-gradient(#bae6fd 0,#bae6fd 27%,#38bdf8 27%,#0369a1 100%)"><div class="la-hud"><span id="lass">🔊 Pancing</span><span id="lask">⭐ 0/${senarai.length}</span></div>
+      <div id="lasasar" style="position:absolute;top:34px;left:50%;transform:translateX(-50%);width:84px;height:84px;z-index:4"></div></div>`;
+    const L = $('#lalang'), W = () => L.clientWidth, H = () => L.clientHeight;
+    const sebut = () => dengar(['u-pancing'], null, 'Pancing perkataan yang betul');
+    const tukar = () => { if (n >= senarai.length) { cancelAnimationFrame(laRaf); lepasT(done, 600); return; } $('#lasasar').innerHTML = gbrW(senarai[n], '').replace('class=""', 'style="width:84px;height:84px;object-fit:contain"'); ikan.forEach(f => f.el.remove()); ikan = []; last = 0; };
+    const tambah = () => {
+      const w = Math.random() < .45 ? senarai[n] : BACA[rnd(BACA.length)], kiri = Math.random() < .5, el = document.createElement('div');
+      el.className = 'la-ikan'; el.style.background = ['#fb923c', '#facc15', '#f472b6', '#a3e635'][rnd(4)]; el.style.borderRadius = kiri ? '40px 14px 14px 40px' : '14px 40px 40px 14px';
+      el.innerHTML = kiri ? `${w} <small>◀</small>` : `<small>▶</small> ${w}`; L.appendChild(el);
+      const f = { el, w, x: kiri ? W() + 10 : -170, y: H() * .34 + Math.random() * (H() * .5), v: (kiri ? -1 : 1) * (.75 + Math.random() * .6) }; ikan.push(f);
+      el.style.transform = `translate(${f.x}px,${f.y}px)`;
+      el.onpointerdown = () => {
+        if (n >= senarai.length || !f.v) return;
+        if (f.w === senarai[n]) {
+          try { SND.play('betul'); } catch (e) {} f.v = 0; el.style.transition = 'transform .5s'; el.style.transform = `translate(${f.x}px,-30px) scale(1.3)`;
+          dengar([kwAud(f.w)], null, f.w); SS.betul++; SS.n++; n++; fasa(2, n / senarai.length * 100); $('#lask').textContent = `⭐ ${n}/${senarai.length}`; lepasT(tukar, 750);
+        } else { binKata('bc:' + senarai[n]); try { SND.play('salah'); } catch (e) {} dengar(['u-bukan'], null, 'Bukan yang itu'); el.animate([{ opacity: 1 }, { opacity: .3 }, { opacity: 1 }], { duration: 300 }); }
+      };
+    };
+    const langkah = ts => {
+      if (!document.getElementById('lalang')) return;
+      if (ts - last > 1250) { tambah(); last = ts; }
+      ikan.forEach(f => { if (f.v) { f.x += f.v * 1.4; f.el.style.transform = `translate(${f.x}px,${f.y}px)`; } });
+      ikan = ikan.filter(f => { if (f.x < -230 || f.x > W() + 230) { f.el.remove(); return false; } return true; });
+      laRaf = requestAnimationFrame(langkah);
+    };
+    $('#lass').onclick = sebut; tukar(); sebut(); laRaf = requestAnimationFrame(langkah);
+  }
+  // Susun Ayat: tekan perkataan ikut urutan
+  function susunAyat(senarai, done) {
+    fasa(2, 0); let n = 0;
+    const q = () => {
+      if (!LI()) return;
+      if (n >= senarai.length) { done(); return; }
+      const i = senarai[n], w = AYAT[i][0].split(' '); let k = 0;
+      LI().innerHTML = `<div class="la-soal" style="font-size:18px">${n + 1} / ${senarai.length}</div><div class="la-gsoal">${gbrA(i)}</div>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px 0 14px">${w.map((_, j) => `<div class="la-slot" data-sl="${j}"></div>`).join('')}</div>
+        <div class="la-soal" style="font-size:18px">Tekan perkataan ikut urutan</div>
+        <div class="la-pk2">${kocok(w.map((x, j) => ({ x, j }))).map(c => `<button data-c="${c.j}">${c.x}</button>`).join('')}</div>`;
+      dengar(['u-susunayat'], null, 'Susun perkataan menjadi ayat');
+      LI().querySelectorAll('[data-c]').forEach(b => b.onclick = () => {
+        if (k >= w.length) return;
+        if (+b.dataset.c === k) {
+          try { SND.play('betul'); } catch (e) {} const sl = LI().querySelector(`[data-sl="${k}"]`); let t = w[k]; if (k === 0) t = besarH(t); if (k === w.length - 1) t += '.';
+          sl.textContent = t; sl.classList.add('isi'); b.style.visibility = 'hidden'; dengar([wAud(w[k])]); k++;
+          if (k >= w.length) { SS.betul++; SS.n++; n++; fasa(2, n / senarai.length * 100); let jalan = false; const go = () => { if (jalan) return; jalan = true; q(); }; lepasT(() => dengar(['ay-' + (i + 1)], () => lepasT(go, 500), AYAT[i][0]), 450); lepasT(go, 6000); }
+        } else { binKata('ay:' + i); try { SND.play('salah'); } catch (e) {} b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 450); dengar(['u-bukan'], null, 'Bukan yang itu'); }
+      });
+    };
+    q();
+  }
+  Object.assign(RUNNER, {
+    tt: {
+      ayatCuba: 'Dengar dan pilih jawapan', ayatMain: 'Pintu Ajaib: masukkan suku kata ke pintu yang betul',
+      tonton(done) {
+        const id = SS.se.id, s = [];
+        const dB = { html: `<div style="display:flex;align-items:center;gap:3vw">${blokTT('ba')}<span style="font-size:clamp(60px,14vw,100px)">🚪</span></div>`, keys: ['u-terbukadef', 'sk-ba'], teks: 'Suku kata <b style="color:#16a34a">terbuka</b> berakhir dengan <b>vokal</b>' };
+        const dT = { html: `<div style="display:flex;align-items:center;gap:3vw">${blokTT('kan')}<span style="font-size:clamp(60px,14vw,100px)">🔒</span></div>`, keys: ['u-tertutupdef', 'sk-kan'], teks: 'Suku kata <b style="color:#dc2626">tertutup</b> berakhir dengan <b>konsonan</b>' };
+        if (id === 'tt1') { s.push(dB); ['bola', 'kuda', 'roti', 'buku', 'topi'].forEach(w => s.push(babakTT(w))); }
+        else if (id === 'tt2') { s.push(dT); ['ikan', 'gajah', 'katak', 'lampu', 'bas', 'botol'].forEach(w => s.push(babakTT(w))); }
+        else { s.push(dB, dT); ['rumah', 'sabun', 'bantal', 'nanas'].forEach(w => s.push(babakTT(w))); }
+        babak(s, done);
+      },
+      cuba(done) {
+        if (SS.se.id === 'tt1') {
+          siriSoalan(kocok(TT_B.filter(x => x.length === 2)).slice(0, 4).map(x => { const v = x.slice(-1);
+            return { kunci: 'tt:' + x, jaw: v, ulang: [babakTT(['bola', 'kuda', 'roti', 'buku', 'topi'].find(w => PECAH[w].includes(x)) || 'bola')],
+              atas: `<div class="la-soal">Huruf vokal apa di hujung?</div><div style="text-align:center;margin:10px 0"><span class="la-kad">${x[0]}<span style="display:inline-block;min-width:.7em;border-bottom:5px dashed #fde047">&nbsp;</span></span></div><div class="la-baris" style="margin:4px 0 8px"><button class="la-btn k" id="laul">🔊 Dengar lagi</button></div>`,
+              ops: kocok([v, ...kocok([...VOW].filter(y => y !== v)).slice(0, 2)]).map(o => ({ v: o, t: o, gaya: 'color:#16a34a' })),
+              sebut: [skA(x), 'u-carivokal'], sandaran: x, bantu: `Dengar betul-betul: <b>${x}</b> 🚪`, betul: [skA(x), 'u-terbuka'] }; }), done);
+        } else {
+          const soal = SS.se.id === 'tt2' ? kocok([...kocok(TT_B).slice(0, 2), ...kocok(TT_T).slice(0, 3)]) : kocok([...kocok(TT_B).slice(0, 3), ...kocok(TT_T).slice(0, 3)]);
+          siriSoalan(soal.map(x => { const t = tutup(x); return {
+            kunci: 'tt:' + x, jaw: t ? 't' : 'b', lajur: 2,
+            atas: `<div class="la-soal">Terbuka atau tertutup?</div><div style="text-align:center;margin:12px 0"><span class="la-kad">${x}</span></div>`,
+            ops: [{ v: 'b', t: '🚪 Terbuka', gaya: 'font-size:22px;color:#16a34a' }, { v: 't', t: '🔒 Tertutup', gaya: 'font-size:22px;color:#dc2626' }],
+            sebut: [skA(x), 'u-terbukaatau'], sandaran: x + '. Terbuka atau tertutup?',
+            bantu: `Tengok huruf terakhir: <b>${x.slice(-1)}</b> ${t ? 'ialah konsonan 🔒' : 'ialah vokal 🚪'}`, ulang: [t ? { html: `<div>${blokTT(x)}</div>`, keys: ['u-tertutupdef', skA(x)], teks: 'Suku kata <b style="color:#dc2626">tertutup</b> berakhir dengan <b>konsonan</b>' } : { html: `<div>${blokTT(x)}</div>`, keys: ['u-terbukadef', skA(x)], teks: 'Suku kata <b style="color:#16a34a">terbuka</b> berakhir dengan <b>vokal</b>' }],
+            betul: [t ? 'u-tertutup' : 'u-terbuka'] }; }), done);
+        }
+      },
+      main(done) {
+        const id = SS.se.id;
+        if (id === 'tt1') { const ws = ['kuda', 'roti', 'topi', 'sudu', 'labu', 'baju', 'bola', 'buku'], l = LS(), d = ws.filter(w => l.w['sk:' + w]); return kereta([...d, ...kocok(ws.filter(w => !d.includes(w)))].slice(0, 3), done); }
+        const semua = [...TT_B, ...TT_T];
+        pintuAjaib(dulukan(semua, 'tt:', id === 'tt2' ? 8 : 10), done);
+      },
+    },
+    bc: {
+      ayatCuba: 'Baca perkataan dan pilih gambar', ayatMain: 'Pancing Kata: pancing perkataan yang betul',
+      tonton(done) {
+        const id = SS.se.id, s = [];
+        if (id === 'bc1') { s.push({ html: `<div>${blokW(['ga', 'jah'])}</div>`, keys: ['u-cantum'], teks: 'Dua suku kata bercantum menjadi perkataan' }); ['ikan', 'gajah', 'katak', 'sabun', 'lampu', 'pisang'].forEach(w => s.push(babakBina(w))); }
+        else if (id === 'bc2') { s.push({ html: `<div>${blokW(['ha', 'ri', 'mau'])}</div>`, keys: ['u-tigask'], teks: 'Tiga suku kata bercantum menjadi perkataan' }); ['harimau', 'zirafah', 'matahari'].forEach(w => s.push(babakBina(w))); }
+        else ['bola', 'ikan', 'kucing'].forEach(w => { s.push({ html: `<div class="la-kata" style="font-size:clamp(54px,15vw,90px)">${w}</div>`, keys: ['u-bacaini'], teks: 'Baca perkataan ini...' }); s.push({ html: `<div class="la-kata">${w}</div>${ped(gbrW(w))}`, keys: [kwAud(w)], teks: `<span class="on">${w}</span>!` }); });
+        babak(s, done);
+      },
+      cuba(done) {
+        const id = SS.se.id, pool = id === 'bc2' ? ['harimau', 'zirafah', 'matahari', 'kucing', 'pisang'] : id === 'bc1' ? BC2 : BACA;
+        siriSoalan(dulukan(pool, 'bc:', id === 'bc2' ? 4 : 5).map(w => ({
+          kunci: 'bc:' + w, jaw: w, ulang: [babakBina(w)],
+          atas: `<div class="la-soal">Baca perkataan ini</div><div style="text-align:center;margin:6px 0"><span class="la-kata">${w}</span></div><div class="la-soal" style="font-size:18px">Pilih gambar yang betul</div>`,
+          ops: kocok([w, ...kocok(BACA.filter(x => x !== w)).slice(0, 2)]).map(o => ({ v: o, t: gbrW(o, ''), gaya: 'padding:8px 0' })),
+          sebut: ['u-bacaini', 'u-pilihgambar'], sandaran: 'Baca perkataan ini. Pilih gambar yang betul', bantu: `Eja suku kata dulu: <b>${PECAH[w].join(' - ')}</b>`, betul: [...PECAH[w].map(skA), kwAud(w)] })), done);
+      },
+      main(done) {
+        const id = SS.se.id;
+        if (id === 'bc2') { const ws = ['harimau', 'zirafah', 'matahari'], l = LS(), d = ws.filter(w => l.w['sk:' + w]); return kereta([...d, ...kocok(ws.filter(w => !d.includes(w)))], done); }
+        pancingKata(dulukan(id === 'bc1' ? BC2 : BACA, 'bc:', id === 'bc1' ? 5 : 6), done);
+      },
+    },
+    ay: {
+      ayatCuba: 'Baca ayat dan pilih gambar', ayatMain: 'Susun Ayat: susun perkataan menjadi ayat',
+      tonton(done) {
+        const id = SS.se.id, s = [];
+        if (id === 'ay1') { s.push({ html: `<div class="la-ayk">${ayatHTML(0)}</div>`, keys: ['u-iniayat', 'ay-1'], teks: 'Ini ayat' }, { html: `<div class="la-ayk">${ayatHTML(0)}<div style="font-size:18px;color:#ec4899;margin-top:8px;text-align:center">⬆ huruf besar · titik ⬆</div></div>`, keys: ['u-ayatdef'], teks: 'Huruf <b style="color:#ec4899">besar</b> di awal, <b style="color:#ec4899">titik</b> di akhir' }); [1, 2, 3].forEach(i => s.push(babakAyat(i))); }
+        else if (id === 'ay2') [4, 5, 6, 7, 8].forEach(i => s.push(babakAyat(i)));
+        else { s.push({ html: `<div class="la-ayk">${ayatHTML(7)}<div style="font-size:18px;color:#ec4899;margin-top:8px;text-align:center">⬆ huruf besar · titik ⬆</div></div>`, keys: ['u-ayatdef'], teks: 'Huruf <b style="color:#ec4899">besar</b> di awal, <b style="color:#ec4899">titik</b> di akhir' }); [0, 2].forEach(i => s.push(babakAyat(i))); }
+        babak(s, done);
+      },
+      cuba(done) {
+        const a = SS.se.a;
+        siriSoalan(dulukan(a, 'ay:', SS.se.id === 'ay3' ? 5 : 4).map(i => ({
+          kunci: 'ay:' + i, jaw: String(i), ulang: [babakAyat(i)],
+          atas: `<div class="la-soal">Baca ayat ini</div><div style="text-align:center;margin:6px 0"><span class="la-ayk">${ayatHTML(i)}</span></div><div class="la-soal" style="font-size:18px">Pilih gambar yang sesuai</div>`,
+          ops: kocok([i, ...kocok([...Array(9).keys()].filter(x => x !== i)).slice(0, 2)]).map(o => ({ v: String(o), t: gbrA(o), gaya: 'padding:8px 0' })),
+          sebut: ['u-bacaayat', 'u-pilihsesuai'], sandaran: 'Baca ayat ini. Pilih gambar yang sesuai', bantu: 'Baca satu-satu perkataan ya 🤗', betul: ['ay-' + (i + 1)] })), done);
+      },
+      main(done) { susunAyat(dulukan(SS.se.a, 'ay:', SS.se.id === 'ay3' ? 5 : 3), done); },
+    },
+  });
   function tamatSesi() {
     henti6(); if (!SS) return;
     const se = SS.se, min = Math.max(1, Math.round((Date.now() - SS.mula) / 60000)), bin = SS.silap <= 2 ? 3 : SS.silap <= 5 ? 2 : 1;
@@ -23635,8 +23842,8 @@ const PRA = (() => {
       return;
     }
     const l = LS(), mg = Object.entries(l.m).filter(([d]) => (Date.now() - new Date(d.replace(/-(\d)\b/g, '-0$1')).getTime()) < 7 * 864e5).reduce((a, [, m]) => a + m, 0);
-    const lemah = Object.entries(l.w).filter(([k]) => !k.startsWith('sk:')).sort((a, b) => b[1] - a[1]).slice(0, 6);
-    const lemahK = Object.entries(l.w).filter(([k]) => k.startsWith('sk:')).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k]) => k.slice(3));
+    const lemah = Object.entries(l.w).filter(([k]) => !k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const lemahK = Object.entries(l.w).filter(([k]) => k.includes(':')).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k]) => k.startsWith('ay:') ? (AYAT[+k.slice(3)] || [''])[0] : k.slice(3));
     app.innerHTML = `<div class="pr la"><div class="la-ss-atas"><button class="la-x" onclick="location.hash='#sedia'">⬅️</button><b style="font-size:20px">Untuk ibu bapa · Sedia ke Tahun 1</b></div>
       <div class="la-kotak"><div class="la-angka"><div><b>${l.n}/${LSESI.length}</b><span>sesi siap</span></div><div><b>${mg}</b><span>minit (7 hari lepas)</span></div><div><b>${ST.get().p.length}</b><span>pelekat</span></div></div></div>
       <div class="la-kotak"><h3>Tetapan</h3><div class="la-tet"><span>Sesi sehari</span><div class="la-seg" id="lahad">${[1, 2].map(n => `<button data-n="${n}" class="${l.had === n ? 'on' : ''}">${n}</button>`).join('')}</div></div>

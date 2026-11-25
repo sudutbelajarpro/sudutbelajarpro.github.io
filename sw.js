@@ -1,4 +1,4 @@
-// Sudut Belajar — service worker v3.1 (aset/ cache-dahulu)
+// Sudut Belajar — service worker v3.2 (aset/ cache-dahulu; v3.2: halaman /latihan/ tidak ditimpa ke salinan index)
 // Pembetulan penting berbanding v2:
 //  1. Panggilan API (script.google.com) TIDAK PERNAH dipintas — ranking & simpan sentiasa data terkini.
 //  2. Halaman disimpan di SATU kunci tetap sahaja, jadi cache tidak membengkak walau berapa banyak
@@ -35,7 +35,8 @@ self.addEventListener('fetch', e => {
     e.respondWith(
       fetch(req)
         .then(r => {
-          if (r && r.ok) { const salin = r.clone(); caches.open(CACHE).then(c => c.put(HALAMAN, salin)); }
+          // Hanya halaman utama disimpan sebagai salinan luar talian (halaman /latihan/ tidak boleh menimpanya)
+          if (r && r.ok && (url.pathname === '/' || url.pathname === '/index.html')) { const salin = r.clone(); caches.open(CACHE).then(c => c.put(HALAMAN, salin)); }
           return r;
         })
         .catch(() => caches.match(HALAMAN).then(h => h || caches.match('./')))

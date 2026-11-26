@@ -373,6 +373,47 @@ section.blk{padding:44px 0}
 .nav a.akaunbtn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--line);font-size:17px}
 .nav a.akaunbtn.masuk{background:#efeaff;border-color:var(--brand2)}
 .akaunbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+.hdh{position:relative;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,#fff6d6 0,#ffe9a8 38%,#ffd36b 100%);border:2px solid #ffc93c;border-radius:22px;padding:16px 16px 14px;margin:0 0 16px;text-align:left;box-shadow:0 10px 24px -12px rgba(180,120,0,.55);color:#3a2600}
+.hdh::before{content:"";position:absolute;inset:-40% -10% auto auto;width:220px;height:220px;background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,255,255,0) 65%);pointer-events:none}
+.hdh .hd-top{display:flex;gap:12px;align-items:center;position:relative}.hdh .hd-top>div{min-width:0;flex:1}
+.hdh .hd-gift{width:72px;height:72px;flex:none;filter:drop-shadow(0 6px 8px rgba(150,90,0,.35));animation:hdGoyang 2.8s ease-in-out 0.4s 2}
+.hdh .hd-eye{display:inline-block;white-space:nowrap;font:800 11.5px/1 system-ui,sans-serif;letter-spacing:.06em;background:#5b4bdb;color:#fff;padding:5px 9px;border-radius:999px;margin-bottom:5px}
+.hdh h3{margin:0;font-size:20px;line-height:1.2;letter-spacing:-.01em}.hdh h3 em{font-style:normal;color:#b3261e}
+.hdh .hd-wira{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 10px;position:relative}
+.hdh .hd-w{position:relative;background:#fff;border-radius:14px;padding:6px 6px 7px;text-align:center;box-shadow:0 3px 0 rgba(160,100,0,.25)}
+.hdh .hd-w img{width:100%;height:auto;aspect-ratio:1;border-radius:10px;display:block;object-fit:cover}
+.hdh .hd-w b{display:block;font-size:12.5px;margin-top:5px;line-height:1.1}.hdh .hd-w small{display:block;font-size:10.5px;color:#7a5a20}
+.hdh .hd-w i{position:absolute;top:-7px;right:-5px;font-style:normal;background:#22a559;color:#fff;font:800 10.5px/1 system-ui,sans-serif;padding:4px 7px;border-radius:999px;box-shadow:0 2px 0 #157a3f}
+.hdh .hd-lk{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;font-size:12.5px;font-weight:700}.hdh .hd-lk span{background:rgba(255,255,255,.75);border-radius:999px;padding:5px 9px}
+.hdh .hd-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:17px}
+.hdh .hd-kaki{font-size:12px;text-align:center;margin:8px 0 0;color:#6b4a10;font-weight:600}
+.hdh.kecil .hd-wira,.hdh.kecil .hd-lk{display:none}.hdh.kecil h3{font-size:17px}.hdh.kecil .hd-gift{width:54px;height:54px}
+@keyframes hdGoyang{0%,100%{transform:rotate(0)}10%{transform:rotate(-9deg) scale(1.06)}20%{transform:rotate(8deg) scale(1.06)}30%{transform:rotate(-5deg)}40%{transform:rotate(3deg)}50%{transform:rotate(0)}}
+.hdmod{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(28,20,70,.62);backdrop-filter:blur(3px);animation:hdMasuk .25s ease-out}
+.hdmod .hm-kad{position:relative;width:100%;max-width:420px;background:linear-gradient(170deg,#2d1f8f 0,#5b4bdb 46%,#8f7bff 100%);color:#fff;border-radius:26px;padding:22px 18px 18px;text-align:center;overflow:hidden;box-shadow:0 24px 60px -18px rgba(0,0,0,.6);animation:hdPop .5s cubic-bezier(.2,1.4,.4,1)}
+.hdmod .hm-sinar{position:absolute;left:50%;top:70px;width:520px;height:520px;margin:-260px 0 0 -260px;background:repeating-conic-gradient(rgba(255,214,90,.22) 0 10deg,transparent 10deg 20deg);animation:hdPusing 14s linear infinite;pointer-events:none}
+.hdmod .hm-gift{position:relative;width:104px;height:104px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));animation:hdLompat .9s cubic-bezier(.2,1.6,.4,1) .15s both}
+.hdmod h2{position:relative;margin:6px 0 2px;font-size:26px;line-height:1.15;color:#ffe27a}
+.hdmod .hm-sub{position:relative;margin:0 0 12px;font-size:15px;opacity:.95}
+.hdmod .hm-tempoh{position:relative;display:inline-block;background:#ffc93c;color:#3a2600;font-weight:800;border-radius:999px;padding:7px 14px;margin-bottom:14px;box-shadow:0 3px 0 #c9971f}
+.hdmod .hm-wira{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 0 14px}
+.hdmod .hm-w{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:6px;opacity:0;transform:translateY(14px) scale(.9);animation:hdNaik .45s ease-out forwards}
+.hdmod .hm-w:nth-child(1){animation-delay:.55s}.hdmod .hm-w:nth-child(2){animation-delay:.8s}.hdmod .hm-w:nth-child(3){animation-delay:1.05s}
+.hdmod .hm-w img{width:100%;height:auto;aspect-ratio:1;border-radius:10px;display:block;object-fit:cover}
+.hdmod .hm-w b{display:block;font-size:12.5px;margin-top:5px}
+.hdmod .hm-w .hm-k{display:block;font-size:11px;color:#b9ffcf;font-weight:800}
+.hdmod .hm-btn{position:relative;display:flex;flex-direction:column;gap:8px}
+.hdmod .hm-btn .btn{justify-content:center;width:100%}.hdmod .hm-btn .btn.pri{background:linear-gradient(180deg,#ffe27a,#ffc93c);color:#3a2600;box-shadow:0 5px 0 #c9971f;font-weight:800}
+.hdmod .hm-btn .tutup{background:transparent;border:0;color:#fff;opacity:.85;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px}
+.hdmod .kf{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;opacity:.95;animation:hdJatuh linear forwards;pointer-events:none}
+@keyframes hdMasuk{from{opacity:0}to{opacity:1}}
+@keyframes hdPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes hdPusing{to{transform:rotate(360deg)}}
+@keyframes hdLompat{0%{transform:scale(.2) rotate(-25deg);opacity:0}60%{transform:scale(1.18) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes hdNaik{to{opacity:1;transform:none}}
+@keyframes hdJatuh{80%{opacity:.9}to{transform:translateY(620px) rotate(540deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.hdh .hd-gift,.hdmod,.hdmod .hm-kad,.hdmod .hm-sinar,.hdmod .hm-gift,.hdmod .hm-w,.hdmod .kf{animation:none!important;opacity:1!important;transform:none!important}.hdmod .kf{display:none}}
+.cubabn{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(135deg,#fff8e1,#fff3c4);border:2px solid #ffd54f;border-radius:14px;padding:12px 14px;margin:0 0 14px;font-size:14.5px;line-height:1.5;text-align:left}.cubabn .ci{font-size:24px;line-height:1}.cubabn b{color:#7a4f00}
 .asetuju{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;margin:2px 0 14px;padding:12px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer}.asetuju input{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:#5b4bdb}
 .pilihmula{display:grid;gap:14px}.pilihmula .kad{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;position:relative;text-align:left}.pilihmula .kad.utama{border:2px solid #5b4bdb}.pilihmula .kad h2{margin:0;font-size:19px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}.pilihmula .kad h2 span{font-size:22px}.pilihmula ul{margin:0;padding-left:20px;display:grid;gap:5px;font-size:14.5px}.pilihmula .lencanakad{position:absolute;top:-12px;left:18px;background:#ffc94d;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px}
 .faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 16px;margin-bottom:10px}.faq summary{cursor:pointer;font-weight:700;padding:14px 0;font-size:15.5px}.faq details p{margin:0 0 12px;line-height:1.6}.faq h2{font-size:18px;margin:22px 0 10px}
@@ -20277,7 +20318,7 @@ const setStars = (s, y, t, r, n) => { if (n > getStars(s, y, t, r)) DB.stars[sk(
 
 const rf = s => String(s).replace(/\{(\d+) (\d+)\/(\d+)\}/g, '<span class="mixed">$1<span class="frac"><span>$2</span><span>$3</span></span></span>').replace(/\{(\d+)\/(\d+)\}/g, '<span class="frac"><span>$1</span><span>$2</span></span>');
 const starsHTML = n => '<span class="stars">' + [1, 2, 3].map(i => i <= n ? '★' : '<span class="off">★</span>').join('') + '</span>';
-const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); };
+const toast = (m, ms) => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), ms || 2600); };
 const subjBy = id => SUBJ.find(s => s.id === id);
 const namaSubj = (id, y) => { const S = subjBy(id); return (y === 1 && S.d1) ? S.d1.nama : S.nama; };
 // ikon 3D topik (dijana AI, dipadan ikut emoji topik) — jika tiada gambar, kekal emoji
@@ -20465,10 +20506,46 @@ function mergeAwan(data) {
 // Semua masa dalam ms epoch; "awal_tamat" 23:59 waktu Malaysia.
 const TETAPAN_LALAI = { harga_2bulan_awal: 30, harga_2bulan: 45, harga_2bulan_awal_tamat: Date.UTC(2026, 11, 7, 15, 59), hari_2bulan: 60,
   harga_setahun_awal: 129, harga_setahun: 149, harga_setahun_awal_tamat: Date.UTC(2026, 11, 31, 15, 59), hari_setahun: 365,
-  musim_mula: Date.UTC(2026, 10, 30, 16, 0), musim_bulan: 3, aff_buka: 0, aff_diskaun_2bulan: 5, aff_diskaun_setahun: 10 };
+  musim_mula: Date.UTC(2026, 10, 30, 16, 0), musim_bulan: 3, aff_buka: 0, aff_diskaun_2bulan: 5, aff_diskaun_setahun: 10, cuba_hari: 7 };
 const KEMPEN_LALAI = { kod: 'LANCAR100', hari: 14, had: 100, digunakan: 0, mula: Date.UTC(2026, 10, 30, 16, 0), tamat: Date.UTC(2026, 11, 14, 16, 0) };
 let TT = (function () { try { const x = JSON.parse(localStorage.getItem('sb.tetapan') || 'null'); return x && x.t ? x : null; } catch (e) { return null; } })();
 const tt = k => (TT && TT.t && TT.t[k] !== undefined && TT.t[k] !== null && TT.t[k] !== '') ? TT.t[k] : TETAPAN_LALAI[k];
+const cubaH = () => Math.max(0, parseInt(tt('cuba_hari')) || 0); // Premium percuma bila daftar (0 = tutup)
+const WIRA_PREM = [['hulubalang', 'Hulubalang', 'TP1–2'], ['panglima', 'Panglima', 'TP3–4'], ['laksamana', 'Laksamana', 'KBAT']];
+// Kad "Hadiah daftar" — 3D, untuk borang daftar, halaman Premium, pintu lembut
+function kadHadiah(o) {
+  o = o || {}; const h = cubaH(); if (!h) return '';
+  const tajuk = o.tajuk || `Cuba <em>Premium ${h} hari</em> percuma`;
+  return `<${o.href ? 'div' : 'div'} class="hdh${o.kecil ? ' kecil' : ''}"${o.id ? ` id="${o.id}"` : ''}>
+    <div class="hd-top"><img class="hd-gift" src="aset/p3-x-cuba.webp" width="160" height="160" alt=""><div><span class="hd-eye">✨ PERCUBAAN PERCUMA</span><h3>${tajuk}</h3></div></div>
+    <div class="hd-wira">${WIRA_PREM.map(w => `<div class="hd-w"><i>${h} HARI</i><img src="aset/tahap-${w[0]}.webp" width="256" height="256" alt="" loading="lazy" decoding="async"><b>${w[1]}</b><small>${w[2]}</small></div>`).join('')}</div>
+    <div class="hd-lk"><span>✅ 4 subjek utama</span><span>📊 Dashboard Prestasi</span><span>🏆 Mata ranking berganda</span></div>
+    ${o.href ? `<a class="btn pri hd-cta" href="${o.href}">${o.cta || 'Daftar percuma & cuba ' + h + ' hari →'}</a>` : ''}
+    <p class="hd-kaki">${o.kaki || 'Tiada bayaran · tiada kad · tiada caj automatik. Kemajuan anak kekal selepas 7 hari.'}</p>
+  </div>`;
+}
+// Sambutan selepas Premium percuma diaktifkan
+function sambutCuba(c, darjah) {
+  if (!c) return; const lama = document.getElementById('hdmod'); if (lama) lama.remove();
+  const el = document.createElement('div'); el.className = 'hdmod'; el.id = 'hdmod'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'hmtajuk');
+  const warna = ['#ffc93c', '#ff6fa5', '#3fd6c0', '#8f7bff', '#ffffff', '#4cc38a'];
+  const kf = Array.from({ length: 26 }, (_, i) => `<span class="kf" style="left:${(i * 37) % 100}%;background:${warna[i % warna.length]};animation-duration:${1.6 + (i % 5) * .35}s;animation-delay:${(i % 7) * .12}s"></span>`).join('');
+  el.innerHTML = `<div class="hm-kad"><div class="hm-sinar" aria-hidden="true"></div>${kf}
+    <img class="hm-gift" src="aset/p3-x-cuba.webp" width="160" height="160" alt="">
+    <h2 id="hmtajuk">Premium dibuka! 🎉</h2>
+    <p class="hm-sub">Percubaan untuk <b>${esc(c.nick)}</b>: semua tahap Darjah ${+c.pakej} untuk 4 subjek utama.</p>
+    <span class="hm-tempoh">⏳ ${+c.hari} hari percuma · hingga ${esc(c.tamat)}</span>
+    <div class="hm-wira">${WIRA_PREM.map(w => `<div class="hm-w"><img src="aset/tahap-${w[0]}.webp" width="256" height="256" alt=""><b>${w[1]}</b><span class="hm-k">🔓 Dibuka</span></div>`).join('')}</div>
+    <div class="hm-btn"><a class="btn pri" href="#d${+c.pakej || +darjah || 1}" id="hmmula">▶ Mula sekarang: cabar tahap Hulubalang</a><button type="button" class="tutup" id="hmtutup">Nanti dulu</button></div>
+    <p style="position:relative;font-size:12px;opacity:.85;margin:8px 0 0">Emel pengesahan dihantar kepada anda. Tiada caj automatik.</p></div>`;
+  document.body.appendChild(el);
+  const tutup = () => { el.remove(); document.removeEventListener('keydown', esk); };
+  const esk = e => { if (e.key === 'Escape') tutup(); };
+  document.addEventListener('keydown', esk);
+  el.addEventListener('click', e => { if (e.target === el) tutup(); });
+  el.querySelector('#hmtutup').onclick = tutup; el.querySelector('#hmmula').onclick = () => setTimeout(tutup, 0);
+  try { el.querySelector('#hmmula').focus({ preventScroll: true }); } catch (e) {}
+}
 const kempenT = () => (TT && TT.t ? TT.kempen : KEMPEN_LALAI) || null;
 const NAMA_PELAN = { '2bulan': '2 Bulan', setahun: 'Setahun' };
 function hargaAwal(pl) { return Date.now() <= +tt('harga_' + (pl || '2bulan') + '_awal_tamat'); }
@@ -20539,6 +20616,7 @@ function premium(s, y, t, rank) {
       <h1>Dari asas ke <span>gaya UASA</span>.<br>4 subjek utama,<br>satu darjah.</h1>
       <p class="lead">Buka tiga tahap mencabar untuk <b>Matematik, Bahasa Melayu, English dan Sains</b>. Anak berlatih soalan aplikasi, KBAT dan jawapan taip sendiri, seperti dalam peperiksaan.</p>
       <a class="btn pri" href="#pm-pakej" id="pmke" style="justify-content:center"><span style="text-align:center">Lihat pakej · <span style="white-space:nowrap">dari RM${hargaRM('2bulan')} / 2 bulan / darjah</span></span></a>
+      ${cubaH() && !AKAUN.get() ? `<div style="max-width:520px;margin:16px auto 0">${kadHadiah({ tajuk: `Belum pasti? <em>Cuba Premium ${cubaH()} hari</em> percuma dulu`, href: '#akaun/daftar', cta: 'Daftar percuma & cuba dulu →', kaki: 'Bayar hanya jika anak suka. Tiada kad, tiada caj automatik.' })}</div>` : ''}
       ${hargaAwal('2bulan') ? `<div class="pm-awal">⏰ Harga awal RM${hargaRM('2bulan')} hingga <b>${tarikhBM(tt('harga_2bulan_awal_tamat'))}</b>, kemudian naik ke RM${tt('harga_2bulan')}</div>` : ''}
       <div class="pm-angka"><div><b>${JUM_SOALAN.teks}</b>soalan, keseluruhan darjah</div><div><b>${nTopikPm_()}</b>topik</div><div><b>4</b>subjek</div><div><b>D1–6</b>darjah</div></div>
     </header>
@@ -21008,6 +21086,7 @@ function akaun(mod) {
     const lupa = mod === 'lupa' || mod === 'kod';
     app.innerHTML = `<section class="wrap pagein" style="padding:28px 20px 60px;max-width:560px">${kepala}
       <p class="lead" style="margin:0 0 16px">Satu akaun untuk semua anak. Kemajuan disimpan, Premium diurus di satu tempat, dan boleh log masuk di mana-mana peranti.</p>
+      ${!lupa && cubaH() ? (mod === 'daftar' ? kadHadiah({ id: 'cubabn', kaki: 'Tiada bayaran · tiada kad · tiada caj automatik. Daftar → tambah profil anak → Premium terus dibuka.' }) : kadHadiah({ id: 'cubabn', kecil: 1, tajuk: `Belum ada akaun? Daftar & cuba <em>Premium ${cubaH()} hari</em> percuma`, kaki: 'Tekan tab “Daftar akaun baharu” di bawah. Tiada bayaran, tiada kad.' })) : ''}
       <div class="akaunbox">
         ${lupa ? `<h2 style="margin:0 0 10px;font-size:19px">Set semula kata laluan</h2>` : `<div class="atab" role="tablist">
           <button type="button" role="tab" data-mod="masuk" aria-selected="${mod === 'masuk'}">Log masuk</button>
@@ -21050,7 +21129,7 @@ function akaun(mod) {
         if (mod === 'lupa') { akaun('kod'); setTimeout(() => msg('📧 ' + (r.msg || 'Kod telah dihantar.'), true), 0); return; }
         AKAUN.set({ token: r.token, emel: r.emel, anak: r.anak || [] });
         sessionStorage.removeItem('sb.emel');
-        toast(mod === 'daftar' ? 'Akaun dicipta! Tambah profil anak sekarang 🎉' : mod === 'kod' ? 'Kata laluan ditukar. Selamat kembali! 🔐' : 'Selamat kembali! 👋');
+        toast(mod === 'daftar' ? (cubaH() ? 'Akaun dicipta! Tambah profil anak untuk mula percubaan Premium ' + cubaH() + ' hari ✨' : 'Akaun dicipta! Tambah profil anak sekarang 🎉') : mod === 'kod' ? 'Kata laluan ditukar. Selamat kembali! 🔐' : 'Selamat kembali! 👋');
         const P = PLAYER.get(), anak = r.anak || [];
         if (!P && anak.length === 1) await pilihAnak(anak[0]);
         akaun();
@@ -21073,7 +21152,7 @@ function akaun(mod) {
         ${aktif ? '<span class="sedang">✓ Sedang main</span>' : `<button class="btn pri" data-pilih="${i}" style="padding:10px 16px">▶ Main sebagai ${esc(a.nick)}</button>`}
         ${a.premium ? '' : `<button type="button" class="naik" data-naik="${i}"><span class="nk-ic" aria-hidden="true">👑</span><span class="nk-t"><b>Naik taraf ${esc(a.nick)} ke Premium</b><small>Buka semua tahap Darjah ${+a.darjah} + Dashboard Prestasi</small></span><span class="nk-go">Lihat pakej</span></button>`}
         <div class="alat"><a class="linkbtn" href="#prestasi/${i}">📊 Prestasi</a><button type="button" class="linkbtn" data-hantar="${i}">📲 Hantar ke peranti anak</button>${a.premium ? `<button type="button" class="linkbtn" data-naik="${i}">👑 Lanjutkan pakej</button>` : ''}<button type="button" class="linkbtn kecil" data-tpin="${i}">🔒 Log keluar peranti lain</button></div><div class="apanel" id="apanel${i}" hidden></div></div>`;
-    }).join('') : '<p style="color:var(--muted)">Belum ada profil anak. Tambah di bawah.</p>'}</div>
+    }).join('') : `<p style="color:var(--muted)">Belum ada profil anak. Tambah di bawah.</p>${cubaH() ? `<div class="cubabn"><span class="ci" aria-hidden="true">✨</span><span>Profil anak <b>pertama</b> terus dapat <b>percubaan Premium percuma ${cubaH()} hari</b>, untuk darjah yang anda pilih.</span></div>` : ''}`}</div>
     ${anak.length < 5 ? `<details class="alipat"${anak.length ? '' : ' open'}><summary>＋ Tambah profil anak</summary>
       <form id="ftambah" novalidate style="margin-top:12px">
         <label class="afield">Nama glamour<input id="tnick" maxlength="16" required autocomplete="off"><small>Nama yang dipapar di ranking. <b>Jangan guna nama sebenar</b> — contoh: HarimauPintar, BintangD3.</small></label>
@@ -21152,7 +21231,8 @@ function akaun(mod) {
       if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
       kemas(r); const baru = (r.anak || []).find(x => x.nick.toLowerCase() === nick.toLowerCase());
       if (baru && !PLAYER.get()) await pilihAnak(baru);
-      toast('Profil ' + nick + ' ditambah! 🎉'); akaun();
+      if (r.cuba) { const P2 = PLAYER.get(); if (P2 && P2.nick.toLowerCase() === nick.toLowerCase()) { P2.premium = 1; P2.pakej = r.cuba.pakej; P2.tamat = r.cuba.tamat; PLAYER.set(P2); } }
+      toast(r.cuba ? '✨ Percubaan Premium ' + r.cuba.hari + ' hari aktif untuk ' + nick + ' hingga ' + r.cuba.tamat + '!' : 'Profil ' + nick + ' ditambah! 🎉', r.cuba ? 6000 : undefined); akaun(); if (r.cuba) sambutCuba(r.cuba);
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
   const tuntut = async (nick, pin) => {
@@ -21161,8 +21241,8 @@ function akaun(mod) {
       const r = await apiPost({ a: 'anak_tuntut', token: A.token, nick, pin });
       if (tamatSesi(r)) return;
       if (!r.ok) return msg('⚠️ ' + (r.err || 'Gagal'));
-      kemas(r); const P3 = PLAYER.get(); if (P3 && P3.nick.toLowerCase() === nick.toLowerCase()) { P3.akaun = 1; PLAYER.set(P3); }
-      toast('Profil ' + nick + ' dipautkan! 🔗'); akaun();
+      kemas(r); const P3 = PLAYER.get(); if (P3 && P3.nick.toLowerCase() === nick.toLowerCase()) { P3.akaun = 1; if (r.cuba) { P3.premium = 1; P3.pakej = r.cuba.pakej; P3.tamat = r.cuba.tamat; } PLAYER.set(P3); }
+      toast(r.cuba ? '✨ Percubaan Premium ' + r.cuba.hari + ' hari aktif untuk ' + nick + ' hingga ' + r.cuba.tamat + '!' : 'Profil ' + nick + ' dipautkan! 🔗', r.cuba ? 6000 : undefined); akaun(); if (r.cuba) sambutCuba(r.cuba);
     } catch (e) { msg('⚠️ Tiada sambungan internet'); }
   };
   const paut = $('#fpaut');
@@ -21408,6 +21488,7 @@ function quiz(s, y, t, rank) {
       <p class="lead" style="margin-bottom:6px">Minta ibu atau ayah daftar <b>percuma</b> — mata kamu masuk Ranking dan kamu boleh terus belajar tanpa had. Tiada bayaran.</p>
       <p style="font-size:13.5px;color:var(--muted);margin-bottom:20px">Satu akaun ibu bapa untuk semua adik-beradik · kemajuan disimpan ke awan · boleh log masuk di mana-mana peranti.</p>
       <a class="btn pri" href="#akaun/daftar" style="font-size:17px;padding:14px 28px">👨‍👩‍👧 Daftar akaun ibu bapa — percuma</a>
+      ${cubaH() ? `<div style="margin-top:16px">${kadHadiah({ kecil: 1, tajuk: `Daftar & cuba <em>Premium ${cubaH()} hari</em> percuma`, kaki: 'Semua tahap dibuka ' + cubaH() + ' hari untuk anak pertama. Tiada bayaran, tiada kad.' })}</div>` : ''}
       <p style="font-size:13.5px;margin-top:14px"><a href="#akaun">Sudah ada akaun? Log masuk</a></p>
     </section>`;
     window.scrollTo({ top: 0 }); return;

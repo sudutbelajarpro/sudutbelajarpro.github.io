@@ -56,6 +56,20 @@ details summary{cursor:pointer;font-weight:800;color:var(--grass);list-style:non
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:"▸ "}details[open] summary::before{content:"▾ "}
 .jwp{font-weight:800;background:#e8f7f2;border-radius:10px;padding:6px 10px;display:inline-block}
+.hdh{position:relative;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,#fff6d6 0,#ffe9a8 38%,#ffd36b 100%);border:2px solid #ffc93c;border-radius:22px;padding:18px;margin:20px 0 10px;color:#3a2600;box-shadow:0 10px 24px -12px rgba(180,120,0,.55)}
+.hdh .hd-top{display:flex;gap:14px;align-items:center}.hdh .hd-gift{width:84px;height:84px;flex:none;filter:drop-shadow(0 6px 8px rgba(150,90,0,.35));animation:hdGoyang 2.8s ease-in-out .5s 2}
+.hdh .hd-eye{display:inline-block;white-space:nowrap;font:800 12px/1 var(--fb,system-ui);letter-spacing:.06em;background:#5b4bdb;color:#fff;padding:5px 10px;border-radius:999px;margin-bottom:6px}
+.hdh h2{margin:0;font:800 clamp(21px,4.6vw,28px)/1.15 var(--fd);color:#3a2600}.hdh h2 em{font-style:normal;color:#b3261e}
+.hdh .hd-wira{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 12px;max-width:520px}
+.hdh .hd-w{position:relative;background:#fff;border-radius:14px;padding:6px 6px 8px;text-align:center;box-shadow:0 3px 0 rgba(160,100,0,.25)}
+.hdh .hd-w img{width:100%;height:auto;aspect-ratio:1;border-radius:10px;display:block;object-fit:cover}
+.hdh .hd-w b{display:block;font-size:13.5px;margin-top:5px}.hdh .hd-w small{display:block;font-size:11px;color:#7a5a20}
+.hdh .hd-w i{position:absolute;top:-8px;right:-5px;font-style:normal;background:#22a559;color:#fff;font:800 11px/1 var(--fb,system-ui);padding:4px 8px;border-radius:999px;box-shadow:0 2px 0 #157a3f}
+.hdh .hd-langkah{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:0;list-style:none;font-weight:700;font-size:14px}.hdh .hd-langkah li{background:rgba(255,255,255,.8);border-radius:999px;padding:6px 11px}
+.hdh .cta2{display:inline-block;font:800 18px/1.2 var(--fd);text-decoration:none;color:#fff;background:#5b4bdb;padding:14px 22px;border-radius:16px;box-shadow:0 5px 0 #3d2fb0}
+.hdh .hd-kaki{font-size:13px;margin:10px 0 0;color:#6b4a10;font-weight:600}
+@keyframes hdGoyang{0%,100%{transform:rotate(0)}10%{transform:rotate(-9deg) scale(1.06)}20%{transform:rotate(8deg) scale(1.06)}30%{transform:rotate(-5deg)}40%{transform:rotate(3deg)}50%{transform:rotate(0)}}
+@media (prefers-reduced-motion:reduce){.hdh .hd-gift{animation:none}}
 .jalur{margin:30px 0;background:#fff;border:2px dashed var(--g2);border-radius:20px;padding:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .jalur p{margin:0;flex:1 1 260px}
 .faq h3{font:800 19px/1.3 var(--fd);margin:18px 0 4px}.faq p{margin:0}
@@ -122,6 +136,13 @@ footer .in{max-width:880px;margin:0 auto;padding:18px}
 </div><img class="maskot" src="/aset/maskot-kanan.webp" width="214" height="330" alt="Maskot Sudut Belajar"></div></section>
 <main>
 <nav class="jejak" aria-label="Laluan"><a href="/latihan/">Semua latihan</a> › Prasekolah: Sedia ke Tahun 1</nav>
+<section class="hdh" aria-label="Percubaan Premium percuma 7 hari">
+<div class="hd-top"><img class="hd-gift" src="/aset/p3-x-cuba.webp" width="160" height="160" alt=""><div><span class="hd-eye">✨ PERCUBAAN PERCUMA</span><h2>Anak cuba <em>Premium 7 hari</em> PERCUMA</h2></div></div>
+<div class="hd-wira"><div class="hd-w"><i>7 HARI</i><img src="/aset/tahap-hulubalang.webp" width="256" height="256" alt="Tahap Hulubalang" loading="lazy" decoding="async"><b>Hulubalang</b><small>TP1–2</small></div><div class="hd-w"><i>7 HARI</i><img src="/aset/tahap-panglima.webp" width="256" height="256" alt="Tahap Panglima" loading="lazy" decoding="async"><b>Panglima</b><small>TP3–4</small></div><div class="hd-w"><i>7 HARI</i><img src="/aset/tahap-laksamana.webp" width="256" height="256" alt="Tahap Laksamana" loading="lazy" decoding="async"><b>Laksamana</b><small>KBAT</small></div></div>
+<ol class="hd-langkah"><li>① Daftar emel ibu bapa</li><li>② Tambah profil anak</li><li>③ Semua tahap terbuka 7 hari</li></ol>
+<a class="cta2" href="/#akaun/daftar">Daftar percuma &amp; cuba 7 hari →</a>
+<p class="hd-kaki">Tiada bayaran · tiada kad · tiada caj automatik · pilih Darjah 1 untuk buka 50 permainan prasekolah. Kemajuan anak kekal selepas 7 hari.</p>
+</section>
 <section aria-labelledby="h-cara"><h2 id="h-cara">Cara anak bermain</h2>
 <div class="kembara"><div class="kj"><figure><img src="/aset/p3-pm-suara.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><figcaption>Dengar<span>arahan dibacakan</span></figcaption></figure><i aria-hidden="true"></i><figure><img src="/aset/p3-x-sasaran.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><figcaption>Sentuh<span>pilih jawapan</span></figcaption></figure><i aria-hidden="true"></i><figure><img src="/aset/p3-x-pelekat.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><figcaption>Pelekat<span>ganjaran setiap permainan</span></figcaption></figure></div>
 <p>Tiada bacaan diperlukan. Setiap arahan dan pujian ada suara Bahasa Melayu.</p></div></section>
